@@ -23,12 +23,14 @@ public class WaterPointSummary extends BaseModel {
     public WaterPointSummary() {
     }
 
-    public WaterPointSummary(String date, String id, String district, String subCounty, String village) {
+    public WaterPointSummary(String date, String id, String district, String subCounty, String village, String longitude, String latitude) {
         setDate(date);
         setId(id);
         setDistrict(district);
         setSubCounty(subCounty);
         setVillage(village);
+        setLongitude(longitude);
+        setLatitude(latitude);
     }
 
     public void setDate(String date) {
@@ -51,6 +53,14 @@ public class WaterPointSummary extends BaseModel {
         set("village", village);
     }
 
+    public void setLongitude(String longitude) {
+        set("longitude", longitude);
+    }
+
+    public void setLatitude(String latitude) {
+        set("latitude", latitude);
+    }
+
     public String getDate() {
         return get("date");
     }
@@ -71,10 +81,18 @@ public class WaterPointSummary extends BaseModel {
         return get("village");
     }
 
+    public String getLongitude() {
+        return get("longitude");
+    }
+
+    public String getLatitude() {
+        return get("latitude");
+    }
+
     public static List<WaterPointSummary> getSampleNewWaterPoints() {
         List<WaterPointSummary> newWaterPoints = new ArrayList<WaterPointSummary>();
-        newWaterPoints.add(new WaterPointSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
-        newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
+        newWaterPoints.add(new WaterPointSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","1234.908","1234.000"));
+        newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","1234.908","1234.000"));
         return newWaterPoints;
     }
 }
