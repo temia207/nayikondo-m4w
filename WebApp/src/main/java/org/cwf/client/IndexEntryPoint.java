@@ -45,8 +45,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
+import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.util.ProgressIndicator;
 
 /**
@@ -83,9 +85,13 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController();
+
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
         dispatcher.addController(new HomeController());
+        dispatcher.addController(new EditWaterPointController());
+        dispatcher.addController(new TicketDetailsController());
+
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);
         AppEvent event = new AppEvent(LoginController.LOGIN);

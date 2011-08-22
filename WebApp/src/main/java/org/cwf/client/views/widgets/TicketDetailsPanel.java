@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cwf.client.views;
+package org.cwf.client.views.widgets;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.BeanModel;
@@ -26,13 +26,13 @@ import org.cwf.client.model.WaterPointSummary;
  *
  * @author victor
  */
-public class NewWaterPointsView extends ContentPanel {
+public class TicketDetailsPanel extends ContentPanel {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Grid<WaterPointSummary> grid;
     private ColumnModel cm;
 
-    public NewWaterPointsView() {
+    public TicketDetailsPanel() {
         initialize();
     }
 
@@ -68,7 +68,7 @@ public class NewWaterPointsView extends ContentPanel {
                 WaterPointSummary summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== "+summary.getDistrict());
                 HomeController controller = new HomeController();
-                controller.forwardToEditWaterPoint(summary);
+                controller.forwardToViewTicketDetails(summary);
 
             }
 
