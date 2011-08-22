@@ -1,17 +1,32 @@
 package org.cwf.client.views;
 
+import org.cwf.client.views.widgets.OtherParametersFieldset;
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Label;
+import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.FlexTable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
+import org.cwf.client.model.WaterPointSummary;
 
 /**
  *
@@ -21,8 +36,11 @@ public class EditWaterPointView extends View {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld;
     private Button saveChangesBtn, confirmBtn, cancelBtn;
+    private FormPanel formPanel;
+    private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
+//    private WaterPointSummary waterPointSummary;
 
     public EditWaterPointView(Controller controller) {
         super(controller);
@@ -33,18 +51,36 @@ public class EditWaterPointView extends View {
         window = new Window();
         window.setHeading("Edit");
 
+        formPanel = new FormPanel();
+        formPanel.setFrame(false);
+        formPanel.setBorders(false);
+        formPanel.setBodyBorder(false);
+        formPanel.setHeaderVisible(false);
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(150);
+        formPanel.setLayout(layout);
         initializeTextfields();
-
-        window.add(idTextFld);
-        window.add(districtTfld);
-        window.add(subcountyTfld);
-        window.add(villageTfld);
-
-        window.addButton(saveChangesBtn);
-        window.addButton(confirmBtn);
-        window.addButton(cancelBtn);
+        formPanel.add(idTextFld);
+        formPanel.add(districtTfld);
+        formPanel.add(subcountyTfld);
+        formPanel.add(villageTfld);
+        formPanel.setButtonAlign(HorizontalAlignment.CENTER);
+        formPanel.add(otherParameters);
 
         createButtons();
+        formPanel.addButton(saveChangesBtn);
+        formPanel.addButton(confirmBtn);
+        formPanel.addButton(cancelBtn);
+
+        window.setAutoHeight(true);
+        window.setWidth(425);
+        window.setPlain(true);
+        window.add(formPanel);
+        window.setDraggable(true);
+        window.setResizable(true);
+        window.setScrollMode(Scroll.AUTO);
+        window.show();
+        window.setModal(true);
     }
 
     private void createButtons() {
@@ -71,15 +107,14 @@ public class EditWaterPointView extends View {
 
             @Override
             public void handleEvent(ButtonEvent be) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                closeWindow();
             }
         });
     }
 
     private void initializeTextfields() {
-
         idTextFld = new TextField<String>();
-        idTextFld.setFieldLabel("ID:");
+        idTextFld.setFieldLabel("ID");
         idTextFld.setName("id");
         idTextFld.setAllowBlank(false);
 
@@ -97,16 +132,34 @@ public class EditWaterPointView extends View {
         villageTfld.setFieldLabel("Village");
         villageTfld.setName("village");
         villageTfld.setAllowBlank(false);
+
+        otherNameTfld = new TextField<String>();
+        otherNameTfld.setFieldLabel("Name");
+        otherNameTfld.setName("name");
+        otherNameTfld.setAllowBlank(false);
     }
 
     public void showWindow() {
         window.show();
     }
 
+    public void closeWindow() {
+        window.hide();
+    }
+
+    private void setWaterPointData(WaterPointSummary summary) {
+        idTextFld.setValue(summary.getId());
+        districtTfld.setValue(summary.getDistrict());
+        subcountyTfld.setValue(summary.getSubCounty());
+        villageTfld.setValue(summary.getVillage());
+    }
+
     @Override
     protected void handleEvent(AppEvent event) {
         GWT.log("Edit waterpoint : handleEvent");
         if (event.getType() == EditWaterPointController.EDIT_WATER_POINT) {
+            WaterPointSummary waterPointSummary = event.getData();
+            setWaterPointData(waterPointSummary);
             showWindow();
         }
     }

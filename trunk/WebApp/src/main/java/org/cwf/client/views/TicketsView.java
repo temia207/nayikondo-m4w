@@ -4,6 +4,7 @@
  */
 package org.cwf.client.views;
 
+import org.cwf.client.views.widgets.TicketDetailsPanel;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
@@ -30,9 +31,9 @@ public class TicketsView extends ContentPanel {
         ticketPanel.setAutoHeight(true);
         TabItem openTickets = new TabItem("Open");
         openTickets.setLayout(new FitLayout());
-        NewWaterPointsView waterPoint = new NewWaterPointsView();
-        waterPoint.setHeaderVisible(false);
-        openTickets.add(waterPoint);
+        TicketDetailsPanel detailsPanel = new TicketDetailsPanel();
+        detailsPanel.setHeaderVisible(false);
+        openTickets.add(detailsPanel);
         TabItem closedTickets = new TabItem("Closed");
         TabItem suspendedTickets = new TabItem("Suspended");
         ticketPanel.add(openTickets);

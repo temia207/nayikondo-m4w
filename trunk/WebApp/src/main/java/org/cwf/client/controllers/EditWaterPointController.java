@@ -4,7 +4,9 @@ import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.google.gwt.core.client.GWT;
+import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.views.EditWaterPointView;
 
 /**
