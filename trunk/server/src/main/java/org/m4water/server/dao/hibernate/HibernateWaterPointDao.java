@@ -26,8 +26,13 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint> implements W
     }
 
     @Override
-    public Waterpoint getWaterPoint(String id) {
-         return searchUniqueByPropertyEqual("id", id);
+    public Waterpoint getWaterPoint(String referenceNumber) {
+         return searchUniqueByPropertyEqual("referenceNumber", referenceNumber);
+    }
+
+    @Override
+    public void saveWaterPoint(Waterpoint waterPoint) {
+        save(waterPoint);
     }
 
 }
