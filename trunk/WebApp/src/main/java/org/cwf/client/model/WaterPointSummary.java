@@ -95,4 +95,12 @@ public class WaterPointSummary extends BaseModel {
         newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","1234.908","1234.000"));
         return newWaterPoints;
     }
+    public static List<WaterPointSummary> getSampleAvailableWaterPoints() {
+        List<WaterPointSummary> newWaterPoints = new ArrayList<WaterPointSummary>();
+        newWaterPoints.add(new WaterPointSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","1234.908","1234.000"));
+        newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","1234.908","1234.000"));
+        newWaterPoints.add(new WaterPointSummary("19/5/2011", "MBRA01236", "Mbarara", "Luti", "Maryhill","1234.908","1234.000"));
+        newWaterPoints.add(new WaterPointSummary("20/8/2011", "MBRA01222", "Mbarara", "Municipality", "Kirigime","1234.908","1234.000"));
+        return newWaterPoints;
+    }
 }

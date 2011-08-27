@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 26, 2011 5:58:15 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="org.m4water.server.admin.model.User" table="user" catalog="m4water">
+        <id name="userId" type="java.lang.Integer">
+            <column name="userId" />
+            <generator class="identity" />
+        </id>
+        <property name="fname" type="string">
+            <column name="fname" length="200" not-null="true" />
+        </property>
+        <property name="lname" type="string">
+            <column name="lname" length="200" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="200" not-null="true" />
+        </property>
+        <property name="telephone" type="string">
+            <column name="telephone" length="200" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="200" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="200" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.HomeController;
-import org.cwf.client.model.WaterPointSummary;
+import org.cwf.client.model.TicketSummary;
 
 /**
  *
@@ -29,10 +29,13 @@ import org.cwf.client.model.WaterPointSummary;
 public class TicketDetailsPanel extends ContentPanel {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
-    private Grid<WaterPointSummary> grid;
+    private Grid<TicketSummary> grid;
     private ColumnModel cm;
+//    ticket status
+    private String status;
 
-    public TicketDetailsPanel() {
+    public TicketDetailsPanel(String status) {
+        this.status = status;
         initialize();
     }
 
@@ -43,10 +46,14 @@ public class TicketDetailsPanel extends ContentPanel {
         configs.add(new ColumnConfig("district", "District", 100));
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
-        configs.add(new ColumnConfig("latitude", "Latitude", 100));
-        configs.add(new ColumnConfig("longitude", "Longitude", 100));
-        ListStore<WaterPointSummary> store = new ListStore<WaterPointSummary>();
-        store.add(WaterPointSummary.getSampleNewWaterPoints());
+        ListStore<TicketSummary> store = new ListStore<TicketSummary>();
+        if (status.contains("Open")) {
+            store.add(TicketSummary.getOpenTickets());
+        } else if (status.equals("Closed")) {
+            store.add(TicketSummary.getClosedTickets());
+        } else if (status.equals("Suspended")) {
+            store.add(TicketSummary.getSuspendedTickets());
+        }
 
         cm = new ColumnModel(configs);
         setBodyBorder(true);
@@ -54,24 +61,23 @@ public class TicketDetailsPanel extends ContentPanel {
         setButtonAlign(HorizontalAlignment.CENTER);
         setLayout(new FitLayout());
         setSize(600, 300);
-        grid = new Grid<WaterPointSummary>(store, cm);
+        grid = new Grid<TicketSummary>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
         grid.setAutoExpandColumn("date");
         grid.setBorders(false);
         grid.setStripeRows(true);
         grid.setColumnLines(true);
         grid.setColumnReordering(true);
-        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent<BeanModel>>(){
+        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent<BeanModel>>() {
 
             @Override
             public void handleEvent(GridEvent<BeanModel> be) {
-                WaterPointSummary summary = grid.getSelectionModel().getSelectedItem();
-                System.out.println("selected ===================== "+summary.getDistrict());
+                TicketSummary summary = grid.getSelectionModel().getSelectedItem();
+                System.out.println("selected ===================== " + summary.getDistrict());
                 HomeController controller = new HomeController();
                 controller.forwardToViewTicketDetails(summary);
 
             }
-
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
         add(grid);

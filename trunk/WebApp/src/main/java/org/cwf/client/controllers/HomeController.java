@@ -10,6 +10,7 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
+import org.cwf.client.model.TicketSummary;
 import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.views.HomeView;
 
@@ -51,15 +52,7 @@ public class HomeController extends Controller {
         dispatcher.dispatch(event);
     }
 
-    public void forwardToTicketDetails(WaterPointSummary summary) {
-        GWT.log("HomeController : forwardToEditWaterPoint");
-        Dispatcher dispatcher = Dispatcher.get();
-        AppEvent event = new AppEvent(TicketDetailsController.TICKET_DETAILS);
-        event.setData(summary);
-        dispatcher.dispatch(event);
-    }
-
-    public void forwardToViewTicketDetails(WaterPointSummary summary) {
+    public void forwardToViewTicketDetails(TicketSummary summary) {
         GWT.log("HomeController : forwardToViewTicketDetails");
         Dispatcher dispatcher = Dispatcher.get();
         AppEvent event = new AppEvent(TicketDetailsController.TICKET_DETAILS);

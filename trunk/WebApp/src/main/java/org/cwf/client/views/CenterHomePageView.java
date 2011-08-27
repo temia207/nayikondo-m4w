@@ -10,13 +10,14 @@ import com.extjs.gxt.ui.client.widget.layout.CardLayout;
 import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
+import org.cwf.client.AppMessages;
 
 /**
  *
  * @author victor
  */
 public class CenterHomePageView extends CardPanel {
-
+    AppMessages appMessages = GWT.create(AppMessages.class);
     private CardLayout viewLayout;
     private List<ContentPanel> pages = new ArrayList<ContentPanel>();
     private int activePage = 0;
@@ -35,9 +36,16 @@ public class CenterHomePageView extends CardPanel {
 
     protected List<ContentPanel> createPages() {
         List<ContentPanel> containers = new ArrayList<ContentPanel>();
-        NewWaterPointsView newpoint = new NewWaterPointsView();
+        //new water points view
+        NewWaterPointsView newpoint = new NewWaterPointsView(appMessages.newWaterPoints());
         newpoint.setWidth("100%");
         containers.add(newpoint);
+        //all water points
+        NewWaterPointsView allWaterPoints = new NewWaterPointsView(appMessages.allWaterPoints());
+        allWaterPoints.setWidth("100%");
+        allWaterPoints.setHeading(appMessages.allWaterPoints());
+        containers.add(allWaterPoints);
+        //ticket view
         TicketsView tickets = new TicketsView();
         tickets.setWidth("100%");
         containers.add(tickets);
