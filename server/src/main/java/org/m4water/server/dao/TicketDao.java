@@ -15,5 +15,8 @@ public interface TicketDao extends BaseDAO<Ticket> {
 
     List<Ticket> getTickets();
 
-    Ticket getTicket(String id);
+    Ticket getTicket(String referenceNumber);
+
+    void deleteTicket(Ticket ticket);
+    void saveTicket(Ticket ticket);
 }

@@ -82,8 +82,7 @@
     <bean class="org.m4water.server.Context">
         <property name="userDetailsService" ref="userDetailsService"/>
     </bean>
-    <bean id="ticketsms" class="org.m4water.server.sms.TicketSms">
-    </bean>
+
 <!--    <bean id="rdmsDataExportTask" class="org.openxdata.server.export.rdbms.task.RdmsDataExportTask" init-method="init">
         <property name="serverName" value="${exporter.host}"/>
         <property name="portNumber" value="${exporter.port}"/>
