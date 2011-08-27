@@ -42,4 +42,13 @@ public interface AppMessages extends Messages {
 	String disclaimer();
 	String and();
 
+        String newWaterPoints();
+        String allWaterPoints();
+        String open();
+        String closed();
+        String suspended();
+        String ticketDetails();
+        String ticketTweets();
+        String ticketSummary();
+
 }

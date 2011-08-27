@@ -31,8 +31,11 @@ public class NewWaterPointsView extends ContentPanel {
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Grid<WaterPointSummary> grid;
     private ColumnModel cm;
+    //type may be new waterpoints or all waterpoints
+    private String type;
 
-    public NewWaterPointsView() {
+    public NewWaterPointsView(String type) {
+        this.type = type;
         initialize();
     }
 
@@ -46,11 +49,16 @@ public class NewWaterPointsView extends ContentPanel {
         configs.add(new ColumnConfig("latitude", "Latitude", 100));
         configs.add(new ColumnConfig("longitude", "Longitude", 100));
         ListStore<WaterPointSummary> store = new ListStore<WaterPointSummary>();
-        store.add(WaterPointSummary.getSampleNewWaterPoints());
+        if (type.equals(appMessages.newWaterPoints())) {
+            store.add(WaterPointSummary.getSampleNewWaterPoints());
+            setHeading(appMessages.newWaterPoints());
+        } else if (type.equals(appMessages.allWaterPoints())) {
+            store.add(WaterPointSummary.getSampleAvailableWaterPoints());
+            setHeading(appMessages.allWaterPoints());
+        }
 
         cm = new ColumnModel(configs);
         setBodyBorder(true);
-        setHeading("New Water Points");
         setButtonAlign(HorizontalAlignment.CENTER);
         setLayout(new FitLayout());
         setSize(600, 300);
@@ -61,17 +69,16 @@ public class NewWaterPointsView extends ContentPanel {
         grid.setStripeRows(true);
         grid.setColumnLines(true);
         grid.setColumnReordering(true);
-        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent<BeanModel>>(){
+        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent<BeanModel>>() {
 
             @Override
             public void handleEvent(GridEvent<BeanModel> be) {
                 WaterPointSummary summary = grid.getSelectionModel().getSelectedItem();
-                System.out.println("selected ===================== "+summary.getDistrict());
+                System.out.println("selected ===================== " + summary.getDistrict());
                 HomeController controller = new HomeController();
                 controller.forwardToEditWaterPoint(summary);
 
             }
-
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
         add(grid);

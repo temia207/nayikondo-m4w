@@ -43,6 +43,7 @@ public abstract class AbstractEditable extends LightEntity implements Editable{
 	
 	private EditableState state = EditableState.LOADED;	
 	
+    @Override
 	public void setId(int id){
 		this.id = id;
 	}
@@ -111,10 +112,12 @@ public abstract class AbstractEditable extends LightEntity implements Editable{
 		this.dateCreated = dateCreated;
 	}
 	
+    @Override
 	public EditableState getState(){
 		return this.state ;
 	}
 	
+    @Override
 	public void setState(EditableState state){
 		this.state = state;
 	}

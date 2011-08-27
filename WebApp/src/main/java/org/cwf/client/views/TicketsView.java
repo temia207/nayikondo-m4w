@@ -29,13 +29,26 @@ public class TicketsView extends ContentPanel {
         ticketPanel = new TabPanel();
         ticketPanel.setWidth(600);
         ticketPanel.setAutoHeight(true);
+        setHeading(appMessages.ticketSummary());
+
         TabItem openTickets = new TabItem("Open");
         openTickets.setLayout(new FitLayout());
-        TicketDetailsPanel detailsPanel = new TicketDetailsPanel();
-        detailsPanel.setHeaderVisible(false);
-        openTickets.add(detailsPanel);
+        TicketDetailsPanel openTicketsItem = new TicketDetailsPanel("Open");
+        openTicketsItem.setHeaderVisible(false);
+        openTickets.add(openTicketsItem);
+
         TabItem closedTickets = new TabItem("Closed");
+        closedTickets.setLayout(new FitLayout());
+        TicketDetailsPanel closedTicketsItem = new TicketDetailsPanel("Closed");
+        closedTicketsItem.setHeaderVisible(false);
+        closedTickets.add(closedTicketsItem);
+        
         TabItem suspendedTickets = new TabItem("Suspended");
+        suspendedTickets.setLayout(new FitLayout());
+        TicketDetailsPanel suspendedTicketsItem = new TicketDetailsPanel("Suspended");
+        suspendedTicketsItem.setHeaderVisible(false);
+        suspendedTickets.add(suspendedTicketsItem);
+        
         ticketPanel.add(openTickets);
         ticketPanel.add(closedTickets);
         ticketPanel.add(suspendedTickets);

@@ -9,21 +9,12 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.Label;
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.FlexTable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.model.WaterPointSummary;
@@ -36,7 +27,7 @@ public class EditWaterPointView extends View {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld,latitudeTfld,longitudeTfld;
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
     private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
@@ -64,6 +55,8 @@ public class EditWaterPointView extends View {
         formPanel.add(districtTfld);
         formPanel.add(subcountyTfld);
         formPanel.add(villageTfld);
+        formPanel.add(latitudeTfld);
+        formPanel.add(longitudeTfld);
         formPanel.setButtonAlign(HorizontalAlignment.CENTER);
         formPanel.add(otherParameters);
 
@@ -133,6 +126,16 @@ public class EditWaterPointView extends View {
         villageTfld.setName("village");
         villageTfld.setAllowBlank(false);
 
+        latitudeTfld = new TextField<String>();
+        latitudeTfld.setFieldLabel("Latitude");
+        latitudeTfld.setName("latitude");
+        latitudeTfld.setAllowBlank(false);
+
+        longitudeTfld = new TextField<String>();
+        longitudeTfld.setFieldLabel("Longitude");
+        longitudeTfld.setName("longitude");
+        longitudeTfld.setAllowBlank(false);
+
         otherNameTfld = new TextField<String>();
         otherNameTfld.setFieldLabel("Name");
         otherNameTfld.setName("name");
@@ -152,6 +155,8 @@ public class EditWaterPointView extends View {
         districtTfld.setValue(summary.getDistrict());
         subcountyTfld.setValue(summary.getSubCounty());
         villageTfld.setValue(summary.getVillage());
+        latitudeTfld.setValue(summary.getLatitude());
+        longitudeTfld.setValue(summary.getLongitude());
     }
 
     @Override

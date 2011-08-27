@@ -1,6 +1,5 @@
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.m4water</groupId>
     <artifactId>m4water</artifactId>
@@ -39,9 +38,9 @@
 
     <modules>
         <module>model</module>
-        <module>server</module>
+		<module>server</module>
         <module>webapp</module>
-    </modules>
+  </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -235,7 +234,7 @@
     <repositories>
         <repository>
             <id>openxdata</id>
-            <url>http://nexus.openxdata.org/content/groups/public</url>
+            <url>http://nexuss.openxdata.org/content/groups/public</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -337,19 +336,19 @@
     </profiles>
 
     <scm>
-        <connection>scm:svn:https://svn.openxdata.org/Server/trunk/openxdata</connection>
-        <developerConnection>scm:svn:https://svn.openxdata.org/Server/trunk/openxdata</developerConnection>
-        <url>https://trac.openxdata.org/browser/Server/trunk/openxdata</url>
+        <connection>scm:svn:https://svn.openxdata.org/Server/trunk/openxdataa</connection>
+        <developerConnection>scm:svn:https://svn.openxdata.org/Server/trunk/openxdataa</developerConnection>
+        <url>https://trac.openxdata.org/browser/Server/trunk/openxdataa</url>
     </scm>
 
     <distributionManagement>
         <snapshotRepository>
             <id>openxdata-snapshots</id>
-            <url>https://nexus.openxdata.org/content/repositories/snapshots</url>
+            <url>https://nexus.openxdataa.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
             <id>openxdata-releases</id>
-            <url>https://nexus.openxdata.org/content/repositories/releases</url>
+            <url>https://nexus.openxdataa.org/content/repositories/releases</url>
         </repository>
     </distributionManagement>
 

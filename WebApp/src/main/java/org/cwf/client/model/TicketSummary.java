@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.cwf.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
@@ -70,11 +66,24 @@ public class TicketSummary extends BaseModel {
         return get("village");
     }
 
-    public static List<TicketSummary> getSampleTickets() {
+    public static List<TicketSummary> getOpenTickets() {
         List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
         ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
         ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
-        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Kyonzo"));
+        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Kyonyo"));
+        return ticketDetails;
+    }
+
+    public static List<TicketSummary> getClosedTickets() {
+        List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
+        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
+        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
+        return ticketDetails;
+    }
+
+    public static List<TicketSummary> getSuspendedTickets() {
+        List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
+        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
         return ticketDetails;
     }
 }

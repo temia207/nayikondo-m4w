@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 26, 2011 5:58:15 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="org.m4water.server.admin.model.Waterpoint" table="waterpoint" catalog="m4water">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="referenceNumber" type="string">
+            <column name="referenceNumber" length="200" not-null="true" unique="true" />
+        </property>
+        <property name="date" type="date">
+            <column name="date" length="10" not-null="true" />
+        </property>
+        <property name="district" type="string">
+            <column name="district" length="200" not-null="true" />
+        </property>
+        <property name="subcounty" type="string">
+            <column name="subcounty" length="200" not-null="true" />
+        </property>
+        <property name="village" type="string">
+            <column name="village" length="200" not-null="true" />
+        </property>
+        <property name="latitude" type="string">
+            <column name="latitude" length="200" not-null="true" />
+        </property>
+        <property name="longitude" type="string">
+            <column name="longitude" length="200" not-null="true" />
+        </property>
+        <property name="waterSourceType" type="string">
+            <column name="waterSourceType" length="200" not-null="true" />
+        </property>
+        <set name="tickets" inverse="true">
+            <key>
+                <column name="waterSourceNumber" length="200" not-null="true" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.Ticket" />
+        </set>
+    </class>
+</hibernate-mapping>

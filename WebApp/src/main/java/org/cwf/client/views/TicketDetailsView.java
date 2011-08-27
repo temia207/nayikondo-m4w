@@ -6,7 +6,6 @@ package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.Scroll;
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
@@ -15,8 +14,6 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.store.Store;
-import com.extjs.gxt.ui.client.widget.HorizontalPanel;
 import com.extjs.gxt.ui.client.widget.Label;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -25,14 +22,15 @@ import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import java.util.List;
+import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.TicketDetailsController;
+import org.cwf.client.model.TicketSummary;
 import org.cwf.client.model.TicketTwits;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.model.WaterPointSummary;
@@ -43,7 +41,7 @@ import org.cwf.client.views.widgets.ParameterWidget;
  * @author victor
  */
 public class TicketDetailsView extends View {
-
+    AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
     private FormPanel summaryPanel;
     private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld;
@@ -62,7 +60,7 @@ public class TicketDetailsView extends View {
     protected void initialize() {
         GWT.log("TicketDetailsView : initialize");
         window = new Window();
-        window.setHeading("Ticket Details");
+        window.setHeading(appMessages.ticketDetails());
         window.setHeight("500px");
         window.setWidth("425px");
         window.setPlain(true);
@@ -73,11 +71,8 @@ public class TicketDetailsView extends View {
         formData = new FormData("-20");
 
         createSummaryFieldset();
-        twitsTable = new FlexTable();
-        twitsTable.setWidget(0, 0, new Label("Number"));
-        twitsTable.setWidget(0, 1, new Label("Comment"));
-        twitsTable.setWidth("100%");
-        window.add(twitsTable);
+
+        window.add(createTwitsFieldset());
         window.add(addCommentPanel());
         commentRow.setVisible(false);
         Button addCommentBtn, saveChangesBtn;
@@ -120,8 +115,8 @@ public class TicketDetailsView extends View {
         summaryPanel.setLayout(new FlowLayout());
 
         FieldSet fieldSet = new FieldSet();
-        fieldSet.setHeading("Ticket Summary");
-        fieldSet.setCheckboxToggle(true);
+        fieldSet.setHeading(appMessages.ticketSummary());
+        fieldSet.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(75);
@@ -172,33 +167,27 @@ public class TicketDetailsView extends View {
 
         summaryPanel.add(fieldSet);
 
-//        fieldSet = new FieldSet();
-//        fieldSet.setHeading("Phone Numbers");
-//        fieldSet.setCollapsible(true);
-//
-//        layout = new FormLayout();
-//        layout.setLabelWidth(75);
-//        fieldSet.setLayout(layout);
-//
-//        TextField<String> field = new TextField<String>();
-//        field.setFieldLabel("Home");
-//        fieldSet.add(field, formData);
-//
-//        field = new TextField<String>();
-//        field.setFieldLabel("Business");
-//        fieldSet.add(field, formData);
-//
-//        field = new TextField<String>();
-//        field.setFieldLabel("Mobile");
-//        fieldSet.add(field, formData);
-//
-//        field = new TextField<String>();
-//        field.setFieldLabel("Fax");
-//        fieldSet.add(field, formData);
-
         summaryPanel.add(fieldSet);
 
         window.add(summaryPanel);
+    }
+
+    private FieldSet createTwitsFieldset() {
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading(appMessages.ticketTweets());
+        fieldSet.setCheckboxToggle(false);
+
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(75);
+        fieldSet.setLayout(layout);
+
+        twitsTable = new FlexTable();
+        twitsTable.setWidget(0, 0, new Label("Number"));
+        twitsTable.setWidget(0, 1, new Label("Comment"));
+        twitsTable.setWidth("100%");
+
+        fieldSet.add(twitsTable);
+        return fieldSet;
     }
 
     public void setUsers(List<UserSummary> users) {
@@ -222,7 +211,7 @@ public class TicketDetailsView extends View {
         window.hide();
     }
 
-    private void setWaterPointData(WaterPointSummary summary) {
+    private void setWaterPointData(TicketSummary summary) {
         idTextFld.setValue(summary.getId());
         districtTfld.setValue(summary.getDistrict());
         subcountyTfld.setValue(summary.getSubCounty());
@@ -249,8 +238,8 @@ public class TicketDetailsView extends View {
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
             createSummaryTwits(ticketTwits, twitsTable);
-            WaterPointSummary waterPointSummary = event.getData();
-            setWaterPointData(waterPointSummary);
+            TicketSummary ticketSummary = event.getData();
+            setWaterPointData(ticketSummary);
             showWindow();
         }
     }

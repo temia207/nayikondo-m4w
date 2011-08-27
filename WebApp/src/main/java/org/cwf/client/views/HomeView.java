@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Registry;
@@ -150,9 +146,9 @@ public class HomeView extends View {
                 if (txt.equals("New water Points")) {
                     centerpanel.setActiveItem(0);
                 } else if (txt.equals("Water Points")) {
-                    centerpanel.setActiveItem(0);
-                } else if (txt.equals("Tickets")) {
                     centerpanel.setActiveItem(1);
+                } else if (txt.equals("Tickets")) {
+                    centerpanel.setActiveItem(2);
 
                 }
             }
