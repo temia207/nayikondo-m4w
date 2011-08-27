@@ -37,9 +37,11 @@
     </licenses>
 
     <modules>
+		<module>yawl</module>
         <module>model</module>
 		<module>server</module>
         <module>webapp</module>
+		
   </modules>
 
     <properties>
