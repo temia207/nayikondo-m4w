@@ -17,8 +17,10 @@ import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.model.TicketSummary;
 import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.service.TicketSmsServiceAsync;
+import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.HomeView;
 import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
@@ -30,10 +32,12 @@ public class HomeController extends Controller {
     public final static EventType HOME = new EventType();
     private HomeView homeView;
     TicketSmsServiceAsync ticketService;
+    WaterPointServiceAsync waterpointService;
 
-    public HomeController(TicketSmsServiceAsync aTicketService) {
+    public HomeController(TicketSmsServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService) {
         super();
         ticketService = aTicketService;
+        waterpointService = aWaterPointService;
         registerEventTypes(HOME);
     }
 
@@ -76,6 +80,16 @@ public class HomeController extends Controller {
             public void onSuccess(List<Ticket> result) {
                 homeView.setTickets(result);
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.TICKET_UPDATE, result));
+            }
+        });
+    }
+
+    public void getWaterPoints() {
+        waterpointService.getWaterPoints(new M4waterAsyncCallback<List<Waterpoint>>() {
+
+            @Override
+            public void onSuccess(List<Waterpoint> result) {
+               RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WATER_POINT_DATA, result));
             }
         });
     }

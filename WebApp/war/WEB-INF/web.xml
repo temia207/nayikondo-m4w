@@ -33,6 +33,14 @@
     <servlet-name>ticketService</servlet-name>
     <url-pattern>/cwf/ticket</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>waterpointService</servlet-name>
+    <servlet-class>org.cwf.server.WaterPointServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waterpointService</servlet-name>
+    <url-pattern>/cwf/waterpoint</url-pattern>
+  </servlet-mapping>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
