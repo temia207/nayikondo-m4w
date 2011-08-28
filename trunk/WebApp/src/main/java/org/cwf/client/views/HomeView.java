@@ -114,6 +114,7 @@ public class HomeView extends View implements Refreshable {
             maximisePortlet(portlet);
             HomeController controller2 = (HomeController) HomeView.this.getController();
             controller2.getTickets();
+            controller2.getWaterPoints();
         }
 
     }

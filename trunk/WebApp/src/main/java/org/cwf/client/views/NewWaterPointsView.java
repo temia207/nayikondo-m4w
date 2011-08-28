@@ -19,24 +19,30 @@ import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.Refreshable;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.WaterPointSummary;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
  * @author victor
  */
-public class NewWaterPointsView extends ContentPanel {
+public class NewWaterPointsView extends ContentPanel implements Refreshable {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Grid<WaterPointSummary> grid;
     private ColumnModel cm;
     //type may be new waterpoints or all waterpoints
     private String type;
-private HomeView parentView;
-    public NewWaterPointsView(HomeView view,String type) {
+    private HomeView parentView;
+
+    public NewWaterPointsView(HomeView view, String type) {
         this.type = type;
-        this.parentView =view;
+        this.parentView = view;
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.WATER_POINT_DATA, this);
         initialize();
     }
 
@@ -50,13 +56,13 @@ private HomeView parentView;
         configs.add(new ColumnConfig("latitude", "Latitude", 100));
         configs.add(new ColumnConfig("longitude", "Longitude", 100));
         ListStore<WaterPointSummary> store = new ListStore<WaterPointSummary>();
-        if (type.equals(appMessages.newWaterPoints())) {
-            store.add(WaterPointSummary.getSampleNewWaterPoints());
-            setHeading(appMessages.newWaterPoints());
-        } else if (type.equals(appMessages.allWaterPoints())) {
-            store.add(WaterPointSummary.getSampleAvailableWaterPoints());
-            setHeading(appMessages.allWaterPoints());
-        }
+//        if (type.equals(appMessages.newWaterPoints())) {
+//            store.add(WaterPointSummary.getSampleNewWaterPoints());
+//            setHeading(appMessages.newWaterPoints());
+//        } else if (type.equals(appMessages.allWaterPoints())) {
+//            store.add(WaterPointSummary.getSampleAvailableWaterPoints());
+//            setHeading(appMessages.allWaterPoints());
+//        }
 
         cm = new ColumnModel(configs);
         setBodyBorder(true);
@@ -76,7 +82,7 @@ private HomeView parentView;
             public void handleEvent(GridEvent<BeanModel> be) {
                 WaterPointSummary summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== " + summary.getDistrict());
-                HomeController controller = (HomeController)parentView.getController();
+                HomeController controller = (HomeController) parentView.getController();
                 controller.forwardToEditWaterPoint(summary);
 
             }
@@ -84,5 +90,17 @@ private HomeView parentView;
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
         add(grid);
         setLayout(new FitLayout());
+    }
+
+    @Override
+    public void refresh(RefreshableEvent event) {
+        System.out.println("-===================================== refresh");
+        if (event.getEventType() == RefreshableEvent.Type.WATER_POINT_DATA) {
+            ListStore<WaterPointSummary> store1 = grid.getStore();
+            List<Waterpoint> waterPoints = event.getData();
+            for (Waterpoint point : waterPoints) {
+                store1.add(new WaterPointSummary(point.getDate().toString(),point.getReferenceNumber(),point.getDistrict(),point.getSubcounty(),point.getVillage(),point.getLatitude(),point.getLongitude()));
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@ import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
 import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.service.TicketSmsServiceAsync;
+import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.util.ProgressIndicator;
 
 /**
@@ -65,6 +66,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     
     // services
     TicketSmsServiceAsync ticketSmsService;
+    WaterPointServiceAsync waterPointService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -87,13 +89,14 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         });
         System.out.println("================ starting ");
         ticketSmsService = TicketSmsServiceAsync.Util.getInstance();
+        waterPointService = WaterPointServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController();
 
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
-        dispatcher.addController(new HomeController(ticketSmsService));
+        dispatcher.addController(new HomeController(ticketSmsService,waterPointService));
         dispatcher.addController(new EditWaterPointController());
         dispatcher.addController(new TicketDetailsController(ticketSmsService));
 
