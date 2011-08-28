@@ -18,6 +18,8 @@ import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayout.VBoxLayoutAlign;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayoutData;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -26,9 +28,12 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
+import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.IndexEntryPoint;
+import org.cwf.client.Refreshable;
+import org.cwf.client.RefreshableEvent;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.TicketSummary;
 import org.m4water.server.admin.model.Ticket;
@@ -37,14 +42,14 @@ import org.m4water.server.admin.model.Ticket;
  *
  * @author victor
  */
-public class HomeView extends View {
+public class HomeView extends View implements Refreshable {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private ContentPanel cpWest;
     private ContentPanel cpCenter;
     private Portlet portlet;
-    private CenterHomePageView centerpanel = new CenterHomePageView(this);
-    public  List<Ticket> tickets;
+    public List<Ticket> tickets = new ArrayList<Ticket>();
+    private CenterHomePageView centerpanel;
 
     public HomeView(Controller controller) {
         super(controller);
@@ -57,6 +62,7 @@ public class HomeView extends View {
 
     public void initUi() {
         GWT.log("Home view: init UI");
+        centerpanel = new CenterHomePageView(this);
         ContentPanel cp = new ContentPanel();
         cp.setHeading("Home View");
         cp.setSize(600, 500);
@@ -82,8 +88,6 @@ public class HomeView extends View {
         cpCenter = new ContentPanel();
         cpCenter.setHeaderVisible(false);
         cpCenter.setLayout(new FitLayout());
-//        cpCenter.add(new Html(
-//                "<p style=\"padding:10px;color:#556677;font-size:11px;\">Select a configuration on the left</p>"));
         cpCenter.add(centerpanel);
         BorderLayoutData center = new BorderLayoutData(LayoutRegion.CENTER);
         center.setMargins(new Margins(5));
@@ -108,7 +112,7 @@ public class HomeView extends View {
             Portal portal = Registry.get(IndexEntryPoint.PORTAL);
             portal.add(portlet, 0);
             maximisePortlet(portlet);
-            HomeController controller2 = (HomeController)HomeView.this.getController();
+            HomeController controller2 = (HomeController) HomeView.this.getController();
             controller2.getTickets();
         }
 
@@ -123,10 +127,11 @@ public class HomeView extends View {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+
     }
 
     public void showTicketDetails(TicketSummary summary) {
-        HomeController controller2 = (HomeController)HomeView.this.getController();
+        HomeController controller2 = (HomeController) HomeView.this.getController();
         controller2.forwardToViewTicketDetails(summary);
     }
 
@@ -169,5 +174,12 @@ public class HomeView extends View {
             }
         });
         return panel;
+    }
+
+    @Override
+    public void refresh(RefreshableEvent event) {
+        if (event.getEventType() == RefreshableEvent.Type.TICKET_UPDATE) {
+            System.out.println("tttttttttttttttttttttttttttttttttttttttttttttttttttt");
+        }
     }
 }
