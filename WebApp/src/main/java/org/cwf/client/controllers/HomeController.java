@@ -12,6 +12,8 @@ import com.google.gwt.core.client.GWT;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.model.TicketSummary;
 import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.service.TicketSmsServiceAsync;
@@ -39,6 +41,7 @@ public class HomeController extends Controller {
     protected void initialize() {
         GWT.log("HomeController : initialize");
         homeView = new HomeView(this);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.TICKET_UPDATE, homeView);
     }
 
     @Override
@@ -72,6 +75,7 @@ public class HomeController extends Controller {
             @Override
             public void onSuccess(List<Ticket> result) {
                 homeView.setTickets(result);
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.TICKET_UPDATE, result));
             }
         });
     }

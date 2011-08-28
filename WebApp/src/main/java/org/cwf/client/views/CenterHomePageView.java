@@ -11,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
+import org.m4water.server.admin.model.Ticket;
 
 /**
  *
@@ -66,7 +67,6 @@ public class CenterHomePageView extends CardPanel {
     }
 
     public void setActiveItem(int active) {
-//        display(activePage, pages);
         viewLayout.setActiveItem(pages.get(active));
     }
 }

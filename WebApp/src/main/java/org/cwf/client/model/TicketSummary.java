@@ -17,7 +17,12 @@ public class TicketSummary extends BaseModel {
         setSubCounty(subCounty);
         setVillage(village);
     }
-
+    public TicketSummary(String id, String district, String subCounty, String village) {
+        setId(id);
+        setDistrict(district);
+        setSubCounty(subCounty);
+        setVillage(village);
+    }
     public void setDate(String date) {
         set("date", date);
     }
@@ -68,9 +73,7 @@ public class TicketSummary extends BaseModel {
 
     public static List<TicketSummary> getOpenTickets() {
         List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
-        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
         ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
-        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Kyonyo"));
         return ticketDetails;
     }
 
