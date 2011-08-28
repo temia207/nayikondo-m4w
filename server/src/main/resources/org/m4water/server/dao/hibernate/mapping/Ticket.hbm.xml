@@ -8,7 +8,7 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" fetch="select">
+        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" lazy="false"  >
             <column name="waterSourceNumber" length="200" not-null="true" />
         </many-to-one>
         <property name="tickectId" type="string">
