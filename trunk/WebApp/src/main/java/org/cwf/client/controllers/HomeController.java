@@ -9,10 +9,14 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.GWT;
+import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.TicketSummary;
 import org.cwf.client.model.WaterPointSummary;
+import org.cwf.client.service.TicketSmsServiceAsync;
 import org.cwf.client.views.HomeView;
+import org.m4water.server.admin.model.Ticket;
 
 /**
  *
@@ -23,9 +27,11 @@ public class HomeController extends Controller {
     AppMessages appMessages = GWT.create(AppMessages.class);
     public final static EventType HOME = new EventType();
     private HomeView homeView;
+    TicketSmsServiceAsync ticketService;
 
-    public HomeController() {
+    public HomeController(TicketSmsServiceAsync aTicketService) {
         super();
+        ticketService = aTicketService;
         registerEventTypes(HOME);
     }
 
@@ -58,5 +64,15 @@ public class HomeController extends Controller {
         AppEvent event = new AppEvent(TicketDetailsController.TICKET_DETAILS);
         event.setData(summary);
         dispatcher.dispatch(event);
+    }
+
+    public void getTickets() {
+        ticketService.getTickets(new M4waterAsyncCallback<List<Ticket>>() {
+
+            @Override
+            public void onSuccess(List<Ticket> result) {
+                homeView.setTickets(result);
+            }
+        });
     }
 }

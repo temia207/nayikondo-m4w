@@ -49,6 +49,7 @@ import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
 import org.cwf.client.controllers.TicketDetailsController;
+import org.cwf.client.service.TicketSmsServiceAsync;
 import org.cwf.client.util.ProgressIndicator;
 
 /**
@@ -61,6 +62,9 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     public static final String VIEWPORT = "viewport";
     public static final String PORTAL = "portal";
     public static final String LOGGED_IN_USER_NAME = "loggedInUser";
+    
+    // services
+    TicketSmsServiceAsync ticketSmsService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -82,15 +86,16 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
             }
         });
         System.out.println("================ starting ");
+        ticketSmsService = TicketSmsServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController();
 
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
-        dispatcher.addController(new HomeController());
+        dispatcher.addController(new HomeController(ticketSmsService));
         dispatcher.addController(new EditWaterPointController());
-        dispatcher.addController(new TicketDetailsController());
+        dispatcher.addController(new TicketDetailsController(ticketSmsService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);

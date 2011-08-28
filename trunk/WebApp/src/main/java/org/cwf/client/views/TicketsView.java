@@ -20,8 +20,10 @@ public class TicketsView extends ContentPanel {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private TabPanel ticketPanel;
+    private HomeView parentView;
 
-    public TicketsView() {
+    public TicketsView(HomeView view) {
+        this.parentView = view;
         initialize();
     }
 
@@ -33,22 +35,22 @@ public class TicketsView extends ContentPanel {
 
         TabItem openTickets = new TabItem("Open");
         openTickets.setLayout(new FitLayout());
-        TicketDetailsPanel openTicketsItem = new TicketDetailsPanel("Open");
+        TicketDetailsPanel openTicketsItem = new TicketDetailsPanel(parentView,"Open");
         openTicketsItem.setHeaderVisible(false);
         openTickets.add(openTicketsItem);
 
         TabItem closedTickets = new TabItem("Closed");
         closedTickets.setLayout(new FitLayout());
-        TicketDetailsPanel closedTicketsItem = new TicketDetailsPanel("Closed");
+        TicketDetailsPanel closedTicketsItem = new TicketDetailsPanel(parentView,"Closed");
         closedTicketsItem.setHeaderVisible(false);
         closedTickets.add(closedTicketsItem);
-        
+
         TabItem suspendedTickets = new TabItem("Suspended");
         suspendedTickets.setLayout(new FitLayout());
-        TicketDetailsPanel suspendedTicketsItem = new TicketDetailsPanel("Suspended");
+        TicketDetailsPanel suspendedTicketsItem = new TicketDetailsPanel(parentView,"Suspended");
         suspendedTicketsItem.setHeaderVisible(false);
         suspendedTickets.add(suspendedTicketsItem);
-        
+
         ticketPanel.add(openTickets);
         ticketPanel.add(closedTickets);
         ticketPanel.add(suspendedTickets);

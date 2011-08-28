@@ -33,9 +33,10 @@ public class NewWaterPointsView extends ContentPanel {
     private ColumnModel cm;
     //type may be new waterpoints or all waterpoints
     private String type;
-
-    public NewWaterPointsView(String type) {
+private HomeView parentView;
+    public NewWaterPointsView(HomeView view,String type) {
         this.type = type;
+        this.parentView =view;
         initialize();
     }
 
@@ -75,7 +76,7 @@ public class NewWaterPointsView extends ContentPanel {
             public void handleEvent(GridEvent<BeanModel> be) {
                 WaterPointSummary summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== " + summary.getDistrict());
-                HomeController controller = new HomeController();
+                HomeController controller = (HomeController)parentView.getController();
                 controller.forwardToEditWaterPoint(summary);
 
             }

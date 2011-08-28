@@ -18,6 +18,8 @@ import org.cwf.client.views.LoginView;
 public class LoginController extends Controller {
 
     public static EventType LOGIN = new EventType();
+    public final static EventType SESSIONTIMEOUT = new EventType();
+    public final static EventType CHECKADMINPASS = new EventType();
     private LoginView loginView;
 
     public LoginController() {

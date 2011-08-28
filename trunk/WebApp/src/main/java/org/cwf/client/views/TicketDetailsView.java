@@ -35,12 +35,14 @@ import org.cwf.client.model.TicketTwits;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
+import org.m4water.server.admin.model.Ticket;
 
 /**
  *
  * @author victor
  */
 public class TicketDetailsView extends View {
+
     AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
     private FormPanel summaryPanel;
@@ -51,6 +53,7 @@ public class TicketDetailsView extends View {
     private List<TicketTwits> ticketTwits;
     private ListStore<UserSummary> store;
     private ParameterWidget commentRow;
+    private List<Ticket> tickets;
 
     public TicketDetailsView(Controller controller) {
         super(controller);
@@ -211,6 +214,10 @@ public class TicketDetailsView extends View {
         window.hide();
     }
 
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     private void setWaterPointData(TicketSummary summary) {
         idTextFld.setValue(summary.getId());
         districtTfld.setValue(summary.getDistrict());
@@ -237,6 +244,7 @@ public class TicketDetailsView extends View {
             ticketTwits = TicketTwits.getSampleTwits();
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
+            controller2.getTickets();
             createSummaryTwits(ticketTwits, twitsTable);
             TicketSummary ticketSummary = event.getData();
             setWaterPointData(ticketSummary);

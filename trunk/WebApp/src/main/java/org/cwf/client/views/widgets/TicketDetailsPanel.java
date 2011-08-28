@@ -21,6 +21,9 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.TicketSummary;
+import org.cwf.client.views.HomeView;
+import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
@@ -33,9 +36,13 @@ public class TicketDetailsPanel extends ContentPanel {
     private ColumnModel cm;
 //    ticket status
     private String status;
+    private ListStore<TicketSummary> store;
+    private HomeView parentView;
 
-    public TicketDetailsPanel(String status) {
+    public TicketDetailsPanel(HomeView view, String status) {
         this.status = status;
+        this.parentView = view;
+//        setTicketSummary(parentView.tickets);
         initialize();
     }
 
@@ -46,7 +53,8 @@ public class TicketDetailsPanel extends ContentPanel {
         configs.add(new ColumnConfig("district", "District", 100));
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
-        ListStore<TicketSummary> store = new ListStore<TicketSummary>();
+        //use static tickets for now
+        store = new ListStore<TicketSummary>();
         if (status.contains("Open")) {
             store.add(TicketSummary.getOpenTickets());
         } else if (status.equals("Closed")) {
@@ -74,13 +82,19 @@ public class TicketDetailsPanel extends ContentPanel {
             public void handleEvent(GridEvent<BeanModel> be) {
                 TicketSummary summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== " + summary.getDistrict());
-                HomeController controller = new HomeController();
-                controller.forwardToViewTicketDetails(summary);
+                parentView.showTicketDetails(summary);
 
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
         add(grid);
         setLayout(new FitLayout());
+    }
+//needs to first fix waterpoint null value returned from hibernate
+    private void setTicketSummary(List<Ticket> tickets) {
+        for (Ticket t : tickets) {
+            Waterpoint source = t.getWaterpoint();
+            store.add(new TicketSummary("19/5/2011",source.getReferenceNumber(),source.getDistrict(),source.getSubcounty(), source.getVillage()));
+        }
     }
 }
