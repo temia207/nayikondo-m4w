@@ -42,7 +42,7 @@ public class TicketSms implements TicketService, InitializingBean {
     private WaterPointDao waterPointDao;
     @Autowired
     private TicketDao ticketDao;
-    private  TransactionTemplate transactionTemplate;
+    private TransactionTemplate transactionTemplate;
     @Autowired
     private PlatformTransactionManager transactionManager;
     @Autowired
@@ -63,38 +63,26 @@ public class TicketSms implements TicketService, InitializingBean {
         SMSServer server = new SMSServer(ch, new RequestListener() {
 
             @Override
-            public void processRequest(SMSMessage request) {
+            public void processRequest(final SMSMessage request) {
                 System.out.println("new message " + request.getSmsData());
                 request.getSmsData();
                 String msg = request.getSmsData();
                 String sourceId = msg.split(" ")[0];
-                String complaint = msg.split(" ")[1];
-
-//                Ticket ticket = new Ticket();
-//                ticket.setCreatorTel(request.getSender());
-//                ticket.setMessage(complaint);
-//                ticket.setWaterpoint(waterPointDao.getWaterPoint(sourceId));
-//                ticketDao.save(ticket);
+                final String complaint =msg.substring(sourceId.length());
                 transactionTemplate = new TransactionTemplate(transactionManager);
-//        this.transactionTemplate.setReadOnly(true);
-
                 transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
                     @Override
                     protected void doInTransactionWithoutResult(TransactionStatus status) {
                         final Ticket ticket = new Ticket();
                         ticket.setTickectId("123we");
-                        ticket.setCreatorTel("0714505033");
-                        ticket.setMessage("Borehole broken");
+                        ticket.setCreatorTel(request.getSender());
+                        ticket.setMessage(complaint);
                         final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
                         session.getCurrentSession().evict(waterPoint);
-                        System.out.println("-------------------" + waterPoint.getDistrict() + "........." + waterPoint.getId());
                         ticket.setWaterpoint(waterPoint);
-//                ticketDao.save(ticket);
                         waterPoint.setTickets(new HashSet());
                         waterPoint.getTickets().add(ticket);
-                        waterPoint.setDistrict("masaka");
-//                waterPointDao.save(waterPoint);
                         ticketDao.save(ticket);
                     }
                 });
