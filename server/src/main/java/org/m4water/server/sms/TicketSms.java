@@ -6,6 +6,7 @@ package org.m4water.server.sms;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
@@ -14,6 +15,7 @@ import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.dao.TicketDao;
 import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.service.TicketService;
+import org.m4water.server.service.YawlService;
 import org.muk.fcit.results.sms.Channel;
 import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
@@ -47,6 +49,8 @@ public class TicketSms implements TicketService, InitializingBean {
     private PlatformTransactionManager transactionManager;
     @Autowired
     private SessionFactory session;
+    @Autowired
+    private YawlService yawlService;
 
     public TicketSms() {
     }
@@ -55,8 +59,8 @@ public class TicketSms implements TicketService, InitializingBean {
     public void afterPropertiesSet() throws Exception {
         int numOfProcessors = 10;
         System.out.println("starting sms server");
-        ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM35", 460200, "Nokia", "6500c");
-
+        ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM30", 460200, "Nokia", "6500c");
+transactionTemplate = new TransactionTemplate(transactionManager);
         Channel ch = new ModemChannel(gateWay);
         // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
 
@@ -67,23 +71,25 @@ public class TicketSms implements TicketService, InitializingBean {
                 System.out.println("new message " + request.getSmsData());
                 request.getSmsData();
                 String msg = request.getSmsData();
-                String sourceId = msg.split(" ")[0];
+                final String sourceId = msg.split(" ")[0];
                 final String complaint =msg.substring(sourceId.length());
-                transactionTemplate = new TransactionTemplate(transactionManager);
+                
                 transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
                     @Override
                     protected void doInTransactionWithoutResult(TransactionStatus status) {
                         final Ticket ticket = new Ticket();
-                        ticket.setTickectId("123we");
+                        ticket.setTickectId(org.m4water.server.security.util.UUID.uuid());
                         ticket.setCreatorTel(request.getSender());
                         ticket.setMessage(complaint);
-                        final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
+                        // final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
+                        final Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
                         session.getCurrentSession().evict(waterPoint);
                         ticket.setWaterpoint(waterPoint);
                         waterPoint.setTickets(new HashSet());
                         waterPoint.getTickets().add(ticket);
                         ticketDao.save(ticket);
+                        launchCase(ticket);
                     }
                 });
 
@@ -118,5 +124,9 @@ public class TicketSms implements TicketService, InitializingBean {
     @Override
     public void deleteTicket(Ticket ticket) {
         ticketDao.deleteTicket(ticket);
+    }
+
+    public void launchCase(Ticket ticket){
+            yawlService.launchWaterPointFlow(ticket);
     }
 }
