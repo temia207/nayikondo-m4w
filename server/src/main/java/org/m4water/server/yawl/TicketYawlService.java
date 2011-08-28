@@ -1,13 +1,13 @@
 package org.m4water.server.yawl;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.m4water.server.admin.model.exception.M4waterException;
 import org.openxdata.yawl.util.InterfaceBHelper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         }
 
         public void launchCase(Params params) throws IOException, YAWLException {
-                String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.35"), params.asXML(), yawlHelper.initSessionHandle());
+                String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.46"), params.asXML(), yawlHelper.initSessionHandle());
                 boolean successful = successful(launchCase);
                 if(!successful)
                         throw  new YAWLException(launchCase);
@@ -65,7 +65,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
 
         public static class Params {
 
-                HashMap<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new LinkedHashMap<String, String>();
 
                 public void addPumpMechanicName(String mechName) {
                         params.put("user_pumpMechanic_u", mechName);
