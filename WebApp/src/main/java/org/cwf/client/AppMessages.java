@@ -51,4 +51,6 @@ public interface AppMessages extends Messages {
         String ticketTweets();
         String ticketSummary();
 
+	String accessDeniedError();
+
 }

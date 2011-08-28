@@ -26,9 +26,12 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
+import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.IndexEntryPoint;
 import org.cwf.client.controllers.HomeController;
+import org.cwf.client.model.TicketSummary;
+import org.m4water.server.admin.model.Ticket;
 
 /**
  *
@@ -40,7 +43,8 @@ public class HomeView extends View {
     private ContentPanel cpWest;
     private ContentPanel cpCenter;
     private Portlet portlet;
-    private CenterHomePageView centerpanel = new CenterHomePageView();
+    private CenterHomePageView centerpanel = new CenterHomePageView(this);
+    public  List<Ticket> tickets;
 
     public HomeView(Controller controller) {
         super(controller);
@@ -104,6 +108,8 @@ public class HomeView extends View {
             Portal portal = Registry.get(IndexEntryPoint.PORTAL);
             portal.add(portlet, 0);
             maximisePortlet(portlet);
+            HomeController controller2 = (HomeController)HomeView.this.getController();
+            controller2.getTickets();
         }
 
     }
@@ -113,6 +119,15 @@ public class HomeView extends View {
         Portal p = (Portal) portlet.getParent().getParent();
         int height = p.getHeight() - 20;
         portlet.setHeight(height);
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void showTicketDetails(TicketSummary summary) {
+        HomeController controller2 = (HomeController)HomeView.this.getController();
+        controller2.forwardToViewTicketDetails(summary);
     }
 
     public FocusPanel addLeftMenu(String name) {

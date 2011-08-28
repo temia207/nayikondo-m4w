@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.m4water.server.admin.model.Ticket;
 import org.m4water.server.admin.model.Waterpoint;
@@ -43,7 +42,7 @@ public class TicketSms implements TicketService, InitializingBean {
     private WaterPointDao waterPointDao;
     @Autowired
     private TicketDao ticketDao;
-    private TransactionTemplate transactionTemplate;
+    private  TransactionTemplate transactionTemplate;
     @Autowired
     private PlatformTransactionManager transactionManager;
     @Autowired
@@ -57,29 +56,7 @@ public class TicketSms implements TicketService, InitializingBean {
         int numOfProcessors = 10;
         System.out.println("starting sms server");
         ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM35", 460200, "Nokia", "6500c");
-        this.transactionTemplate = new TransactionTemplate(transactionManager);
-//        this.transactionTemplate.setReadOnly(true);
 
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                final Ticket ticket = new Ticket();
-                ticket.setTickectId("123we");
-                ticket.setCreatorTel("0714505033");
-                ticket.setMessage("Borehole broken");
-                final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
-                session.getCurrentSession().evict(waterPoint);
-                System.out.println("-------------------"+waterPoint.getDistrict() + "........."+waterPoint.getId());
-                ticket.setWaterpoint(waterPoint);
-//                ticketDao.save(ticket);
-                waterPoint.setTickets(new HashSet());
-                waterPoint.getTickets().add(ticket);
-                waterPoint.setDistrict("masaka");
-//                waterPointDao.save(waterPoint);
-                ticketDao.save(ticket);
-            }
-        });
         Channel ch = new ModemChannel(gateWay);
         // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
 
@@ -93,11 +70,34 @@ public class TicketSms implements TicketService, InitializingBean {
                 String sourceId = msg.split(" ")[0];
                 String complaint = msg.split(" ")[1];
 
-                Ticket ticket = new Ticket();
-                ticket.setCreatorTel(request.getSender());
-                ticket.setMessage(complaint);
-                ticket.setWaterpoint(waterPointDao.getWaterPoint(sourceId));
-                ticketDao.save(ticket);
+//                Ticket ticket = new Ticket();
+//                ticket.setCreatorTel(request.getSender());
+//                ticket.setMessage(complaint);
+//                ticket.setWaterpoint(waterPointDao.getWaterPoint(sourceId));
+//                ticketDao.save(ticket);
+                transactionTemplate = new TransactionTemplate(transactionManager);
+//        this.transactionTemplate.setReadOnly(true);
+
+                transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+                    @Override
+                    protected void doInTransactionWithoutResult(TransactionStatus status) {
+                        final Ticket ticket = new Ticket();
+                        ticket.setTickectId("123we");
+                        ticket.setCreatorTel("0714505033");
+                        ticket.setMessage("Borehole broken");
+                        final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
+                        session.getCurrentSession().evict(waterPoint);
+                        System.out.println("-------------------" + waterPoint.getDistrict() + "........." + waterPoint.getId());
+                        ticket.setWaterpoint(waterPoint);
+//                ticketDao.save(ticket);
+                        waterPoint.setTickets(new HashSet());
+                        waterPoint.getTickets().add(ticket);
+                        waterPoint.setDistrict("masaka");
+//                waterPointDao.save(waterPoint);
+                        ticketDao.save(ticket);
+                    }
+                });
 
 
             }
