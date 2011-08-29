@@ -59,7 +59,7 @@ public class TicketSms implements TicketService, InitializingBean {
     public void afterPropertiesSet() throws Exception {
         int numOfProcessors = 10;
         System.out.println("starting sms server");
-        ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM30", 460200, "Nokia", "6500c");
+        ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM33", 460200, "Nokia", "6500c");
 transactionTemplate = new TransactionTemplate(transactionManager);
         Channel ch = new ModemChannel(gateWay);
         // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);

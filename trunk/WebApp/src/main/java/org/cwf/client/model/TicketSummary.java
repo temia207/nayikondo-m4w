@@ -10,19 +10,25 @@ import java.util.List;
  */
 public class TicketSummary extends BaseModel {
 
-    public TicketSummary(String date, String id, String district, String subCounty, String village) {
+    public TicketSummary(String date, String id, String district, String subCounty, String village, String reporterNum, String message) {
         setDate(date);
         setId(id);
         setDistrict(district);
         setSubCounty(subCounty);
         setVillage(village);
+        setReporterNumber(reporterNum);
+        setMessage(message);
     }
-    public TicketSummary(String id, String district, String subCounty, String village) {
+
+    public TicketSummary(String id, String district, String subCounty, String village, String reporterNum, String message) {
         setId(id);
         setDistrict(district);
         setSubCounty(subCounty);
         setVillage(village);
+        setReporterNumber(reporterNum);
+        setMessage(message);
     }
+
     public void setDate(String date) {
         set("date", date);
     }
@@ -51,6 +57,14 @@ public class TicketSummary extends BaseModel {
         set("latitude", latitude);
     }
 
+    public void setReporterNumber(String reporterNumber) {
+        set("telephone", reporterNumber);
+    }
+
+    public void setMessage(String message) {
+        set("message", message);
+    }
+
     public String getDate() {
         return get("date");
     }
@@ -71,22 +85,30 @@ public class TicketSummary extends BaseModel {
         return get("village");
     }
 
+    public String getReporterNumber() {
+        return get("telephone");
+    }
+
+    public String getMessage() {
+        return get("message");
+    }
+
     public static List<TicketSummary> getOpenTickets() {
         List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
-        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
+        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","0714505033","Borehole Broken"));
         return ticketDetails;
     }
 
     public static List<TicketSummary> getClosedTickets() {
         List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
-        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
-        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga"));
+        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","0793546572","the pond is dirty"));
+        ticketDetails.add(new TicketSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","0777342635","amazi gawunya"));
         return ticketDetails;
     }
 
     public static List<TicketSummary> getSuspendedTickets() {
         List<TicketSummary> ticketDetails = new ArrayList<TicketSummary>();
-        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi"));
+        ticketDetails.add(new TicketSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","0782364756","no water"));
         return ticketDetails;
     }
 }

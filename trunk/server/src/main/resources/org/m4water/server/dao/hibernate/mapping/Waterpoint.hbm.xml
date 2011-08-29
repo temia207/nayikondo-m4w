@@ -32,6 +32,9 @@
         <property name="waterSourceType" type="string">
             <column name="waterSourceType" length="200" not-null="true" />
         </property>
+        <property name="status" type="string">
+            <column name="status" length="200" not-null="true" />
+        </property>
         <set name="tickets" cascade="all" inverse="true">
             <key>
                 <column name="waterSourceNumber" length="200" not-null="true" />

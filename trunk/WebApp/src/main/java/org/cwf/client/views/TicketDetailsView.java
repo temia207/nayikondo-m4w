@@ -46,7 +46,7 @@ public class TicketDetailsView extends View {
     AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
     private FormPanel summaryPanel;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld, messageTfld;
     private ComboBox<UserSummary> reassignTicket;
     private FormData formData;
     private FlexTable twitsTable;
@@ -147,8 +147,12 @@ public class TicketDetailsView extends View {
         fieldSet.add(reportDateTfld, formData);
 
         reporterNumTfld = new TextField<String>();
-        reporterNumTfld.setFieldLabel("Reporter Tel:");
+        reporterNumTfld.setFieldLabel("Reporter Tel");
         fieldSet.add(reporterNumTfld, formData);
+
+        messageTfld = new TextField<String>();
+        messageTfld.setFieldLabel("Problem");
+        fieldSet.add(messageTfld);
 
         //get the store
         store = new ListStore<UserSummary>();
@@ -224,7 +228,8 @@ public class TicketDetailsView extends View {
         subcountyTfld.setValue(summary.getSubCounty());
         villageTfld.setValue(summary.getVillage());
         reportDateTfld.setValue(summary.getDate());
-        reporterNumTfld.setValue("0714505033");
+        reporterNumTfld.setValue(summary.getReporterNumber());
+        messageTfld.setValue(summary.getMessage());
     }
 
     private FlexTable addCommentPanel() {
@@ -244,7 +249,7 @@ public class TicketDetailsView extends View {
             ticketTwits = TicketTwits.getSampleTwits();
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
-            controller2.getTickets();
+//            controller2.getTickets();
             createSummaryTwits(ticketTwits, twitsTable);
             TicketSummary ticketSummary = event.getData();
             setWaterPointData(ticketSummary);
