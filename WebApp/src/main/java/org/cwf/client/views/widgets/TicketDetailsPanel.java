@@ -79,7 +79,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             @Override
             public void handleEvent(GridEvent<BeanModel> be) {
                 TicketSummary summary = grid.getSelectionModel().getSelectedItem();
-                System.out.println("selected ===================== " + summary.getDistrict());
+                System.out.println("selected ===================== " + summary.getMessage());
                 parentView.showTicketDetails(summary);
 
             }
@@ -93,7 +93,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     private void setTicketSummary(List<Ticket> tickets) {
         for (Ticket t : tickets) {
             Waterpoint source = t.getWaterpoint();
-            store.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage()));
+            store.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
         }
 
     }
@@ -106,7 +106,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             List<Ticket> tkts = event.getData();
             for (Ticket t : tkts) {
                 Waterpoint source = t.getWaterpoint();
-                store1.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage()));
+                store1.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
             }
 //            grid.getView().refresh(true);
 
