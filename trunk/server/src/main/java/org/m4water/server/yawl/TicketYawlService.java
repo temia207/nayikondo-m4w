@@ -1,6 +1,8 @@
 package org.m4water.server.yawl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +10,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jdom.JDOMException;
+import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.service.WaterPointService;
 import org.openxdata.yawl.util.InterfaceBHelper;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.WorkItemRecord;
 import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceBWebsideController;
@@ -26,6 +33,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
 
         private static TicketYawlService ticketYawlService;
         private InterfaceBHelper yawlHelper;
+        @Autowired
+        private WaterPointService waterPointService;
 
         public static TicketYawlService getInstance() {
                 return ticketYawlService;
@@ -37,7 +46,15 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                         yawlHelper.initSessionHandle();
                         List<WorkItemRecord> workitems = yawlHelper.checkOutWorkitemAndChildren(enabledWorkItem);
 
+                        for (WorkItemRecord workItemRecord : workitems) {
 
+                                processWorkitem(workItemRecord);
+
+                        }
+
+
+                } catch (JDOMException ex) {
+                        Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (YAWLException ex) {
                         Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -59,9 +76,42 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         public void launchCase(Params params) throws IOException, YAWLException {
                 String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.46"), params.asXML(), yawlHelper.initSessionHandle());
                 boolean successful = successful(launchCase);
-                if(!successful)
-                        throw  new YAWLException(launchCase);
+                if (!successful)
+                        throw new YAWLException(launchCase);
         }
+
+        private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
+              try{  String waterPointID = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "waterPointID");
+                String assesment = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "assesment");
+                String repairDetails = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "repairDetails");
+                String problemFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "problemFixed");
+                String reasonNotFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "reasonNotFixed");
+
+                Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
+                waterPoint.setDate(new Date());
+                waterPointService.saveWaterPoint(waterPoint);
+                }finally{
+                yawlHelper.checkInWorkItem(workItemRecord);
+                }
+        }
+
+        @Override
+        public YParameter[] describeRequiredParams() {
+              
+                List<InterfaceBHelper.YParam> params = new ArrayList<InterfaceBHelper.YParam>(){
+                        {
+                                add(new InterfaceBHelper.YParam("waterPointID", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "WaterPoint ID"));
+                                add(new InterfaceBHelper.YParam("assesment", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Assesment"));
+                                add(new InterfaceBHelper.YParam("repairDetails", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Repair Details"));
+                                add(new InterfaceBHelper.YParam("problemFixed", "boolean", YParameter._INPUT_PARAM_TYPE, "Prolem Fixed"));
+                                add(new InterfaceBHelper.YParam("reasonNotFixed", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Reason not FIxed"));
+                        }
+                };
+
+                return yawlHelper.describeRequiredParams(params);
+        }
+
+
 
         public static class Params {
 
