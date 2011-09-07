@@ -106,7 +106,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             List<Ticket> tkts = event.getData();
             for (Ticket t : tkts) {
                 Waterpoint source = t.getWaterpoint();
-                store1.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
+                store1.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),source.getStatus()));
             }
 //            grid.getView().refresh(true);
 
