@@ -33,7 +33,7 @@
     <extend-property name="locale" values="ny" />
     <set-property name="locale" value="en,pt,st,ny" />
     <!-- RPC service servlet declarations                             -->
-    <servlet path="/ticket" class="org.cwf.server.TicketSmsServiceImpl"/>
+    <servlet path="/ticket" class="org.cwf.server.ProblemServiceImpl"/>
     <servlet path="/waterpoint" class="org.cwf.server.WaterPointServiceImpl"/>
 
 </module>

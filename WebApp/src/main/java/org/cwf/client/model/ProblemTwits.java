@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author victor
  */
-public class TicketTwits extends BaseModel {
+public class ProblemTwits extends BaseModel {
 
     private UserSummary user;
 
-    public TicketTwits() {
+    public ProblemTwits() {
     }
 
-    public TicketTwits(UserSummary user, String comment) {
+    public ProblemTwits(UserSummary user, String comment) {
         setUser(user);
         setComment(comment);
     }
@@ -40,11 +40,11 @@ public class TicketTwits extends BaseModel {
         return get("comment");
     }
 
-    public static List<TicketTwits> getSampleTwits() {
-        List<TicketTwits> ticketTwits = new ArrayList<TicketTwits>();
-        ticketTwits.add(new TicketTwits(new UserSummary("0756505033", "vkakama"), "Assigned to Juma"));
-        ticketTwits.add(new TicketTwits(new UserSummary("0756346475", "Nats"), "I cant find the water pump"));
-        ticketTwits.add(new TicketTwits(new UserSummary("0756283947", "Ocero"), "Call this number 0798463758"));
+    public static List<ProblemTwits> getSampleTwits() {
+        List<ProblemTwits> ticketTwits = new ArrayList<ProblemTwits>();
+        ticketTwits.add(new ProblemTwits(new UserSummary("0756505033", "vkakama"), "Assigned to Juma"));
+        ticketTwits.add(new ProblemTwits(new UserSummary("0756346475", "Nats"), "I cant find the water pump"));
+        ticketTwits.add(new ProblemTwits(new UserSummary("0756283947", "Ocero"), "Call this number 0798463758"));
         return ticketTwits;
     }
 }

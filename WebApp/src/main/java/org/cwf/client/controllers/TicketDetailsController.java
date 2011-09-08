@@ -12,9 +12,9 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.UserSummary;
-import org.cwf.client.service.TicketSmsServiceAsync;
+import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.views.TicketDetailsView;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 
 /**
  *
@@ -25,9 +25,9 @@ public class TicketDetailsController extends Controller {
     AppMessages appMessages = GWT.create(AppMessages.class);
     public final static EventType TICKET_DETAILS = new EventType();
     private TicketDetailsView ticketDetailsView;
-    TicketSmsServiceAsync ticketService;
+    ProblemServiceAsync ticketService;
 
-    public TicketDetailsController(TicketSmsServiceAsync aTicketService) {
+    public TicketDetailsController(ProblemServiceAsync aTicketService) {
         super();
         ticketService = aTicketService;
         registerEventTypes(TICKET_DETAILS);
@@ -53,10 +53,10 @@ public class TicketDetailsController extends Controller {
         ticketDetailsView.setUsers(UserSummary.getSampleUsers());
     }
     public void getTickets(){
-    ticketService.getTickets(new M4waterAsyncCallback<List<Ticket>>() {
+    ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
 
             @Override
-            public void onSuccess(List<Ticket> result) {
+            public void onSuccess(List<Problem> result) {
                 ticketDetailsView.setTickets(result);
             }
         });

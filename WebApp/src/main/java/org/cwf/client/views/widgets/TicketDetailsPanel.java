@@ -23,9 +23,9 @@ import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
-import org.cwf.client.model.TicketSummary;
+import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.views.HomeView;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -35,11 +35,11 @@ import org.m4water.server.admin.model.Waterpoint;
 public class TicketDetailsPanel extends ContentPanel implements Refreshable {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
-    private Grid<TicketSummary> grid;
+    private Grid<ProblemSummary> grid;
     private ColumnModel cm;
 //    ticket status
     private String status;
-    private ListStore<TicketSummary> store;
+    private ListStore<ProblemSummary> store;
 
     ;
     private HomeView parentView;
@@ -60,14 +60,14 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
         //use static tickets for now
-        store = new ListStore<TicketSummary>();
+        store = new ListStore<ProblemSummary>();
         cm = new ColumnModel(configs);
         setBodyBorder(true);
         setHeading("New Water Points");
         setButtonAlign(HorizontalAlignment.CENTER);
         setLayout(new FitLayout());
         setSize(600, 300);
-        grid = new Grid<TicketSummary>(store, cm);
+        grid = new Grid<ProblemSummary>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
         grid.setAutoExpandColumn("id");
         grid.setBorders(false);
@@ -78,8 +78,8 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
 
             @Override
             public void handleEvent(GridEvent<BeanModel> be) {
-                TicketSummary summary = grid.getSelectionModel().getSelectedItem();
-                System.out.println("selected ===================== " + summary.getMessage());
+                ProblemSummary summary = grid.getSelectionModel().getSelectedItem();
+//                System.out.println("selected ===================== " + summary.getMessage());
                 parentView.showTicketDetails(summary);
 
             }
@@ -90,10 +90,10 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     }
 //needs to first fix waterpoint null value returned from hibernate
 
-    private void setTicketSummary(List<Ticket> tickets) {
-        for (Ticket t : tickets) {
+    private void setTicketSummary(List<Problem> problem) {
+        for (Problem t : problem) {
             Waterpoint source = t.getWaterpoint();
-            store.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
+//            store.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
         }
 
     }
@@ -101,12 +101,12 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     @Override
     public void refresh(RefreshableEvent event) {
         if (event.getEventType() == RefreshableEvent.Type.TICKET_UPDATE) {
-            ListStore<TicketSummary> store1 = grid.getStore();
+            ListStore<ProblemSummary> store1 = grid.getStore();
             System.out.println("-------------------------------------------------------------");
-            List<Ticket> tkts = event.getData();
-            for (Ticket t : tkts) {
+            List<Problem> tkts = event.getData();
+            for (Problem t : tkts) {
                 Waterpoint source = t.getWaterpoint();
-                store1.add(new TicketSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),source.getStatus()));
+//                store1.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
             }
 //            grid.getView().refresh(true);
 

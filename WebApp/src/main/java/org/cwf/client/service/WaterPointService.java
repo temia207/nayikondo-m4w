@@ -17,6 +17,6 @@ import org.m4water.server.admin.model.Waterpoint;
 @RemoteServiceRelativePath("waterpoint")
 public interface WaterPointService extends RemoteService{
     List<Waterpoint> getWaterPoints();
-    Waterpoint getWaterPoint(String referenceNumber);
+    Waterpoint getWaterPoint(String waterpointId);
     void saveWaterPoint(Waterpoint waterPoint);
 }
