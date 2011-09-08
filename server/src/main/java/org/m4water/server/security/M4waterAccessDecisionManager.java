@@ -134,7 +134,7 @@ public class M4waterAccessDecisionManager extends AffirmativeBased {
         }
 
         if(sessionRegistry.containsDisabledUser(user))
-            throw new M4waterDisabledUserException("User : "+user.getUsername()+ " is Disabled");
+            throw new M4waterDisabledUserException("User : "+user.getUserId()+ " is Disabled");
     }
 
 }

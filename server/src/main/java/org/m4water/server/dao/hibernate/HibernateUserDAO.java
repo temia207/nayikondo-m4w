@@ -6,7 +6,6 @@ import org.m4water.server.admin.model.User;
 import org.m4water.server.dao.UserDAO;
 import org.springframework.stereotype.Repository;
 
-import com.googlecode.genericdao.search.Search;
 
 /**
  * Provides a hibernate implementation
@@ -19,39 +18,36 @@ import com.googlecode.genericdao.search.Search;
 public class HibernateUserDAO extends BaseDAOImpl<User> implements UserDAO {
 
     @Override
-	public void deleteUser(User user) {
+    public void deleteUser(User user) {
         remove(user);
-	}
+    }
 
-	@Override
-	public User findUserByEmail(String email) {
-        return searchUniqueByPropertyEqual("email", email);
-	}
-	
-	@Override
-	public User findUserByPhoneNo(String phoneNo) {
-        return searchUniqueByPropertyEqual("phoneNo", phoneNo);
-	}
-	
-	@Override
-	public User getUser(String username) {
-        return searchUniqueByPropertyEqual("name", username);
-	}
-	
-	@Override
-	public List<User> getUsers() {
-		Search s = new Search();
-		s.addSort("name", false);
-        return search(s);
-	}
+    @Override
+    public User findUserByPhoneNo(String phoneNo) {
+        return searchUniqueByPropertyEqual("contacts", phoneNo);
+    }
 
-	@Override
-	public void saveUser(User user) {
+    @Override
+    public User getUser(String username) {
+        return searchUniqueByPropertyEqual("userId", username);
+    }
+
+    @Override
+    public List<User> getUsers() {
+//		Search s = new Search();
+//		s.addSort("name", false);
+//        return search(s);
+        return findAll();
+
+    }
+
+    @Override
+    public void saveUser(User user) {
         save(user);
-	}
-	
-	@Override
-	public void saveOnlineStatus(User user) {
-		save(user);		
-	}
+    }
+
+    @Override
+    public void saveOnlineStatus(User user) {
+        save(user);
+    }
 }

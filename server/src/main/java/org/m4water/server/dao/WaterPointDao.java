@@ -13,7 +13,7 @@ import org.m4water.server.admin.model.Waterpoint;
  */
 public interface WaterPointDao extends  BaseDAO<Waterpoint>{
     List<Waterpoint> getWaterPoints();
-    Waterpoint getWaterPoint(String referenceNumber);
+    Waterpoint getWaterPoint(String waterPointId);
     void saveWaterPoint(Waterpoint waterPoint);
 
 }

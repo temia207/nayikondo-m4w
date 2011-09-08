@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.FaultAssessment" table="fault_assessment">
+    <id name="assessmentId" type="int">
+      <column name="assessment_id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Problem" fetch="select" name="problem">
+      <column name="problem_id" not-null="true"/>
+    </many-to-one>
+    <property name="faults" type="string">
+      <column length="200" name="faults"/>
+    </property>
+    <property name="date" type="date">
+      <column length="10" name="date"/>
+    </property>
+    <property name="assessedBy" type="string">
+      <column length="200" name="assessed_by"/>
+    </property>
+    <property name="typeOfRepairesNeeded" type="string">
+      <column length="1000" name="type_of_repaires_needed"/>
+    </property>
+    <property name="problemFixed" type="string">
+      <column length="2" name="problem_fixed">
+        <comment>T=fixed</comment>
+      </column>
+    </property>
+    <property name="reasonNotFixed" type="string">
+      <column length="1000" name="reason_not_fixed"/>
+    </property>
+    <property name="repairsDone" type="string">
+      <column length="1000" name="repairs_done"/>
+    </property>
+    <property name="recommendations" type="string">
+      <column length="1000" name="recommendations"/>
+    </property>
+    <property name="userId" type="string">
+      <column length="200" name="user_id" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

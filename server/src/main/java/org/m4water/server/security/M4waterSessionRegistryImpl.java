@@ -25,9 +25,9 @@ public class M4waterSessionRegistryImpl extends SessionRegistryImpl implements M
         if (user == null) {
             return;
         }
-        log.debug("Adding Disabled User: " + user.getUsername());
+        log.debug("Adding Disabled User: " + user.getUserId());
         synchronized (disabledUsers) {
-            disabledUsers.put(user.getUsername(),cloneUser(user));
+            disabledUsers.put(user.getUserId(),cloneUser(user));
         }
     }
 
@@ -36,7 +36,7 @@ public class M4waterSessionRegistryImpl extends SessionRegistryImpl implements M
         if (user == null) {
             return;
         }
-        removeDisabledUser(user.getUsername());
+        removeDisabledUser(user.getUserId());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class M4waterSessionRegistryImpl extends SessionRegistryImpl implements M
         if (user == null) {
             return false;
         }
-        return disabledUsers.containsKey(user.getUsername());
+        return disabledUsers.containsKey(user.getUserId());
     }
 
     @Override
@@ -105,7 +105,7 @@ public class M4waterSessionRegistryImpl extends SessionRegistryImpl implements M
      
             Object[] allPrincipals = getAllPrincipals();
             for (Object object : allPrincipals) {
-                if (object.equals(user.getUsername())) {
+                if (object.equals(user.getUserId())) {
                     addDisableUser(user);
                 }            
         }
@@ -114,7 +114,7 @@ public class M4waterSessionRegistryImpl extends SessionRegistryImpl implements M
     private User cloneUser(User user) {
        User clone = new User();
        clone.setId(user.getId());
-       clone.setUsername(user.getUsername());
+       clone.setUserId(user.getUserId());
        return clone;
     }
 }

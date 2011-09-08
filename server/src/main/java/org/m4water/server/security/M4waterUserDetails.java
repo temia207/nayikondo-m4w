@@ -22,7 +22,7 @@ public class M4waterUserDetails extends User {
             boolean credentialsNonExpired, boolean accountNonLocked,
             GrantedAuthority[] authorities) throws IllegalArgumentException {
     	
-        super(oxdUser.getUsername(), oxdUser.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
+        super(oxdUser.getUserId(), oxdUser.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
                 accountNonLocked, authorities);
         this.oxdUser = oxdUser;
     }

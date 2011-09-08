@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.UserAssigned" table="user_assigned">
+    <composite-id class="org.m4water.server.admin.model.UserAssignedId" name="id">
+      <key-property name="userId" type="string">
+        <column length="200" name="user_id"/>
+      </key-property>
+      <key-property name="problemId" type="int">
+        <column name="problem_id"/>
+      </key-property>
+    </composite-id>
+    <many-to-one class="org.m4water.server.admin.model.User" fetch="select" insert="false" name="user" update="false">
+      <column length="200" name="user_id" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="org.m4water.server.admin.model.Problem" fetch="select" insert="false" name="problem" update="false">
+      <column name="problem_id" not-null="true"/>
+    </many-to-one>
+    <property name="dateAssigned" type="date">
+      <column length="10" name="date_assigned" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

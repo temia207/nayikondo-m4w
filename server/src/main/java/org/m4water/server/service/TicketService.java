@@ -1,7 +1,7 @@
 package org.m4water.server.service;
 
 import java.util.List;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 
 /**
  *
@@ -9,11 +9,11 @@ import org.m4water.server.admin.model.Ticket;
  */
 public interface TicketService {
 
-    Ticket getTicket(String id);
+    Problem getProblem(int id);
 
-    List<Ticket> getTickets();
+    List<Problem> getProblems();
 
-    void saveTicket(Ticket ticket);
+    void saveProblem(Problem problem);
 
-    void deleteTicket(Ticket ticket);
+    void deleteProblem(Problem problem);
 }

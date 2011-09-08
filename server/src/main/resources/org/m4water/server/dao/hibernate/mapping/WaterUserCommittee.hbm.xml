@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.WaterUserCommittee" table="water_user_committee">
+    <id name="userCommitteeId" type="string">
+      <column length="200" name="user_committee_id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Waterpoint" fetch="select" name="waterpoint">
+      <column length="200" name="waterpoint_id" not-null="true"/>
+    </many-to-one>
+    <property name="commissioned" type="string">
+      <column length="200" name="commissioned" not-null="true"/>
+    </property>
+    <property name="yrEstablished" type="string">
+      <column length="200" name="yr_established" not-null="true"/>
+    </property>
+    <property name="trained" type="string">
+      <column length="200" name="trained" not-null="true"/>
+    </property>
+    <property name="collectFees" type="string">
+      <column length="200" name="collect_fees" not-null="true"/>
+    </property>
+    <property name="regularService" type="string">
+      <column length="200" name="regular_service" not-null="true"/>
+    </property>
+    <property name="regularMeeting" type="string">
+      <column length="200" name="regular_meeting" not-null="true"/>
+    </property>
+    <property name="noActiveMembers" type="string">
+      <column length="200" name="no_active_members" not-null="true"/>
+    </property>
+    <property name="noOfWomen" type="string">
+      <column length="200" name="no_of_women" not-null="true"/>
+    </property>
+    <property name="noOfWomenKeypos" type="string">
+      <column length="200" name="no_of_women_keypos" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

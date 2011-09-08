@@ -127,8 +127,8 @@ public class OpenXDataSecurityUtil {
                 auth.setDetails(sessionId);
 		sc.setAuthentication(auth);
 		SecurityContextHolder.setContext(sc);
-                log.info("Successfully logged in User: << " + user.getUsername() + " >> ");
-		log.info("<< " + "Setting User:" + user.getUsername() + " in Context" + ">> ");
+                log.info("Successfully logged in User: << " + user.getUserId() + " >> ");
+		log.info("<< " + "Setting User:" + user.getUserId() + " in Context" + ">> ");
         }
 	
     public static User getLoggedInUser() {

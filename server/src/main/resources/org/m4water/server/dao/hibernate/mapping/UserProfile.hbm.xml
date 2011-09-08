@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.UserProfile" table="user_profile">
+    <id name="userProfileId" type="int">
+      <column name="user_profile_id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Permission" fetch="select" name="permission">
+      <column name="permission_id" not-null="true"/>
+    </many-to-one>
+    <property name="profileDescription" type="string">
+      <column length="200" name="profile_description" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

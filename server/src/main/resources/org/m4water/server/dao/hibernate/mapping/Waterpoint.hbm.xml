@@ -1,45 +1,54 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 26, 2011 5:58:15 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.Waterpoint" table="waterpoint" catalog="m4water">
-         <id name="referenceNumber" type="string" >
-            <column name="referenceNumber" length="200" not-null="true" unique="true" />
+        <id name="waterpointId" type="string">
+            <column name="waterpoint_id" length="200" />
+            <generator class="assigned" />
         </id>
-        <property name="id" type="int">
-            <column name="id" />
+        <many-to-one name="village" class="org.m4water.server.admin.model.Village" fetch="select">
+            <column name="village_id" length="200" not-null="true" />
+        </many-to-one>
+        <many-to-one name="waterpointTypes" class="org.m4water.server.admin.model.WaterpointTypes" fetch="select">
+            <column name="waterpoint_type_id" not-null="true" />
+        </many-to-one>
+        <property name="fundingOrg" type="string">
+            <column name="funding_org" length="200" not-null="true" />
         </property>
-       
-        <property name="date" type="date">
-            <column name="date" length="10" not-null="true" />
+        <property name="dateInstalled" type="date">
+            <column name="date_installed" length="10" not-null="true" />
         </property>
-        <property name="district" type="string">
-            <column name="district" length="200" not-null="true" />
+        <property name="eastings" type="string">
+            <column name="eastings" length="200" not-null="true" />
         </property>
-        <property name="subcounty" type="string">
-            <column name="subcounty" length="200" not-null="true" />
+        <property name="northings" type="string">
+            <column name="northings" length="200" not-null="true" />
         </property>
-        <property name="village" type="string">
-            <column name="village" length="200" not-null="true" />
+        <property name="elevation" type="string">
+            <column name="elevation" length="200" not-null="true" />
         </property>
-        <property name="latitude" type="string">
-            <column name="latitude" length="200" not-null="true" />
+        <property name="fundingSource" type="string">
+            <column name="funding_source" length="200" not-null="true" />
         </property>
-        <property name="longitude" type="string">
-            <column name="longitude" length="200" not-null="true" />
+        <property name="ownership" type="string">
+            <column name="ownership" length="200" not-null="true" />
         </property>
-        <property name="waterSourceType" type="string">
-            <column name="waterSourceType" length="200" not-null="true" />
+        <property name="households" type="string">
+            <column name="households" length="200" not-null="true" />
         </property>
-        <property name="status" type="string">
-            <column name="status" length="200" not-null="true" />
+        <property name="typeOfMagt" type="string">
+            <column name="type_of_magt" length="200" not-null="true">
+                <comment>should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private
+                operator,institutional</comment>
+            </column>
         </property>
-        <set name="tickets" cascade="all" inverse="true">
+        <set name="problems" inverse="true">
             <key>
-                <column name="waterSourceNumber" length="200" not-null="true" />
+                <column name="waterpoint_id" length="200" not-null="true" />
             </key>
-            <one-to-many class="org.m4water.server.admin.model.Ticket" />
+            <one-to-many class="org.m4water.server.admin.model.Problem" />
         </set>
     </class>
 </hibernate-mapping>
