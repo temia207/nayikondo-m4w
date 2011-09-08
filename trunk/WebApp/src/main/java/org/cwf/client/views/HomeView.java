@@ -35,8 +35,8 @@ import org.cwf.client.IndexEntryPoint;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.controllers.HomeController;
-import org.cwf.client.model.TicketSummary;
-import org.m4water.server.admin.model.Ticket;
+import org.cwf.client.model.ProblemSummary;
+import org.m4water.server.admin.model.Problem;
 
 /**
  *
@@ -48,7 +48,7 @@ public class HomeView extends View implements Refreshable {
     private ContentPanel cpWest;
     private ContentPanel cpCenter;
     private Portlet portlet;
-    public List<Ticket> tickets = new ArrayList<Ticket>();
+    public List<Problem> tickets = new ArrayList<Problem>();
     private CenterHomePageView centerpanel;
 
     public HomeView(Controller controller) {
@@ -126,12 +126,12 @@ public class HomeView extends View implements Refreshable {
         portlet.setHeight(height);
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(List<Problem> tickets) {
         this.tickets = tickets;
 
     }
 
-    public void showTicketDetails(TicketSummary summary) {
+    public void showTicketDetails(ProblemSummary summary) {
         HomeController controller2 = (HomeController) HomeView.this.getController();
         controller2.forwardToViewTicketDetails(summary);
     }

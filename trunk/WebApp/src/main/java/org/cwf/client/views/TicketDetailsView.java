@@ -28,14 +28,16 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import java.util.List;
+import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.TicketDetailsController;
-import org.cwf.client.model.TicketSummary;
-import org.cwf.client.model.TicketTwits;
+import org.cwf.client.model.ProblemSummary;
+import org.cwf.client.model.ProblemTwits;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.ProblemLog;
 
 /**
  *
@@ -50,10 +52,10 @@ public class TicketDetailsView extends View {
     private ComboBox<UserSummary> reassignTicket;
     private FormData formData;
     private FlexTable twitsTable;
-    private List<TicketTwits> ticketTwits;
+    private List<ProblemTwits> ticketTwits;
     private ListStore<UserSummary> store;
     private ParameterWidget commentRow;
-    private List<Ticket> tickets;
+    private List<Problem> tickets;
 
     public TicketDetailsView(Controller controller) {
         super(controller);
@@ -157,7 +159,7 @@ public class TicketDetailsView extends View {
         //get the store
         store = new ListStore<UserSummary>();
         reassignTicket = new ComboBox<UserSummary>();
-        reassignTicket.setFieldLabel("Re Assign To");
+        reassignTicket.setFieldLabel("Owner");
         reassignTicket.setDisplayField("name");
         reassignTicket.setTriggerAction(TriggerAction.ALL);
         reassignTicket.setAllowBlank(false);
@@ -201,9 +203,9 @@ public class TicketDetailsView extends View {
         store.add(users);
     }
 
-    private void createSummaryTwits(List<TicketTwits> twits, FlexTable table) {
+    private void createSummaryTwits(List<ProblemTwits> twits, FlexTable table) {
         int row = 1;
-        for (TicketTwits twit : twits) {
+        for (ProblemTwits twit : twits) {
             table.setWidget(row, 0, new Label(twit.getUser().getId()));
             table.setWidget(row, 1, new Label(twit.getComment()));
             ++row;
@@ -218,18 +220,26 @@ public class TicketDetailsView extends View {
         window.hide();
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(List<Problem> tickets) {
         this.tickets = tickets;
     }
 
-    private void setWaterPointData(TicketSummary summary) {
-        idTextFld.setValue(summary.getId());
-        districtTfld.setValue(summary.getDistrict());
-        subcountyTfld.setValue(summary.getSubCounty());
-        villageTfld.setValue(summary.getVillage());
+    private void setWaterPointData(ProblemSummary summary) {
+        idTextFld.setValue(String.valueOf(summary.getId()));
+        districtTfld.setValue(summary.getWaterPoint().getVillage().getParish().
+                getSubcounty().getCounty().getDistrict().getName());
+        subcountyTfld.setValue(summary.getWaterPoint().getVillage().getParish().
+                getSubcounty().getSubcountyName());
+        villageTfld.setValue(summary.getWaterPoint().getVillage().getVillagename());
         reportDateTfld.setValue(summary.getDate());
-        reporterNumTfld.setValue(summary.getReporterNumber());
-        messageTfld.setValue(summary.getMessage());
+        ProblemLog problemLog = null;
+        Set problemLogs = summary.getProblem().getProblemLogs();
+        for (Object object : problemLogs) {
+            problemLog = (ProblemLog) object;
+            break;
+        }
+        reporterNumTfld.setValue(problemLog.getSenderNo());
+        messageTfld.setValue(problemLog.getIssue());
     }
 
     private FlexTable addCommentPanel() {
@@ -246,12 +256,12 @@ public class TicketDetailsView extends View {
         GWT.log("TicketDetailsView : handleEvent");
         if (event.getType() == TicketDetailsController.TICKET_DETAILS) {
 //            WaterPointSummary waterPointSummary = event.getData();
-            ticketTwits = TicketTwits.getSampleTwits();
+            ticketTwits = ProblemTwits.getSampleTwits();
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
 //            controller2.getTickets();
             createSummaryTwits(ticketTwits, twitsTable);
-            TicketSummary ticketSummary = event.getData();
+            ProblemSummary ticketSummary = event.getData();
             setWaterPointData(ticketSummary);
             showWindow();
         }

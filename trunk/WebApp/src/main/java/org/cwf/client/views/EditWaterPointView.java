@@ -27,7 +27,7 @@ public class EditWaterPointView extends View {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld,latitudeTfld,longitudeTfld;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld,eastingsTfld,northingsTfld;
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
     private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
@@ -55,8 +55,8 @@ public class EditWaterPointView extends View {
         formPanel.add(districtTfld);
         formPanel.add(subcountyTfld);
         formPanel.add(villageTfld);
-        formPanel.add(latitudeTfld);
-        formPanel.add(longitudeTfld);
+        formPanel.add(eastingsTfld);
+        formPanel.add(northingsTfld);
         formPanel.setButtonAlign(HorizontalAlignment.CENTER);
         formPanel.add(otherParameters);
 
@@ -126,15 +126,15 @@ public class EditWaterPointView extends View {
         villageTfld.setName("village");
         villageTfld.setAllowBlank(false);
 
-        latitudeTfld = new TextField<String>();
-        latitudeTfld.setFieldLabel("Latitude");
-        latitudeTfld.setName("latitude");
-        latitudeTfld.setAllowBlank(false);
+        eastingsTfld = new TextField<String>();
+        eastingsTfld.setFieldLabel("Eastings");
+        eastingsTfld.setName("eastings");
+        eastingsTfld.setAllowBlank(false);
 
-        longitudeTfld = new TextField<String>();
-        longitudeTfld.setFieldLabel("Longitude");
-        longitudeTfld.setName("longitude");
-        longitudeTfld.setAllowBlank(false);
+        northingsTfld = new TextField<String>();
+        northingsTfld.setFieldLabel("Northings");
+        northingsTfld.setName("northings");
+        northingsTfld.setAllowBlank(false);
 
         otherNameTfld = new TextField<String>();
         otherNameTfld.setFieldLabel("Name");
@@ -152,11 +152,11 @@ public class EditWaterPointView extends View {
 
     private void setWaterPointData(WaterPointSummary summary) {
         idTextFld.setValue(summary.getId());
-        districtTfld.setValue(summary.getDistrict());
-        subcountyTfld.setValue(summary.getSubCounty());
-        villageTfld.setValue(summary.getVillage());
-        latitudeTfld.setValue(summary.getLatitude());
-        longitudeTfld.setValue(summary.getLongitude());
+        districtTfld.setValue(summary.getDistrict().getName());
+        subcountyTfld.setValue(summary.getSubCounty().getSubcountyName());
+        villageTfld.setValue(summary.getVillage().getVillagename());
+        eastingsTfld.setValue(summary.getEastings());
+        northingsTfld.setValue(summary.getNorthings());
     }
 
     @Override

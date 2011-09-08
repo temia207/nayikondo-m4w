@@ -14,12 +14,12 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
-import org.cwf.client.model.TicketSummary;
+import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.model.WaterPointSummary;
-import org.cwf.client.service.TicketSmsServiceAsync;
+import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.HomeView;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -31,10 +31,10 @@ public class HomeController extends Controller {
     AppMessages appMessages = GWT.create(AppMessages.class);
     public final static EventType HOME = new EventType();
     private HomeView homeView;
-    TicketSmsServiceAsync ticketService;
+    ProblemServiceAsync ticketService;
     WaterPointServiceAsync waterpointService;
 
-    public HomeController(TicketSmsServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService) {
+    public HomeController(ProblemServiceAsync  aTicketService, WaterPointServiceAsync aWaterPointService) {
         super();
         ticketService = aTicketService;
         waterpointService = aWaterPointService;
@@ -65,7 +65,7 @@ public class HomeController extends Controller {
         dispatcher.dispatch(event);
     }
 
-    public void forwardToViewTicketDetails(TicketSummary summary) {
+    public void forwardToViewTicketDetails(ProblemSummary summary) {
         GWT.log("HomeController : forwardToViewTicketDetails");
         Dispatcher dispatcher = Dispatcher.get();
         AppEvent event = new AppEvent(TicketDetailsController.TICKET_DETAILS);
@@ -74,10 +74,10 @@ public class HomeController extends Controller {
     }
 
     public void getTickets() {
-        ticketService.getTickets(new M4waterAsyncCallback<List<Ticket>>() {
+        ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
 
             @Override
-            public void onSuccess(List<Ticket> result) {
+            public void onSuccess(List<Problem> result) {
                 homeView.setTickets(result);
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.TICKET_UPDATE, result));
             }

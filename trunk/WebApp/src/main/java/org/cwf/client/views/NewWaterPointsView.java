@@ -99,7 +99,7 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
             ListStore<WaterPointSummary> store1 = grid.getStore();
             List<Waterpoint> waterPoints = event.getData();
             for (Waterpoint point : waterPoints) {
-                store1.add(new WaterPointSummary(point.getDate().toString(),point.getReferenceNumber(),point.getDistrict(),point.getSubcounty(),point.getVillage(),point.getLatitude(),point.getLongitude()));
+//                store1.add(new WaterPointSummary(point.getDate().toString(),point.getReferenceNumber(),point.getDistrict(),point.getSubcounty(),point.getVillage(),point.getLatitude(),point.getLongitude()));
             }
         }
     }
