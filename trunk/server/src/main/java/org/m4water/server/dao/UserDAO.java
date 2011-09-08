@@ -22,19 +22,12 @@ public interface UserDAO extends BaseDAO<User> {
 	/**
 	 * Retrieves a user by their log in name
 	 * 
-	 * @param username String
+	 * @param userId String
 	 * @return User, or null if no match found
 	 */
-	User getUser(String username);
+	User getUser(String userId);
 	
-	/**
-	 * Retrieves a user by their email
-	 * 
-	 * @param email String
-	 * @return User, or null if no match found
-	 */	
-	User findUserByEmail(String email);
-	
+
 	/**
 	 * Retrieves a user by their phone number
 	 * 

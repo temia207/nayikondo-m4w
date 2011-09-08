@@ -4,15 +4,15 @@
  */
 package org.m4water.server.sms;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Waterpoint;
-import org.m4water.server.dao.TicketDao;
+import org.m4water.server.dao.ProblemDao;
 import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.service.TicketService;
 import org.m4water.server.service.YawlService;
@@ -43,7 +43,7 @@ public class TicketSms implements TicketService, InitializingBean {
     @Autowired
     private WaterPointDao waterPointDao;
     @Autowired
-    private TicketDao ticketDao;
+    private ProblemDao ticketDao;
     private TransactionTemplate transactionTemplate;
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -60,7 +60,7 @@ public class TicketSms implements TicketService, InitializingBean {
         int numOfProcessors = 10;
         System.out.println("starting sms server");
         ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM30", 460200, "Nokia", "6500c");
-transactionTemplate = new TransactionTemplate(transactionManager);
+        transactionTemplate = new TransactionTemplate(transactionManager);
         Channel ch = new ModemChannel(gateWay);
         // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
 
@@ -72,24 +72,25 @@ transactionTemplate = new TransactionTemplate(transactionManager);
                 request.getSmsData();
                 String msg = request.getSmsData();
                 final String sourceId = msg.split(" ")[0];
-                final String complaint =msg.substring(sourceId.length());
-                
+                final String complaint = msg.substring(sourceId.length());
+
                 transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
                     @Override
                     protected void doInTransactionWithoutResult(TransactionStatus status) {
-                        final Ticket ticket = new Ticket();
-                        ticket.setTickectId(org.m4water.server.security.util.UUID.uuid());
-                        ticket.setCreatorTel(request.getSender());
-                        ticket.setMessage(complaint);
+                        final Problem problem = new Problem();
+                        Date date = new Date();
+                        problem.setDateProblemReported(date);
+                        problem.setProblemDescsription(complaint);
+                        problem.setProblemStatus("F");
                         // final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
                         final Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
                         session.getCurrentSession().evict(waterPoint);
-                        ticket.setWaterpoint(waterPoint);
-                        waterPoint.setTickets(new HashSet());
-                        waterPoint.getTickets().add(ticket);
-                        ticketDao.save(ticket);
-                        launchCase(ticket);
+                        problem.setWaterpoint(waterPoint);
+                        waterPoint.setProblems(new HashSet());
+                        waterPoint.getProblems().add(problem);
+                        ticketDao.save(problem);
+                        launchCase(problem);
                     }
                 });
 
@@ -106,27 +107,27 @@ transactionTemplate = new TransactionTemplate(transactionManager);
 
     @Override
     @Transactional(readOnly = true)
-    public Ticket getTicket(String id) {
-        return ticketDao.getTicket(id);
+    public Problem getProblem(int id) {
+        return ticketDao.getProblem(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Ticket> getTickets() {
-        return ticketDao.getTickets();
+    public List<Problem> getProblems() {
+        return ticketDao.getProblems();
     }
 
     @Override
-    public void saveTicket(Ticket ticket) {
-        ticketDao.save(ticket);
+    public void saveProblem(Problem problem) {
+        ticketDao.save(problem);
     }
 
     @Override
-    public void deleteTicket(Ticket ticket) {
-        ticketDao.deleteTicket(ticket);
+    public void deleteProblem(Problem problem) {
+        ticketDao.deleteProblem(problem);
     }
 
-    public void launchCase(Ticket ticket){
-            yawlService.launchWaterPointFlow(ticket);
+    public void launchCase(Problem problem) {
+        yawlService.launchWaterPointFlow(problem);
     }
 }

@@ -7,8 +7,21 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/m4water</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">test</property>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/WaterUserCommittee.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/District.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Subcounty.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/UserAssigned.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/User.hbm.xml"/>
-    <mapping resource="org/m4water/server/dao/hibernate/mapping/Ticket.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/WaterpointTypes.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/WaterFunctionality.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Permission.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/County.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/UserProfile.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Village.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Problem.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/ProblemLog.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Parish.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/FaultAssessment.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/Waterpoint.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

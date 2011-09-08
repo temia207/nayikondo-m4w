@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.WaterFunctionality" table="water_functionality">
+    <id name="date" type="date">
+      <column length="10" name="date"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Waterpoint" fetch="select" name="waterpoint">
+      <column length="200" name="waterpoint_id" not-null="true"/>
+    </many-to-one>
+    <property name="functionalityStatus" type="string">
+      <column length="200" name="functionality_status" not-null="true">
+        <comment>due to hibernate issues we use varchar for now. can be either T or F</comment>
+      </column>
+    </property>
+    <property name="dayNonFunctional" type="date">
+      <column length="10" name="day_non_functional" not-null="true"/>
+    </property>
+    <property name="reason" type="string">
+      <column length="200" name="reason" not-null="true"/>
+    </property>
+    <property name="dateLastRepaired" type="date">
+      <column length="10" name="date_last_repaired" not-null="true"/>
+    </property>
+    <property name="detailsLastRepair" type="string">
+      <column length="200" name="details_last_repair" not-null="true"/>
+    </property>
+    <property name="dateLastMinorService" type="date">
+      <column length="10" name="date_last_minor_service" not-null="true"/>
+    </property>
+    <property name="dateLastMajorService" type="date">
+      <column length="10" name="date_last_major_service" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

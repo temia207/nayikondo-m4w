@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="org.m4water.server.admin.model.Problem" table="problem" catalog="m4water">
+        <id name="problemId" type="int">
+            <column name="problem_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" fetch="select">
+            <column name="waterpoint_id" length="200" not-null="true" />
+        </many-to-one>
+        <property name="dateProblemReported" type="date">
+            <column name="date_problem_reported" length="10" not-null="true" />
+        </property>
+        <property name="problemDescsription" type="string">
+            <column name="problem_descsription" length="200" not-null="true" />
+        </property>
+        <property name="problemStatus" type="string">
+            <column name="problem_status" length="200" not-null="true">
+                <comment>T=fixed,F=not fixed,due to hibernate enum issues</comment>
+            </column>
+        </property>
+        <set name="problemLogs" inverse="true">
+            <key>
+                <column name="problem_id" not-null="true" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.ProblemLog" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,6 +1,6 @@
 package org.m4water.server.service;
 
-import org.m4water.server.admin.model.Ticket;
+import org.m4water.server.admin.model.Problem;
 
 /**
  *
@@ -8,5 +8,5 @@ import org.m4water.server.admin.model.Ticket;
  */
 public interface YawlService {
 
-        public void launchWaterPointFlow(Ticket ticket);
+        public void launchWaterPointFlow(Problem problem);
 }

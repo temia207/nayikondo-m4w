@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="org.m4water.server.admin.model.Village" table="village" catalog="m4water">
+        <id name="villageId" type="string">
+            <column name="village_id" length="200" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="parish" class="org.m4water.server.admin.model.Parish" fetch="select">
+            <column name="parish_id" length="200" not-null="true" />
+        </many-to-one>
+        <property name="villagename" type="string">
+            <column name="villagename" length="200" not-null="true" />
+        </property>
+        <set name="waterpoints" inverse="true">
+            <key>
+                <column name="village_id" length="200" not-null="true" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.Waterpoint" />
+        </set>
+    </class>
+</hibernate-mapping>
