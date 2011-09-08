@@ -51,6 +51,8 @@ public class TicketSms implements TicketService, InitializingBean {
     private SessionFactory session;
     @Autowired
     private YawlService yawlService;
+    @Autowired
+    private SMSServiceImpl smsService;
 
     public TicketSms() {
     }
