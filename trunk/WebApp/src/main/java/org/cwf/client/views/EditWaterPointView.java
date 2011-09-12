@@ -152,9 +152,10 @@ public class EditWaterPointView extends View {
 
     private void setWaterPointData(WaterPointSummary summary) {
         idTextFld.setValue(summary.getId());
-        districtTfld.setValue(summary.getDistrict().getName());
-        subcountyTfld.setValue(summary.getSubCounty().getSubcountyName());
-        villageTfld.setValue(summary.getVillage().getVillagename());
+        districtTfld.setValue(summary.getDistrict());
+        subcountyTfld.setValue(summary.getSubCounty());
+//        villageTfld.setValue(summary.getVillage().getVillagename());
+        villageTfld.setValue("KIGAYA");
         eastingsTfld.setValue(summary.getEastings());
         northingsTfld.setValue(summary.getNorthings());
     }

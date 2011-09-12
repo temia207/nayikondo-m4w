@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -34,7 +35,6 @@ import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.model.ProblemTwits;
 import org.cwf.client.model.UserSummary;
-import org.cwf.client.model.WaterPointSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.ProblemLog;
@@ -226,20 +226,18 @@ public class TicketDetailsView extends View {
 
     private void setWaterPointData(ProblemSummary summary) {
         idTextFld.setValue(String.valueOf(summary.getId()));
-        districtTfld.setValue(summary.getWaterPoint().getVillage().getParish().
-                getSubcounty().getCounty().getDistrict().getName());
-        subcountyTfld.setValue(summary.getWaterPoint().getVillage().getParish().
-                getSubcounty().getSubcountyName());
-        villageTfld.setValue(summary.getWaterPoint().getVillage().getVillagename());
-        reportDateTfld.setValue(summary.getDate());
+        districtTfld.setValue(summary.getDistrict());
+        subcountyTfld.setValue(summary.getSubCounty());
+        villageTfld.setValue(summary.getVillage());
+        reportDateTfld.setValue(summary.getDate().toString());
         ProblemLog problemLog = null;
         Set problemLogs = summary.getProblem().getProblemLogs();
         for (Object object : problemLogs) {
             problemLog = (ProblemLog) object;
             break;
         }
-        reporterNumTfld.setValue(problemLog.getSenderNo());
-        messageTfld.setValue(problemLog.getIssue());
+//        reporterNumTfld.setValue(problemLog.getSenderNo());
+//        messageTfld.setValue(problemLog.getIssue());
     }
 
     private FlexTable addCommentPanel() {

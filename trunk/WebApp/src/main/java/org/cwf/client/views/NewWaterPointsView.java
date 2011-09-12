@@ -18,6 +18,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
@@ -25,6 +26,7 @@ import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterpointTypes;
 
 /**
  *
@@ -53,8 +55,8 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         configs.add(new ColumnConfig("district", "District", 100));
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
-        configs.add(new ColumnConfig("latitude", "Latitude", 100));
-        configs.add(new ColumnConfig("longitude", "Longitude", 100));
+        configs.add(new ColumnConfig("eastings", "Latitude", 100));
+        configs.add(new ColumnConfig("northings", "Longitude", 100));
         ListStore<WaterPointSummary> store = new ListStore<WaterPointSummary>();
 //        if (type.equals(appMessages.newWaterPoints())) {
 //            store.add(WaterPointSummary.getSampleNewWaterPoints());
@@ -98,7 +100,11 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         if (event.getEventType() == RefreshableEvent.Type.WATER_POINT_DATA) {
             ListStore<WaterPointSummary> store1 = grid.getStore();
             List<Waterpoint> waterPoints = event.getData();
+
             for (Waterpoint point : waterPoints) {
+                WaterpointTypes types = null;
+                types = point.getWaterpointTypes();
+                store1.add(new WaterPointSummary(point));
 //                store1.add(new WaterPointSummary(point.getDate().toString(),point.getReferenceNumber(),point.getDistrict(),point.getSubcounty(),point.getVillage(),point.getLatitude(),point.getLongitude()));
             }
         }

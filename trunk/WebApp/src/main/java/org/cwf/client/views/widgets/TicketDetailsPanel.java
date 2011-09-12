@@ -56,6 +56,8 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 //        configs.add(new ColumnConfig("date", "Date", 100));
         configs.add(new ColumnConfig("id", "ID", 100));
+        configs.add(new ColumnConfig("waterpoint", "WaterPoint", 100));
+        configs.add(new ColumnConfig("problemdescription", "Description", 100));
         configs.add(new ColumnConfig("district", "District", 100));
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
@@ -88,12 +90,12 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         add(grid);
         setLayout(new FitLayout());
     }
-//needs to first fix waterpoint null value returned from hibernate
 
     private void setTicketSummary(List<Problem> problem) {
         for (Problem t : problem) {
             Waterpoint source = t.getWaterpoint();
 //            store.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
+            store.add(new ProblemSummary(t));
         }
 
     }
@@ -107,6 +109,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             for (Problem t : tkts) {
                 Waterpoint source = t.getWaterpoint();
 //                store1.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
+                store1.add(new ProblemSummary(t));
             }
 //            grid.getView().refresh(true);
 

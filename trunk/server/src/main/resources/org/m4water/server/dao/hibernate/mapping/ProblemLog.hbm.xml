@@ -6,9 +6,9 @@
     <class name="org.m4water.server.admin.model.ProblemLog" table="problem_log" catalog="m4water">
         <id name="logId" type="int">
             <column name="log_id" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
-        <many-to-one name="problem" class="org.m4water.server.admin.model.Problem" fetch="select">
+        <many-to-one name="problem" class="org.m4water.server.admin.model.Problem" lazy="false">
             <column name="problem_id" not-null="true" />
         </many-to-one>
         <property name="senderNo" type="string">
