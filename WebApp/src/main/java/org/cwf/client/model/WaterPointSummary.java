@@ -13,6 +13,7 @@ import org.m4water.server.admin.model.District;
 import org.m4water.server.admin.model.Parish;
 import org.m4water.server.admin.model.Subcounty;
 import org.m4water.server.admin.model.Village;
+import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.WaterpointTypes;
 
 /**
@@ -21,11 +22,17 @@ import org.m4water.server.admin.model.WaterpointTypes;
  */
 public class WaterPointSummary extends BaseModel {
 
+    private Waterpoint waterPoint;
+
     public WaterPointSummary() {
     }
 
-    public WaterPointSummary(String waterPointId, Village village, WaterpointTypes types,
-            String fundingOrg, String date, String eastings, String northings, String elevation,
+    public WaterPointSummary(Waterpoint waterPoint) {
+        setWaterPoint(waterPoint);
+    }
+
+    public WaterPointSummary(String waterPointId, String village, String types,
+            String fundingOrg, Date date, String eastings, String northings, String elevation,
             String fundingSrce, String ownership, String households, String typeOfMgt) {
         setDate(date);
         setId(waterPointId);
@@ -44,11 +51,27 @@ public class WaterPointSummary extends BaseModel {
         set("id", id);
     }
 
-    public void setVillage(Village village) {
+    public void setVillage(String village) {
         set("village", village);
     }
 
-    public void setWaterpointTypes(WaterpointTypes types) {
+    public void setDistrict(String district) {
+        set("district", district);
+    }
+
+    public void setSubcounty(String subCounty) {
+        set("subcounty", subCounty);
+    }
+
+    public void setCounty(String county) {
+        set("county", county);
+    }
+
+    public void setParish(String parish) {
+        set("parish", parish);
+    }
+
+    public void setWaterpointTypes(String types) {
         set("waterpointtypes", types);
     }
 
@@ -56,7 +79,7 @@ public class WaterPointSummary extends BaseModel {
         set("fundingorg", fundingOrg);
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         set("date", date);
     }
 
@@ -88,6 +111,11 @@ public class WaterPointSummary extends BaseModel {
         set("typeOfManagement", typeOfManagement);
     }
 
+    public void setWaterPoint(Waterpoint waterPoint) {
+        this.waterPoint = waterPoint;
+        updateWaterPoint(waterPoint);
+    }
+
     public String getId() {
         return get("id");
     }
@@ -104,7 +132,7 @@ public class WaterPointSummary extends BaseModel {
         return get("fundingorg");
     }
 
-    public String getDate() {
+    public Date getDate() {
         return get("date");
     }
 
@@ -136,35 +164,42 @@ public class WaterPointSummary extends BaseModel {
         return get("typeOfManagement");
     }
 
-    public Parish getParish() {
-        Village village = get("village");
-        return village.getParish();
+    public String getParish() {
+        return get("parish");
     }
 
-    public Subcounty getSubCounty() {
-        return getParish().getSubcounty();
+    public String getSubCounty() {
+        return get("subcounty");
     }
 
-    public County getCounty() {
-        return getSubCounty().getCounty();
+    public String getCounty() {
+        return get("county");
     }
 
-    public District getDistrict() {
-        return getCounty().getDistrict();
+    public String getDistrict() {
+        return get("district");
     }
-//    public static List<WaterPointSummary> getSampleNewWaterPoints() {
-//        List<WaterPointSummary> newWaterPoints = new ArrayList<WaterPointSummary>();
-//        newWaterPoints.add(new WaterPointSummary( "UMAS01236",new Village, "Masaka", "Kigasa", "Buddi", "1234.908", "1234.000"));
-//        newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga", "1234.908", "1234.000"));
-//        return newWaterPoints;
-//    }
-//
-//    public static List<WaterPointSummary> getSampleAvailableWaterPoints() {
-//        List<WaterPointSummary> newWaterPoints = new ArrayList<WaterPointSummary>();
-//        newWaterPoints.add(new WaterPointSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi", "1234.908", "1234.000"));
-//        newWaterPoints.add(new WaterPointSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga", "1234.908", "1234.000"));
-//        newWaterPoints.add(new WaterPointSummary("19/5/2011", "MBRA01236", "Mbarara", "Luti", "Maryhill", "1234.908", "1234.000"));
-//        newWaterPoints.add(new WaterPointSummary("20/8/2011", "MBRA01222", "Mbarara", "Municipality", "Kirigime", "1234.908", "1234.000"));
-//        return newWaterPoints;
-//    }
+
+    public Waterpoint getWaterPoint() {
+        return this.waterPoint;
+    }
+
+    public void updateWaterPoint(Waterpoint waterPoint) {
+        this.waterPoint = waterPoint;
+        setDate(waterPoint.getDateInstalled());
+        setId(waterPoint.getWaterpointId());
+        setVillage(waterPoint.getVillage().getVillagename());
+        setParish(waterPoint.getVillage().getParish().getParishName());
+        setSubcounty(waterPoint.getVillage().getParish().getSubcounty().getSubcountyName());
+        setCounty(waterPoint.getVillage().getParish().getSubcounty().getCounty().getCountyName());
+        setDistrict(waterPoint.getVillage().getParish().getSubcounty().getCounty().getDistrict().getName());
+        setWaterpointTypes(waterPoint.getWaterpointTypes().getName());
+        setEastings(waterPoint.getEastings());
+        setNorthings(waterPoint.getNorthings());
+        setElevation(waterPoint.getElevation());
+        setFundingSrc(waterPoint.getFundingSource());
+        setOwnership(waterPoint.getOwnership());
+        setHouseHolds(waterPoint.getHouseholds());
+        setTypeOfMagt(waterPoint.getTypeOfMagt());
+    }
 }

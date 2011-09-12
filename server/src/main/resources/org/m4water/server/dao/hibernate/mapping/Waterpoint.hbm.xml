@@ -8,10 +8,10 @@
             <column name="waterpoint_id" length="200" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="village" class="org.m4water.server.admin.model.Village" fetch="select">
+        <many-to-one name="village" class="org.m4water.server.admin.model.Village" lazy="false" fetch="select">
             <column name="village_id" length="200" not-null="true" />
         </many-to-one>
-        <many-to-one name="waterpointTypes" class="org.m4water.server.admin.model.WaterpointTypes" fetch="select">
+        <many-to-one name="waterpointTypes" class="org.m4water.server.admin.model.WaterpointTypes"  lazy="false" fetch="select">
             <column name="waterpoint_type_id" not-null="true" />
         </many-to-one>
         <property name="fundingOrg" type="string">
@@ -44,7 +44,7 @@
                 operator,institutional</comment>
             </column>
         </property>
-        <set name="problems" inverse="true">
+        <set name="problems" cascade="all" inverse="true">
             <key>
                 <column name="waterpoint_id" length="200" not-null="true" />
             </key>

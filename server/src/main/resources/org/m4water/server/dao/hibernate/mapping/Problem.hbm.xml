@@ -6,9 +6,9 @@
     <class name="org.m4water.server.admin.model.Problem" table="problem" catalog="m4water">
         <id name="problemId" type="int">
             <column name="problem_id" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
-        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" fetch="select">
+        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" lazy="false">
             <column name="waterpoint_id" length="200" not-null="true" />
         </many-to-one>
         <property name="dateProblemReported" type="date">

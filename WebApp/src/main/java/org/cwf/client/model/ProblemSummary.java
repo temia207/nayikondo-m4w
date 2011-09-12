@@ -1,7 +1,9 @@
 package org.cwf.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
+import java.util.Date;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -12,7 +14,7 @@ public class ProblemSummary extends BaseModel {
 
     private Problem problem;
 
-    public ProblemSummary(int id, Waterpoint waterPoint, String dateOfReport, String problemDescription,
+    public ProblemSummary(int id, String waterPoint, Date dateOfReport, String problemDescription,
             String problemStatus) {
         setId(id);
         setDate(dateOfReport);
@@ -22,18 +24,18 @@ public class ProblemSummary extends BaseModel {
     }
 
     public ProblemSummary(Problem problem) {
-        this.problem = problem;
+        setProblem(problem);
     }
 
     public void setId(int id) {
-        set("id", id);
+        set("id",new Integer(id));
     }
 
-    public void setWaterPoint(Waterpoint waterPoint) {
+    public void setWaterPoint(String waterPoint) {
         set("waterpoint", waterPoint);
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         set("date", date);
     }
 
@@ -45,15 +47,49 @@ public class ProblemSummary extends BaseModel {
         set("status", problemStatus);
     }
 
+    public void setVillage(String village) {
+        set("village", village);
+    }
+
+    public void setDistrict(String district) {
+        set("district", district);
+    }
+
+    public void setSubcounty(String subCounty) {
+        set("subcounty", subCounty);
+    }
+
+    public void setCounty(String county) {
+        set("county", county);
+    }
+
+    public void setParish(String parish) {
+        set("parish", parish);
+    }
+
     public void setProblem(Problem problem) {
         this.problem = problem;
+        updateProblem(problem);
+    }
+
+    public void updateProblem(Problem problem) {
+        setId(problem.getProblemId());
+        setWaterPoint(problem.getWaterpoint().getWaterpointId());
+        setDate(problem.getDateProblemReported());
+        setProblemDescription(problem.getProblemDescsription());
+        setProblemStatus(problem.getProblemStatus());
+        setVillage(problem.getWaterpoint().getVillage().getVillagename());
+        setSubcounty(problem.getWaterpoint().getVillage().getParish().
+                getSubcounty().getSubcountyName());
+        setDistrict(problem.getWaterpoint().getVillage().getParish().
+                getSubcounty().getCounty().getDistrict().getName());
     }
 
     public Integer getId() {
         return get("id");
     }
 
-    public String getDate() {
+    public Date getDate() {
         return get("date");
     }
 
@@ -72,22 +108,24 @@ public class ProblemSummary extends BaseModel {
     public Problem getProblem() {
         return problem;
     }
-//    public static List<ProblemSummary> getOpenTickets() {
-//        List<ProblemSummary> ticketDetails = new ArrayList<ProblemSummary>();
-//        ticketDetails.add(new ProblemSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","0714505033","Borehole Broken"));
-//        return ticketDetails;
-//    }
-//
-//    public static List<ProblemSummary> getClosedTickets() {
-//        List<ProblemSummary> ticketDetails = new ArrayList<ProblemSummary>();
-//        ticketDetails.add(new ProblemSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","0793546572","the pond is dirty"));
-//        ticketDetails.add(new ProblemSummary("20/8/2011", "UKLE01222", "Kabale", "Kamuganguzi", "Buranga","0777342635","amazi gawunya"));
-//        return ticketDetails;
-//    }
-//
-//    public static List<ProblemSummary> getSuspendedTickets() {
-//        List<ProblemSummary> ticketDetails = new ArrayList<ProblemSummary>();
-//        ticketDetails.add(new ProblemSummary("19/5/2011", "UMAS01236", "Masaka", "Kigasa", "Buddi","0782364756","no water"));
-//        return ticketDetails;
-//    }
+
+    public String getVillage() {
+        return get("village");
+    }
+
+    public String getParish() {
+        return get("parish");
+    }
+
+    public String getSubCounty() {
+        return get("subcounty");
+    }
+
+    public String getCounty() {
+        return get("county");
+    }
+
+    public String getDistrict() {
+        return get("district");
+    }
 }

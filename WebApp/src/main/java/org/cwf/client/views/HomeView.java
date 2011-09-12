@@ -128,7 +128,6 @@ public class HomeView extends View implements Refreshable {
 
     public void setTickets(List<Problem> tickets) {
         this.tickets = tickets;
-
     }
 
     public void showTicketDetails(ProblemSummary summary) {
