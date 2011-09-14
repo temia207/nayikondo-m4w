@@ -68,36 +68,6 @@ public class TicketSms implements TicketService, InitializingBean {
                 transactionTemplate = new TransactionTemplate(transactionManager);
                 Channel ch = new ModemChannel(gateWay);
                 // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
-
-                transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-                        @Override
-                        protected void doInTransactionWithoutResult(TransactionStatus status) {
-                                final Problem problem = new Problem();
-                                Date date = new Date();
-                                problem.setDateProblemReported(date);
-                                problem.setProblemDescsription("smelling water");
-                                problem.setProblemStatus("F");
-                                // final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
-                                final Waterpoint waterPoint = waterPointDao.getWaterPoint("405BHS321D");
-                                session.getCurrentSession().evict(waterPoint);
-                                problem.setWaterpoint(waterPoint);
-                                waterPoint.setProblems(new HashSet());
-                                waterPoint.getProblems().add(problem);
-                                //save problem log
-                                ProblemLog log = new ProblemLog();
-                                log.setDate(date);
-                                log.setSenderNo("0714505033");
-                                log.setIssue("amazi gawunya");
-                                log.setProblem(problem);
-                                problem.setProblemLogs(new HashSet());
-                                problem.getProblemLogs().add(log);
-                                problemDao.save(problem);
-                                launchCase(problem);
-                        }
-                });
-
-
                 SMSServer server = new SMSServer(ch, new RequestListener() {
 
                         @Override
