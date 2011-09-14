@@ -32,7 +32,14 @@ public class InspectionServlet extends HttpServlet {
         }
 
         @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                String waterPointId = req.getParameter("waterPointID");
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                String parameter = req.getParameter("username");
+                String password = req.getParameter("password");
+                String action = req.getParameter("action");
+                String xml = req.getParameter("xml");
+
+                resp.getWriter().print("<success>Success</Success>");
+                resp.getWriter().flush();
+
         }
 }
