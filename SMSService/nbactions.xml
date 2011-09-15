@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-jetty:debugger</actionName>
+            <displayName>jetty:debugger</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+                <goal>-Xdebug</goal>
+                <goal>-Xnoagent</goal>
+                <goal>-Djava.compiler=NONE</goal>
+                <goal>-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=y</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-jetty:debugmvn</actionName>
+            <displayName>jetty:debugmvn</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <jpda.listen>maven</jpda.listen>
+            </properties>
+        </action>
+    </actions>
