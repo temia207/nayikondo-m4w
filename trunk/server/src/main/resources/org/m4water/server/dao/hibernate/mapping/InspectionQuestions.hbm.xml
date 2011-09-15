@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 15, 2011 12:08:33 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="org.m4water.server.admin.model.InspectionQuestions" table="inspection_questions" catalog="m4water">
+        <id name="id" type="string">
+            <column name="id" length="200" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="inspectionQuestionType" class="org.m4water.server.admin.model.InspectionQuestionType" fetch="select">
+            <column name="question_type" length="200" />
+        </many-to-one>
+        <many-to-one name="inspection" class="org.m4water.server.admin.model.Inspection" fetch="select">
+            <column name="inspection_id" length="200" />
+        </many-to-one>
+        <property name="question" type="string">
+            <column name="question" length="65535" />
+        </property>
+        <property name="answer" type="string">
+            <column name="answer" length="65535" />
+        </property>
+    </class>
+</hibernate-mapping>
