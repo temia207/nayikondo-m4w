@@ -80,8 +80,7 @@ public class TicketSms implements TicketService, InitializingBean {
                         @Override
                         public void processRequest(final SMSMessage request) {
                                 System.out.println("new message " + request.getSmsData());
-                                if(!isMessageNew(request, false)){
-                                        receivedIds.add(request.get("msgID").toString());
+                                if (!isMessageNew(request, false)) {
                                         return;
                                 }
                                 request.getSmsData();
@@ -89,9 +88,9 @@ public class TicketSms implements TicketService, InitializingBean {
                                 final String[] split = msg.split(" ");
                                 final String sourceId = split[0];
                                 String tempComplaint = "";
-                                try{
-                                tempComplaint = msg.substring(sourceId.length());
-                                }catch(IndexOutOfBoundsException ex){
+                                try {
+                                        tempComplaint = msg.substring(sourceId.length());
+                                } catch (IndexOutOfBoundsException ex) {
                                 }
                                 final String complaint = tempComplaint;
 
@@ -100,9 +99,14 @@ public class TicketSms implements TicketService, InitializingBean {
                                         @Override
                                         protected void doInTransactionWithoutResult(TransactionStatus status) {
                                                 try {
-                                                        if(!isMessageNew(request,true)){
-                                                                receivedIds.add(request.get("msgID").toString());
-                                                                saveNewMessageToDb(request);
+                                                        if (isMessageNew(request, true)) {
+                                                                Object msgId = request.get("msgID");
+                                                                if (msgId != null) {
+                                                                        receivedIds.add(msgId.toString());
+                                                                        saveNewMessageToDb(request);
+                                                                }
+
+                                                        } else {
                                                                 return;
                                                         }
                                                         final Problem problem = new Problem();
@@ -134,10 +138,9 @@ public class TicketSms implements TicketService, InitializingBean {
                                                 } catch (Throwable x) {
                                                         smsService.sendSMS(request.getSender(), "Invalid Message send message in Format: "
                                                                 + "<waterpointid> <message>");
+                                                        x.printStackTrace();
                                                 }
                                         }
-
-
                                 });
 
 
@@ -179,10 +182,13 @@ public class TicketSms implements TicketService, InitializingBean {
         }
 
         private boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
-                if(loadFromDb)
+                if (loadFromDb)
                         mayLoadMsgIds();
+                final Object msgId = message.get("msgID");
+                if (msgId == null)
+                        return true;
 
-                        return !receivedIds.contains(message.get("msgID")+"");
+                return !receivedIds.contains(msgId + "");
         }
 
         private void mayLoadMsgIds() {
@@ -201,13 +207,13 @@ public class TicketSms implements TicketService, InitializingBean {
                 msg = StringUtils.trimToEmpty(msg);
                 msg = msg.replaceAll("\\s+", " ");
                 if (msg.toLowerCase().startsWith("m4w")) {
-                        msg = msg.substring(5);
+                        msg = msg.substring(4);
                 }
                 return msg;
         }
 
         private void saveNewMessageToDb(SMSMessage request) {
-                log.info("Saving new message from: "+request.getRecepient()+ " Msg: "+request.getSmsData(), null, null);
-                messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID").toString(), request.getSender(), request.get("time") + "", request.getSender()));
+                log.info("Saving new message from: " + request.getRecepient() + " Msg: " + request.getSmsData(), null, null);
+                messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
         }
 }
