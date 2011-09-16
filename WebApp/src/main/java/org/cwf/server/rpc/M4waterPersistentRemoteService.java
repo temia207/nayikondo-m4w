@@ -15,6 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * Base class for all remote service implementations to set the PersistentBeanManager
  * as required by Gilead.
+ * Victor
  */
 public class M4waterPersistentRemoteService extends PersistentRemoteService{
 

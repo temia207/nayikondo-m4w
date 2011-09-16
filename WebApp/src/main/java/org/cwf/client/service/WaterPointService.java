@@ -8,6 +8,7 @@ package org.cwf.client.service;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import java.util.List;
+import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -18,5 +19,6 @@ import org.m4water.server.admin.model.Waterpoint;
 public interface WaterPointService extends RemoteService{
     List<Waterpoint> getWaterPoints();
     Waterpoint getWaterPoint(String waterpointId);
+    List<WaterPointSummary> getWaterPointSummaries();
     void saveWaterPoint(Waterpoint waterPoint);
 }

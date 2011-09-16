@@ -51,7 +51,7 @@ import org.cwf.client.controllers.LoginController;
 import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
-import org.cwf.client.util.ProgressIndicator;
+import org.cwf.client.utils.ProgressIndicator;
 
 /**
  *

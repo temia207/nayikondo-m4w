@@ -3,30 +3,33 @@
  */
 package org.m4water.server.admin.model;
 
+import java.util.Date;
+
 /**
  *
  * @author victor
  */
 public class WaterPointSummary extends AbstractEditable {
-    private  String waterPointId;
-    private  String villageName;
-    private  String parishName;
-    private  String subcountyName;
-    private  String countyName;
-    private  String district;
+
+    private String waterPointId;
+    private String villageName;
+    private String parishName;
+    private String subcountyName;
+    private String countyName;
+    private String district;
+    private Date date;
 
     public WaterPointSummary() {
     }
 
-
-
-    public WaterPointSummary(String waterPointId,String villageName,String parishName,String subcountyName,String countyName,String district) {
+    public WaterPointSummary(String waterPointId, String villageName, String parishName, String subcountyName, String countyName, String district, Date date) {
         this.waterPointId = waterPointId;
         this.villageName = villageName;
         this.parishName = parishName;
         this.subcountyName = subcountyName;
         this.countyName = countyName;
         this.district = district;
+        this.date = date;
     }
 
     public String getCountyName() {
@@ -77,5 +80,11 @@ public class WaterPointSummary extends AbstractEditable {
         this.waterPointId = waterPointId;
     }
 
+    public Date getDate() {
+        return date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

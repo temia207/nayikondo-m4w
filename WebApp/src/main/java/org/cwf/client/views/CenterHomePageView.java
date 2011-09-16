@@ -39,15 +39,23 @@ public class CenterHomePageView extends CardPanel {
 
     protected List<ContentPanel> createPages() {
         List<ContentPanel> containers = new ArrayList<ContentPanel>();
-        //new water points view
-        NewWaterPointsView newpoint = new NewWaterPointsView(parentView,appMessages.newWaterPoints());
-        newpoint.setWidth("100%");
-        containers.add(newpoint);
+        //home page
+        DashBoardView mainView = new DashBoardView();
+        mainView.setWidth("100%");
+        mainView.setHeading("Home");
+        containers.add(mainView);
         //all water points
-        NewWaterPointsView allWaterPoints = new NewWaterPointsView(parentView,appMessages.allWaterPoints());
+        AvailableWaterpointsView allWaterPoints = new AvailableWaterpointsView(parentView,appMessages.allWaterPoints());
         allWaterPoints.setWidth("100%");
         allWaterPoints.setHeading(appMessages.allWaterPoints());
         containers.add(allWaterPoints);
+
+        //new water points view
+        NewWaterPointsView newpoint = new NewWaterPointsView(parentView,appMessages.newWaterPoints());
+        newpoint.setWidth("100%");
+        newpoint.setHeading(appMessages.newWaterPoints());
+        containers.add(newpoint);
+        
         //ticket view
         TicketsView tickets = new TicketsView(parentView);
         tickets.setWidth("100%");
@@ -55,7 +63,6 @@ public class CenterHomePageView extends CardPanel {
         return containers;
     }
 
-//    protected abstract void display(int activePage, List<LayoutContainer> pages);
     public void showView() {
         setLayout(viewLayout);
         setActiveItem(0);

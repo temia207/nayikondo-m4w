@@ -1,54 +1,53 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="org.m4water.server.admin.model.Waterpoint" table="waterpoint" catalog="m4water">
-        <id name="waterpointId" type="string">
-            <column name="waterpoint_id" length="200" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="village" class="org.m4water.server.admin.model.Village" lazy="false" fetch="select">
-            <column name="village_id" length="200" not-null="true" />
-        </many-to-one>
-        <many-to-one name="waterpointTypes" class="org.m4water.server.admin.model.WaterpointTypes"  lazy="false" fetch="select">
-            <column name="waterpoint_type_id" not-null="true" />
-        </many-to-one>
-        <property name="fundingOrg" type="string">
-            <column name="funding_org" length="200" not-null="true" />
-        </property>
-        <property name="dateInstalled" type="date">
-            <column name="date_installed" length="10" not-null="true" />
-        </property>
-        <property name="eastings" type="string">
-            <column name="eastings" length="200" not-null="true" />
-        </property>
-        <property name="northings" type="string">
-            <column name="northings" length="200" not-null="true" />
-        </property>
-        <property name="elevation" type="string">
-            <column name="elevation" length="200" not-null="true" />
-        </property>
-        <property name="fundingSource" type="string">
-            <column name="funding_source" length="200" not-null="true" />
-        </property>
-        <property name="ownership" type="string">
-            <column name="ownership" length="200" not-null="true" />
-        </property>
-        <property name="households" type="string">
-            <column name="households" length="200" not-null="true" />
-        </property>
-        <property name="typeOfMagt" type="string">
-            <column name="type_of_magt" length="200" not-null="true">
-                <comment>should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private
+  <class catalog="m4water" name="org.m4water.server.admin.model.Waterpoint" table="waterpoint">
+    <id name="waterpointId" type="string">
+      <column length="200" name="waterpoint_id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Village" fetch="join" name="village">
+      <column length="200" name="village_id" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="org.m4water.server.admin.model.WaterpointTypes" fetch="join" name="waterpointTypes">
+      <column name="waterpoint_type_id" not-null="true"/>
+    </many-to-one>
+    <property name="fundingOrg" type="string">
+      <column length="200" name="funding_org" not-null="true"/>
+    </property>
+    <property name="dateInstalled" type="date">
+      <column length="10" name="date_installed" not-null="true"/>
+    </property>
+    <property name="eastings" type="string">
+      <column length="200" name="eastings" not-null="true"/>
+    </property>
+    <property name="northings" type="string">
+      <column length="200" name="northings" not-null="true"/>
+    </property>
+    <property name="elevation" type="string">
+      <column length="200" name="elevation" not-null="true"/>
+    </property>
+    <property name="fundingSource" type="string">
+      <column length="200" name="funding_source" not-null="true"/>
+    </property>
+    <property name="ownership" type="string">
+      <column length="200" name="ownership" not-null="true"/>
+    </property>
+    <property name="households" type="string">
+      <column length="200" name="households" not-null="true"/>
+    </property>
+    <property name="typeOfMagt" type="string">
+      <column length="200" name="type_of_magt" not-null="true">
+        <comment>should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private
                 operator,institutional</comment>
-            </column>
-        </property>
-        <set name="problems" cascade="all" inverse="true">
-            <key>
-                <column name="waterpoint_id" length="200" not-null="true" />
-            </key>
-            <one-to-many class="org.m4water.server.admin.model.Problem" />
-        </set>
-    </class>
+      </column>
+    </property>
+    <set cascade="all" fetch="join" inverse="true" name="problems">
+      <key>
+        <column length="200" name="waterpoint_id" not-null="true"/>
+      </key>
+      <one-to-many class="org.m4water.server.admin.model.Problem"/>
+    </set>
+  </class>
 </hibernate-mapping>

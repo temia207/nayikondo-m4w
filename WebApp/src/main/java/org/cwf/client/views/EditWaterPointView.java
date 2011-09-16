@@ -17,7 +17,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
-import org.cwf.client.model.WaterPointSummary;
+import org.cwf.client.model.WaterPointModel;
 
 /**
  *
@@ -31,7 +31,7 @@ public class EditWaterPointView extends View {
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
     private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
-//    private WaterPointSummary waterPointSummary;
+//    private WaterPointModel waterPointSummary;
 
     public EditWaterPointView(Controller controller) {
         super(controller);
@@ -150,7 +150,7 @@ public class EditWaterPointView extends View {
         window.hide();
     }
 
-    private void setWaterPointData(WaterPointSummary summary) {
+    private void setWaterPointData(WaterPointModel summary) {
         idTextFld.setValue(summary.getId());
         districtTfld.setValue(summary.getDistrict());
         subcountyTfld.setValue(summary.getSubCounty());
@@ -164,7 +164,7 @@ public class EditWaterPointView extends View {
     protected void handleEvent(AppEvent event) {
         GWT.log("Edit waterpoint : handleEvent");
         if (event.getType() == EditWaterPointController.EDIT_WATER_POINT) {
-            WaterPointSummary waterPointSummary = event.getData();
+            WaterPointModel waterPointSummary = event.getData();
             setWaterPointData(waterPointSummary);
             showWindow();
         }
