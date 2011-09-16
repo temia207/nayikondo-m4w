@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository("localeDAO")
-public class HibernateLocaleDAO extends BaseDAOImpl<Locale> implements LocaleDAO {
+public class HibernateLocaleDAO extends BaseDAOImpl<Locale,Long> implements LocaleDAO {
 
 	@Override
 	public void deleteLocale(Locale locale) {

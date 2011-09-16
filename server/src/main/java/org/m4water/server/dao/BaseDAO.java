@@ -5,8 +5,9 @@ import java.util.List;
 import org.m4water.server.admin.model.Editable;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
+import java.io.Serializable;
 
-public interface BaseDAO<T extends Editable> extends GenericDAO<T, Long> {
+public interface BaseDAO<T extends Serializable, S extends Serializable> extends GenericDAO<T, S> {
 
     List<T> searchByPropertyEqual(String property, Object value);
 

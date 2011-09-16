@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author victor
  */
 @Repository("Water")
-public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint> implements WaterPointDao{
+public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> implements WaterPointDao{
 
     @Override
     public List<Waterpoint> getWaterPoints() {
