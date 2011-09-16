@@ -52,5 +52,10 @@ public interface AppMessages extends Messages {
         String ticketSummary();
 
 	String accessDeniedError();
+        String home();
+        String tickets();
+        String reports();
+        String users();
+        String settings();
 
 }
