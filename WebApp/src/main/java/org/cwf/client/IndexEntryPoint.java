@@ -97,7 +97,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
         dispatcher.addController(new HomeController(ticketSmsService,waterPointService));
-        dispatcher.addController(new EditWaterPointController());
+        dispatcher.addController(new EditWaterPointController(waterPointService));
         dispatcher.addController(new TicketDetailsController(ticketSmsService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();

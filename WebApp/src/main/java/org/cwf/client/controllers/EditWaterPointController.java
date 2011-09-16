@@ -6,8 +6,11 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.google.gwt.core.client.GWT;
 import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.WaterPointModel;
+import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.EditWaterPointView;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
@@ -18,9 +21,11 @@ public class EditWaterPointController extends Controller {
     AppMessages appMessages = GWT.create(AppMessages.class);
     public final static EventType EDIT_WATER_POINT = new EventType();
     private EditWaterPointView editWaterPointView;
+    WaterPointServiceAsync waterpointService;
 
-    public EditWaterPointController() {
+    public EditWaterPointController(WaterPointServiceAsync aWaterPointService) {
         super();
+        waterpointService = aWaterPointService;
         registerEventTypes(EDIT_WATER_POINT);
     }
 
@@ -37,5 +42,15 @@ public class EditWaterPointController extends Controller {
         if (type == EDIT_WATER_POINT) {
             forwardToView(editWaterPointView, event);
         }
+    }
+    public void getWaterPoint(String waterPointId){
+        GWT.log("HomeController : getWaterPoint(String waterPointId)");
+        waterpointService.getWaterPoint(waterPointId, new M4waterAsyncCallback<Waterpoint>() {
+
+            @Override
+            public void onSuccess(Waterpoint result) {
+                editWaterPointView.setWaterPointData(result);
+            }
+        });
     }
 }

@@ -59,11 +59,11 @@ public class HomeController extends Controller {
         }
     }
 
-    public void forwardToEditWaterPoint(WaterPointModel summary) {
+    public void forwardToEditWaterPoint(String waterPointId) {
         GWT.log("HomeController : forwardToEditWaterPoint");
         Dispatcher dispatcher = Dispatcher.get();
         AppEvent event = new AppEvent(EditWaterPointController.EDIT_WATER_POINT);
-        event.setData(summary);
+        event.setData(waterPointId);
         dispatcher.dispatch(event);
     }
 
@@ -96,6 +96,7 @@ public class HomeController extends Controller {
             public void onSuccess(List<WaterPointSummary> result) {
                 GWT.log("HomeController : waterpointsummarries found");
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
+                ProgressIndicator.hideProgressBar();
              }
         });
     }
