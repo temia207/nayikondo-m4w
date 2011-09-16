@@ -24,13 +24,13 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="LOGFILE" />
     </logger>
-    <category name="org.hibernate.SQL">
+<!--    <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
     </category>
 
     <category name="org.hibernate.type">
         <priority value="TRACE"/>
-    </category>
+    </category>-->
     <root>
         <level value="WARN" />
         <appender-ref ref="CONSOLE" />
