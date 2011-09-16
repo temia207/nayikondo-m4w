@@ -32,7 +32,7 @@ import org.m4water.server.admin.model.WaterPointSummary;
  *
  * @author victor
  */
-public class NewWaterPointsView extends ContentPanel implements Refreshable {
+public class AvailableWaterpointsView extends ContentPanel implements Refreshable {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Grid<WaterPointModel> grid;
@@ -41,7 +41,7 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
     private String type;
     private HomeView parentView;
 
-    public NewWaterPointsView(HomeView view, String type) {
+    public AvailableWaterpointsView(HomeView view, String type) {
         this.type = type;
         this.parentView = view;
         initialize();
@@ -122,13 +122,10 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         System.out.println("-===================================== refresh " + event.getEventType().name());
         ProgressIndicator.showProgressBar();
         if ((event.getEventType() == RefreshableEvent.Type.ALL_WATER_POINTS)) {
-            final ListStore<WaterPointModel> store1 = grid.getStore();
-
             final List<WaterPointSummary> waterPoints = event.getData();
             ListStore<WaterPointModel> store = new ListStore<WaterPointModel>();
             for (WaterPointSummary point : waterPoints) {
                 store.add(new WaterPointModel(point));
-//                System.out.println(point.getWaterPointId());
             }
             remove(grid);
             initGrid(store);

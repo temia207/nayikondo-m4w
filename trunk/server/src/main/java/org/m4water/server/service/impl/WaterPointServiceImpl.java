@@ -6,6 +6,7 @@
 package org.m4water.server.service.impl;
 
 import java.util.List;
+import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.service.WaterPointService;
@@ -39,6 +40,11 @@ public class WaterPointServiceImpl implements WaterPointService{
     @Override
     public void saveWaterPoint(Waterpoint waterPoint) {
         waterPointDao.save(waterPoint);
+    }
+
+    @Override
+    public List<WaterPointSummary> getWaterPointSummaries() {
+       return waterPointDao.getWaterPointSummaries();
     }
 
 }

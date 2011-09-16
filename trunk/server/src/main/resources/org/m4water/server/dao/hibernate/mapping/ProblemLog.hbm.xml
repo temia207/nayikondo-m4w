@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="org.m4water.server.admin.model.ProblemLog" table="problem_log" catalog="m4water">
-        <id name="logId" type="int">
-            <column name="log_id" />
-            <generator class="increment" />
-        </id>
-        <many-to-one name="problem" class="org.m4water.server.admin.model.Problem" lazy="false">
-            <column name="problem_id" not-null="true" />
-        </many-to-one>
-        <property name="senderNo" type="string">
-            <column name="sender_no" length="200" not-null="true" />
-        </property>
-        <property name="date" type="date">
-            <column name="date" length="10" not-null="true" />
-        </property>
-        <property name="issue" type="string">
-            <column name="issue" length="500" not-null="true" />
-        </property>
-    </class>
+  <class catalog="m4water" name="org.m4water.server.admin.model.ProblemLog" table="problem_log">
+    <id name="logId" type="int">
+      <column name="log_id"/>
+      <generator class="increment"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Problem" lazy="false" name="problem">
+      <column name="problem_id" not-null="true"/>
+    </many-to-one>
+    <property name="senderNo" type="string">
+      <column length="200" name="sender_no" not-null="true"/>
+    </property>
+    <property name="date" type="date">
+      <column length="10" name="date" not-null="true"/>
+    </property>
+    <property name="issue" type="string">
+      <column length="500" name="issue" not-null="true"/>
+    </property>
+  </class>
 </hibernate-mapping>

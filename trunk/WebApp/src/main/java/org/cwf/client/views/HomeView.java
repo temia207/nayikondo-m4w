@@ -18,8 +18,6 @@ import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayout.VBoxLayoutAlign;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayoutData;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -73,16 +71,16 @@ public class HomeView extends View implements Refreshable {
         westLayout.setPadding(new Padding(5));
         westLayout.setVBoxLayoutAlign(VBoxLayoutAlign.STRETCH);
         cpWest.setLayout(westLayout);
-        BorderLayoutData west = new BorderLayoutData(LayoutRegion.WEST, 150, 100, 250);
+        BorderLayoutData west = new BorderLayoutData(LayoutRegion.WEST, 250, 300, 550);
         west.setMargins(new Margins(5));
         west.setSplit(true);
-        cpWest.add(addLeftMenu("Home"));
-        cpWest.add(addLeftMenu("New water Points"));
-        cpWest.add(addLeftMenu("Water Points"));
-        cpWest.add(addLeftMenu("Tickets"));
-        cpWest.add(addLeftMenu("Reports"));
-        cpWest.add(addLeftMenu("Users"));
-        cpWest.add(addLeftMenu("Settings"));
+        cpWest.add(addLeftMenu(appMessages.home()));
+        cpWest.add(addLeftMenu(appMessages.allWaterPoints()));
+        cpWest.add(addLeftMenu(appMessages.newWaterPoints()));
+        cpWest.add(addLeftMenu(appMessages.tickets()));
+        cpWest.add(addLeftMenu(appMessages.reports()));
+        cpWest.add(addLeftMenu(appMessages.users()));
+        cpWest.add(addLeftMenu(appMessages.settings()));
         //==========
         cp.add(cpWest, west);
         cpCenter = new ContentPanel();
@@ -113,8 +111,8 @@ public class HomeView extends View implements Refreshable {
             portal.add(portlet, 0);
             maximisePortlet(portlet);
             HomeController controller2 = (HomeController) HomeView.this.getController();
-            controller2.getTickets();
-            controller2.getWaterPoints();
+//            controller2.getTickets();
+            controller2.getWaterPointSummaries();
         }
 
     }
@@ -137,7 +135,7 @@ public class HomeView extends View implements Refreshable {
 
     public FocusPanel addLeftMenu(String name) {
         final FocusPanel panel = new FocusPanel();
-        panel.setSize("200px", "20px");
+        panel.setSize("300px", "20px");
         panel.addStyleName("focusPanel");
         final Label label = new Label(name);
         label.addStyleName("leftmenu-text");
@@ -162,14 +160,15 @@ public class HomeView extends View implements Refreshable {
 
             @Override
             public void onClick(ClickEvent event) {
-                String txt = label.getText();
-                if (txt.equals("New water Points")) {
+                String txt = label.getText(); 
+                if (txt.equals(appMessages.home())) {
                     centerpanel.setActiveItem(0);
-                } else if (txt.equals("Water Points")) {
+                }else if (txt.equals(appMessages.allWaterPoints())) {
                     centerpanel.setActiveItem(1);
-                } else if (txt.equals("Tickets")) {
+                }else  if (txt.equals(appMessages.newWaterPoints())) {
                     centerpanel.setActiveItem(2);
-
+                }else if (txt.equals("Tickets")) {
+                    centerpanel.setActiveItem(3);
                 }
             }
         });
