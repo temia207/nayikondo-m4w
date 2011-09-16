@@ -52,7 +52,11 @@ public class WaterpointTypes  extends AbstractEditable {
     }
 
 
-
+    public static void main(String[] args) {
+        String h = "";
+        String[] split = h.split(" ");
+        System.out.print(h.split(" "));
+    }
 
 }
 
