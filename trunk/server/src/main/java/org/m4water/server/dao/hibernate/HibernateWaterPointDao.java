@@ -53,7 +53,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
             Class.forName(driver).newInstance();
             Connection con = DriverManager.getConnection(dbUrl, dbProps);
             Statement stmt = con.createStatement();
-            String query = "waterpoint.waterpoint_id,village.villagename,parish.parish_name,"
+            String query = "select waterpoint.waterpoint_id,village.villagename,parish.parish_name,"
                     + " subcounty.subcounty_name,county.county_name,district.`name`,waterpoint.date_installed from waterpoint"
                     + " inner join village"
                     + " on waterpoint.village_id = village.village_id inner join parish"

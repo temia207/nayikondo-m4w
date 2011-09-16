@@ -18,6 +18,7 @@ import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.model.WaterPointModel;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
@@ -27,10 +28,11 @@ public class EditWaterPointView extends View {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld,eastingsTfld,northingsTfld;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, otherNameTfld, eastingsTfld, northingsTfld;
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
     private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
+    private Waterpoint waterPoint;
 //    private WaterPointModel waterPointSummary;
 
     public EditWaterPointView(Controller controller) {
@@ -150,22 +152,23 @@ public class EditWaterPointView extends View {
         window.hide();
     }
 
-    private void setWaterPointData(WaterPointModel summary) {
-        idTextFld.setValue(summary.getId());
-        districtTfld.setValue(summary.getDistrict());
-        subcountyTfld.setValue(summary.getSubCounty());
+    public void setWaterPointData(Waterpoint waterPoint) {
+        this.waterPoint = waterPoint;
+        idTextFld.setValue(waterPoint.getWaterpointId());
+        districtTfld.setValue(waterPoint.getVillage().getParish().getSubcounty().getCounty().getDistrict().getName());
+        subcountyTfld.setValue(waterPoint.getVillage().getParish().getSubcounty().getSubcountyName());
 //        villageTfld.setValue(summary.getVillage().getVillagename());
-        villageTfld.setValue("KIGAYA");
-        eastingsTfld.setValue(summary.getEastings());
-        northingsTfld.setValue(summary.getNorthings());
+        villageTfld.setValue(waterPoint.getVillage().getVillagename());
+        eastingsTfld.setValue(waterPoint.getEastings());
+        northingsTfld.setValue(waterPoint.getNorthings());
     }
 
     @Override
     protected void handleEvent(AppEvent event) {
         GWT.log("Edit waterpoint : handleEvent");
         if (event.getType() == EditWaterPointController.EDIT_WATER_POINT) {
-            WaterPointModel waterPointSummary = event.getData();
-            setWaterPointData(waterPointSummary);
+            String waterPointId = event.getData();
+            ((EditWaterPointController) EditWaterPointView.this.getController()).getWaterPoint(waterPointId);
             showWindow();
         }
     }

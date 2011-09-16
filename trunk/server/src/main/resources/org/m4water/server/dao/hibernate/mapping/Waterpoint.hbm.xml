@@ -7,10 +7,10 @@
       <column length="200" name="waterpoint_id"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.Village" fetch="join" name="village">
+    <many-to-one class="org.m4water.server.admin.model.Village" lazy="false" fetch="join" name="village">
       <column length="200" name="village_id" not-null="true"/>
     </many-to-one>
-    <many-to-one class="org.m4water.server.admin.model.WaterpointTypes" fetch="join" name="waterpointTypes">
+    <many-to-one class="org.m4water.server.admin.model.WaterpointTypes" lazy="false" fetch="join" name="waterpointTypes">
       <column name="waterpoint_type_id" not-null="true"/>
     </many-to-one>
     <property name="fundingOrg" type="string">

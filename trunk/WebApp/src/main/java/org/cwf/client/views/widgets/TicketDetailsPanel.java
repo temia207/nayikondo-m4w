@@ -92,6 +92,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     }
 
     private void setTicketSummary(List<Problem> problem) {
+        System.out.println("refreshing for ticket from the database");
         for (Problem t : problem) {
             Waterpoint source = t.getWaterpoint();
 //            store.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));

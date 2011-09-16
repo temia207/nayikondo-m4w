@@ -77,7 +77,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
                 WaterPointModel summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== " + summary.getDistrict());
                 HomeController controller = (HomeController) parentView.getController();
-                controller.forwardToEditWaterPoint(summary);
+                controller.forwardToEditWaterPoint(summary.getId());
 
             }
         });
@@ -105,7 +105,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
                 WaterPointModel summary = grid.getSelectionModel().getSelectedItem();
                 System.out.println("selected ===================== " + summary.getDistrict());
                 HomeController controller = (HomeController) parentView.getController();
-                controller.forwardToEditWaterPoint(summary);
+                controller.forwardToEditWaterPoint(summary.getId());
 
             }
         });
