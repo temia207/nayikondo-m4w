@@ -22,6 +22,7 @@ import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.muk.fcit.results.sms.impl.ModemChannel;
 import org.muk.fcit.results.sms.SMSServer;
+import org.muk.fcit.results.sms.impl.TextMeUgChannel;
 import org.smslib.modem.ModemGateway;
 import org.smslib.modem.SerialModemGateway;
 import org.springframework.beans.factory.InitializingBean;
@@ -63,10 +64,10 @@ public class TicketSms implements TicketService, InitializingBean {
                 int numOfProcessors = 10;
                 System.out.println("starting sms server");
 
-                ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM21", 460200, "Nokia", "6500c");
+                //ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM21", 460200, "Nokia", "6500c");
 
                 transactionTemplate = new TransactionTemplate(transactionManager);
-                Channel ch = new ModemChannel(gateWay);
+                Channel ch = new TextMeUgChannel("m4w", "Trip77e");
                 // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
                 SMSServer server = new SMSServer(ch, new RequestListener() {
 
