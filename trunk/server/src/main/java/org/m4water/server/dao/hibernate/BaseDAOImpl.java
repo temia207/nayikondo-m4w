@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAOImpl;
 import com.googlecode.genericdao.search.Search;
+import java.io.Serializable;
 
-abstract class BaseDAOImpl<T extends Editable> extends GenericDAOImpl<T, Long> implements BaseDAO<T> {
+abstract class BaseDAOImpl<T extends Serializable, S extends Serializable> extends GenericDAOImpl<T, S> implements BaseDAO<T,S> {
 
     @Autowired
     @Override

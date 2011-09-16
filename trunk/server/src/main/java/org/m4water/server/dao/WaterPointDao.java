@@ -11,7 +11,7 @@ import org.m4water.server.admin.model.Waterpoint;
  *
  * @author victor
  */
-public interface WaterPointDao extends  BaseDAO<Waterpoint>{
+public interface WaterPointDao extends  BaseDAO<Waterpoint, String>{
     List<Waterpoint> getWaterPoints();
     Waterpoint getWaterPoint(String waterPointId);
     void saveWaterPoint(Waterpoint waterPoint);

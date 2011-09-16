@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository("userDAO")
-public class HibernateUserDAO extends BaseDAOImpl<User> implements UserDAO {
+public class HibernateUserDAO extends BaseDAOImpl<User, String> implements UserDAO {
 
     @Override
     public void deleteUser(User user) {

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author victor
  */
 @Repository("Problem")
-public class HibernateProblemDao extends BaseDAOImpl<Problem> implements ProblemDao {
+public class HibernateProblemDao extends BaseDAOImpl<Problem,Long> implements ProblemDao {
 
     @Override
     public List<Problem> getProblems() {

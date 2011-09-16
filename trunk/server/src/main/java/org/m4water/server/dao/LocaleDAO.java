@@ -7,7 +7,7 @@ import org.m4water.server.admin.model.Locale;
 /**
  *
  */
-public interface LocaleDAO extends BaseDAO<Locale> {
+public interface LocaleDAO extends BaseDAO<Locale, Long> {
 	
 	/**
 	 * Gets a list of locales.

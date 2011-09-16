@@ -11,7 +11,7 @@ import org.m4water.server.admin.model.Problem;
  *
  * @author victor
  */
-public interface ProblemDao extends BaseDAO<Problem> {
+public interface ProblemDao extends BaseDAO<Problem,Long> {
 
     List<Problem> getProblems();
 

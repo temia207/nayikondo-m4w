@@ -10,7 +10,7 @@ import org.m4water.server.admin.model.User;
  * 
  *
  */
-public interface UserDAO extends BaseDAO<User> {
+public interface UserDAO extends BaseDAO<User,String> {
 	
 	/**
 	 * Gets a list of users in the database.
