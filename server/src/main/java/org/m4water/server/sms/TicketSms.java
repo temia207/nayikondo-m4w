@@ -24,11 +24,9 @@ import org.m4water.server.service.YawlService;
 import org.muk.fcit.results.sms.Channel;
 import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
-import org.muk.fcit.results.sms.impl.ModemChannel;
 import org.muk.fcit.results.sms.SMSServer;
 import org.muk.fcit.results.sms.impl.TextMeUgChannel;
-import org.smslib.modem.ModemGateway;
-import org.smslib.modem.SerialModemGateway;
+import org.muk.fcit.results.util.MLogger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +35,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.yawlfoundation.yawl.util.StringUtil;
 
 /**
  *
@@ -47,6 +44,7 @@ import org.yawlfoundation.yawl.util.StringUtil;
 @Transactional
 public class TicketSms implements TicketService, InitializingBean {
 
+        MLogger log = new MLogger().getLogger();
         @Autowired
         private WaterPointDao waterPointDao;
         @Autowired
@@ -209,6 +207,7 @@ public class TicketSms implements TicketService, InitializingBean {
         }
 
         private void saveNewMessageToDb(SMSMessage request) {
+                log.info("Saving new message from: "+request.getRecepient()+ " Msg: "+request.getSmsData(), null, null);
                 messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID").toString(), request.getSender(), request.get("time") + "", request.getSender()));
         }
 }
