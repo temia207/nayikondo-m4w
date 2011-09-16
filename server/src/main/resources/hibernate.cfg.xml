@@ -23,5 +23,6 @@
     <mapping resource="org/m4water/server/dao/hibernate/mapping/Parish.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/FaultAssessment.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/Waterpoint.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Smsmessagelog.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
