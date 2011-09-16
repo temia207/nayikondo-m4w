@@ -93,6 +93,12 @@
             <artifactId>gin</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <dependency>
+            <artifactId>commons-logging</artifactId>
+            <groupId>commons-logging</groupId>
+             <scope>compile</scope>
+            <type>jar</type>           
+        </dependency>
     </dependencies>
     <build>
         <outputDirectory>war/WEB-INF/classes</outputDirectory>
