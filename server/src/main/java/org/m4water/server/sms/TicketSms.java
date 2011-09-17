@@ -213,7 +213,7 @@ public class TicketSms implements TicketService, InitializingBean {
         }
 
         private void saveNewMessageToDb(SMSMessage request) {
-                log.info("Saving new message from: " + request.getRecepient() + " Msg: " + request.getSmsData(), null, null);
+                log.info("Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
                 messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
         }
 }
