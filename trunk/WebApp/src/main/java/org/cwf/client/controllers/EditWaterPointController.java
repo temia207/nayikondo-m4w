@@ -53,4 +53,15 @@ public class EditWaterPointController extends Controller {
             }
         });
     }
+
+    public void saveWaterPoint(Waterpoint waterPoint){
+        GWT.log("HomeController : saveWaterPoint(Waterpoint waterPoint)");
+        waterpointService.saveWaterPoint(waterPoint, new M4waterAsyncCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void result) {
+                editWaterPointView.closeWindow();
+            }
+        });
+    }
 }

@@ -94,9 +94,19 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     private void setTicketSummary(List<Problem> problem) {
         System.out.println("refreshing for ticket from the database");
         for (Problem t : problem) {
-            Waterpoint source = t.getWaterpoint();
-//            store.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
-            store.add(new ProblemSummary(t));
+            if (status.equals(appMessages.open())) {
+                if (t.getProblemStatus().equals(appMessages.open())) {
+                    store.add(new ProblemSummary(t));
+                }
+            } else if (status.equals(appMessages.closed())) {
+                if (t.getProblemStatus().equals(appMessages.closed())) {
+                    store.add(new ProblemSummary(t));
+                }
+            } else if (status.equals(appMessages.suspended())) {
+                if (t.getProblemStatus().equals(appMessages.suspended())) {
+                    store.add(new ProblemSummary(t));
+                }
+            }
         }
 
     }
@@ -108,9 +118,20 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             System.out.println("-------------------------------------------------------------");
             List<Problem> tkts = event.getData();
             for (Problem t : tkts) {
-                Waterpoint source = t.getWaterpoint();
-//                store1.add(new ProblemSummary("19/5/2011",source.getReferenceNumber(), source.getDistrict(), source.getSubcounty(), source.getVillage(),t.getCreatorTel(),t.getMessage()));
-                store1.add(new ProblemSummary(t));
+
+                if (status.equalsIgnoreCase(appMessages.open())) {
+                    if (t.getProblemStatus().equalsIgnoreCase(appMessages.open())) {
+                        store1.add(new ProblemSummary(t));
+                    }
+                } else if (status.equalsIgnoreCase(appMessages.closed())) {
+                    if (t.getProblemStatus().equalsIgnoreCase(appMessages.closed())) {
+                        store1.add(new ProblemSummary(t));
+                    }
+                } else if (status.equalsIgnoreCase(appMessages.suspended())) {
+                    if (t.getProblemStatus().equalsIgnoreCase(appMessages.suspended())) {
+                        store1.add(new ProblemSummary(t));
+                    }
+                }
             }
 //            grid.getView().refresh(true);
 

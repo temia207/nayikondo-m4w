@@ -111,7 +111,7 @@ public class HomeView extends View implements Refreshable {
             portal.add(portlet, 0);
             maximisePortlet(portlet);
             HomeController controller2 = (HomeController) HomeView.this.getController();
-//            controller2.getTickets();
+            controller2.getTickets();
             controller2.getWaterPointSummaries();
         }
 

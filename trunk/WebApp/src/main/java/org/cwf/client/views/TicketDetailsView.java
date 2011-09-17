@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -34,6 +33,7 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.model.ProblemTwits;
+import org.cwf.client.model.StatusSummary;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
 import org.m4water.server.admin.model.Problem;
@@ -50,12 +50,15 @@ public class TicketDetailsView extends View {
     private FormPanel summaryPanel;
     private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld, messageTfld;
     private ComboBox<UserSummary> reassignTicket;
+    private ComboBox<StatusSummary> statusCombo;
     private FormData formData;
     private FlexTable twitsTable;
     private List<ProblemTwits> ticketTwits;
-    private ListStore<UserSummary> store;
+    private ListStore<UserSummary> userStore;
+    private ListStore<StatusSummary> statusStore;
     private ParameterWidget commentRow;
     private List<Problem> tickets;
+    private Problem ticket;
 
     public TicketDetailsView(Controller controller) {
         super(controller);
@@ -131,39 +134,46 @@ public class TicketDetailsView extends View {
         idTextFld.setFieldLabel("ID");
         idTextFld.setAllowBlank(false);
         fieldSet.add(idTextFld, formData);
+        idTextFld.setEnabled(false);
 
         districtTfld = new TextField<String>();
         districtTfld.setFieldLabel("District");
         fieldSet.add(districtTfld, formData);
+        districtTfld.setEnabled(false);
 
         subcountyTfld = new TextField<String>();
         subcountyTfld.setFieldLabel("Subcounty");
         fieldSet.add(subcountyTfld, formData);
+        subcountyTfld.setEnabled(false);
 
         villageTfld = new TextField<String>();
         villageTfld.setFieldLabel("Village");
         fieldSet.add(villageTfld, formData);
+        villageTfld.setEnabled(false);
 
         reportDateTfld = new TextField<String>();
         reportDateTfld.setFieldLabel("Report Date");
         fieldSet.add(reportDateTfld, formData);
+        reportDateTfld.setEnabled(false);
 
         reporterNumTfld = new TextField<String>();
         reporterNumTfld.setFieldLabel("Reporter Tel");
         fieldSet.add(reporterNumTfld, formData);
+        reporterNumTfld.setEnabled(false);
 
         messageTfld = new TextField<String>();
         messageTfld.setFieldLabel("Problem");
         fieldSet.add(messageTfld);
+        messageTfld.setEnabled(false);
 
         //get the store
-        store = new ListStore<UserSummary>();
+        userStore = new ListStore<UserSummary>();
         reassignTicket = new ComboBox<UserSummary>();
         reassignTicket.setFieldLabel("Owner");
         reassignTicket.setDisplayField("name");
         reassignTicket.setTriggerAction(TriggerAction.ALL);
         reassignTicket.setAllowBlank(false);
-        reassignTicket.setStore(store);
+        reassignTicket.setStore(userStore);
         reassignTicket.addSelectionChangedListener(new SelectionChangedListener<UserSummary>() {
 
             @Override
@@ -174,6 +184,21 @@ public class TicketDetailsView extends View {
 
         fieldSet.add(reassignTicket, formData);
 
+        statusCombo = new ComboBox<StatusSummary>();
+        statusCombo.setFieldLabel("Status");
+        statusCombo.setDisplayField("status");
+        statusCombo.setTriggerAction(TriggerAction.ALL);
+        statusCombo.setAllowBlank(false);
+        statusStore = new ListStore<StatusSummary>();
+        statusCombo.setStore(statusStore);
+        statusCombo.addSelectionChangedListener(new SelectionChangedListener<StatusSummary>() {
+
+            @Override
+            public void selectionChanged(SelectionChangedEvent<StatusSummary> se) {
+                //
+            }
+        });
+        fieldSet.add(statusCombo, formData);
         summaryPanel.add(fieldSet);
 
         summaryPanel.add(fieldSet);
@@ -200,7 +225,15 @@ public class TicketDetailsView extends View {
     }
 
     public void setUsers(List<UserSummary> users) {
-        store.add(users);
+        userStore.add(users);
+        setStatus(StatusSummary.getSampleStatus());
+        statusCombo.setValue(statusStore.getAt(0));
+    }
+private void save(Problem ticket){
+//
+}
+    private void setStatus(List<StatusSummary> status) {
+        statusStore.add(status);
     }
 
     private void createSummaryTwits(List<ProblemTwits> twits, FlexTable table) {
@@ -225,6 +258,7 @@ public class TicketDetailsView extends View {
     }
 
     private void setWaterPointData(ProblemSummary summary) {
+        ticket = summary.getProblem();
         idTextFld.setValue(String.valueOf(summary.getId()));
         districtTfld.setValue(summary.getDistrict());
         subcountyTfld.setValue(summary.getSubCounty());
@@ -236,8 +270,9 @@ public class TicketDetailsView extends View {
             problemLog = (ProblemLog) object;
             break;
         }
-//        reporterNumTfld.setValue(problemLog.getSenderNo());
-//        messageTfld.setValue(problemLog.getIssue());
+        reporterNumTfld.setValue(problemLog.getSenderNo());
+        messageTfld.setValue(problemLog.getIssue());
+
     }
 
     private FlexTable addCommentPanel() {

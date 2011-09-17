@@ -21,7 +21,7 @@
         <comment>T=fixed,F=not fixed,due to hibernate enum issues</comment>
       </column>
     </property>
-    <set inverse="true" name="problemLogs">
+    <set inverse="true" name="problemLogs" lazy="false">
       <key>
         <column name="problem_id" not-null="true"/>
       </key>
