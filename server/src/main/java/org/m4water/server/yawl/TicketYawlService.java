@@ -87,7 +87,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     public void launchCase(Params params) throws IOException, YAWLException {
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.46"), params.asXML(), yawlHelper.initSessionHandle());
+        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.78"), params.asXML(), yawlHelper.initSessionHandle());
         boolean successful = successful(launchCase);
         if (!successful) {
             throw new YAWLException(launchCase);

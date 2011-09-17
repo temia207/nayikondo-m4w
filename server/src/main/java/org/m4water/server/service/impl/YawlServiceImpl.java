@@ -38,7 +38,7 @@ public class YawlServiceImpl implements YawlService {
             yawlService.launchCase(params);
         } catch (Exception ex) {
             log.error("Error occured while launching a ticket workflow", ex);
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
 }
