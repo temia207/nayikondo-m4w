@@ -7,7 +7,7 @@
       <column name="log_id"/>
       <generator class="increment"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.Problem" lazy="false" name="problem">
+    <many-to-one class="org.m4water.server.admin.model.Problem" lazy="false"  fetch="join" name="problem">
       <column name="problem_id" not-null="true"/>
     </many-to-one>
     <property name="senderNo" type="string">

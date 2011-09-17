@@ -52,13 +52,26 @@ public class TicketDetailsController extends Controller {
     public void getUsers() {
         ticketDetailsView.setUsers(UserSummary.getSampleUsers());
     }
-    public void getTickets(){
-    ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
+
+    public void getTickets() {
+        ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
 
             @Override
             public void onSuccess(List<Problem> result) {
                 ticketDetailsView.setTickets(result);
             }
         });
+    }
+
+    public void saveTicket(Problem ticket) {
+        GWT.log("TicketDetailsController  :saveTicket(Problem ticket)");
+        ticketService.saveProblem(ticket,new M4waterAsyncCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void result) {
+                ticketDetailsView.closeWindow();
+            }
+        }
+        );
     }
 }

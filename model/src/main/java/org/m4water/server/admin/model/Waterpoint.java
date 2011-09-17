@@ -13,7 +13,7 @@ public class Waterpoint extends AbstractEditable {
     private String waterpointId;
     private Village village;
     private WaterpointTypes waterpointTypes;
-    private String fundingOrg;
+    private String name;
     private Date dateInstalled;
     private String eastings;
     private String northings;
@@ -32,7 +32,7 @@ public class Waterpoint extends AbstractEditable {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
-        this.fundingOrg = fundingOrg;
+        this.name = fundingOrg;
         this.dateInstalled = dateInstalled;
         this.eastings = eastings;
         this.northings = northings;
@@ -43,11 +43,11 @@ public class Waterpoint extends AbstractEditable {
         this.typeOfMagt = typeOfMagt;
     }
 
-    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String fundingOrg, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality) {
+    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality) {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
-        this.fundingOrg = fundingOrg;
+        this.name = name;
         this.dateInstalled = dateInstalled;
         this.eastings = eastings;
         this.northings = northings;
@@ -84,12 +84,12 @@ public class Waterpoint extends AbstractEditable {
         this.waterpointTypes = waterpointTypes;
     }
 
-    public String getFundingOrg() {
-        return this.fundingOrg;
+    public String getName() {
+        return this.name;
     }
 
-    public void setFundingOrg(String fundingOrg) {
-        this.fundingOrg = fundingOrg;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getDateInstalled() {
