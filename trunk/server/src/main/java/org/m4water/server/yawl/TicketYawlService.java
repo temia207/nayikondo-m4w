@@ -170,6 +170,14 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             params.put("msgTicketCommentFromSender", message);
         }
 
+        public String remove(Object key) {
+            return params.remove(key);
+        }
+
+        public String put(String key, String value) {
+            return params.put(key, value);
+        }
+
         public String asXML() {
             StringBuilder builder = new StringBuilder();
             Set<Entry<String, String>> keySet = params.entrySet();
