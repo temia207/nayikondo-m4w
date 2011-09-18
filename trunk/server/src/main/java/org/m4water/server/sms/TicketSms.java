@@ -113,7 +113,7 @@ public class TicketSms implements TicketService, InitializingBean {
                                                         Date date = new Date();
                                                         problem.setDateProblemReported(date);
                                                         problem.setProblemDescsription(complaint);
-                                                        problem.setProblemStatus("F");
+                                                        problem.setProblemStatus("open");
                                                         // final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
                                                         final Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
                                                         if (waterPoint == null) {
