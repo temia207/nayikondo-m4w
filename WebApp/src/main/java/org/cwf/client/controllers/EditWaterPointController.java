@@ -8,8 +8,10 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.WaterPointModel;
+import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.EditWaterPointView;
+import org.m4water.server.admin.model.Inspection;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -22,10 +24,12 @@ public class EditWaterPointController extends Controller {
     public final static EventType EDIT_WATER_POINT = new EventType();
     private EditWaterPointView editWaterPointView;
     WaterPointServiceAsync waterpointService;
+    InspectionClientServiceAsync inspectionService;
 
-    public EditWaterPointController(WaterPointServiceAsync aWaterPointService) {
+    public EditWaterPointController(WaterPointServiceAsync aWaterPointService, InspectionClientServiceAsync aInspectionService) {
         super();
         waterpointService = aWaterPointService;
+        this.inspectionService = aInspectionService;
         registerEventTypes(EDIT_WATER_POINT);
     }
 
@@ -61,6 +65,17 @@ public class EditWaterPointController extends Controller {
             @Override
             public void onSuccess(Void result) {
                 editWaterPointView.closeWindow();
+            }
+        });
+    }
+
+    public void getInspections() {
+        GWT.log("TicketDetailsController  :getInspections()");
+        inspectionService.getInspections(new M4waterAsyncCallback<List<Inspection>>() {
+
+            @Override
+            public void onSuccess(List<Inspection> result) {
+               editWaterPointView.setInspectionQuestion(result);
             }
         });
     }

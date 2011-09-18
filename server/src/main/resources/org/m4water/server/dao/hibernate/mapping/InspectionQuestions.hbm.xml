@@ -4,7 +4,7 @@
 <!-- Generated Sep 15, 2011 12:08:33 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.InspectionQuestions" table="inspection_questions" catalog="m4water">
-        <id name="id" type="string">
+        <id name="questionId" type="string">
             <column name="id" length="200" />
             <generator class="assigned" />
         </id>

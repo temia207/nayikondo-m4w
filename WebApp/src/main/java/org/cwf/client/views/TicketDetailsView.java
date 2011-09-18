@@ -27,6 +27,8 @@ import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import org.cwf.client.AppMessages;
@@ -36,6 +38,7 @@ import org.cwf.client.model.ProblemTwits;
 import org.cwf.client.model.StatusSummary;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
+import org.m4water.server.admin.model.FaultAssessment;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.ProblemLog;
 
@@ -53,12 +56,15 @@ public class TicketDetailsView extends View {
     private ComboBox<StatusSummary> statusCombo;
     private FormData formData;
     private FlexTable twitsTable;
-    private List<ProblemTwits> ticketTwits;
+//    private Set ticketTwits;
     private ListStore<UserSummary> userStore;
     private ListStore<StatusSummary> statusStore;
     private ParameterWidget commentRow;
     private List<Problem> tickets;
     private Problem ticket;
+    private FieldSet inspectionFldset;
+    private HashMap<String, TextField<String>> faultAssessmentFields;
+    private Set problemLogs;
 
     public TicketDetailsView(Controller controller) {
         super(controller);
@@ -68,7 +74,7 @@ public class TicketDetailsView extends View {
     protected void initialize() {
         GWT.log("TicketDetailsView : initialize");
         window = new Window();
-        window.setHeading(appMessages.ticketDetails());
+        window.setHeading(appMessages.assessmentAndRepairs());
         window.setHeight("500px");
         window.setWidth("425px");
         window.setPlain(true);
@@ -80,7 +86,7 @@ public class TicketDetailsView extends View {
 
         createSummaryFieldset();
 
-        window.add(createTwitsFieldset());
+//        window.add(createTwitsFieldset());
         window.add(addCommentPanel());
         commentRow.setVisible(false);
         Button addCommentBtn, saveChangesBtn;
@@ -114,56 +120,73 @@ public class TicketDetailsView extends View {
         window.setButtonAlign(HorizontalAlignment.CENTER);
 //        window.add(createButtons());
     }
+    private FlexTable ticketsDataTable;
 
     private void createSummaryFieldset() {
         summaryPanel = new FormPanel();
         summaryPanel.setFrame(true);
         summaryPanel.setHeading("");
-        summaryPanel.setWidth(390);
+        summaryPanel.setWidth("98%");
         summaryPanel.setLayout(new FlowLayout());
+        ticketsDataTable = new FlexTable();
+        ticketsDataTable.setWidth("98%");
+        ticketsDataTable.setWidget(0, 0, getTicketDetailFldSet());
+        ticketsDataTable.setWidget(1, 0, createTwitsFieldset());
+        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 0, "40%");
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
+        summaryPanel.add(ticketsDataTable);
+        window.add(summaryPanel);
+        window.setWidth("100%");
+    }
 
-        FieldSet fieldSet = new FieldSet();
-        fieldSet.setHeading(appMessages.ticketSummary());
-        fieldSet.setCheckboxToggle(false);
+    private FieldSet getTicketDetailFldSet() {
+
+        FieldSet ticketDetailsFldset = new FieldSet();
+        ticketDetailsFldset.setHeading(appMessages.ticketSummary());
+        ticketDetailsFldset.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(75);
-        fieldSet.setLayout(layout);
+        ticketDetailsFldset.setLayout(layout);
 
         idTextFld = new TextField<String>();
         idTextFld.setFieldLabel("ID");
         idTextFld.setAllowBlank(false);
-        fieldSet.add(idTextFld, formData);
+        ticketDetailsFldset.add(idTextFld, formData);
         idTextFld.setEnabled(false);
 
         districtTfld = new TextField<String>();
         districtTfld.setFieldLabel("District");
-        fieldSet.add(districtTfld, formData);
+        ticketDetailsFldset.add(districtTfld, formData);
         districtTfld.setEnabled(false);
 
         subcountyTfld = new TextField<String>();
         subcountyTfld.setFieldLabel("Subcounty");
-        fieldSet.add(subcountyTfld, formData);
+        ticketDetailsFldset.add(subcountyTfld, formData);
         subcountyTfld.setEnabled(false);
 
         villageTfld = new TextField<String>();
         villageTfld.setFieldLabel("Village");
-        fieldSet.add(villageTfld, formData);
+        ticketDetailsFldset.add(villageTfld, formData);
         villageTfld.setEnabled(false);
 
         reportDateTfld = new TextField<String>();
         reportDateTfld.setFieldLabel("Report Date");
-        fieldSet.add(reportDateTfld, formData);
+        ticketDetailsFldset.add(reportDateTfld, formData);
         reportDateTfld.setEnabled(false);
 
         reporterNumTfld = new TextField<String>();
         reporterNumTfld.setFieldLabel("Reporter Tel");
-        fieldSet.add(reporterNumTfld, formData);
+        ticketDetailsFldset.add(reporterNumTfld, formData);
         reporterNumTfld.setEnabled(false);
 
         messageTfld = new TextField<String>();
         messageTfld.setFieldLabel("Problem");
-        fieldSet.add(messageTfld);
+        ticketDetailsFldset.add(messageTfld);
         messageTfld.setEnabled(false);
 
         //get the store
@@ -182,7 +205,7 @@ public class TicketDetailsView extends View {
             }
         });
 
-        fieldSet.add(reassignTicket, formData);
+        ticketDetailsFldset.add(reassignTicket, formData);
 
         statusCombo = new ComboBox<StatusSummary>();
         statusCombo.setFieldLabel("Status");
@@ -198,12 +221,38 @@ public class TicketDetailsView extends View {
                 //
             }
         });
-        fieldSet.add(statusCombo, formData);
-        summaryPanel.add(fieldSet);
+        ticketDetailsFldset.add(statusCombo, formData);
+        return ticketDetailsFldset;
+    }
+  
+    public void setInspectionFields(List<FaultAssessment> fields) {
+        inspectionFldset = new FieldSet();
+        inspectionFldset.setHeading(appMessages.assessmentAndRepairs());
+        inspectionFldset.setCheckboxToggle(false);
 
-        summaryPanel.add(fieldSet);
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(500);
+        inspectionFldset.setLayout(layout);
+        faultAssessmentFields = new HashMap<String, TextField<String>>();
 
-        window.add(summaryPanel);
+        for (FaultAssessment x : fields) {
+            String id = "" + x.getAssessmentId();
+            inspectionFldset.add(addAssessmentFld("Id", id),formData);
+            inspectionFldset.add(addAssessmentFld("Problem",x.getProblem().getProblemDescsription()),formData);
+            inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()),formData);
+            inspectionFldset.add(addAssessmentFld("Date",x.getDate().toString()),formData);
+            inspectionFldset.add(addAssessmentFld("Assessed By",x.getAssessedBy()),formData);
+            inspectionFldset.add(addAssessmentFld("Types of Repaires Needed",x.getTypeOfRepairesNeeded()),formData);
+            inspectionFldset.add(addAssessmentFld("Is the problem Fixed?",x.getProblemFixed().equals("T")?"Yes":"No"),formData);
+            inspectionFldset.add(addAssessmentFld("If Not fixed why?",x.getReasonNotFixed()),formData);
+            inspectionFldset.add(addAssessmentFld("Repairs Done",x.getRepairsDone()),formData);
+            inspectionFldset.add(addAssessmentFld("Recommendations",x.getRecommendations()),formData);
+            inspectionFldset.add(addAssessmentFld("Username",x.getUserId()),formData);
+        }
+        ticketsDataTable.setWidget(0, 1, inspectionFldset);
+        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
 
     private FieldSet createTwitsFieldset() {
@@ -229,20 +278,32 @@ public class TicketDetailsView extends View {
         setStatus(StatusSummary.getSampleStatus());
         statusCombo.setValue(statusStore.getAt(0));
     }
-private void save(Problem ticket){
+
+    private void save(Problem ticket) {
 //
-}
+    }
+
     private void setStatus(List<StatusSummary> status) {
         statusStore.add(status);
     }
 
-    private void createSummaryTwits(List<ProblemTwits> twits, FlexTable table) {
+    private void createSummaryTwits(Set twits, FlexTable table) {
         int row = 1;
-        for (ProblemTwits twit : twits) {
-            table.setWidget(row, 0, new Label(twit.getUser().getId()));
-            table.setWidget(row, 1, new Label(twit.getComment()));
+        for (Object twit : twits) {
+            table.setWidget(row, 0, new Label(((ProblemLog)twit).getSenderNo()));
+            table.setWidget(row, 1, new Label(((ProblemLog)twit).getIssue()));
             ++row;
         }
+    }
+
+    private TextField<String> addAssessmentFld(String name, String value) {
+        TextField<String> assessmentQuiz = new TextField<String>();
+        assessmentQuiz.setFieldLabel(name);
+        assessmentQuiz.setAllowBlank(false);
+        assessmentQuiz.setValue(value);
+        faultAssessmentFields.put(name, assessmentQuiz);
+        return assessmentQuiz;
+
     }
 
     public void showWindow() {
@@ -257,7 +318,7 @@ private void save(Problem ticket){
         this.tickets = tickets;
     }
 
-    private void setWaterPointData(ProblemSummary summary) {
+    private void setProblemData(ProblemSummary summary) {
         ticket = summary.getProblem();
         idTextFld.setValue(String.valueOf(summary.getId()));
         districtTfld.setValue(summary.getDistrict());
@@ -265,13 +326,14 @@ private void save(Problem ticket){
         villageTfld.setValue(summary.getVillage());
         reportDateTfld.setValue(summary.getDate().toString());
         ProblemLog problemLog = null;
-        Set problemLogs = summary.getProblem().getProblemLogs();
+        problemLogs = summary.getProblem().getProblemLogs();
         for (Object object : problemLogs) {
-            problemLog = (ProblemLog) object;
-            break;
+            problemLogs.add((ProblemLog)object);
         }
+        problemLog =(ProblemLog) problemLogs.iterator().next();
         reporterNumTfld.setValue(problemLog.getSenderNo());
         messageTfld.setValue(problemLog.getIssue());
+        createSummaryTwits(problemLogs, twitsTable);
 
     }
 
@@ -289,13 +351,13 @@ private void save(Problem ticket){
         GWT.log("TicketDetailsView : handleEvent");
         if (event.getType() == TicketDetailsController.TICKET_DETAILS) {
 //            WaterPointSummary waterPointSummary = event.getData();
-            ticketTwits = ProblemTwits.getSampleTwits();
+//            ticketTwits = ProblemTwits.getSampleTwits();
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
-//            controller2.getTickets();
-            createSummaryTwits(ticketTwits, twitsTable);
+            controller2.getFaultAssessments();
+//            createSummaryTwits(ticketTwits, twitsTable);
             ProblemSummary ticketSummary = event.getData();
-            setWaterPointData(ticketSummary);
+            setProblemData(ticketSummary);
             showWindow();
         }
     }

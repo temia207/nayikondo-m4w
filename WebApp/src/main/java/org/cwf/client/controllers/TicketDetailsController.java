@@ -12,8 +12,12 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.UserSummary;
+import org.cwf.client.service.AssessmentClientServiceAsync;
+import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.views.TicketDetailsView;
+import org.m4water.server.admin.model.FaultAssessment;
+import org.m4water.server.admin.model.Inspection;
 import org.m4water.server.admin.model.Problem;
 
 /**
@@ -26,10 +30,16 @@ public class TicketDetailsController extends Controller {
     public final static EventType TICKET_DETAILS = new EventType();
     private TicketDetailsView ticketDetailsView;
     ProblemServiceAsync ticketService;
+    InspectionClientServiceAsync inspectionService;
+    AssessmentClientServiceAsync assessmentService;
 
-    public TicketDetailsController(ProblemServiceAsync aTicketService) {
+    public TicketDetailsController(ProblemServiceAsync aTicketService,
+            InspectionClientServiceAsync aInspectionService,
+            AssessmentClientServiceAsync aAssessmentService) {
         super();
         ticketService = aTicketService;
+        inspectionService = aInspectionService;
+        assessmentService = aAssessmentService;
         registerEventTypes(TICKET_DETAILS);
     }
 
@@ -54,6 +64,7 @@ public class TicketDetailsController extends Controller {
     }
 
     public void getTickets() {
+        GWT.log("TicketDetailsController  :getTickets()");
         ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
 
             @Override
@@ -65,13 +76,23 @@ public class TicketDetailsController extends Controller {
 
     public void saveTicket(Problem ticket) {
         GWT.log("TicketDetailsController  :saveTicket(Problem ticket)");
-        ticketService.saveProblem(ticket,new M4waterAsyncCallback<Void>() {
+        ticketService.saveProblem(ticket, new M4waterAsyncCallback<Void>() {
 
             @Override
             public void onSuccess(Void result) {
                 ticketDetailsView.closeWindow();
             }
-        }
-        );
+        });
+    }
+
+    public void getFaultAssessments() {
+        GWT.log("TicketDetailsController  :getInspections()");
+        assessmentService.getFaultAssessments(new M4waterAsyncCallback<List<FaultAssessment>>() {
+
+            @Override
+            public void onSuccess(List<FaultAssessment> result) {
+                ticketDetailsView.setInspectionFields(result);
+            }
+        });
     }
 }

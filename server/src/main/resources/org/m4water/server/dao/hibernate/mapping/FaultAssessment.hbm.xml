@@ -7,7 +7,7 @@
       <column name="assessment_id"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.Problem" fetch="select" name="problem">
+    <many-to-one class="org.m4water.server.admin.model.Problem" fetch="select" name="problem" lazy="false">
       <column name="problem_id" not-null="true"/>
     </many-to-one>
     <property name="faults" type="string">
