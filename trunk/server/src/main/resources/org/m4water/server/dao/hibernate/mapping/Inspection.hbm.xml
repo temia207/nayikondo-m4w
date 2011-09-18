@@ -4,13 +4,13 @@
 <!-- Generated Sep 15, 2011 12:08:33 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.Inspection" table="inspection" catalog="m4water">
-        <id name="id" type="string">
+        <id name="inspectionId" type="string">
             <column name="id" length="200" />
             <generator class="assigned" />
         </id>
-        <property name="waterpointId" type="string">
-            <column name="waterpoint_id" length="200" />
-        </property>
+        <many-to-one class="org.m4water.server.admin.model.Waterpoint" lazy="false" name="waterpoint">
+            <column length="200" name="waterpoint_id" not-null="true"/>
+        </many-to-one>
         <property name="inspectorName" type="string">
             <column name="inspector_name" length="200" />
         </property>
@@ -20,7 +20,7 @@
         <property name="inspectionDate" type="date">
             <column name="inspection_date" length="10" />
         </property>
-        <set name="inspectionQuestionses" inverse="true">
+        <set name="inspectionQuestionses" inverse="true" lazy="false">
             <key>
                 <column name="inspection_id" length="200" />
             </key>

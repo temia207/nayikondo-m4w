@@ -50,6 +50,22 @@
         <servlet-name>waterpointService</servlet-name>
         <url-pattern>/cwf/waterpoint</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>inspectionService</servlet-name>
+        <servlet-class>org.cwf.server.InspectionClientServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inspectionService</servlet-name>
+        <url-pattern>/cwf/inspection</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>assessmentService</servlet-name>
+        <servlet-class>org.cwf.server.AssessmentClientServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>assessmentService</servlet-name>
+        <url-pattern>/cwf/assessment</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>

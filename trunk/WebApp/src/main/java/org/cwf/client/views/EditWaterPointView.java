@@ -11,13 +11,23 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.model.WaterPointModel;
+import org.m4water.server.admin.model.Inspection;
+import org.m4water.server.admin.model.InspectionQuestions;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -34,6 +44,10 @@ public class EditWaterPointView extends View {
     private FormPanel formPanel;
     private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
     private Waterpoint waterPoint;
+    private FlexTable ticketsDataTable;
+    private FieldSet inspectionFldset;
+    private List<TextField<String>> questionTflds;
+    private FormData formData;
 //    private WaterPointModel waterPointSummary;
 
     public EditWaterPointView(Controller controller) {
@@ -44,45 +58,94 @@ public class EditWaterPointView extends View {
     protected void initialize() {
         window = new Window();
         window.setHeading("Waterpoint Details");
+        window.setHeight("500px");
+        window.setWidth("425px");
+        window.setPlain(true);
+        window.setDraggable(true);
+        window.setResizable(true);
+        window.setScrollMode(Scroll.AUTO);
+        window.setModal(true);
+        formData = new FormData("-20");
+        getWindowLayout();
+    }
 
+    public void getWindowLayout() {
         formPanel = new FormPanel();
-        formPanel.setFrame(false);
-        formPanel.setBorders(false);
-        formPanel.setBodyBorder(false);
-        formPanel.setHeaderVisible(false);
-        FormLayout layout = new FormLayout();
-        layout.setLabelWidth(150);
-        formPanel.setLayout(layout);
-        initializeTextfields();
-        formPanel.add(idTextFld);
-        formPanel.add(waterPointNameTfld);
-        formPanel.add(districtTfld);
-        formPanel.add(subcountyTfld);
-        formPanel.add(villageTfld);
-        formPanel.add(eastingsTfld);
-        formPanel.add(northingsTfld);
-        formPanel.add(dateIstalledTfld);
-        formPanel.add(fundingSrcTfld);
-        formPanel.add(ownershipTfld);
-        formPanel.add(houseHoldsTfld);
-        formPanel.add(typeOfMagtTfld);
+        formPanel.setFrame(true);
+        formPanel.setHeading("");
+        formPanel.setWidth("98%");
+        formPanel.setLayout(new FlowLayout());
+        ticketsDataTable = new FlexTable();
+        ticketsDataTable.setWidth("98%");
+        ticketsDataTable.setWidget(0, 0, getWaterPointDetailsFldset());
+//    ticketsDataTable.setWidget(1, 0, createTwitsFieldset());
+        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 0, "40%");
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
+        formPanel.add(ticketsDataTable);
         formPanel.setButtonAlign(HorizontalAlignment.CENTER);
-//        formPanel.add(otherParameters);
-
         createButtons();
         formPanel.addButton(saveChangesBtn);
         formPanel.addButton(confirmBtn);
         formPanel.addButton(cancelBtn);
-
-        window.setAutoHeight(true);
-        window.setWidth(425);
-        window.setPlain(true);
         window.add(formPanel);
-        window.setDraggable(true);
-        window.setResizable(true);
-        window.setScrollMode(Scroll.AUTO);
-        window.show();
-        window.setModal(true);
+        window.setWidth("100%");
+    }
+
+    public FieldSet getWaterPointDetailsFldset() {
+        FieldSet waterPointDetails = new FieldSet();
+        waterPointDetails.setHeading(appMessages.ticketSummary());
+        waterPointDetails.setCheckboxToggle(false);
+
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(100);
+        waterPointDetails.setLayout(layout);
+        initializeTextfields();
+        waterPointDetails.add(idTextFld, formData);
+        waterPointDetails.add(waterPointNameTfld, formData);
+        waterPointDetails.add(districtTfld, formData);
+        waterPointDetails.add(subcountyTfld, formData);
+        waterPointDetails.add(villageTfld, formData);
+        waterPointDetails.add(eastingsTfld, formData);
+        waterPointDetails.add(northingsTfld, formData);
+        waterPointDetails.add(dateIstalledTfld, formData);
+        waterPointDetails.add(fundingSrcTfld, formData);
+        waterPointDetails.add(ownershipTfld, formData);
+        waterPointDetails.add(houseHoldsTfld, formData);
+        waterPointDetails.add(typeOfMagtTfld, formData);
+
+        return waterPointDetails;
+    }
+
+    public void setInspectionQuestion(List<Inspection> questions) {
+        inspectionFldset = new FieldSet();
+        inspectionFldset.setHeading(appMessages.assessmentAndRepairs());
+        inspectionFldset.setCheckboxToggle(false);
+
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(500);
+        inspectionFldset.setLayout(layout);
+
+        questionTflds = new ArrayList<TextField<String>>();
+
+        for (Inspection x : questions) {
+            Set quiz = x.getInspectionQuestionses();
+            for (Object object : quiz) {
+                TextField<String> questionFld = new TextField<String>();
+                questionFld.setFieldLabel(((InspectionQuestions) object).getQuestion());
+                questionFld.setAllowBlank(false);
+                questionFld.setValue(((InspectionQuestions) object).getAnswer());
+                inspectionFldset.add(questionFld, formData);
+//                addInspectionQuestion(((InspectionQuestions) object).getQuestion());
+            }
+        }
+        ticketsDataTable.setWidget(0, 1, inspectionFldset);
+        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
 
     public void save(Waterpoint waterpoint) {
@@ -222,8 +285,10 @@ public class EditWaterPointView extends View {
         GWT.log("Edit waterpoint : handleEvent");
         if (event.getType() == EditWaterPointController.EDIT_WATER_POINT) {
             String waterPointId = event.getData();
-            ((EditWaterPointController) EditWaterPointView.this.getController()).getWaterPoint(waterPointId);
-            showWindow();
+           EditWaterPointController controller2= (EditWaterPointController) EditWaterPointView.this.getController();;
+           controller2.getWaterPoint(waterPointId);
+           controller2.getInspections();
+           showWindow();
         }
     }
 }

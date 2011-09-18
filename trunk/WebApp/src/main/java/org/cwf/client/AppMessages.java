@@ -58,4 +58,7 @@ public interface AppMessages extends Messages {
         String users();
         String settings();
 
+        String assessmentAndRepairs();
+        String waterpointInspection();
+
 }

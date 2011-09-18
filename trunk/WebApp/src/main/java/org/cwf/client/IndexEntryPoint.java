@@ -49,6 +49,8 @@ import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
 import org.cwf.client.controllers.TicketDetailsController;
+import org.cwf.client.service.AssessmentClientServiceAsync;
+import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.utils.ProgressIndicator;
@@ -67,6 +69,8 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     // services
     ProblemServiceAsync ticketSmsService;
     WaterPointServiceAsync waterPointService;
+    InspectionClientServiceAsync inspectionService;
+    AssessmentClientServiceAsync assessmentService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -90,6 +94,8 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         System.out.println("================ starting ");
         ticketSmsService = ProblemServiceAsync.Util.getInstance();
         waterPointService = WaterPointServiceAsync.Util.getInstance();
+        inspectionService = InspectionClientServiceAsync.Util.getInstance();
+        assessmentService = AssessmentClientServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController();
@@ -97,8 +103,8 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
         dispatcher.addController(new HomeController(ticketSmsService,waterPointService));
-        dispatcher.addController(new EditWaterPointController(waterPointService));
-        dispatcher.addController(new TicketDetailsController(ticketSmsService));
+        dispatcher.addController(new EditWaterPointController(waterPointService,inspectionService));
+        dispatcher.addController(new TicketDetailsController(ticketSmsService,inspectionService,assessmentService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);

@@ -35,5 +35,7 @@
     <!-- RPC service servlet declarations                             -->
     <servlet path="/ticket" class="org.cwf.server.ProblemServiceImpl"/>
     <servlet path="/waterpoint" class="org.cwf.server.WaterPointServiceImpl"/>
+    <servlet path="/inspection" class="org.cwf.server.InspectionClientServiceImpl"/>
+    <servlet path="/assessment" class="org.cwf.server.AssessmentClientServiceImpl"/>
 
 </module>
