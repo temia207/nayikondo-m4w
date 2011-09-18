@@ -7,13 +7,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.jdom.JDOMException;
+import org.m4water.server.OpenXDataPropertyPlaceholderConfigurer;
+import org.m4water.server.admin.model.FaultAssessment;
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.service.AssessmentService;
 import org.m4water.server.service.WaterPointService;
 import org.openxdata.yawl.util.InterfaceBHelper;
 import org.springframework.beans.factory.InitializingBean;
@@ -46,6 +51,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     private PlatformTransactionManager transactionManager;
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private OpenXDataPropertyPlaceholderConfigurer properties;
 
     public static TicketYawlService getInstance() {
         return ticketYawlService;
@@ -87,7 +94,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     public void launchCase(Params params) throws IOException, YAWLException {
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.87"), params.asXML(), yawlHelper.initSessionHandle());
+        Properties resolvedProps = properties.getResolvedProps();
+        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow",resolvedProps.getProperty("yawl.version")), params.asXML(), yawlHelper.initSessionHandle());
         boolean successful = successful(launchCase);
         if (!successful) {
             throw new YAWLException(launchCase);
@@ -110,6 +118,15 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             functionality.setFunctionalityStatus("Working = " + problemFixed + " Assesment = " + assesment);
 //            waterPoint.setDate(new Date());
             saveWaterPoint(waterPoint);
+            FaultAssessment assessmentItm = new FaultAssessment();
+            assessmentItm.setProblem((Problem)waterPoint.getProblems().iterator().next());
+            assessmentItm.setFaults(assesment);
+            assessmentItm.setProblemFixed(problemFixed);
+            assessmentItm.setRepairsDone(repairDetails);
+            assessmentItm.setReasonNotFixed(reasonNotFixed);
+            saveFaultAssessment(assessmentItm);
+
+
         } finally {
             yawlHelper.checkInWorkItem(workItemRecord);
         }
@@ -126,6 +143,15 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
 
     }
 
+    private void saveFaultAssessment(final FaultAssessment assessment) {
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                sessionFactory.getCurrentSession().update(assessment);
+            }
+        });
+    }
     @Override
     public YParameter[] describeRequiredParams() {
 

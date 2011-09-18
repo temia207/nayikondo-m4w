@@ -7,6 +7,7 @@ import org.m4water.server.admin.model.Parish;
 import org.m4water.server.admin.model.ProblemLog;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Subcounty;
+import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.service.YawlService;
@@ -23,14 +24,33 @@ public class YawlServiceImpl implements YawlService {
 
     @Autowired
     TicketYawlService yawlService;
+
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(YawlServiceImpl.class);
 
     @Override
     public void launchWaterPointFlow(Problem problem) {
         try {
             Waterpoint waterpoint = problem.getWaterpoint();
+
+            Village village = waterpoint.getVillage();
+            Parish parish = village.getParish();
+            Subcounty subcounty = parish.getSubcounty();
+            County county = subcounty.getCounty();
+            District district = county.getDistrict();
+            
             TicketYawlService.Params params = new TicketYawlService.Params();
-            params.addPumpMechanicName("mechanic");
+            User mechanic = null;
+            String mechanicName = "";
+            for (Object user : subcounty.getUsers()) {
+                mechanic = (User) user;
+                if (mechanic.getOxdName() != null) {
+                    if (mechanic.getOxdName().trim().endsWith("HPM")) {
+                        mechanicName = ((User) user).getOxdName();
+                        break;
+                    }
+                }
+            }
+            params.addPumpMechanicName(mechanicName);
             ProblemLog problemLog = null;
             Set problemLogs = problem.getProblemLogs();
             for (Object object : problemLogs) {
@@ -39,20 +59,17 @@ public class YawlServiceImpl implements YawlService {
             }
 
             params.setSenderNumber(problemLog.getSenderNo());
-            params.setMechanicNumber("0789388969");
+            params.setMechanicNumber(mechanic.getContacts()+"");
             params.setWaterPointID(problem.getWaterpoint().getWaterpointId());
             params.setTicketMessage(problemLog.getIssue());
 
-            Village village = waterpoint.getVillage();
-            Parish parish = village.getParish();
-            Subcounty subcounty = parish.getSubcounty();
-            County county = subcounty.getCounty();
-            District district = county.getDistrict();
-
             params.put("district", district.getName() );
             params.put("county", county.getCountyName());
+            params.put("subcounty", subcounty.getSubcountyName());
             params.put("parish", parish.getParishName());
             params.put("village", village.getVillagename());
+            params.put("waterPointName", waterpoint.getName());
+            params.put("ticketID", problem.getId()+"");
             yawlService.launchCase(params);
         } catch (Exception ex) {
             log.error("Error occured while launching a ticket workflow", ex);
