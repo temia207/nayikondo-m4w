@@ -1,35 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-  <class catalog="m4water" name="org.m4water.server.admin.model.User" table="user">
-    <id name="userId" type="string">
-      <column length="200" name="user_id"/>
-      <generator class="assigned"/>
-    </id>
-    <property name="firstname" type="string">
-      <column length="200" name="firstname" not-null="true"/>
-    </property>
-    <property name="lastname" type="string">
-      <column length="200" name="lastname" not-null="true"/>
-    </property>
-    <property name="contacts" type="string">
-      <column length="200" name="contacts" not-null="true"/>
-    </property>
-    <property name="password" type="string">
-      <column length="200" name="password" not-null="true"/>
-    </property>
-    <property name="staffProfileId" type="string">
-      <column length="200" name="staff_profile_id" not-null="true"/>
-    </property>
-    <property name="subcountyId" type="string">
-      <column length="200" name="subcounty_id" not-null="true"/>
-    </property>
-    <set inverse="true" name="userAssigneds">
-      <key>
-        <column length="200" name="user_id" not-null="true"/>
-      </key>
-      <one-to-many class="org.m4water.server.admin.model.UserAssigned"/>
-    </set>
-  </class>
+    <class name="org.m4water.server.admin.model.User" table="user" catalog="m4water">
+        <id name="userId" type="string">
+            <column name="user_id" length="200" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="subcounty" class="org.m4water.server.admin.model.Subcounty" fetch="select">
+            <column name="subcounty_id" length="200" not-null="true" />
+        </many-to-one>
+        <many-to-one name="userProfile" class="org.m4water.server.admin.model.UserProfile" fetch="select" lazy="false">
+            <column name="staff_profile_id" length="200" />
+        </many-to-one>
+        <property name="firstname" type="string">
+            <column name="firstname" length="200" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="lastname" length="200" />
+        </property>
+        <property name="contacts" type="string">
+            <column name="contacts" length="200" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="200" />
+        </property>
+        <property name="oxdName" type="string">
+            <column name="oxd_name" length="200" />
+        </property>
+    </class>
 </hibernate-mapping>

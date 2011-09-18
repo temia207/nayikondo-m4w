@@ -1,5 +1,5 @@
 package org.m4water.server.admin.model;
-// Generated Sep 7, 2011 12:43:34 PM by Hibernate Tools 3.2.1.GA
+// Generated Sep 18, 2011 5:57:04 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -15,32 +15,32 @@ public class Subcounty  extends AbstractEditable {
      private County county;
      private String subcountyName;
      private String boundaryData;
-     private Set parishs = new HashSet(0);
+     private Set<User> users = new HashSet<User>(0);
 
     public Subcounty() {
     }
 
 	
-    public Subcounty(String subcountyId, County county, String subcountyName, String boundaryData) {
-        this.subcountyId = subcountyId;
+    public Subcounty(String id, County county, String subcountyName, String boundaryData) {
+        this.subcountyId = id;
         this.county = county;
         this.subcountyName = subcountyName;
         this.boundaryData = boundaryData;
     }
-    public Subcounty(String subcountyId, County county, String subcountyName, String boundaryData, Set parishs) {
-       this.subcountyId = subcountyId;
+    public Subcounty(String id, County county, String subcountyName, String boundaryData, Set<User> users) {
+       this.subcountyId= id;
        this.county = county;
        this.subcountyName = subcountyName;
        this.boundaryData = boundaryData;
-       this.parishs = parishs;
+       this.users = users;
     }
    
     public String getSubcountyId() {
         return this.subcountyId;
     }
     
-    public void setSubcountyId(String subcountyId) {
-        this.subcountyId = subcountyId;
+    public void setId(String id) {
+        this.subcountyId = id;
     }
     public County getCounty() {
         return this.county;
@@ -63,13 +63,19 @@ public class Subcounty  extends AbstractEditable {
     public void setBoundaryData(String boundaryData) {
         this.boundaryData = boundaryData;
     }
-    public Set getParishs() {
-        return this.parishs;
+    public Set<User> getUsers() {
+        return this.users;
     }
     
-    public void setParishs(Set parishs) {
-        this.parishs = parishs;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
+
+    public void setSubcountyId(String subcounty_id) {
+        this.subcountyId = subcounty_id;
+    }
+    
+    
 
 
 
