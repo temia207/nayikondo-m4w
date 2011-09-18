@@ -1,26 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-  <class catalog="m4water" name="org.m4water.server.admin.model.Subcounty" table="subcounty">
+    <class name="org.m4water.server.admin.model.Subcounty" table="subcounty" catalog="m4water">
     <id name="subcountyId" type="string">
       <column length="200" name="subcounty_id"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.County" fetch="select" lazy="false" name="county">
-      <column length="200" name="county_id" not-null="true"/>
-    </many-to-one>
-    <property name="subcountyName" type="string">
-      <column length="200" name="subcounty_name" not-null="true"/>
-    </property>
-    <property name="boundaryData" type="string">
-      <column length="200" name="boundary_data" not-null="true"/>
-    </property>
-    <set inverse="true" name="parishs">
-      <key>
-        <column length="200" name="subcounty_id" not-null="true"/>
-      </key>
-      <one-to-many class="org.m4water.server.admin.model.Parish"/>
-    </set>
-  </class>
+        <many-to-one name="county" class="org.m4water.server.admin.model.County" update="false" insert="false" fetch="select" lazy="false">
+            <column name="county_id" length="200" not-null="true" />
+        </many-to-one>
+        <property name="subcountyName" type="string">
+            <column name="subcounty_name" length="200" not-null="true" />
+        </property>
+        <property name="boundaryData" type="string">
+            <column name="boundary_data" length="5000" not-null="true" />
+        </property>
+        <set name="users" inverse="true" lazy="false">
+            <key>
+                <column name="subcounty_id" length="200" not-null="true" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.User" />
+        </set>
+    </class>
 </hibernate-mapping>
