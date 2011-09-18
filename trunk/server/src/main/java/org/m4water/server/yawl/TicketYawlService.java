@@ -87,7 +87,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     public void launchCase(Params params) throws IOException, YAWLException {
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.78"), params.asXML(), yawlHelper.initSessionHandle());
+        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", "0.87"), params.asXML(), yawlHelper.initSessionHandle());
         boolean successful = successful(launchCase);
         if (!successful) {
             throw new YAWLException(launchCase);
@@ -103,12 +103,9 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             String reasonNotFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "reasonNotFixed");
 
             Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
-            WaterFunctionality functionality = null;
+            WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date());
             Set waterFunctionality = waterPoint.getWaterFunctionality();
-            for (Object object : waterFunctionality) {
-                functionality = (WaterFunctionality) object;
-                break;
-            }
+            waterFunctionality.add(functionality);
             waterPoint.setWaterFunctionality(waterFunctionality);
             functionality.setFunctionalityStatus("Working = " + problemFixed + " Assesment = " + assesment);
 //            waterPoint.setDate(new Date());
