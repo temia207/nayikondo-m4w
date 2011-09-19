@@ -43,7 +43,7 @@
                 operator,institutional</comment>
       </column>
     </property>
-    <set cascade="all" fetch="join" inverse="true" name="problems" >
+    <set cascade="all" fetch="join" inverse="true" name="problems" lazy="false" >
       <key>
         <column length="200" name="waterpoint_id" not-null="true"/>
       </key>
