@@ -20,6 +20,7 @@ import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.service.AssessmentService;
 import org.m4water.server.service.WaterPointService;
+import org.muk.fcit.results.util.MLogger;
 import org.openxdata.yawl.util.InterfaceBHelper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     private SessionFactory sessionFactory;
     @Autowired
     private OpenXDataPropertyPlaceholderConfigurer properties;
+    @Autowired
+    private AssessmentService assessmentService;
+
 
     public static TicketYawlService getInstance() {
         return ticketYawlService;
@@ -117,14 +121,27 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             waterPoint.setWaterFunctionality(waterFunctionality);
             functionality.setFunctionalityStatus("Working = " + problemFixed + " Assesment = " + assesment);
 //            waterPoint.setDate(new Date());
-            saveWaterPoint(waterPoint);
+            try {
+                saveWaterPoint(waterPoint);
+            } catch (Exception e) {
+                System.out.println("Problem saving problem log in ticaket yawl service");
+                e.printStackTrace();
+            }
             FaultAssessment assessmentItm = new FaultAssessment();
             assessmentItm.setProblem((Problem)waterPoint.getProblems().iterator().next());
             assessmentItm.setFaults(assesment);
             assessmentItm.setProblemFixed(problemFixed);
             assessmentItm.setRepairsDone(repairDetails);
             assessmentItm.setReasonNotFixed(reasonNotFixed);
-            saveFaultAssessment(assessmentItm);
+            assessmentItm.setUserId("n/a");
+            assessmentItm.setDate(new  Date());
+
+           try{ saveFaultAssessment(assessmentItm);
+            }catch(Exception ex){
+                System.out.println("Problem save fault assement in ticaket yawl service");
+                ex.printStackTrace();
+            }
+
 
 
         } finally {
@@ -133,24 +150,26 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     private void saveWaterPoint(final Waterpoint waterPoint) {
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                sessionFactory.getCurrentSession().update(waterPoint);
-            }
-        });
+//        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//
+//            @Override
+//            protected void doInTransactionWithoutResult(TransactionStatus status) {
+//                sessionFactory.getCurrentSession().update(waterPoint);
+//            }
+//        });
+        waterPointService.saveWaterPoint(waterPoint);
 
     }
 
     private void saveFaultAssessment(final FaultAssessment assessment) {
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                sessionFactory.getCurrentSession().update(assessment);
-            }
-        });
+//        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//
+//            @Override
+//            protected void doInTransactionWithoutResult(TransactionStatus status) {
+//                sessionFactory.getCurrentSession().save(assessment);
+//            }
+//        });
+        assessmentService.saveAssessment(assessment);
     }
     @Override
     public YParameter[] describeRequiredParams() {
