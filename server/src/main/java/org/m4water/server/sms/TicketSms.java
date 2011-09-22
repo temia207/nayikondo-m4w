@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.ProblemLog;
@@ -31,6 +33,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -44,7 +47,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Transactional
 public class TicketSms implements TicketService, InitializingBean {
 
-    MLogger log = new MLogger().getLogger();
+    MLogger log = MLogger.getLogger();
     @Autowired
     private WaterPointDao waterPointDao;
     @Autowired
@@ -53,109 +56,110 @@ public class TicketSms implements TicketService, InitializingBean {
     @Autowired
     private PlatformTransactionManager transactionManager;
     @Autowired
-    private SessionFactory session;
-    @Autowired
     private YawlService yawlService;
     @Autowired
     private SMSServiceImpl smsService;
     @Autowired
     private SmsMessageLogDao messageLogDao;
-    private Set<String> receivedIds = new HashSet<String>();
+    private final Set<String> receivedIds = new HashSet<String>();
 
     public TicketSms() {
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        int numOfProcessors = 10;
-        System.out.println("starting sms server");
-
-        //ModemGateway gateWay = new SerialModemGateway("modem.com1", "COM21", 460200, "Nokia", "6500c");
-
         transactionTemplate = new TransactionTemplate(transactionManager);
-        Channel ch = new TextMeUgChannel("m4w", "Trip77e");
-        // SMSServer s = new SMSServer(ch, new RequestListenerImpl(), numOfProcessors);
-        SMSServer server = new SMSServer(ch, new RequestListener() {
+        RequestListener requestListener = new RequestListener() {
 
             @Override
-            public void processRequest(final SMSMessage request) {
-                System.out.println("new message " + request.getSmsData());
-                if (!isMessageNew(request, false)) {
-                    return;
-                }
-                request.getSmsData();
-                String msg = cleanSms(request);
-                final String[] split = msg.split(" ");
-                final String sourceId = split[0];
-                String tempComplaint = "";
-                try {
-                    tempComplaint = msg.substring(sourceId.length());
-                } catch (IndexOutOfBoundsException ex) {
-                }
-                final String complaint = tempComplaint;
-
-
-                transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-                    @Override
-                    protected void doInTransactionWithoutResult(TransactionStatus status) {
-                        try {
-                            if (isMessageNew(request, true)) {
-                                Object msgId = request.get("msgID");
-                                if (msgId != null) {
-                                    receivedIds.add(msgId.toString());
-                                    saveNewMessageToDb(request);
-                                }
-
-                            } else {
-                                return;
-                            }
-                            if (complaint.isEmpty()) {
-                                smsService.sendSMS(request.getSender(), "Please send again with the problem in the format: ID space problem");
-                                return;
-                            }
-
-                            final Problem problem = new Problem();
-                            Date date = new Date();
-                            problem.setDateProblemReported(date);
-                            problem.setProblemDescsription(complaint);
-                            problem.setProblemStatus("open");
-                            // final Waterpoint waterPoint = waterPointDao.getWaterPoint("UMASA0123");
-                            final Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
-                            if (waterPoint == null) {
-                                smsService.sendSMS(request.getSender(), "water point ID does not exist. Please send again with correct ID");
-                                return;
-                            }
-                            session.getCurrentSession().evict(waterPoint);
-                            problem.setWaterpoint(waterPoint);
-                            waterPoint.setProblems(new HashSet());
-                            waterPoint.getProblems().add(problem);
-
-                            problem.setProblemLogs(new HashSet() {
-
-                                {
-                                    add(new ProblemLog(0, problem, request.getSender(), new Date(), waterPoint.getWaterpointId()));
-                                }
-                            });
-
-                            problemDao.save(problem);
-
-                            launchCase(problem);
-                        } catch (Throwable x) {
-                            smsService.sendSMS(request.getSender(), "Server is temporarily down try again later");
-                            x.printStackTrace();
-                        }
-                    }
-                });
-
-
+            public void processRequest(SMSMessage request) {
+                processSms(request);
             }
-        }, numOfProcessors);
+        };
+        Channel ch = new TextMeUgChannel("m4w", "Trip77e");
+        SMSServer server = new SMSServer(ch, requestListener, 10);
+        System.out.println("Starting SMS server");
+        server.startServer();
+        System.out.println("Started SMS server");
+    }
 
+    private void createNewProblem(String complaint, Waterpoint waterPoint, String sender) throws HibernateException {
+        Date date = new Date();
+
+        Problem problem = new Problem();
+        problem.setDateProblemReported(date);
+        problem.setProblemDescsription(complaint);
+        problem.setProblemStatus("open");
+        problem.setWaterpoint(waterPoint);
+        problem.setProblemLogs(new HashSet());
+
+        waterPoint.setProblems(new HashSet());
+        waterPoint.getProblems().add(problem);
+
+        ProblemLog problemLog = new ProblemLog(0, problem, sender, date, waterPoint.getWaterpointId());
+        problem.getProblemLogs().add(problemLog);
+
+        saveProblem(problem);
+        launchCase(problem);
+    }
+
+    private void processSms(final SMSMessage request) throws TransactionException {
+        System.out.println("new message " + request.getSmsData());
+        if (!isMessageNew(request, false)) {
+            return;
+        }
+
+        String msg = cleanSms(request);
+        String[] split = msg.split(" ");
+        final String sourceId = split[0];
+        String tempComplaint = "";
         try {
-            server.startServer();
-        } catch (Exception ex) {
-            Logger.getLogger(TicketSms.class.getName()).log(Level.SEVERE, null, ex);
+            tempComplaint = msg.substring(sourceId.length());
+        } catch (IndexOutOfBoundsException ex) {
+        }
+        final String complaint = tempComplaint;
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                try {
+
+                    if (!isMessageNew(request, true)) {
+                        return;
+                    }
+
+                    saveAndCacheMessage(request);
+
+                    if (complaint.isEmpty()) {
+                        smsService.sendSMS(request.getSender(), "Please send again with the problem in the format: ID space problem");
+                    } else {
+                        processMessage(sourceId, complaint, request.getSender());
+                    }
+
+                } catch (Throwable x) {
+                    smsService.sendSMS(request.getSender(), "Server is temporarily down try again later");
+                    x.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void processMessage(String sourceId, String complaint, String sender) throws HibernateException {
+        Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
+        if (waterPoint == null) {
+            smsService.sendSMS(sender, "water point ID does not exist. Please send again with correct ID");
+            return;
+        }
+        createNewProblem(complaint, waterPoint, sender);
+    }
+
+    public void saveAndCacheMessage(SMSMessage request) {
+        Object msgId = request.get("msgID");
+        if (msgId != null) {
+            synchronized (receivedIds) {
+                receivedIds.add(msgId.toString());
+            }
+            saveNewMessageToDb(request);
         }
     }
 
@@ -186,17 +190,44 @@ public class TicketSms implements TicketService, InitializingBean {
         yawlService.launchWaterPointFlow(problem);
     }
 
-    private boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
+    public boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
         if (loadFromDb)
-            mayLoadMsgIds();
-        final Object msgId = message.get("msgID");
+            mayBeLoadMsgIds();
+        Object msgId = message.get("msgID");
         if (msgId == null)
             return true;
-
         return !receivedIds.contains(msgId + "");
     }
 
-    private void mayLoadMsgIds() {
+    public void setMessageLogDao(SmsMessageLogDao messageLogDao) {
+        this.messageLogDao = messageLogDao;
+    }
+
+    public void setProblemDao(ProblemDao problemDao) {
+        this.problemDao = problemDao;
+    }
+
+    public void setSmsService(SMSServiceImpl smsService) {
+        this.smsService = smsService;
+    }
+
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+    }
+
+    public void setWaterPointDao(WaterPointDao waterPointDao) {
+        this.waterPointDao = waterPointDao;
+    }
+
+    public void setYawlService(YawlService yawlService) {
+        this.yawlService = yawlService;
+    }
+
+    public void mayBeLoadMsgIds() {
         if (!receivedIds.isEmpty()) {
             return;
         }
@@ -204,10 +235,9 @@ public class TicketSms implements TicketService, InitializingBean {
         for (Smsmessagelog smsmessagelog : findAll) {
             receivedIds.add(smsmessagelog.getTextmeId());
         }
-        return;
     }
 
-    private String cleanSms(final SMSMessage request) {
+    public String cleanSms(final SMSMessage request) {
         String msg = request.getSmsData();
         msg = StringUtils.trimToEmpty(msg);
         msg = msg.replaceAll("\\s+", " ");
@@ -221,4 +251,6 @@ public class TicketSms implements TicketService, InitializingBean {
         log.info("Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
         messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
     }
+
+
 }
