@@ -3,7 +3,7 @@
 <!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.WaterUserCommittee" table="water_user_committee">
-    <id name="userCommitteeId" type="string">
+    <id name="id" type="string">
       <column length="200" name="user_committee_id"/>
       <generator class="assigned"/>
     </id>

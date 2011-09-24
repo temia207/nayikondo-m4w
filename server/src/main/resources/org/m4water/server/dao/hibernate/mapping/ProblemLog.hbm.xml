@@ -3,7 +3,7 @@
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.ProblemLog" table="problem_log">
-    <id name="logId" type="int">
+    <id name="id" type="int">
       <column name="log_id"/>
       <generator class="increment"/>
     </id>

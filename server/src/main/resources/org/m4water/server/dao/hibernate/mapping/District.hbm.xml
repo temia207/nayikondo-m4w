@@ -3,7 +3,7 @@
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.District" table="district">
-    <id name="districtId" type="string">
+    <id name="id" type="string">
       <column length="200" name="district_id"/>
       <generator class="assigned"/>
     </id>

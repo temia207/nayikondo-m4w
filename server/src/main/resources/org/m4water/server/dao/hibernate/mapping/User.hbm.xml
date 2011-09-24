@@ -4,7 +4,7 @@
 <!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.User" table="user" catalog="m4water">
-        <id name="userId" type="string">
+        <id name="id" type="string">
             <column name="user_id" length="200" />
             <generator class="assigned" />
         </id>

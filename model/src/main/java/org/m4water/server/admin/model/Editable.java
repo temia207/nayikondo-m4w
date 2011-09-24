@@ -8,14 +8,14 @@ import org.m4water.server.admin.model.state.EditableState;
 /**
  * This interface is implemented by objects which can be edited.
  */
-public interface Editable extends Serializable{
+public interface Editable <T extends Serializable> extends Serializable{
 	
 	/**
 	 * Checks if the object is new. New objects do not exist in the database.
 	 * 
 	 * @return true if the object is new, else false.
 	 */
-	public boolean isNew();
+//	public boolean isNew();
 	
 	/**
 	 * Checks if the object has been changed and the changes have not yet been 
@@ -62,13 +62,13 @@ public interface Editable extends Serializable{
 	 */
 	public void setHasErrors(boolean hasErrors);
 	
-	public void setId(int id);
+	public void setId(T id);
 	
 	/**
 	 * Returns the id of this editable item. This method should be prefered over the hard code Objected id like getFooId().
 	 * @return the object unique id.
 	 */
-	public int getId();
+	public T getId();
 	
 	/**
 	 * Sets the current state of the object.
