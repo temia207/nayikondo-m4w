@@ -23,6 +23,7 @@ public class FaultAssessment  extends AbstractEditable<Integer> {
      private String userId;
 
     public FaultAssessment() {
+        id = 0;
     }
 
 	

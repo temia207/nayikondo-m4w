@@ -227,7 +227,8 @@ public class TicketSms implements TicketService, InitializingBean {
         this.yawlService = yawlService;
     }
 
-    public void mayBeLoadMsgIds() {
+    public synchronized void mayBeLoadMsgIds() {
+       
         if (!receivedIds.isEmpty()) {
             return;
         }
