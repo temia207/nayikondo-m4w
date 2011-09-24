@@ -17,6 +17,7 @@ public class ProblemLog  extends AbstractEditable <Integer> {
      private String issue;
 
     public ProblemLog() {
+        id = 0;
     }
 
     public ProblemLog(int logId, Problem problem, String senderNo, Date date, String issue) {

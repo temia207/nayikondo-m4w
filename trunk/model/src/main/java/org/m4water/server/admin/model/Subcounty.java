@@ -13,6 +13,7 @@ public class Subcounty  extends AbstractEditable<String> {
 
      
      private County county;
+     private String subcountyId;
      private String subcountyName;
      private String boundaryData;
      private Set<User> users = new HashSet<User>(0);
@@ -36,13 +37,10 @@ public class Subcounty  extends AbstractEditable<String> {
     }
    
     public String getSubcountyId() {
-        return this.id;
+        return this.subcountyId;
     }
     
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+  
     public County getCounty() {
         return this.county;
     }
@@ -73,7 +71,7 @@ public class Subcounty  extends AbstractEditable<String> {
     }
 
     public void setSubcountyId(String subcounty_id) {
-        this.id = subcounty_id;
+        this.subcountyId = subcounty_id;
     }
     
     

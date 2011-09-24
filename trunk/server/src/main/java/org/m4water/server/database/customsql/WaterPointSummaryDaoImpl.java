@@ -27,7 +27,7 @@ public class WaterPointSummaryDaoImpl implements WaterPointSummaryDao {
     public List<WaterPointSummary> getWaterPointSummaries() {
         //these should be picked from settings file
         dbProps.setProperty("user", "root");
-        dbProps.setProperty("password", "test");
+        dbProps.setProperty("password", "pass");
         List<WaterPointSummary> summary = new ArrayList<WaterPointSummary>();
         try {
             Class.forName(driver).newInstance();

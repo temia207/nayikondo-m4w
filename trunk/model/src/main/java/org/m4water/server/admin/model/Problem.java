@@ -19,6 +19,7 @@ public class Problem  extends AbstractEditable<Integer> {
      private Set problemLogs = new HashSet(0);
 
     public Problem() {
+        id = 0;
     }
 
 	
