@@ -4,7 +4,7 @@
 <!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.Subcounty" table="subcounty" catalog="m4water">
-    <id name="subcountyId" type="string">
+    <id name="id" type="string">
       <column length="200" name="subcounty_id"/>
       <generator class="assigned"/>
     </id>

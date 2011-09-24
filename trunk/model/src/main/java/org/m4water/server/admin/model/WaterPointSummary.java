@@ -3,13 +3,14 @@
  */
 package org.m4water.server.admin.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author victor
  */
-public class WaterPointSummary extends AbstractEditable {
+public class WaterPointSummary implements Serializable{
 
     private String waterPointId;
     private String villageName;

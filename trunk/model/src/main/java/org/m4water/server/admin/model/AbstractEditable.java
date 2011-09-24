@@ -1,5 +1,6 @@
 package org.m4water.server.admin.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.m4water.server.admin.model.state.EditableState;
@@ -9,10 +10,10 @@ import net.sf.gilead.pojo.gwt.LightEntity;
 /**
  * This serves as the base class for domain objects which can be edited.
  */
-public abstract class AbstractEditable extends LightEntity implements Editable{
+public abstract class AbstractEditable<T extends Serializable> extends LightEntity implements Editable<T>{
 	
 	/**unique identifier for the model object. Correlates to the database PK. */
-	protected int id = 0;
+	protected T id;
 	
 	private static final long serialVersionUID = 7939951597182605859L;
 
@@ -44,20 +45,16 @@ public abstract class AbstractEditable extends LightEntity implements Editable{
 	private EditableState state = EditableState.LOADED;	
 	
     @Override
-	public void setId(int id){
+	public void setId(T id){
 		this.id = id;
 	}
 	
 	@Override
-	public int getId(){
+	public T getId(){
 		return id;
 	}
 	
-	@Override
-	public boolean isNew(){
-		return id == 0;
-	}
-	
+
 	@Override
 	public boolean isDirty() {
 		return dirty;

@@ -236,7 +236,7 @@ public class TicketDetailsView extends View {
         faultAssessmentFields = new HashMap<String, TextField<String>>();
 
         for (FaultAssessment x : fields) {
-            String id = "" + x.getAssessmentId();
+            String id = "" + x.getid();
             inspectionFldset.add(addAssessmentFld("Id", id),formData);
             inspectionFldset.add(addAssessmentFld("Problem",x.getProblem().getProblemDescsription()),formData);
             inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()),formData);
