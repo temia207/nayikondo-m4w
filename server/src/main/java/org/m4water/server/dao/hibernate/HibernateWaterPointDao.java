@@ -4,16 +4,10 @@
  */
 package org.m4water.server.dao.hibernate;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import org.hibernate.SQLQuery;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
@@ -55,7 +49,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
                 + " on village.parish_id = parish.parish_id inner join subcounty on"
                 + " parish.subcounty_id = subcounty.id inner join county on"
                 + " subcounty.county_id = county.county_id inner join district on"
-                + " county.district_id = district.district_id where district.district_id = '405'";
+                + " county.district_id = district.district_id where district.name = 'KABAROLE'";
         SQLQuery createSQLQuery = getSession().createSQLQuery(query);
         List list = createSQLQuery.list();
 

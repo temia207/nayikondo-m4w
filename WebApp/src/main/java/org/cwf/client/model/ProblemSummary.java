@@ -14,7 +14,7 @@ public class ProblemSummary extends BaseModel {
 
     private Problem problem;
 
-    public ProblemSummary(int id, String waterPoint, Date dateOfReport, String problemDescription,
+    public ProblemSummary(String id, String waterPoint, Date dateOfReport, String problemDescription,
             String problemStatus) {
         setId(id);
         setDate(dateOfReport);
@@ -27,8 +27,8 @@ public class ProblemSummary extends BaseModel {
         setProblem(problem);
     }
 
-    public void setId(int id) {
-        set("id",new Integer(id));
+    public void setId(String id) {
+        set("id",id);
     }
 
     public void setWaterPoint(String waterPoint) {
@@ -85,7 +85,7 @@ public class ProblemSummary extends BaseModel {
                 getSubcounty().getCounty().getDistrict().getName());
     }
 
-    public Integer getId() {
+    public String getId() {
         return get("id");
     }
 
