@@ -3,8 +3,8 @@
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.Problem" table="problem">
-    <id name="id" type="int">
-      <column name="problem_id"/>
+    <id name="id" type="string">
+      <column name="problem_id" length="200"/>
       <generator class="increment"/>
     </id>
     <many-to-one class="org.m4water.server.admin.model.Waterpoint" lazy="false" name="waterpoint">

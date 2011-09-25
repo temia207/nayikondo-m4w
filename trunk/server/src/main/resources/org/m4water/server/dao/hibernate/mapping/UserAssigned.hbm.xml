@@ -7,8 +7,8 @@
       <key-property name="userId" type="string">
         <column length="200" name="user_id"/>
       </key-property>
-      <key-property name="problemId" type="int">
-        <column name="problem_id"/>
+      <key-property name="problemId" type="string">
+        <column name="problem_id" length="200"/>
       </key-property>
     </composite-id>
     <many-to-one class="org.m4water.server.admin.model.User" fetch="select" insert="false" name="user" update="false">

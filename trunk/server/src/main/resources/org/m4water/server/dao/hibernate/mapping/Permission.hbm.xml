@@ -3,8 +3,8 @@
 <!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.Permission" table="permission">
-    <id name="permissionId" type="int">
-      <column name="permission_id"/>
+    <id name="permissionId" type="string">
+      <column name="permission_id" length="200"/>
       <generator class="assigned"/>
     </id>
     <property name="reports" type="string">
