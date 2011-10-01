@@ -98,7 +98,7 @@ public class InspectionServlet extends HttpServlet {
         org.m4water.server.admin.model.Inspection ins = new org.m4water.server.admin.model.Inspection(java.util.UUID.randomUUID().toString());
         DateFormat df = new SimpleDateFormat("dd-mm-yyyy");
 
-        ins.setInspectionDate(df.parse(jxbInspctn.date));
+        ins.setInspectionDate(df.parse(jxbInspctn.getDate()));
         ins.setInspectorName(jxbInspctn.getInspectorName());
         ins.setInspectorTitle(null);
         InspectionQuestions inspectionQuestions = jxbInspctn.getInspectionQuestions();
