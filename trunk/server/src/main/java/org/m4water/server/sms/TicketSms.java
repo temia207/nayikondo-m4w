@@ -15,8 +15,10 @@ import org.m4water.server.admin.model.ProblemLog;
 import org.m4water.server.admin.model.Smsmessagelog;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.dao.ProblemDao;
+import org.m4water.server.dao.ProblemLogDao;
 import org.m4water.server.dao.SmsMessageLogDao;
 import org.m4water.server.dao.WaterPointDao;
+import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.TicketService;
 import org.m4water.server.service.YawlService;
 import org.muk.fcit.results.sms.Channel;
@@ -56,6 +58,8 @@ public class TicketSms implements TicketService, InitializingBean {
     @Autowired
     private SMSServiceImpl smsService;
     @Autowired
+    private ProblemLogDao problemLogDao;
+    @Autowired
     private SmsMessageLogDao messageLogDao;
     private final Set<String> receivedIds = new HashSet<String>();
 
@@ -92,7 +96,7 @@ public class TicketSms implements TicketService, InitializingBean {
         waterPoint.setProblems(new HashSet());
         waterPoint.getProblems().add(problem);
 
-        ProblemLog problemLog = new ProblemLog(0, problem, sender, date, waterPoint.getWaterpointId());
+        ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, waterPoint.getWaterpointId());
         problem.getProblemLogs().add(problemLog);
 
         saveProblem(problem);
@@ -144,9 +148,15 @@ public class TicketSms implements TicketService, InitializingBean {
         Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
         if (waterPoint == null) {
             smsService.sendSMS(sender, "water point ID does not exist. Please send again with correct ID");
-            return;
+        } else if (waterPoint.hasOpenProblems()) {
+            Problem problem = waterPoint.getOpenProblem();
+            ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, new Date(), complaint);
+            problem.getProblemLogs().add(problemLog);
+            problemLogDao.save(problemLog);
+            smsService.sendSMS(sender, "Waterpoint problem has already been reported");
+        } else {
+            createNewProblem(complaint, waterPoint, sender);
         }
-        createNewProblem(complaint, waterPoint, sender);
     }
 
     public void saveAndCacheMessage(SMSMessage request) {
@@ -248,6 +258,6 @@ public class TicketSms implements TicketService, InitializingBean {
         log.info("Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
         messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
     }
-
+    
 
 }

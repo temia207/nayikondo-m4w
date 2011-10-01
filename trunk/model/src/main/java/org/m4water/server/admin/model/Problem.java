@@ -82,6 +82,10 @@ public class Problem  extends AbstractEditable<String> {
         this.problemLogs = problemLogs;
     }
 
+    public boolean isOpen() {
+        return problemStatus!=null&&problemStatus.equals("open");
+    }
+
 
 
 
