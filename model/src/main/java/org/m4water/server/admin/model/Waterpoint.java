@@ -171,4 +171,17 @@ public class Waterpoint extends AbstractEditable <String>{
     public Set getWaterFunctionality() {
         return this.waterFunctionality;
     }
+    
+    public boolean hasOpenProblems(){
+    return getOpenProblem() != null;
+    }
+
+    public Problem getOpenProblem() {
+        for (Object object : problems) {
+            Problem prob = (Problem) object;
+            if(prob.isOpen())
+                return prob;
+        }
+        return null;
+    }
 }

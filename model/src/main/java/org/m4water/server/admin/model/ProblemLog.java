@@ -19,8 +19,9 @@ public class ProblemLog  extends AbstractEditable <String> {
     public ProblemLog() {
     }
 
-    public ProblemLog(int logId, Problem problem, String senderNo, Date date, String issue) {
-       this.problem = problem;
+    public ProblemLog(String logId, Problem problem, String senderNo, Date date, String issue) {
+       this.id = logId;
+        this.problem = problem;
        this.senderNo = senderNo;
        this.date = date;
        this.issue = issue;

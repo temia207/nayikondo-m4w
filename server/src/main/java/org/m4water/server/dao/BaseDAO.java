@@ -6,9 +6,9 @@ import java.util.List;
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 import java.io.Serializable;
 
-public interface BaseDAO<T extends Serializable, S extends Serializable> extends GenericDAO<T, S> {
+public interface BaseDAO<E extends Serializable, ID extends Serializable> extends GenericDAO<E, ID> {
 
-    List<T> searchByPropertyEqual(String property, Object value);
+    List<E> searchByPropertyEqual(String property, Object value);
 
-    T searchUniqueByPropertyEqual(String property, Object value);
+    E searchUniqueByPropertyEqual(String property, Object value);
 }
