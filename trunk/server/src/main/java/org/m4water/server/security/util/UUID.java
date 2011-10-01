@@ -86,6 +86,10 @@ public class UUID {
 		}
 		return new String(uuid);
 	}
+        
+        public static String jUuid() {
+            return java.util.UUID.randomUUID().toString();
+	}
 
         public static void main(String[] args) {
                 System.out.println("UUID Genereated: uuid()="+uuid(7));

@@ -7,7 +7,9 @@ package org.m4water.server.service.impl;
 
 import java.util.List;
 import org.m4water.server.admin.model.Inspection;
+import org.m4water.server.admin.model.InspectionQuestionType;
 import org.m4water.server.dao.InspectionDao;
+import org.m4water.server.dao.InspectionQuestionTypeDao;
 import org.m4water.server.service.InspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ public class InspectionServiceImpl implements InspectionService{
 
     @Autowired
     private InspectionDao inspectionDao;
+    @Autowired
+    private InspectionQuestionTypeDao questionTypeDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,5 +44,11 @@ public class InspectionServiceImpl implements InspectionService{
     public void saveInspection(Inspection inspection) {
         inspectionDao.saveInspection(inspection);
     }
+    
+    public InspectionQuestionType getQuestionType(String questionName){
+        return questionTypeDao.searchUniqueByPropertyEqual("questionType", questionName);
+    }
+    
+    
 
 }
