@@ -6,6 +6,7 @@ package org.m4water.server.service;
 
 import java.util.List;
 import org.m4water.server.admin.model.Inspection;
+import org.m4water.server.admin.model.InspectionQuestionType;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface InspectionService {
     Inspection getInspection(String id);
 
     void saveInspection(Inspection inspection);
+     
+    InspectionQuestionType getQuestionType(String questionName);
 }

@@ -8,7 +8,7 @@
             <column name="id" length="200" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="inspectionQuestionType" class="org.m4water.server.admin.model.InspectionQuestionType" fetch="select">
+        <many-to-one name="inspectionQuestionType" class="org.m4water.server.admin.model.InspectionQuestionType" fetch="select"  cascade="save-update">
             <column name="question_type" length="200" />
         </many-to-one>
         <many-to-one name="inspection" class="org.m4water.server.admin.model.Inspection" fetch="select">

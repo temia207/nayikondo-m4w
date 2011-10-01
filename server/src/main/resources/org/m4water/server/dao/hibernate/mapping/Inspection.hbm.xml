@@ -20,7 +20,7 @@
         <property name="inspectionDate" type="date">
             <column name="inspection_date" length="10" />
         </property>
-        <set name="inspectionQuestionses" inverse="true" lazy="false">
+        <set name="inspectionQuestionses" inverse="true" lazy="false" cascade="save-update,delete-orphan">
             <key>
                 <column name="inspection_id" length="200" />
             </key>
