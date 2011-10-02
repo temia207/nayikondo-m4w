@@ -148,6 +148,8 @@ public class TicketSms implements TicketService, InitializingBean {
         Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
         if (waterPoint == null) {
             smsService.sendSMS(sender, "Water point ID does not exist. Please send again with correct ID");
+        }else if (validWaterPointID(sourceId)) {
+            smsService.sendSMS(sender, "Invalid Waterpoint ID("+sourceId+") Format. Form should be similar to 521PZ001 with 8 characters");
         } else if (waterPoint.hasOpenProblems()) {
             Problem problem = waterPoint.getOpenProblem();
             ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, new Date(), complaint);
@@ -234,7 +236,7 @@ public class TicketSms implements TicketService, InitializingBean {
     }
 
     public synchronized void mayBeLoadMsgIds() {
-       
+
         if (!receivedIds.isEmpty()) {
             return;
         }
@@ -258,6 +260,10 @@ public class TicketSms implements TicketService, InitializingBean {
         log.info("Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
         messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
     }
-    
+
+    private boolean validWaterPointID(String sourceId) {
+        return sourceId != null
+                && "[0-9]{3}[a-zA-Z]{2}[0-9]{3}".matches(sourceId);
+    }
 
 }
