@@ -131,7 +131,7 @@ public class TicketSms implements TicketService, InitializingBean {
                     saveAndCacheMessage(request);
 
                     if (complaint.isEmpty()) {
-                        smsService.sendSMS(request.getSender(), "Please send again with the problem in the format: ID space problem");
+                        smsService.sendSMS(request.getSender(), "No problem Reported Please send again with the problem in the format: ID space problem");
                     } else {
                         processMessage(sourceId, complaint, request.getSender());
                     }
@@ -147,7 +147,7 @@ public class TicketSms implements TicketService, InitializingBean {
     public void processMessage(String sourceId, String complaint, String sender) throws HibernateException {
         Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
         if (waterPoint == null) {
-            smsService.sendSMS(sender, "water point ID does not exist. Please send again with correct ID");
+            smsService.sendSMS(sender, "Water point ID does not exist. Please send again with correct ID");
         } else if (waterPoint.hasOpenProblems()) {
             Problem problem = waterPoint.getOpenProblem();
             ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, new Date(), complaint);
