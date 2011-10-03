@@ -4,6 +4,7 @@ import java.util.List;
 import org.cwf.client.service.ProblemService;
 import org.cwf.server.rpc.M4waterPersistentRemoteService;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.Waterpoint;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -26,6 +27,10 @@ public class ProblemServiceImpl extends M4waterPersistentRemoteService implement
     }
 
     @Override
+    public List<Problem> getProblemHistory(Waterpoint waterPointId) {
+        return getTicketService().getProblemHistory(waterPointId);
+    }
+    @Override
     public void saveProblem(Problem ticket) {
         getTicketService().saveProblem(ticket);
     }
@@ -42,4 +47,5 @@ public class ProblemServiceImpl extends M4waterPersistentRemoteService implement
         }
         return ticketService;
     }
+
 }

@@ -7,6 +7,7 @@ package org.cwf.client.controllers;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.GWT;
 import java.util.List;
 import org.cwf.client.AppMessages;
@@ -19,6 +20,7 @@ import org.cwf.client.views.TicketDetailsView;
 import org.m4water.server.admin.model.FaultAssessment;
 import org.m4water.server.admin.model.Inspection;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
@@ -57,6 +59,21 @@ public class TicketDetailsController extends Controller {
             forwardToView(ticketDetailsView, event);
         }
     }
+
+    public void forwardToCommentsView() {
+        GWT.log("TicketDetailsController  :forwardToCommentsView()");
+        Dispatcher dispacther = Dispatcher.get();
+        AppEvent event = new AppEvent(CommentController.COMMENT);
+        dispacther.dispatch(event);
+    }
+
+    public void forwardToHistoryView(Waterpoint waterPointId) {
+        GWT.log("TicketDetailsController  :forwardToHistoryView()");
+        Dispatcher dispacther = Dispatcher.get();
+        AppEvent event = new AppEvent(ProblemHistoryController.PROBLEM_HISTORY);
+        event.setData(waterPointId);
+        dispacther.dispatch(event);
+    }
     //in future this should be a call back to get users from the database
 
     public void getUsers() {
@@ -73,6 +90,7 @@ public class TicketDetailsController extends Controller {
             }
         });
     }
+
 
     public void saveTicket(Problem ticket) {
         GWT.log("TicketDetailsController  :saveTicket(Problem ticket)");
@@ -91,7 +109,7 @@ public class TicketDetailsController extends Controller {
 
             @Override
             public void onSuccess(List<FaultAssessment> result) {
-                ticketDetailsView.setInspectionFields(result);
+                ticketDetailsView.setAssessmentFields(result);
             }
         });
     }
