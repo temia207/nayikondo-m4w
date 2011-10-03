@@ -11,7 +11,7 @@ import java.util.Set;
 public class County  extends AbstractEditable<String> {
 
 
-     
+     private String countyId;
      private District district;
      private String countyName;
      private String boundaryData;
@@ -21,26 +21,26 @@ public class County  extends AbstractEditable<String> {
     }
 
 	
-    public County(String id, District district, String countyName, String boundaryData) {
-        this.id = id;
+    public County(String countyId,  District district, String countyName, String boundaryData) {
+        this.countyId = countyId;
         this.district = district;
         this.countyName = countyName;
         this.boundaryData = boundaryData;
     }
-    public County(String id, District district, String countyName, String boundaryData, Set subcounties) {
-       this.id = id;
+    public County(String countyId, District district, String countyName, String boundaryData, Set subcounties) {
+       this.countyId = countyId;
        this.district = district;
        this.countyName = countyName;
        this.boundaryData = boundaryData;
        this.subcounties = subcounties;
     }
-   
-    public String getid() {
-        return this.id;
+
+    public String getCountyId() {
+        return this.countyId;
     }
-    
-    public void setid(String id) {
-        this.id = id;
+
+    public void setCountyId(String countyId) {
+        this.countyId = countyId;
     }
     public District getDistrict() {
         return this.district;

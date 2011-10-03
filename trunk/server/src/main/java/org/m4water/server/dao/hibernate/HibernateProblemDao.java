@@ -6,6 +6,7 @@ package org.m4water.server.dao.hibernate;
 
 import java.util.List;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.dao.ProblemDao;
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +35,10 @@ public class HibernateProblemDao extends BaseDAOImpl<Problem,Long> implements Pr
     @Override
     public void saveProblem(Problem problem) {
         save(problem);
+    }
+
+    @Override
+    public List<Problem> getProblemHistory(Waterpoint waterPointId) {
+        return searchByPropertyEqual("waterpoint", waterPointId);
     }
 }

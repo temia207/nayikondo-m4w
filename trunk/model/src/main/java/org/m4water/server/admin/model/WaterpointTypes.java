@@ -11,7 +11,7 @@ import java.util.Set;
 public class WaterpointTypes  extends AbstractEditable<Integer> {
 
 
-     
+     private int typeId;
      private String name;
      private Set waterpoints = new HashSet(0);
 
@@ -20,21 +20,21 @@ public class WaterpointTypes  extends AbstractEditable<Integer> {
 
 	
     public WaterpointTypes(int typeId, String name) {
-        this.id = typeId;
+        this.typeId = typeId;
         this.name = name;
     }
     public WaterpointTypes(int typeId, String name, Set waterpoints) {
-       this.id = typeId;
+       this.typeId = typeId;
        this.name = name;
        this.waterpoints = waterpoints;
     }
    
     public int getTypeId() {
-        return this.id;
+        return this.typeId;
     }
     
     public void setTypeId(int typeId) {
-        this.id = typeId;
+        this.typeId = typeId;
     }
     public String getName() {
         return this.name;
