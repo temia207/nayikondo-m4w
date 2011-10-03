@@ -10,7 +10,7 @@ import java.util.Date;
 public class FaultAssessment  extends AbstractEditable<String> {
 
 
-     
+     private String assessmentId;
      private Problem problem;
      private String faults;
      private Date date;
@@ -27,13 +27,13 @@ public class FaultAssessment  extends AbstractEditable<String> {
     }
 
 	
-    public FaultAssessment(String id, Problem problem, String userId) {
-        this.id = id;
+    public FaultAssessment(String assessmentId, Problem problem, String userId) {
+        this.assessmentId = assessmentId;
         this.problem = problem;
         this.userId = userId;
     }
-    public FaultAssessment(String id, Problem problem, String faults, Date date, String assessedBy, String typeOfRepairesNeeded, String problemFixed, String reasonNotFixed, String repairsDone, String recommendations, String userId) {
-       this.id = id;
+    public FaultAssessment(String assessmentId, Problem problem, String faults, Date date, String assessedBy, String typeOfRepairesNeeded, String problemFixed, String reasonNotFixed, String repairsDone, String recommendations, String userId) {
+       this.assessmentId = assessmentId;
        this.problem = problem;
        this.faults = faults;
        this.date = date;
@@ -45,13 +45,13 @@ public class FaultAssessment  extends AbstractEditable<String> {
        this.recommendations = recommendations;
        this.userId = userId;
     }
-   
-    public String getid() {
-        return this.id;
+
+    public String getAssessmentId() {
+        return this.assessmentId;
     }
-    
-    public void setid(String id) {
-        this.id = id;
+
+    public void setAssessmentId(String assessmentId) {
+        this.assessmentId = assessmentId;
     }
     public Problem getProblem() {
         return this.problem;

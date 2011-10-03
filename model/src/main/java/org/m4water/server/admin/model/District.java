@@ -13,28 +13,28 @@ public class District  extends AbstractEditable<String> {
 
      
      private String name;
+     private String districtId;
      private Set counties = new HashSet(0);
 
     public District() {
     }
 
 	
-    public District(String id, String name) {
-        this.id = id;
+    public District(String districtId, String name) {
+        this.districtId = districtId;
         this.name = name;
     }
-    public District(String id, String name, Set counties) {
-       this.id = id;
+    public District(String districtId, String name, Set counties) {
+        this.districtId = districtId;
        this.name = name;
        this.counties = counties;
     }
-   
-    public String getid() {
-        return this.id;
+    public String getDistrictId() {
+        return this.districtId;
     }
-    
-    public void setid(String id) {
-        this.id = id;
+
+    public void setDistrictId(String districtId) {
+        this.districtId = districtId;
     }
     public String getName() {
         return this.name;

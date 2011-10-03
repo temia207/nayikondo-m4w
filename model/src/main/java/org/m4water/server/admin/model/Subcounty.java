@@ -17,23 +17,27 @@ public class Subcounty  extends AbstractEditable<String> {
      private String subcountyName;
      private String boundaryData;
      private Set<User> users = new HashSet<User>(0);
+     private Set parishs = new HashSet(0);
 
     public Subcounty() {
     }
 
 	
-    public Subcounty(String id, County county, String subcountyName, String boundaryData) {
+    public Subcounty(String id, County county ,String subcountyId, String subcountyName, String boundaryData) {
         this.id = id;
         this.county = county;
+       this.subcountyId = subcountyId;
         this.subcountyName = subcountyName;
         this.boundaryData = boundaryData;
     }
-    public Subcounty(String id, County county, String subcountyName, String boundaryData, Set<User> users) {
+    public Subcounty(String id, County county,String subcountyId, String subcountyName, String boundaryData, Set<User> users, Set parishs) {
        this.id= id;
        this.county = county;
+       this.subcountyId = subcountyId;
        this.subcountyName = subcountyName;
        this.boundaryData = boundaryData;
        this.users = users;
+       this.parishs = parishs;
     }
    
     public String getSubcountyId() {
@@ -73,7 +77,13 @@ public class Subcounty  extends AbstractEditable<String> {
     public void setSubcountyId(String subcounty_id) {
         this.subcountyId = subcounty_id;
     }
-    
+    public Set getParishs() {
+        return this.parishs;
+    }
+
+    public void setParishs(Set parishs) {
+        this.parishs = parishs;
+    }
     
 
 

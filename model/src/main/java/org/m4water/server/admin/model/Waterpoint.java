@@ -12,6 +12,7 @@ public class Waterpoint extends AbstractEditable <String>{
 
     
     private Village village;
+    private String waterpointId;
     private WaterpointTypes waterpointTypes;
     private String name;
     private Date dateInstalled;
@@ -29,7 +30,7 @@ public class Waterpoint extends AbstractEditable <String>{
     }
 
     public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String fundingOrg, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt) {
-        this.id = waterpointId;
+        this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
         this.name = fundingOrg;
@@ -44,7 +45,7 @@ public class Waterpoint extends AbstractEditable <String>{
     }
 
     public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality) {
-        this.id = waterpointId;
+        this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
         this.name = name;
@@ -61,11 +62,11 @@ public class Waterpoint extends AbstractEditable <String>{
     }
 
     public String getWaterpointId() {
-        return this.id;
+        return this.waterpointId;
     }
 
     public void setWaterpointId(String waterpointId) {
-        this.id = waterpointId;
+        this.waterpointId = waterpointId;
     }
 
     public Village getVillage() {

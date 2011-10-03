@@ -11,7 +11,7 @@ import java.util.Set;
 public class Parish  extends AbstractEditable<String> {
 
 
-     
+     private String parishId;
      private Subcounty subcounty;
      private String parishName;
      private String boundaryData;
@@ -21,26 +21,26 @@ public class Parish  extends AbstractEditable<String> {
     }
 
 	
-    public Parish(String id, Subcounty subcounty, String parishName, String boundaryData) {
-        this.id = id;
+    public Parish(String parishId, Subcounty subcounty, String parishName, String boundaryData) {
+        this.parishId = parishId;
         this.subcounty = subcounty;
         this.parishName = parishName;
         this.boundaryData = boundaryData;
     }
-    public Parish(String id, Subcounty subcounty, String parishName, String boundaryData, Set villages) {
-       this.id = id;
+    public Parish(String parishId, Subcounty subcounty, String parishName, String boundaryData, Set villages) {
+       this.parishId = parishId;
        this.subcounty = subcounty;
        this.parishName = parishName;
        this.boundaryData = boundaryData;
        this.villages = villages;
     }
-   
-    public String getid() {
-        return this.id;
+
+    public String getParishId() {
+        return this.parishId;
     }
-    
-    public void setid(String id) {
-        this.id = id;
+
+    public void setParishId(String parishId) {
+        this.parishId = parishId;
     }
     public Subcounty getSubcounty() {
         return this.subcounty;
