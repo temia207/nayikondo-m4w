@@ -40,8 +40,6 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
 //    ticket status
     private String status;
     private ListStore<ProblemSummary> store;
-
-    ;
     private HomeView parentView;
 
     public TicketDetailsPanel(HomeView view, String status) {
@@ -71,7 +69,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         setSize(600, 300);
         grid = new Grid<ProblemSummary>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
-        grid.setAutoExpandColumn("id");
+        grid.setAutoWidth(true);
         grid.setBorders(false);
         grid.setStripeRows(true);
         grid.setColumnLines(true);

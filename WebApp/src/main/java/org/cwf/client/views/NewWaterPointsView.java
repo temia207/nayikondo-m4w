@@ -15,7 +15,12 @@ import com.extjs.gxt.ui.client.widget.grid.BufferView;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.filters.DateFilter;
+import com.extjs.gxt.ui.client.widget.grid.filters.GridFilters;
+import com.extjs.gxt.ui.client.widget.grid.filters.ListFilter;
+import com.extjs.gxt.ui.client.widget.grid.filters.StringFilter;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +29,10 @@ import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
+import org.cwf.client.model.Subcounty;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.utils.ProgressIndicator;
+import org.cwf.client.views.widgets.CommentView;
 import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
@@ -90,6 +97,30 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         setLayout(new FitLayout());
     }
 
+    private ListStore<Subcounty> subcounties;
+    private GridFilters createFilters() {
+        DateFilter dateFilter = new DateFilter("date");
+        StringFilter villageFilter = new StringFilter("village");
+        StringFilter parishFilter = new StringFilter("parish");
+        StringFilter subcountyFilter = new StringFilter("subcounty");
+        StringFilter countyFilter = new StringFilter("county");
+        StringFilter districtFilter = new StringFilter("district");
+        subcounties = new ListStore<Subcounty>();
+        subcounties.add(Subcounty.getSampleSubcounties());
+        ListFilter listFilter = new ListFilter("subcounty", subcounties);
+        listFilter.setDisplayProperty("name");
+        GridFilters filters = new GridFilters();
+        filters.setLocal(true);
+        filters.addFilter(dateFilter);
+        filters.addFilter(villageFilter);
+        filters.addFilter(parishFilter);
+        filters.addFilter(subcountyFilter);
+        filters.addFilter(countyFilter);
+        filters.addFilter(districtFilter);
+        filters.addFilter(listFilter);
+        return filters;
+    }
+
     private void initGrid(ListStore<WaterPointModel> store) {
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
@@ -113,6 +144,7 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         BufferView buffer = new BufferView();
         buffer.setScrollDelay(2);
         buffer.setRowHeight(28);
+        grid.addPlugin(createFilters());
         grid.setView(buffer);
         add(grid);
     }

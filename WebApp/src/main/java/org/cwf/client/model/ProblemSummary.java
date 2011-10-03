@@ -1,7 +1,12 @@
 package org.cwf.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.m4water.server.admin.model.FaultAssessment;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
@@ -28,7 +33,7 @@ public class ProblemSummary extends BaseModel {
     }
 
     public void setId(String id) {
-        set("id",id);
+        set("id", id);
     }
 
     public void setWaterPoint(String waterPoint) {
@@ -83,6 +88,10 @@ public class ProblemSummary extends BaseModel {
                 getSubcounty().getSubcountyName());
         setDistrict(problem.getWaterpoint().getVillage().getParish().
                 getSubcounty().getCounty().getDistrict().getName());
+        List<FaultAssessment> assessment = new ArrayList<FaultAssessment>(problem.getFaultAssessments());
+        if (!assessment.isEmpty()) {
+            setRepairsDone(assessment.get(0).getRepairsDone());
+        }
     }
 
     public String getId() {
@@ -127,5 +136,13 @@ public class ProblemSummary extends BaseModel {
 
     public String getDistrict() {
         return get("district");
+    }
+
+    public void setRepairsDone(String fault) {
+        set("repairs", fault);
+    }
+
+    public String getFault() {
+        return get("repairs");
     }
 }

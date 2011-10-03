@@ -45,19 +45,18 @@ public class CenterHomePageView extends CardPanel {
         mainView.setHeading("Home");
         containers.add(mainView);
         //all water points
-        AvailableWaterpointsView allWaterPoints = new AvailableWaterpointsView(parentView,appMessages.allWaterPoints());
-        allWaterPoints.setWidth("100%");
-        allWaterPoints.setHeading(appMessages.allWaterPoints());
-        containers.add(allWaterPoints);
+        WaterpointsTabPanel waterPointsView = new WaterpointsTabPanel(parentView);
+        waterPointsView.setWidth("100%");
+        containers.add(waterPointsView);
 
-        //new water points view
-        NewWaterPointsView newpoint = new NewWaterPointsView(parentView,appMessages.newWaterPoints());
-        newpoint.setWidth("100%");
-        newpoint.setHeading(appMessages.newWaterPoints());
-        containers.add(newpoint);
-        
+//        //new water points view
+//        NewWaterPointsView newpoint = new NewWaterPointsView(parentView,appMessages.newWaterPoints());
+//        newpoint.setWidth("100%");
+//        newpoint.setHeading(appMessages.newWaterPoints());
+//        containers.add(newpoint);
+//
         //ticket view
-        TicketsView tickets = new TicketsView(parentView);
+        TicketsTabPanel tickets = new TicketsTabPanel(parentView);
         tickets.setWidth("100%");
         containers.add(tickets);
         return containers;

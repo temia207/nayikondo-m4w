@@ -34,7 +34,6 @@ import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.model.ProblemSummary;
-import org.cwf.client.model.ProblemTwits;
 import org.cwf.client.model.StatusSummary;
 import org.cwf.client.model.UserSummary;
 import org.cwf.client.views.widgets.ParameterWidget;
@@ -53,7 +52,6 @@ public class TicketDetailsView extends View {
     private FormPanel summaryPanel;
     private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld, messageTfld;
     private ComboBox<UserSummary> reassignTicket;
-    private ComboBox<StatusSummary> statusCombo;
     private FormData formData;
     private FlexTable twitsTable;
 //    private Set ticketTwits;
@@ -84,45 +82,48 @@ public class TicketDetailsView extends View {
         window.setModal(true);
         formData = new FormData("-20");
 
-        createSummaryFieldset();
-
-//        window.add(createTwitsFieldset());
+        createLayoutWindow();
         window.add(addCommentPanel());
         commentRow.setVisible(false);
-        Button addCommentBtn, saveChangesBtn;
-        addCommentBtn = new Button("Add coment");
-        addCommentBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
+        Button closeTicketBtn, shelveTicketBtn, historyBtn;
+        closeTicketBtn = new Button("Close Ticket");
+        closeTicketBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                commentRow.setVisible(true);
-//                window.setFocusWidget(commentRow);
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView();
             }
         });
-        saveChangesBtn = new Button("Save Changes");
-        saveChangesBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
+        shelveTicketBtn = new Button("Shelve Ticket");
+        shelveTicketBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                String number = commentRow.getNameTfld().getValue();
-                String value = commentRow.getValTfld().getValue();
-                int row = twitsTable.getRowCount();
-                twitsTable.setWidget(row, 0, new Label(number));
-                twitsTable.setWidget(row, 1, new Label(value));
-                commentRow.getNameTfld().setValue("");
-                commentRow.getValTfld().setValue("");
-                commentRow.setVisible(false);
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView();
 
             }
         });
-        window.addButton(addCommentBtn);
-        window.addButton(saveChangesBtn);
+
+
+        historyBtn = new Button("View History");
+        historyBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToHistoryView(ticket.getWaterpoint());
+
+            }
+        });
+
+        window.addButton(closeTicketBtn);
+        window.addButton(shelveTicketBtn);
+        window.addButton(historyBtn);
         window.setButtonAlign(HorizontalAlignment.CENTER);
 //        window.add(createButtons());
     }
     private FlexTable ticketsDataTable;
 
-    private void createSummaryFieldset() {
+    private void createLayoutWindow() {
         summaryPanel = new FormPanel();
         summaryPanel.setFrame(true);
         summaryPanel.setHeading("");
@@ -140,7 +141,7 @@ public class TicketDetailsView extends View {
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
         summaryPanel.add(ticketsDataTable);
         window.add(summaryPanel);
-        window.setWidth("100%");
+        window.setWidth("82%");
     }
 
     private FieldSet getTicketDetailFldSet() {
@@ -206,48 +207,36 @@ public class TicketDetailsView extends View {
         });
 
         ticketDetailsFldset.add(reassignTicket, formData);
-
-        statusCombo = new ComboBox<StatusSummary>();
-        statusCombo.setFieldLabel("Status");
-        statusCombo.setDisplayField("status");
-        statusCombo.setTriggerAction(TriggerAction.ALL);
-        statusCombo.setAllowBlank(false);
-        statusStore = new ListStore<StatusSummary>();
-        statusCombo.setStore(statusStore);
-        statusCombo.addSelectionChangedListener(new SelectionChangedListener<StatusSummary>() {
-
-            @Override
-            public void selectionChanged(SelectionChangedEvent<StatusSummary> se) {
-                //
-            }
-        });
-        ticketDetailsFldset.add(statusCombo, formData);
         return ticketDetailsFldset;
     }
-  
-    public void setInspectionFields(List<FaultAssessment> fields) {
+
+    public void setAssessmentFields(List<FaultAssessment> fields) {
         inspectionFldset = new FieldSet();
         inspectionFldset.setHeading(appMessages.assessmentAndRepairs());
         inspectionFldset.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
-        layout.setLabelWidth(500);
+        layout.setLabelWidth(200);
         inspectionFldset.setLayout(layout);
         faultAssessmentFields = new HashMap<String, TextField<String>>();
 
         for (FaultAssessment x : fields) {
-            String id = "" + x.getid();
-            inspectionFldset.add(addAssessmentFld("Id", id),formData);
-            inspectionFldset.add(addAssessmentFld("Problem",x.getProblem().getProblemDescsription()),formData);
-            inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()),formData);
-            inspectionFldset.add(addAssessmentFld("Date",x.getDate().toString()),formData);
-            inspectionFldset.add(addAssessmentFld("Assessed By",x.getAssessedBy()),formData);
-            inspectionFldset.add(addAssessmentFld("Types of Repaires Needed",x.getTypeOfRepairesNeeded()),formData);
-            inspectionFldset.add(addAssessmentFld("Is the problem Fixed?",x.getProblemFixed().equals("T")?"Yes":"No"),formData);
-            inspectionFldset.add(addAssessmentFld("If Not fixed why?",x.getReasonNotFixed()),formData);
-            inspectionFldset.add(addAssessmentFld("Repairs Done",x.getRepairsDone()),formData);
-            inspectionFldset.add(addAssessmentFld("Recommendations",x.getRecommendations()),formData);
-            inspectionFldset.add(addAssessmentFld("Username",x.getUserId()),formData);
+            String id = "" + x.getAssessmentId();
+            inspectionFldset.add(addAssessmentFld("Id", id), formData);
+            inspectionFldset.add(addAssessmentFld("Problem", x.getProblem().getProblemDescsription()), formData);
+            inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()), formData);
+            inspectionFldset.add(addAssessmentFld("Date", x.getDate().toString()), formData);
+            inspectionFldset.add(addAssessmentFld("Assessed By", x.getAssessedBy()), formData);
+            inspectionFldset.add(addAssessmentFld("Types of Repaires Needed", x.getTypeOfRepairesNeeded()), formData);
+            inspectionFldset.add(addAssessmentFld("Is the problem Fixed?", x.getProblemFixed().equals("T") ? "Yes" : "No"), formData);
+            inspectionFldset.add(addAssessmentFld("If Not fixed why?", x.getReasonNotFixed()), formData);
+            inspectionFldset.add(addAssessmentFld("Repairs Done", x.getRepairsDone()), formData);
+            inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
+            inspectionFldset.add(addAssessmentFld("Username", x.getUserId()), formData);
+        }
+        if (fields.isEmpty()) {
+            Label lable = new Label("There is no assessment done for this fault");
+            inspectionFldset.add(lable);
         }
         ticketsDataTable.setWidget(0, 1, inspectionFldset);
         ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
@@ -275,23 +264,17 @@ public class TicketDetailsView extends View {
 
     public void setUsers(List<UserSummary> users) {
         userStore.add(users);
-        setStatus(StatusSummary.getSampleStatus());
-        statusCombo.setValue(statusStore.getAt(0));
     }
 
     private void save(Problem ticket) {
 //
     }
 
-    private void setStatus(List<StatusSummary> status) {
-        statusStore.add(status);
-    }
-
     private void createSummaryTwits(Set twits, FlexTable table) {
         int row = 1;
         for (Object twit : twits) {
-            table.setWidget(row, 0, new Label(((ProblemLog)twit).getSenderNo()));
-            table.setWidget(row, 1, new Label(((ProblemLog)twit).getIssue()));
+            table.setWidget(row, 0, new Label(((ProblemLog) twit).getSenderNo()));
+            table.setWidget(row, 1, new Label(((ProblemLog) twit).getIssue()));
             ++row;
         }
     }
@@ -328,11 +311,15 @@ public class TicketDetailsView extends View {
         ProblemLog problemLog = null;
         problemLogs = summary.getProblem().getProblemLogs();
         for (Object object : problemLogs) {
-            problemLogs.add((ProblemLog)object);
+            if (problemLog == null) {
+                problemLog = (ProblemLog) object;
+                problemLogs.add((ProblemLog) object);
+            } else {
+                problemLogs.add((ProblemLog) object);
+            }
         }
-        problemLog =(ProblemLog) problemLogs.iterator().next();
-        reporterNumTfld.setValue(problemLog.getSenderNo());
-        messageTfld.setValue(problemLog.getIssue());
+        reporterNumTfld.setValue(problemLog != null ? problemLog.getSenderNo() : "");
+        messageTfld.setValue(problemLog != null ? problemLog.getIssue() : "");
         createSummaryTwits(problemLogs, twitsTable);
 
     }
@@ -350,12 +337,9 @@ public class TicketDetailsView extends View {
     protected void handleEvent(AppEvent event) {
         GWT.log("TicketDetailsView : handleEvent");
         if (event.getType() == TicketDetailsController.TICKET_DETAILS) {
-//            WaterPointSummary waterPointSummary = event.getData();
-//            ticketTwits = ProblemTwits.getSampleTwits();
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
             controller2.getFaultAssessments();
-//            createSummaryTwits(ticketTwits, twitsTable);
             ProblemSummary ticketSummary = event.getData();
             setProblemData(ticketSummary);
             showWindow();

@@ -76,7 +76,7 @@ public class HomeView extends View implements Refreshable {
         west.setSplit(true);
         cpWest.add(addLeftMenu(appMessages.home()));
         cpWest.add(addLeftMenu(appMessages.allWaterPoints()));
-        cpWest.add(addLeftMenu(appMessages.newWaterPoints()));
+//        cpWest.add(addLeftMenu(appMessages.newWaterPoints()));
         cpWest.add(addLeftMenu(appMessages.tickets()));
         cpWest.add(addLeftMenu(appMessages.reports()));
         cpWest.add(addLeftMenu(appMessages.users()));
@@ -165,10 +165,8 @@ public class HomeView extends View implements Refreshable {
                     centerpanel.setActiveItem(0);
                 }else if (txt.equals(appMessages.allWaterPoints())) {
                     centerpanel.setActiveItem(1);
-                }else  if (txt.equals(appMessages.newWaterPoints())) {
-                    centerpanel.setActiveItem(2);
                 }else if (txt.equals("Tickets")) {
-                    centerpanel.setActiveItem(3);
+                    centerpanel.setActiveItem(2);
                 }
             }
         });

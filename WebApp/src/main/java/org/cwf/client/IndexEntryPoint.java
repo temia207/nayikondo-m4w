@@ -45,9 +45,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.cwf.client.controllers.CommentController;
 import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
+import org.cwf.client.controllers.ProblemHistoryController;
 import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.service.AssessmentClientServiceAsync;
 import org.cwf.client.service.InspectionClientServiceAsync;
@@ -105,6 +107,8 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         dispatcher.addController(new HomeController(ticketSmsService,waterPointService));
         dispatcher.addController(new EditWaterPointController(waterPointService,inspectionService));
         dispatcher.addController(new TicketDetailsController(ticketSmsService,inspectionService,assessmentService));
+        dispatcher.addController(new CommentController());
+        dispatcher.addController(new ProblemHistoryController(ticketSmsService,assessmentService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);
