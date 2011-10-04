@@ -33,7 +33,7 @@ public class WaterPointSummaryDaoImpl implements WaterPointSummaryDao {
             Class.forName(driver).newInstance();
             Connection con = DriverManager.getConnection(dbUrl, dbProps);
             Statement stmt = con.createStatement();
-            String query = "select waterpoint.waterpoint_id,village.villagename,parish.parish_name,"
+            String query = "select waterpoint.waterpoint_id,waterpoint.date_installed,waterpoint.baseline_date,village.villagename,parish.parish_name,"
                     + " subcounty.subcounty_name,county.county_name,district.`name` from waterpoint"
                     + " inner join village"
                     + " on waterpoint.village_id = village.village_id inner join parish"
@@ -46,6 +46,8 @@ public class WaterPointSummaryDaoImpl implements WaterPointSummaryDao {
             while (rs.next()) {
                 WaterPointSummary point = new WaterPointSummary();
                 point.setWaterPointId(rs.getString("waterpoint_id"));
+                point.setDate(rs.getDate("date_installed"));
+                point.setBaselineDate(rs.getDate("baseline_date"));
                 point.setVillageName(rs.getString("villagename"));
                 point.setParishName(rs.getString("parish_name"));
                 point.setSubcountyName(rs.getString("subcounty_name"));

@@ -33,23 +33,23 @@ public class WaterpointsTabPanel extends ContentPanel {
         waterpointsPanel.setAutoHeight(true);
         setHeading(appMessages.allWaterPoints()+":to filter values right click the colum->filters");
 
-        TabItem baseLineNotdoneTab = new TabItem("BaseLine Not done");
+        TabItem baseLineNotdoneTab = new TabItem(appMessages.baseLineNotDone());
         baseLineNotdoneTab.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints1 = new AvailableWaterpointsView(parentView,appMessages.allWaterPoints());
+        AvailableWaterpointsView waterpoints1 = new AvailableWaterpointsView(parentView,appMessages.baseLineNotDone());
         waterpoints1.setWidth("100%");
         waterpoints1.setHeading(appMessages.allWaterPoints());
         baseLineNotdoneTab.add(waterpoints1);
 
-        TabItem baseLineForReview = new TabItem("Baseline For review");
+        TabItem baseLineForReview = new TabItem(appMessages.baseLineForReview());
         baseLineForReview.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints2  = new AvailableWaterpointsView(parentView,appMessages.allWaterPoints());
+        AvailableWaterpointsView waterpoints2  = new AvailableWaterpointsView(parentView,appMessages.baseLineForReview());
         waterpoints2.setWidth("100%");
         waterpoints2.setHeading(appMessages.allWaterPoints());
         baseLineForReview.add(waterpoints2);
 
-        TabItem baselineComplete = new TabItem("Baseline Data Complete");
+        TabItem baselineComplete = new TabItem(appMessages.baseLineDataComplete());
         baselineComplete.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints3  = new AvailableWaterpointsView(parentView,appMessages.allWaterPoints());
+        AvailableWaterpointsView waterpoints3  = new AvailableWaterpointsView(parentView,appMessages.baseLineDataComplete());
         waterpoints3.setWidth("100%");
         waterpoints3.setHeading(appMessages.allWaterPoints());
         baselineComplete.add(waterpoints3);
