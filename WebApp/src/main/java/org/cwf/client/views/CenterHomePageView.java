@@ -4,6 +4,7 @@
  */
 package org.cwf.client.views;
 
+import org.cwf.client.views.widgets.WaterpointsTabPanel;
 import com.extjs.gxt.ui.client.widget.CardPanel;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.CardLayout;
