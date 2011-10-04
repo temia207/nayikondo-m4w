@@ -243,21 +243,21 @@
         </repository>
         <repository>
             <id>openxdata</id>
-            <url>http://nexus.openxdata.org/content/repositories/thirdparty/</url>
+            <url>http://nexuss.openxdata.org/content/repositories/thirdparty/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
             <id>openxdata-snapshots</id>
-            <url>http://nexus.openxdata.org/content/repositories/snapshots/</url>
+            <url>http://nexuss.openxdata.org/content/repositories/snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
         </repository>
         <repository>
             <id>openxdata-releases</id>
-            <url>http://nexus.openxdata.org/content/repositories/releases/</url>
+            <url>http://nexuss.openxdata.org/content/repositories/releases/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -382,10 +382,10 @@
     <distributionManagement>
         <snapshotRepository>
             <id>openxdata-snapshots</id>
-            <url>https://nexus.openxdataa.org/content/repositories/snapshots</url>
+            <url>https://nexuss.openxdataa.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>openxdata-releases</id>
+            <id>openxdata-releasess</id>
             <url>https://nexus.openxdataa.org/content/repositories/releases</url>
         </repository>
     </distributionManagement>

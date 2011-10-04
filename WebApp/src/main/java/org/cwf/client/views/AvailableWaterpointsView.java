@@ -133,20 +133,18 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         DateFilter dateFilter = new DateFilter("date");
         ListFilter districtFilter = new ListFilter("district", districts);
         districtFilter.setDisplayProperty("name");
-        ListFilter countyFilter = new ListFilter("county",counties);
+        ListFilter countyFilter = new ListFilter("county", counties);
         countyFilter.setDisplayProperty("name");
         ListFilter subcountyFilter = new ListFilter("subcounty", subcounties);
         subcountyFilter.setDisplayProperty("name");
-        ListFilter villageFilter = new ListFilter("village", villages);
-        villageFilter.setDisplayProperty("name");
-        ListFilter parishFilter = new ListFilter("parish",parishes);
-        parishFilter.setDisplayProperty("name");
+        StringFilter villageFilter = new StringFilter("village");
+        StringFilter parishFilter = new StringFilter("parish");
         //
         GridFilters filters = new GridFilters();
         filters.setLocal(true);
         filters.addFilter(dateFilter);
-//        filters.addFilter(villageFilter);
-//        filters.addFilter(parishFilter);
+        filters.addFilter(villageFilter);
+        filters.addFilter(parishFilter);
         filters.addFilter(subcountyFilter);
         filters.addFilter(countyFilter);
         filters.addFilter(districtFilter);
@@ -167,7 +165,19 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             parishes = new ListStore<Subcounty>();
             villages = new ListStore<Subcounty>();
             for (WaterPointSummary point : waterPoints) {
-                store.add(new WaterPointModel(point));
+                if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+                    if (point.getBaselineDate() == null) {
+                        store.add(new WaterPointModel(point));
+                    }
+                } else if (type.equalsIgnoreCase(appMessages.baseLineForReview())) {
+                    if (point.getBaselineDate() != null) {
+                        store.add(new WaterPointModel(point));
+                    }
+                } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {
+                    if (point.getBaselineDate() != null) {
+                        store.add(new WaterPointModel(point));
+                    }
+                }
             }
             districts.add(Utilities.filterSubcounties(waterPoints, "district"));
             counties.add(Utilities.filterSubcounties(waterPoints, "county"));

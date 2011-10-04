@@ -42,7 +42,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
         List<WaterPointSummary> summary = new ArrayList<WaterPointSummary>();
 
-        String query = "select waterpoint.waterpoint_id,village.villagename,parish.parish_name,"
+        String query = "select waterpoint.waterpoint_id,waterpoint.baseline_date,village.villagename,parish.parish_name,"
                 + " subcounty.subcounty_name,county.county_name,district.`name`,waterpoint.date_installed from waterpoint"
                 + " inner join village"
                 + " on waterpoint.village_id = village.village_id inner join parish"
@@ -50,6 +50,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
                 + " parish.subcounty_id = subcounty.id inner join county on"
                 + " subcounty.county_id = county.county_id inner join district on"
                 + " county.district_id = district.district_id where district.name = 'KABAROLE'";
+        System.out.println(query);
         SQLQuery createSQLQuery = getSession().createSQLQuery(query);
         List list = createSQLQuery.list();
 
@@ -58,19 +59,22 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
             Object[] strings = (Object[]) object;
             WaterPointSummary point = new WaterPointSummary();
             point.setWaterPointId(strings[0]+"");
-            point.setVillageName(strings[1]+"");
-            point.setParishName(strings[2]+"");
-            point.setSubcountyName(strings[3]+"");
-            point.setCountyName(strings[4]+"");
-            point.setDistrict(strings[5]+"");
+            point.setVillageName(strings[2]+"");
+            point.setParishName(strings[3]+"");
+            point.setSubcountyName(strings[4]+"");
+            point.setCountyName(strings[5]+"");
+            point.setDistrict(strings[6]+"");
             //MM/dd/yyyy
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date parse = null;
+            java.util.Date dateInstalled = null;
+            java.util.Date baselineDate = null;
             try {
-                parse = df.parse(strings[6]+"");
+                dateInstalled = df.parse(strings[7]+"");
+                baselineDate = df.parse(strings[1]+"");
             } catch (Exception e) {
             }
-            point.setDate(parse);
+            point.setDate(dateInstalled);
+            point.setBaselineDate(baselineDate);
             summary.add(point);
         }
 

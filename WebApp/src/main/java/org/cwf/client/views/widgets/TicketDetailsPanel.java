@@ -22,11 +22,9 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
-import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.views.HomeView;
 import org.m4water.server.admin.model.Problem;
-import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
