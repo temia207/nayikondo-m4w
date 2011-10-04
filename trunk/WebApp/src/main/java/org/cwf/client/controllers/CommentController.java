@@ -8,8 +8,11 @@ import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.google.gwt.core.client.GWT;
+import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.views.widgets.CommentView;
 import org.m4water.server.admin.model.Problem;
@@ -24,6 +27,7 @@ public class CommentController extends Controller {
     AppMessages appMessages = GWT.create(AppMessages.class);
     public final static EventType COMMENT = new EventType();
     ProblemServiceAsync ticketService;
+
     public CommentController(ProblemServiceAsync aTicketService) {
         super();
         ticketService = aTicketService;
@@ -33,7 +37,7 @@ public class CommentController extends Controller {
     @Override
     public void initialize() {
         GWT.log("CommentController  : initialize");
-        commentPanel = new CommentView(this, "DWO Comment",appMessages.close());
+        commentPanel = new CommentView(this, "DWO Comment", appMessages.close());
     }
 
     @Override
@@ -51,7 +55,19 @@ public class CommentController extends Controller {
 
             @Override
             public void onSuccess(Void result) {
+                getTickets();
                 commentPanel.closeWindow();
+            }
+        });
+    }
+
+    public void getTickets() {
+        GWT.log("HomeController : getTickets()");
+        ticketService.getProblems(new M4waterAsyncCallback<List<Problem>>() {
+
+            @Override
+            public void onSuccess(List<Problem> result) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.TICKET_UPDATE, result));
             }
         });
     }

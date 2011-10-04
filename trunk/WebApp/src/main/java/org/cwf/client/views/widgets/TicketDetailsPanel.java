@@ -111,6 +111,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     public void refresh(RefreshableEvent event) {
         if (event.getEventType() == RefreshableEvent.Type.TICKET_UPDATE) {
             ListStore<ProblemSummary> store1 = grid.getStore();
+            store1.removeAll();
             System.out.println("-------------------------------------------------------------");
             List<Problem> tkts = event.getData();
             for (Problem t : tkts) {
