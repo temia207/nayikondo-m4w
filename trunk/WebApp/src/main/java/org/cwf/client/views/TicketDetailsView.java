@@ -91,7 +91,7 @@ public class TicketDetailsView extends View {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView();
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket);
             }
         });
         shelveTicketBtn = new Button("Shelve Ticket");
@@ -99,7 +99,7 @@ public class TicketDetailsView extends View {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView();
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket);
 
             }
         });

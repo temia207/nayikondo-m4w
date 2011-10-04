@@ -20,6 +20,10 @@ import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
+import com.google.gwt.core.client.GWT;
+import org.cwf.client.AppMessages;
+import org.cwf.client.controllers.CommentController;
+import org.m4water.server.admin.model.Problem;
 
 /**
  *
@@ -32,10 +36,14 @@ public class CommentView extends View {
     private FormData formData;
     private FormPanel summaryPanel;
     private String heading;
+    private String action;
+    private Problem problem;
+    AppMessages appMessages = GWT.create(AppMessages.class);
 
-    public CommentView(Controller controller, String title) {
+    public CommentView(Controller controller, String title, String action) {
         super(controller);
         this.heading = title;
+        this.action = action;
     }
 
     @Override
@@ -62,7 +70,10 @@ public class CommentView extends View {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                //
+                if (action.equals(appMessages.close())) {
+                    problem.setProblemStatus("closed");
+                    ((CommentController) CommentView.this.getController()).saveTicket(problem);
+                }
             }
         });
         window.add(summaryPanel);
@@ -98,6 +109,7 @@ public class CommentView extends View {
 
     @Override
     protected void handleEvent(AppEvent event) {
+        problem = event.getData();
         showWindow();
     }
 }

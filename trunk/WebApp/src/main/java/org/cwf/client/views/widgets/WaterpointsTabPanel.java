@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.cwf.client.views;
+package org.cwf.client.views.widgets;
 
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.TabItem;
@@ -11,6 +11,8 @@ import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
+import org.cwf.client.views.AvailableWaterpointsView;
+import org.cwf.client.views.HomeView;
 
 /**
  *
