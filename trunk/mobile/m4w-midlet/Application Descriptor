@@ -1,0 +1,7 @@
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: MIDlet Suite Vendor
+MIDlet-Jar-URL: M4W-Midlet-midlet-1.0.jar
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-1: M4W,,org.m4w.workflow.mobile.M4WMidlet
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Name: M4W MIDlet Suite
