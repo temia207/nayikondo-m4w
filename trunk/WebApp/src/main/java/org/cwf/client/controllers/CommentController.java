@@ -14,7 +14,7 @@ import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.service.ProblemServiceAsync;
-import org.cwf.client.views.widgets.CommentView;
+import org.cwf.client.views.CommentView;
 import org.m4water.server.admin.model.Problem;
 
 /**
@@ -37,7 +37,7 @@ public class CommentController extends Controller {
     @Override
     public void initialize() {
         GWT.log("CommentController  : initialize");
-        commentPanel = new CommentView(this, "DWO Comment", appMessages.close());
+        commentPanel = new CommentView(this, "DWO Comment");
     }
 
     @Override

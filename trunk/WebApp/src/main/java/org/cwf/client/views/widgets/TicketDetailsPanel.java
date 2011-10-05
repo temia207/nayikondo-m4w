@@ -57,7 +57,6 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         configs.add(new ColumnConfig("district", "District", 100));
         configs.add(new ColumnConfig("subcounty", "Subcounty", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
-        //use static tickets for now
         store = new ListStore<ProblemSummary>();
         cm = new ColumnModel(configs);
         setBodyBorder(true);
@@ -77,7 +76,6 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             @Override
             public void handleEvent(GridEvent<BeanModel> be) {
                 ProblemSummary summary = grid.getSelectionModel().getSelectedItem();
-//                System.out.println("selected ===================== " + summary.getMessage());
                 parentView.showTicketDetails(summary);
 
             }

@@ -5,6 +5,7 @@
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.Events;
@@ -13,6 +14,7 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.grid.BufferView;
+import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
@@ -23,9 +25,7 @@ import com.extjs.gxt.ui.client.widget.grid.filters.StringFilter;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
@@ -35,7 +35,6 @@ import org.cwf.client.model.Subcounty;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.util.Utilities;
 import org.cwf.client.utils.ProgressIndicator;
-import org.m4water.server.admin.model.District;
 import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
@@ -61,6 +60,9 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
 
     private void initialize() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
+        CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
+        sm.setSelectionMode(SelectionMode.SIMPLE);
+        configs.add(sm.getColumn());
         configs.add(new ColumnConfig("date", "Date", 100));
         configs.add(new ColumnConfig("id", "ID", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
@@ -76,6 +78,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         setSize(600, 300);
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
+        grid.setSelectionModel(sm);
         grid.setAutoWidth(true);
         grid.setBorders(false);
         grid.setStripeRows(true);
@@ -93,6 +96,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
+        grid.addPlugin(sm);
         BufferView buffer = new BufferView();
         buffer.setScrollDelay(10);
         buffer.setRowHeight(28);
@@ -104,7 +108,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
     private void initGrid(ListStore<WaterPointModel> store) {
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
-        grid.setAutoExpandColumn("date");
+        grid.setAutoWidth(true);
         grid.setBorders(false);
         grid.setStripeRows(true);
         grid.setColumnLines(true);

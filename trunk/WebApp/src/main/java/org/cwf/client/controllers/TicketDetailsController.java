@@ -60,11 +60,12 @@ public class TicketDetailsController extends Controller {
         }
     }
 
-    public void forwardToCommentsView(Problem ticket) {
+    public void forwardToCommentsView(Problem ticket,String action) {
         GWT.log("TicketDetailsController  :forwardToCommentsView()");
         Dispatcher dispacther = Dispatcher.get();
         AppEvent event = new AppEvent(CommentController.COMMENT);
-        event.setData(ticket);
+        event.setData("problem",ticket);
+        event.setData("action",action);
         dispacther.dispatch(event);
     }
 

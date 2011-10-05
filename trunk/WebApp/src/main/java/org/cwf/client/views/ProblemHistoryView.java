@@ -53,7 +53,7 @@ public class ProblemHistoryView extends View {
         window = new Window();
         window.setHeading("Problem History");
         window.setHeight("500px");
-        window.setSize(610, 320);
+        window.setSize(630, 340);
         window.setPlain(true);
         window.setDraggable(true);
         window.setResizable(true);
@@ -61,7 +61,7 @@ public class ProblemHistoryView extends View {
         window.setModal(true);
         cp = new ContentPanel();
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
-        configs.add(new ColumnConfig("id", "ID", 100));
+        configs.add(new ColumnConfig("id", "Ticket ID", 100));
         configs.add(new ColumnConfig("date", "Date", 100));
         configs.add(new ColumnConfig("waterpoint", "WaterPoint", 100));
         configs.add(new ColumnConfig("problemdescription", "Fault", 100));

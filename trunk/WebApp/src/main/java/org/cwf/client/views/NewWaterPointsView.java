@@ -32,7 +32,6 @@ import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.Subcounty;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.utils.ProgressIndicator;
-import org.cwf.client.views.widgets.CommentView;
 import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
