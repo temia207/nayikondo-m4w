@@ -50,12 +50,9 @@ public class TicketDetailsView extends View {
     AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
     private FormPanel summaryPanel;
-    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld, messageTfld;
-    private ComboBox<UserSummary> reassignTicket;
+    private TextField<String> idTextFld, districtTfld, subcountyTfld, villageTfld, reportDateTfld, reporterNumTfld, messageTfld, dwoCommentTFld;
     private FormData formData;
     private FlexTable twitsTable;
-//    private Set ticketTwits;
-    private ListStore<UserSummary> userStore;
     private ListStore<StatusSummary> statusStore;
     private ParameterWidget commentRow;
     private List<Problem> tickets;
@@ -63,6 +60,7 @@ public class TicketDetailsView extends View {
     private FieldSet inspectionFldset;
     private HashMap<String, TextField<String>> faultAssessmentFields;
     private Set problemLogs;
+    private Button closeTicketBtn, shelveTicketBtn, historyBtn;
 
     public TicketDetailsView(Controller controller) {
         super(controller);
@@ -85,13 +83,13 @@ public class TicketDetailsView extends View {
         createLayoutWindow();
         window.add(addCommentPanel());
         commentRow.setVisible(false);
-        Button closeTicketBtn, shelveTicketBtn, historyBtn;
         closeTicketBtn = new Button("Close Ticket");
         closeTicketBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket);
+                closeWindow();
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket, appMessages.closed());
             }
         });
         shelveTicketBtn = new Button("Shelve Ticket");
@@ -99,7 +97,8 @@ public class TicketDetailsView extends View {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket);
+                closeWindow();
+                ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToCommentsView(ticket, appMessages.suspended());
 
             }
         });
@@ -110,6 +109,7 @@ public class TicketDetailsView extends View {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
+                closeWindow();
                 ((TicketDetailsController) TicketDetailsView.this.getController()).forwardToHistoryView(ticket.getWaterpoint());
 
             }
@@ -119,7 +119,6 @@ public class TicketDetailsView extends View {
         window.addButton(shelveTicketBtn);
         window.addButton(historyBtn);
         window.setButtonAlign(HorizontalAlignment.CENTER);
-//        window.add(createButtons());
     }
     private FlexTable ticketsDataTable;
 
@@ -186,27 +185,14 @@ public class TicketDetailsView extends View {
         reporterNumTfld.setEnabled(false);
 
         messageTfld = new TextField<String>();
-        messageTfld.setFieldLabel("Problem");
+        messageTfld.setFieldLabel("Problem Description");
         ticketDetailsFldset.add(messageTfld);
         messageTfld.setEnabled(false);
 
-        //get the store
-        userStore = new ListStore<UserSummary>();
-        reassignTicket = new ComboBox<UserSummary>();
-        reassignTicket.setFieldLabel("Owner");
-        reassignTicket.setDisplayField("name");
-        reassignTicket.setTriggerAction(TriggerAction.ALL);
-        reassignTicket.setAllowBlank(false);
-        reassignTicket.setStore(userStore);
-        reassignTicket.addSelectionChangedListener(new SelectionChangedListener<UserSummary>() {
-
-            @Override
-            public void selectionChanged(SelectionChangedEvent<UserSummary> se) {
-                //
-            }
-        });
-
-        ticketDetailsFldset.add(reassignTicket, formData);
+        dwoCommentTFld = new TextField<String>();
+        dwoCommentTFld.setFieldLabel("DWO Comment");
+        ticketDetailsFldset.add(dwoCommentTFld);
+        dwoCommentTFld.setEnabled(false);
         return ticketDetailsFldset;
     }
 
@@ -263,7 +249,7 @@ public class TicketDetailsView extends View {
     }
 
     public void setUsers(List<UserSummary> users) {
-        userStore.add(users);
+        //
     }
 
     private void save(Problem ticket) {
@@ -319,8 +305,14 @@ public class TicketDetailsView extends View {
             }
         }
         reporterNumTfld.setValue(problemLog != null ? problemLog.getSenderNo() : "");
-        messageTfld.setValue(problemLog != null ? problemLog.getIssue() : "");
+        messageTfld.setValue(problemLog != null ? problemLog.getIssue() : summary.getProblemDescription());
         createSummaryTwits(problemLogs, twitsTable);
+        if (summary.getProblemStatus().equalsIgnoreCase(appMessages.closed())) {
+            closeTicketBtn.hide();
+        } else if (summary.getProblemStatus().equalsIgnoreCase(appMessages.suspended())) {
+            shelveTicketBtn.hide();
+            closeTicketBtn.show();
+        }
 
     }
 
