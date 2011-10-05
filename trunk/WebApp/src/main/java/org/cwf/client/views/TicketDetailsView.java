@@ -157,42 +157,42 @@ public class TicketDetailsView extends View {
         idTextFld.setFieldLabel("ID");
         idTextFld.setAllowBlank(false);
         ticketDetailsFldset.add(idTextFld, formData);
-        idTextFld.setEnabled(false);
+        idTextFld.setReadOnly(true);
 
         districtTfld = new TextField<String>();
         districtTfld.setFieldLabel("District");
         ticketDetailsFldset.add(districtTfld, formData);
-        districtTfld.setEnabled(false);
+        districtTfld.setReadOnly(true);
 
         subcountyTfld = new TextField<String>();
         subcountyTfld.setFieldLabel("Subcounty");
         ticketDetailsFldset.add(subcountyTfld, formData);
-        subcountyTfld.setEnabled(false);
+        subcountyTfld.setReadOnly(true);
 
         villageTfld = new TextField<String>();
         villageTfld.setFieldLabel("Village");
         ticketDetailsFldset.add(villageTfld, formData);
-        villageTfld.setEnabled(false);
+        villageTfld.setReadOnly(true);
 
         reportDateTfld = new TextField<String>();
         reportDateTfld.setFieldLabel("Report Date");
         ticketDetailsFldset.add(reportDateTfld, formData);
-        reportDateTfld.setEnabled(false);
+        reportDateTfld.setReadOnly(true);
 
         reporterNumTfld = new TextField<String>();
         reporterNumTfld.setFieldLabel("Reporter Tel");
         ticketDetailsFldset.add(reporterNumTfld, formData);
-        reporterNumTfld.setEnabled(false);
+        reporterNumTfld.setReadOnly(true);
 
         messageTfld = new TextField<String>();
         messageTfld.setFieldLabel("Problem Description");
         ticketDetailsFldset.add(messageTfld);
-        messageTfld.setEnabled(false);
+        messageTfld.setReadOnly(true);
 
         dwoCommentTFld = new TextField<String>();
         dwoCommentTFld.setFieldLabel("DWO Comment");
         ticketDetailsFldset.add(dwoCommentTFld);
-        dwoCommentTFld.setEnabled(false);
+        dwoCommentTFld.setReadOnly(true);
         return ticketDetailsFldset;
     }
 
@@ -271,6 +271,7 @@ public class TicketDetailsView extends View {
         assessmentQuiz.setAllowBlank(false);
         assessmentQuiz.setValue(value);
         faultAssessmentFields.put(name, assessmentQuiz);
+        assessmentQuiz.setReadOnly(true);
         return assessmentQuiz;
 
     }
