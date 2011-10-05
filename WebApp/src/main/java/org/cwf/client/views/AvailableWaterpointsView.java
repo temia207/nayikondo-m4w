@@ -60,9 +60,9 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
 
     private void initialize() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
-        CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
-        sm.setSelectionMode(SelectionMode.SIMPLE);
-        configs.add(sm.getColumn());
+//        CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
+//        sm.setSelectionMode(SelectionMode.SIMPLE);
+//        configs.add(sm.getColumn());
         configs.add(new ColumnConfig("date", "Date", 100));
         configs.add(new ColumnConfig("id", "ID", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
@@ -78,7 +78,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         setSize(600, 300);
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
-        grid.setSelectionModel(sm);
+//        grid.setSelectionModel(sm);
         grid.setAutoWidth(true);
         grid.setBorders(false);
         grid.setStripeRows(true);
@@ -96,7 +96,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
-        grid.addPlugin(sm);
+//        grid.addPlugin(sm);
         BufferView buffer = new BufferView();
         buffer.setScrollDelay(10);
         buffer.setRowHeight(28);
