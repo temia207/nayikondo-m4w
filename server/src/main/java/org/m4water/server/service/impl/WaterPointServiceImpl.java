@@ -5,6 +5,7 @@
 
 package org.m4water.server.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
@@ -45,6 +46,11 @@ public class WaterPointServiceImpl implements WaterPointService{
     @Override
     public List<WaterPointSummary> getWaterPointSummaries() {
        return waterPointDao.getWaterPointSummaries();
+    }
+
+    @Override
+    public Date getBaselineSetDate() {
+        return waterPointDao.getBaselineSetDate();
     }
 
 }

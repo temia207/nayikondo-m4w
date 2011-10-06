@@ -9,6 +9,10 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.GWT;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
@@ -97,7 +101,7 @@ public class HomeController extends Controller {
                 GWT.log("HomeController : waterpointsummarries found");
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
                 ProgressIndicator.hideProgressBar();
-             }
+            }
         });
     }
 
@@ -110,6 +114,17 @@ public class HomeController extends Controller {
                 GWT.log("HomeController : waterpoints found");
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
+            }
+        });
+    }
+
+    public void getBaselineSetDate() {
+        GWT.log("HomeController : getBaselineSetDate()");
+        waterpointService.getBaselineSetDate(new M4waterAsyncCallback<Date>() {
+
+            @Override
+            public void onSuccess(Date result) {
+                homeView.setBaselineSetDate(result);
             }
         });
     }

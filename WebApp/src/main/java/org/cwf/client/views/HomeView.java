@@ -26,8 +26,15 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.cwf.client.AppMessages;
 import org.cwf.client.IndexEntryPoint;
 import org.cwf.client.Refreshable;
@@ -48,6 +55,7 @@ public class HomeView extends View implements Refreshable {
     private Portlet portlet;
     public List<Problem> tickets = new ArrayList<Problem>();
     private CenterHomePageView centerpanel;
+    public Date baselineSetDate;
 
     public HomeView(Controller controller) {
         super(controller);
@@ -113,6 +121,7 @@ public class HomeView extends View implements Refreshable {
             HomeController controller2 = (HomeController) HomeView.this.getController();
             controller2.getTickets();
             controller2.getWaterPointSummaries();
+            controller2.getBaselineSetDate();
         }
 
     }
@@ -126,6 +135,10 @@ public class HomeView extends View implements Refreshable {
 
     public void setTickets(List<Problem> tickets) {
         this.tickets = tickets;
+    }
+
+    public void setBaselineSetDate(Date date) {
+        this.baselineSetDate = date;
     }
 
     public void showTicketDetails(ProblemSummary summary) {
@@ -160,12 +173,12 @@ public class HomeView extends View implements Refreshable {
 
             @Override
             public void onClick(ClickEvent event) {
-                String txt = label.getText(); 
+                String txt = label.getText();
                 if (txt.equals(appMessages.home())) {
                     centerpanel.setActiveItem(0);
-                }else if (txt.equals(appMessages.allWaterPoints())) {
+                } else if (txt.equals(appMessages.allWaterPoints())) {
                     centerpanel.setActiveItem(1);
-                }else if (txt.equals("Tickets")) {
+                } else if (txt.equals("Tickets")) {
                     centerpanel.setActiveItem(2);
                 }
             }

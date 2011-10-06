@@ -35,16 +35,16 @@ public class WaterpointsTabPanel extends ContentPanel {
         waterpointsPanel.setAutoHeight(true);
         setHeading(appMessages.allWaterPoints()+":to filter values right click the colum->filters");
 
-        TabItem baseLineNotdoneTab = new TabItem(appMessages.baseLineNotDone());
+        TabItem baseLineNotdoneTab = new TabItem(appMessages.newWaterPoints());
         baseLineNotdoneTab.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints1 = new AvailableWaterpointsView(parentView,appMessages.baseLineNotDone());
+        AvailableWaterpointsView waterpoints1 = new AvailableWaterpointsView(parentView,appMessages.newWaterPoints());
         waterpoints1.setWidth("100%");
         waterpoints1.setHeading(appMessages.allWaterPoints());
         baseLineNotdoneTab.add(waterpoints1);
 
-        TabItem baseLineForReview = new TabItem(appMessages.baseLineForReview());
+        TabItem baseLineForReview = new TabItem(appMessages.baseLineNotDone());
         baseLineForReview.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints2  = new AvailableWaterpointsView(parentView,appMessages.baseLineForReview());
+        AvailableWaterpointsView waterpoints2  = new AvailableWaterpointsView(parentView,appMessages.baseLineNotDone());
         waterpoints2.setWidth("100%");
         waterpoints2.setHeading(appMessages.allWaterPoints());
         baseLineForReview.add(waterpoints2);

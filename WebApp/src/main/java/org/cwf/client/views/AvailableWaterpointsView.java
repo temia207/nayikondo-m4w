@@ -5,14 +5,15 @@
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.data.BeanModel;
-import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.grid.BufferView;
 import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -50,6 +51,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
     private String type;
     private HomeView parentView;
     private ListStore<Subcounty> subcounties, districts, counties, parishes, villages;
+    private Button launchBaseline;
 
     public AvailableWaterpointsView(HomeView view, String type) {
         this.type = type;
@@ -60,7 +62,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
 
     private void initialize() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
-//        CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
+        CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
 //        sm.setSelectionMode(SelectionMode.SIMPLE);
 //        configs.add(sm.getColumn());
         configs.add(new ColumnConfig("date", "Date", 100));
@@ -75,7 +77,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         setBodyBorder(true);
         setButtonAlign(HorizontalAlignment.CENTER);
         setLayout(new FitLayout());
-        setSize(600, 300);
+        setSize(600, 290);
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
 //        grid.setSelectionModel(sm);
@@ -102,6 +104,16 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         buffer.setRowHeight(28);
         grid.setView(buffer);
         add(grid);
+        launchBaseline = new Button("Carry out Base Line");
+        launchBaseline.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                //launch baseline work flow
+            }
+        });
+        addButton(launchBaseline);
+        launchBaseline.hide();
         setLayout(new FitLayout());
     }
 
@@ -169,16 +181,16 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             parishes = new ListStore<Subcounty>();
             villages = new ListStore<Subcounty>();
             for (WaterPointSummary point : waterPoints) {
-                if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+                if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {
                     if (point.getBaselineDate() == null) {
                         store.add(new WaterPointModel(point));
                     }
-                } else if (type.equalsIgnoreCase(appMessages.baseLineForReview())) {
-                    if (point.getBaselineDate() != null) {
+                } else if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+                    if ((point.getBaselineDate() != null) && (point.getBaselineDate().before(parentView.baselineSetDate))) {
                         store.add(new WaterPointModel(point));
                     }
                 } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {
-                    if (point.getBaselineDate() != null) {
+                    if ((point.getBaselineDate() != null) && (point.getBaselineDate().after(parentView.baselineSetDate) || point.getBaselineDate().equals(parentView.baselineSetDate))) {
                         store.add(new WaterPointModel(point));
                     }
                 }
@@ -188,6 +200,9 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             subcounties.add(Utilities.filterSubcounties(waterPoints, "subcounty"));
             parishes.add(Utilities.filterSubcounties(waterPoints, "parish"));
             villages.add(Utilities.filterSubcounties(waterPoints, "village"));
+            if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+                launchBaseline.show();
+            }
             remove(grid);
             initGrid(store);
             System.out.println("done retrieving waterpoint summaries");
