@@ -5,9 +5,13 @@
 package org.m4water.server.dao.hibernate;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.SQLQuery;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
@@ -58,19 +62,19 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
         for (Object object : list) {
             Object[] strings = (Object[]) object;
             WaterPointSummary point = new WaterPointSummary();
-            point.setWaterPointId(strings[0]+"");
-            point.setVillageName(strings[2]+"");
-            point.setParishName(strings[3]+"");
-            point.setSubcountyName(strings[4]+"");
-            point.setCountyName(strings[5]+"");
-            point.setDistrict(strings[6]+"");
+            point.setWaterPointId(strings[0] + "");
+            point.setVillageName(strings[2] + "");
+            point.setParishName(strings[3] + "");
+            point.setSubcountyName(strings[4] + "");
+            point.setCountyName(strings[5] + "");
+            point.setDistrict(strings[6] + "");
             //MM/dd/yyyy
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateInstalled = null;
             java.util.Date baselineDate = null;
             try {
-                dateInstalled = df.parse(strings[7]+"");
-                baselineDate = df.parse(strings[1]+"");
+                dateInstalled = df.parse(strings[7] + "");
+                baselineDate = df.parse(strings[1] + "");
             } catch (Exception e) {
             }
             point.setDate(dateInstalled);
@@ -80,5 +84,23 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
 
         return summary;
+    }
+
+    @Override
+    public Date getBaselineSetDate() {
+        Date date = null;
+        String query = "SELECT * FROM baselineDate WHERE ID = (SELECT MAX( ID ) FROM baselineDate) ";
+        System.out.println(query);
+        SQLQuery createSQLQuery = getSession().createSQLQuery(query);
+        List list = createSQLQuery.list();
+        String datevalue = ((Object[]) list.get(0))[1] + "";
+        //MM/dd/yyyy
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = df.parse(datevalue);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return date;
     }
 }

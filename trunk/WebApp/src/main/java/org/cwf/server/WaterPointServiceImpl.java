@@ -1,6 +1,6 @@
-
 package org.cwf.server;
 
+import java.util.Date;
 import java.util.List;
 import org.cwf.client.service.WaterPointService;
 import org.cwf.server.rpc.M4waterPersistentRemoteService;
@@ -16,9 +16,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class WaterPointServiceImpl extends M4waterPersistentRemoteService implements WaterPointService {
 
     private org.m4water.server.service.WaterPointService waterPointService;
+
     @Override
-
-
     public List<Waterpoint> getWaterPoints() {
         return getWaterPointService().getWaterPoints();
     }
@@ -38,6 +37,11 @@ public class WaterPointServiceImpl extends M4waterPersistentRemoteService implem
         return getWaterPointService().getWaterPointSummaries();
     }
 
+    @Override
+    public Date getBaselineSetDate() {
+        return getWaterPointService().getBaselineSetDate();
+    }
+
     public org.m4water.server.service.WaterPointService getWaterPointService() {
         if (waterPointService == null) {
             WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
@@ -45,5 +49,4 @@ public class WaterPointServiceImpl extends M4waterPersistentRemoteService implem
         }
         return waterPointService;
     }
-
 }
