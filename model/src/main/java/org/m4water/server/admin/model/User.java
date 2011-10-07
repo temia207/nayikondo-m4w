@@ -12,11 +12,14 @@ public class User extends AbstractEditable<String> {
      
      private Subcounty subcounty;
      private UserProfile userProfile;
+     private String username;
      private String firstname;
      private String lastname;
      private String contacts;
      private String password;
      private String oxdName;
+     private String phoneId;
+     private String assignedNumber;
 
     public User() {
     }
@@ -27,15 +30,18 @@ public class User extends AbstractEditable<String> {
         this.subcounty = subcounty;
         this.contacts = contacts;
     }
-    public User(String userId, Subcounty subcounty, UserProfile userProfile, String firstname, String lastname, String contacts, String password, String oxdName) {
+    public User(String userId, Subcounty subcounty, String username, UserProfile userProfile, String firstname, String lastname, String contacts, String password, String oxdName,String phoneId, String assignedNumber) {
        this.id = userId;
        this.subcounty = subcounty;
        this.userProfile = userProfile;
+       this.username = username;
        this.firstname = firstname;
        this.lastname = lastname;
        this.contacts = contacts;
        this.password = password;
        this.oxdName = oxdName;
+       this.phoneId = phoneId;
+       this.assignedNumber = assignedNumber;
     }
    
     public String getUserId() {
@@ -51,6 +57,13 @@ public class User extends AbstractEditable<String> {
     
     public void setSubcounty(Subcounty subcounty) {
         this.subcounty = subcounty;
+    }
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     public UserProfile getUserProfile() {
         return this.userProfile;
@@ -93,6 +106,20 @@ public class User extends AbstractEditable<String> {
     
     public void setOxdName(String oxdName) {
         this.oxdName = oxdName;
+    }
+    public String getPhoneId() {
+        return this.phoneId;
+    }
+
+    public void setPhoneId(String phoneId) {
+        this.phoneId = phoneId;
+    }
+    public String getAssignedNumber() {
+        return this.assignedNumber;
+    }
+
+    public void setAssignedNumber(String assignedNumber) {
+        this.assignedNumber = assignedNumber;
     }
 
 

@@ -14,6 +14,9 @@
         <many-to-one name="userProfile" class="org.m4water.server.admin.model.UserProfile" fetch="select" lazy="false">
             <column name="staff_profile_id" length="200" />
         </many-to-one>
+        <property name="username" type="string">
+            <column name="username" length="200" />
+        </property>
         <property name="firstname" type="string">
             <column name="firstname" length="200" />
         </property>
@@ -28,6 +31,12 @@
         </property>
         <property name="oxdName" type="string">
             <column name="oxd_name" length="200" />
+        </property>
+        <property name="phoneId" type="string">
+            <column name="phoneId" length="200" />
+        </property>
+        <property name="assignedNumber" type="string">
+            <column name="assignedNumber" length="200" />
         </property>
     </class>
 </hibernate-mapping>
