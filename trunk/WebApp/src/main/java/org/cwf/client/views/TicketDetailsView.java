@@ -205,8 +205,8 @@ public class TicketDetailsView extends View {
         layout.setLabelWidth(200);
         inspectionFldset.setLayout(layout);
         faultAssessmentFields = new HashMap<String, TextField<String>>();
-
-        for (FaultAssessment x : fields) {
+        if (!fields.isEmpty()) {
+            FaultAssessment x = fields.get(fields.size() - 1);
             String id = "" + x.getAssessmentId();
             inspectionFldset.add(addAssessmentFld("Id", id), formData);
             inspectionFldset.add(addAssessmentFld("Problem", x.getProblem().getProblemDescsription()), formData);
@@ -219,8 +219,7 @@ public class TicketDetailsView extends View {
             inspectionFldset.add(addAssessmentFld("Repairs Done", x.getRepairsDone()), formData);
             inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
             inspectionFldset.add(addAssessmentFld("Username", x.getUserId()), formData);
-        }
-        if (fields.isEmpty()) {
+        } else {
             Label lable = new Label("There is no assessment done for this fault");
             inspectionFldset.add(lable);
         }
