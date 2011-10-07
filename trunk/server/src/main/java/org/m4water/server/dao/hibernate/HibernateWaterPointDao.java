@@ -89,7 +89,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
     @Override
     public Date getBaselineSetDate() {
         Date date = null;
-        String query = "SELECT * FROM baselineDate WHERE ID = (SELECT MAX( ID ) FROM baselineDate) ";
+        String query = "SELECT * FROM baselinedate WHERE id = (SELECT MAX( id ) FROM baselinedate) ";
         System.out.println(query);
         SQLQuery createSQLQuery = getSession().createSQLQuery(query);
         List list = createSQLQuery.list();
