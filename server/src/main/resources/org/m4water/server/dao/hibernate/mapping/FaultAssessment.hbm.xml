@@ -3,7 +3,7 @@
 <!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.FaultAssessment" table="fault_assessment">
-    <id name="id" type="int">
+    <id name="id" type="string">
       <column name="assessment_id"/>
       <generator class="assigned"/>
     </id>

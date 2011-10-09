@@ -78,6 +78,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
     }
 
@@ -110,20 +112,30 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             String reasonNotFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "reasonNotFixed");
 
             Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
+            if(waterPoint == null)
+                throw new RuntimeException("Water point id ["+waterPointID+"] sent from yawl was not found");
             WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date());
             Set waterFunctionality = waterPoint.getWaterFunctionality();
             waterFunctionality.add(functionality);
             waterPoint.setWaterFunctionality(waterFunctionality);
             functionality.setFunctionalityStatus("Working = " + problemFixed + " Assesment = " + assesment);
-//            waterPoint.setDate(new Date());
+            //            waterPoint.setDate(new Date());
+            Date baselineDate = waterPoint.getBaselineDate();
+            if(baselineDate==null)
+                baselineDate = new Date(1);
+            waterPoint.setBaselineDate(baselineDate);
             try {
                 saveWaterPoint(waterPoint);
             } catch (Exception e) {
-                System.out.println("Problem saving problem log in ticaket yawl service");
+                System.out.println("Problem saving problem log for waterpoint ["+waterPointID+"] in ticaket yawl service");
                 e.printStackTrace();
             }
             FaultAssessment assessmentItm = new FaultAssessment();
-            assessmentItm.setAssessmentId(UUID.jUuid());
+            assessmentItm.setId(UUID.jUuid());
+            Set problems = waterPoint.getProblems();
+            if(problems == null ||problems.isEmpty() ){
+                throw new RuntimeException("Water point ["+waterPointID+"] id from yawl has no reported problems");
+            }
             assessmentItm.setProblem((Problem)waterPoint.getProblems().iterator().next());
             assessmentItm.setFaults(assesment);
             assessmentItm.setProblemFixed(problemFixed);

@@ -51,7 +51,7 @@ public class FaultAssessment  extends AbstractEditable<String> {
     }
 
     public void setAssessmentId(String assessmentId) {
-        this.assessmentId = assessmentId;
+        this.id = assessmentId;
     }
     public Problem getProblem() {
         return this.problem;
