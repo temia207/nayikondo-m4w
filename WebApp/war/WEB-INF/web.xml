@@ -20,6 +20,7 @@
     <servlet>
         <servlet-name>yawlServlet</servlet-name>
         <servlet-class>org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedServer</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>yawlServlet</servlet-name>
