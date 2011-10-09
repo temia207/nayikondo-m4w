@@ -37,5 +37,6 @@
     <servlet path="/waterpoint" class="org.cwf.server.WaterPointServiceImpl"/>
     <servlet path="/inspection" class="org.cwf.server.InspectionClientServiceImpl"/>
     <servlet path="/assessment" class="org.cwf.server.AssessmentClientServiceImpl"/>
+    <servlet path="/yawlservice" class="org.cwf.server.YawlServiceImpl"/>
 
 </module>

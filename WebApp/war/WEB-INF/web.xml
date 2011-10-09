@@ -67,6 +67,14 @@
         <servlet-name>assessmentService</servlet-name>
         <url-pattern>/cwf/assessment</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>yawlService</servlet-name>
+        <servlet-class>org.cwf.server.YawlServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>yawlService</servlet-name>
+        <url-pattern>/cwf/yawlservice</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>

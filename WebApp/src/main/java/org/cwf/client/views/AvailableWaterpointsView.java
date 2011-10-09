@@ -5,6 +5,7 @@
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -63,8 +64,9 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
     private void initialize() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
         CheckBoxSelectionModel<WaterPointModel> sm = new CheckBoxSelectionModel<WaterPointModel>();
+//        FasterCheckBoxSelectionModel<WaterPointModel> sm = new FasterCheckBoxSelectionModel<WaterPointModel>();
 //        sm.setSelectionMode(SelectionMode.SIMPLE);
-//        configs.add(sm.getColumn());
+        configs.add(sm.getColumn());
         configs.add(new ColumnConfig("date", "Date", 100));
         configs.add(new ColumnConfig("id", "ID", 100));
         configs.add(new ColumnConfig("village", "Village", 100));
@@ -80,7 +82,6 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         setSize(600, 290);
         grid = new Grid<WaterPointModel>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
-//        grid.setSelectionModel(sm);
         grid.setAutoWidth(true);
         grid.setBorders(false);
         grid.setStripeRows(true);
@@ -98,7 +99,8 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
-//        grid.addPlugin(sm);
+        grid.setSelectionModel(sm);
+        grid.addPlugin(sm);
         BufferView buffer = new BufferView();
         buffer.setScrollDelay(10);
         buffer.setRowHeight(28);
@@ -110,6 +112,9 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             @Override
             public void componentSelected(ButtonEvent ce) {
                 //launch baseline work flow
+                WaterPointModel point = grid.getSelectionModel().getSelectedItem();
+                HomeController controller = (HomeController) parentView.getController();
+                controller.launchBaseline(point.getId());
             }
         });
         addButton(launchBaseline);
@@ -201,6 +206,10 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             parishes.add(Utilities.filterSubcounties(waterPoints, "parish"));
             villages.add(Utilities.filterSubcounties(waterPoints, "village"));
             if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+                launchBaseline.show();
+            } else if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {
+                launchBaseline.show();
+            } else {
                 launchBaseline.show();
             }
             remove(grid);

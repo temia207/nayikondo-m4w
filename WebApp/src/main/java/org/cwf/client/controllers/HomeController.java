@@ -22,6 +22,7 @@ import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
+import org.cwf.client.service.YawlServiceAsync;
 import org.cwf.client.util.ProgressIndicator;
 import org.cwf.client.views.HomeView;
 import org.m4water.server.admin.model.Problem;
@@ -39,11 +40,13 @@ public class HomeController extends Controller {
     private HomeView homeView;
     ProblemServiceAsync ticketService;
     WaterPointServiceAsync waterpointService;
+    YawlServiceAsync yawlService;
 
-    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService) {
+    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService, YawlServiceAsync aYawlService) {
         super();
         ticketService = aTicketService;
         waterpointService = aWaterPointService;
+        yawlService = aYawlService;
         registerEventTypes(HOME);
     }
 
@@ -125,6 +128,16 @@ public class HomeController extends Controller {
             @Override
             public void onSuccess(Date result) {
                 homeView.setBaselineSetDate(result);
+            }
+        });
+    }
+
+    public void launchBaseline(String waterPointId) {
+        yawlService.launchWaterPointBaseline(waterPointId, new M4waterAsyncCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void result) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
             }
         });
     }
