@@ -39,18 +39,8 @@ public class YawlServiceImpl implements YawlService {
             District district = county.getDistrict();
             
             TicketYawlService.Params params = new TicketYawlService.Params();
-            User mechanic = null;
-            String mechanicName = "";
-            for (Object user : subcounty.getUsers()) {
-                mechanic = (User) user;
-                if (mechanic.getOxdName() != null) {
-                    if (mechanic.getOxdName().trim().endsWith("HPM")) {
-                        mechanicName = ((User) user).getOxdName();
-                        break;
-                    }
-                }
-            }
-            params.addPumpMechanicName(mechanicName);
+            User mechanic = getSubcountHPM(subcounty);
+            params.addPumpMechanicName(mechanic == null ? "":mechanic.getOxdName());
             ProblemLog problemLog = null;
             Set problemLogs = problem.getProblemLogs();
             for (Object object : problemLogs) {
@@ -59,7 +49,7 @@ public class YawlServiceImpl implements YawlService {
             }
 
             params.setSenderNumber(problemLog.getSenderNo());
-            params.setMechanicNumber(mechanic.getContacts()+"");
+            params.setMechanicNumber((mechanic.getContacts()+"").replace("-", ""));
             params.setWaterPointID(problem.getWaterpoint().getWaterpointId());
             params.setTicketMessage(problemLog.getIssue());
 
@@ -72,8 +62,42 @@ public class YawlServiceImpl implements YawlService {
             params.put("ticketID", problem.getId()+"");
             yawlService.launchCase(params);
         } catch (Exception ex) {
-            log.error("Error occured while launching a ticket workflow", ex);
-            throw new RuntimeException(ex);
+            
+            throw new RuntimeException("Error occured while launching a ticket workflow",ex);
         }
+    }
+
+    private User getSubcountHPM(Subcounty subcounty) {
+        for (Object user : subcounty.getUsers()) {
+            User tempMech = (User) user;
+            if (tempMech.getUsername() != null) {
+                if (tempMech.getUsername().trim().endsWith("1")) {
+                    return  (User) user;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void launchWaterPointBaseline(Waterpoint waterpoint) {
+          Village village = waterpoint.getVillage();
+            Parish parish = village.getParish();
+            Subcounty subcounty = parish.getSubcounty();
+            County county = subcounty.getCounty();
+            District district = county.getDistrict();
+            User user = getSubcountHPM(subcounty);
+            TicketYawlService.Params params = new TicketYawlService.Params();
+            params.put("district", district.getName() );
+            params.put("subcounty", subcounty.getSubcountyName());
+            params.put("parish", parish.getParishName());
+            params.put("village", village.getVillagename());
+            params.put("source_name", waterpoint.getName());
+            params.put("source_number", null);
+            params.put("tel", null);
+            params.put("namesms", null);
+            params.put("userAssignedCollector", null);
+            params.put("userAssignedReviewer", null);
+            
+            //yawlService.launchWorkFlow
     }
 }
