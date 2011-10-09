@@ -113,7 +113,7 @@ public class YawlServiceImpl implements YawlService {
         try {
             yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
         } catch (IOException ex) {
-            throw new M4waterRuntimeException("Error While lauching baseline workflow: "+ex.getMessage(), ex);
+            throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
         }
     }
 
