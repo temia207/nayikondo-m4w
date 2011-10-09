@@ -8,6 +8,7 @@ import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.google.gwt.core.client.GWT;
 import java.text.DateFormat;
 import java.text.Format;
@@ -132,12 +133,20 @@ public class HomeController extends Controller {
         });
     }
 
-    public void launchBaseline(String waterPointId) {
+    public void launchBaseline(final String waterPointId) {
+        ProgressIndicator.showProgressBar();
         yawlService.launchWaterPointBaseline(waterPointId, new M4waterAsyncCallback<Void>() {
 
             @Override
             public void onSuccess(Void result) {
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
+                //RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
+                ProgressIndicator.hideProgressBar();
+                MessageBox.alert("Info", "Workflow Lanched For ID: "+waterPointId, null);
+            }
+
+            @Override
+            public void onFailurePostProcessing(Throwable throwable) {
+                ProgressIndicator.hideProgressBar();
             }
         });
     }
