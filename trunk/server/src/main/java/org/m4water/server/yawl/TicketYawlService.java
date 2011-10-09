@@ -47,11 +47,6 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     private InterfaceBHelper yawlHelper;
     @Autowired
     private WaterPointService waterPointService;
-    private TransactionTemplate transactionTemplate;
-    @Autowired
-    private PlatformTransactionManager transactionManager;
-    @Autowired
-    private SessionFactory sessionFactory;
     @Autowired
     private OpenXDataPropertyPlaceholderConfigurer properties;
     @Autowired
@@ -92,7 +87,6 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("Initiations the yawl custom service");
-        transactionTemplate = new TransactionTemplate(transactionManager);
         yawlHelper = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
         ticketYawlService = this;
     }
@@ -150,25 +144,11 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     private void saveWaterPoint(final Waterpoint waterPoint) {
-//        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-//
-//            @Override
-//            protected void doInTransactionWithoutResult(TransactionStatus status) {
-//                sessionFactory.getCurrentSession().update(waterPoint);
-//            }
-//        });
         waterPointService.saveWaterPoint(waterPoint);
 
     }
 
     private void saveFaultAssessment(final FaultAssessment assessment) {
-//        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-//
-//            @Override
-//            protected void doInTransactionWithoutResult(TransactionStatus status) {
-//                sessionFactory.getCurrentSession().save(assessment);
-//            }
-//        });
         assessmentService.saveAssessment(assessment);
     }
     @Override
