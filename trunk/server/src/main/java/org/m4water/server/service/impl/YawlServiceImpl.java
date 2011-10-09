@@ -16,6 +16,7 @@ import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.exception.M4waterRuntimeException;
+import org.m4water.server.service.WaterPointService;
 import org.m4water.server.service.YawlService;
 import org.m4water.server.yawl.TicketYawlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class YawlServiceImpl implements YawlService {
 
     @Autowired
     TicketYawlService yawlService;
+    @Autowired
+    private WaterPointService waterPointService;
     @Autowired
     OpenXDataPropertyPlaceholderConfigurer prptyPlcHlder;
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(YawlServiceImpl.class);
@@ -86,6 +89,7 @@ public class YawlServiceImpl implements YawlService {
         return null;
     }
 
+    @Override
     public void launchWaterPointBaseline(Waterpoint waterpoint) {
         Properties resolvedProps = prptyPlcHlder.getResolvedProps();
         Village village = waterpoint.getVillage();
@@ -111,5 +115,11 @@ public class YawlServiceImpl implements YawlService {
         } catch (IOException ex) {
             throw new M4waterRuntimeException("Error While lauching baseline workflow: "+ex.getMessage(), ex);
         }
+    }
+
+    @Override
+    public void launchWaterPointBaseline(String waterpointId) {
+        Waterpoint waterPoint = waterPointService.getWaterPoint(waterpointId);
+        launchWaterPointBaseline(waterPoint);
     }
 }

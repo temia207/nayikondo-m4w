@@ -55,6 +55,7 @@ import org.cwf.client.service.AssessmentClientServiceAsync;
 import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.ProblemServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
+import org.cwf.client.service.YawlServiceAsync;
 import org.cwf.client.utils.ProgressIndicator;
 
 /**
@@ -73,6 +74,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     WaterPointServiceAsync waterPointService;
     InspectionClientServiceAsync inspectionService;
     AssessmentClientServiceAsync assessmentService;
+    YawlServiceAsync yawlService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -98,13 +100,14 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         waterPointService = WaterPointServiceAsync.Util.getInstance();
         inspectionService = InspectionClientServiceAsync.Util.getInstance();
         assessmentService = AssessmentClientServiceAsync.Util.getInstance();
+        yawlService = YawlServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController();
 
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
-        dispatcher.addController(new HomeController(ticketSmsService,waterPointService));
+        dispatcher.addController(new HomeController(ticketSmsService,waterPointService,yawlService));
         dispatcher.addController(new EditWaterPointController(waterPointService,inspectionService));
         dispatcher.addController(new TicketDetailsController(ticketSmsService,inspectionService,assessmentService));
         dispatcher.addController(new CommentController(ticketSmsService));

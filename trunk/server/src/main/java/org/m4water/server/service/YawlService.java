@@ -12,4 +12,5 @@ public interface YawlService {
         public void launchWaterPointFlow(Problem problem);
         
         public void launchWaterPointBaseline(Waterpoint waterpoint);
+        public void launchWaterPointBaseline(String waterpointId);
 }
