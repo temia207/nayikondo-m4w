@@ -18,6 +18,7 @@ import org.m4water.server.admin.model.FaultAssessment;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.AssessmentService;
 import org.m4water.server.service.WaterPointService;
 import org.muk.fcit.results.util.MLogger;
@@ -122,6 +123,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                 e.printStackTrace();
             }
             FaultAssessment assessmentItm = new FaultAssessment();
+            assessmentItm.setAssessmentId(UUID.jUuid());
             assessmentItm.setProblem((Problem)waterPoint.getProblems().iterator().next());
             assessmentItm.setFaults(assesment);
             assessmentItm.setProblemFixed(problemFixed);
@@ -166,6 +168,10 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         };
 
         return yawlHelper.describeRequiredParams(params);
+    }
+
+    public void launchCase(String specName,String version, Params params) throws IOException {
+        _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML(), yawlHelper.initSessionHandle());
     }
 
     public static class Params {
