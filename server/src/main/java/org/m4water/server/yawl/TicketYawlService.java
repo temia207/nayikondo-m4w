@@ -95,7 +95,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
 
     public void launchCase(Params params) throws IOException, YAWLException {
         Properties resolvedProps = properties.getResolvedProps();
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", resolvedProps.getProperty("yawl.version")), params.asXML(), yawlHelper.initSessionHandle());
+        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", resolvedProps.getProperty("yawl.version")), params.asXML("WaterFlow"), yawlHelper.initSessionHandle());
         boolean successful = successful(launchCase);
         if (!successful) {
             throw new YAWLException(launchCase);
@@ -194,7 +194,11 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     public void launchCase(String specName, String version, Params params) throws IOException {
-        _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML(), yawlHelper.initSessionHandle());
+        String launchCase = _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML("BaselineNet"), yawlHelper.initSessionHandle());
+           boolean successful = successful(launchCase);
+        if (!successful) {
+            throw new RuntimeException(new YAWLException(launchCase));//WaterFlow
+        }
     }
 
     private void processBaseLine(WorkItemRecord workItemRecord) {
@@ -285,7 +289,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             return params.put(key, value);
         }
 
-        public String asXML() {
+        public String asXML(String WaterFlow) {
             StringBuilder builder = new StringBuilder();
             Set<Entry<String, String>> keySet = params.entrySet();
             for (Entry<String, String> entry : keySet) {
@@ -293,7 +297,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                 String value = entry.getValue();
                 builder.append(StringUtil.wrapEscaped(value, tag));
             }
-            return StringUtil.wrap(builder.toString(), "WaterFlow");
+            
+            return StringUtil.wrap(builder.toString(), WaterFlow);
         }
     }
 }
