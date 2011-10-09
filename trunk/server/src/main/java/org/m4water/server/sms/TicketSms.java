@@ -25,7 +25,6 @@ import org.muk.fcit.results.sms.Channel;
 import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.muk.fcit.results.sms.SMSServer;
-import org.muk.fcit.results.sms.impl.TextMeUgChannel;
 import org.muk.fcit.results.util.MLogger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +146,7 @@ public class TicketSms implements TicketService, InitializingBean {
     public void processMessage(String sourceId, String complaint, String sender) throws HibernateException {
         Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
         if (waterPoint == null) {
-            smsService.sendSMS(sender, "Water point ID does not exist. Please send again with correct ID");
+            smsService.sendSMS(sender, "Waterpoint ID(" + sourceId + ") does not exist. Please send again with correct ID");
         } else if (validWaterPointID(sourceId)) {
             smsService.sendSMS(sender, "Invalid Waterpoint ID(" + sourceId + ") Format. Form should be similar to 521PZ001 with 8 characters");
         } else if (waterPoint.hasOpenProblems()) {
@@ -155,7 +154,7 @@ public class TicketSms implements TicketService, InitializingBean {
             ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, new Date(), complaint);
             problem.getProblemLogs().add(problemLog);
             problemLogDao.save(problemLog);
-            smsService.sendSMS(sender, "Waterpoint problem has already been reported");
+            smsService.sendSMS(sender, "Waterpoint(" + sourceId + ") problem has already been reported");
         } else {
             createNewProblem(complaint, waterPoint, sender);
         }
