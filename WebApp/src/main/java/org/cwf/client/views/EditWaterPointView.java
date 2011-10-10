@@ -111,7 +111,6 @@ public class EditWaterPointView extends View {
         idTextFld = new TextField<String>();
         idTextFld.setFieldLabel("ID");
         idTextFld.setName("id");
-        idTextFld.setAllowBlank(false);
         waterPointDetails.add(idTextFld, formData);
         idTextFld.setReadOnly(true);
 
@@ -120,7 +119,6 @@ public class EditWaterPointView extends View {
         waterPointNameTfld.setFieldLabel("Waterpoint Name");
         waterPointNameTfld.setName("waterpointname");
         waterPointDetails.add(waterPointNameTfld, formData);
-        waterPointNameTfld.setAllowBlank(false);
         waterPointNameTfld.setReadOnly(true);
 
 
@@ -128,7 +126,6 @@ public class EditWaterPointView extends View {
         districtTfld.setFieldLabel("District");
         districtTfld.setName("district");
         waterPointDetails.add(districtTfld, formData);
-        districtTfld.setAllowBlank(false);
         districtTfld.setReadOnly(true);
 
 
@@ -136,7 +133,6 @@ public class EditWaterPointView extends View {
         subcountyTfld.setFieldLabel("Subcounty");
         subcountyTfld.setName("subcounty");
         waterPointDetails.add(subcountyTfld, formData);
-        subcountyTfld.setAllowBlank(false);
         subcountyTfld.setReadOnly(true);
 
 
@@ -144,7 +140,6 @@ public class EditWaterPointView extends View {
         villageTfld.setFieldLabel("Village");
         villageTfld.setName("village");
         waterPointDetails.add(villageTfld, formData);
-        villageTfld.setAllowBlank(false);
         villageTfld.setReadOnly(true);
 
 
@@ -152,49 +147,42 @@ public class EditWaterPointView extends View {
         eastingsTfld.setFieldLabel("Eastings");
         eastingsTfld.setName("eastings");
         waterPointDetails.add(eastingsTfld, formData);
-        eastingsTfld.setAllowBlank(false);
         eastingsTfld.setReadOnly(true);
 
         northingsTfld = new TextField<String>();
         northingsTfld.setFieldLabel("Northings");
         northingsTfld.setName("northings");
         waterPointDetails.add(northingsTfld, formData);
-        northingsTfld.setAllowBlank(false);
         northingsTfld.setReadOnly(true);
 
         dateIstalledTfld = new TextField<String>();
         dateIstalledTfld.setFieldLabel("Date Installed");
         dateIstalledTfld.setName("installdate");
         waterPointDetails.add(dateIstalledTfld, formData);
-        dateIstalledTfld.setAllowBlank(false);
         dateIstalledTfld.setReadOnly(true);
 
         fundingSrcTfld = new TextField<String>();
         fundingSrcTfld.setFieldLabel("Funding Source");
         fundingSrcTfld.setName("fundingsrc");
         waterPointDetails.add(fundingSrcTfld, formData);
-        fundingSrcTfld.setAllowBlank(false);
         fundingSrcTfld.setReadOnly(true);
 
         ownershipTfld = new TextField<String>();
         ownershipTfld.setFieldLabel("Ownership");
         ownershipTfld.setName("ownership");
         waterPointDetails.add(ownershipTfld, formData);
-        ownershipTfld.setAllowBlank(false);
         ownershipTfld.setReadOnly(true);
 
         houseHoldsTfld = new TextField<String>();
         houseHoldsTfld.setFieldLabel("Number Of Households");
         houseHoldsTfld.setName("households");
         waterPointDetails.add(houseHoldsTfld, formData);
-        houseHoldsTfld.setAllowBlank(false);
         houseHoldsTfld.setReadOnly(true);
 
         typeOfMagtTfld = new TextField<String>();
         typeOfMagtTfld.setFieldLabel("Type of management");
         typeOfMagtTfld.setName("typeofmagt");
         waterPointDetails.add(typeOfMagtTfld, formData);
-        typeOfMagtTfld.setAllowBlank(false);
         typeOfMagtTfld.setReadOnly(true);
 
         return waterPointDetails;
@@ -206,7 +194,7 @@ public class EditWaterPointView extends View {
         inspectionFldset.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
-        layout.setLabelWidth(500);
+        layout.setLabelWidth(75);
         inspectionFldset.setLayout(layout);
 
         questionTflds = new ArrayList<TextField<String>>();
@@ -216,7 +204,6 @@ public class EditWaterPointView extends View {
             for (Object object : quiz) {
                 TextField<String> questionFld = new TextField<String>();
                 questionFld.setFieldLabel(((InspectionQuestions) object).getQuestion());
-                questionFld.setAllowBlank(false);
                 questionFld.setValue(((InspectionQuestions) object).getAnswer());
                 inspectionFldset.add(questionFld, formData);
                 questionFld.setReadOnly(true);
