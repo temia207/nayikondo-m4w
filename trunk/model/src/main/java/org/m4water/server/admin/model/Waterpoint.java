@@ -26,6 +26,7 @@ public class Waterpoint extends AbstractEditable<String> {
     private Set problems = new HashSet(0);
     private Set waterFunctionality = new HashSet(0);
     private Set inspections = new HashSet(0);
+    private Set waterUserCommittees = new HashSet(0);
 
     public Waterpoint() {
     }
@@ -46,7 +47,7 @@ public class Waterpoint extends AbstractEditable<String> {
         this.baselineDate = baselineDate;
     }
 
-    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections, Date baselineDate) {
+    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections,Set waterUserCommittee, Date baselineDate) {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
@@ -62,6 +63,7 @@ public class Waterpoint extends AbstractEditable<String> {
         this.problems = problems;
         this.waterFunctionality = waterFunctionality;
         this.inspections = inspections;
+        this.waterUserCommittees = waterUserCommittee;
         this.baselineDate = baselineDate;
     }
 
@@ -205,5 +207,12 @@ public class Waterpoint extends AbstractEditable<String> {
 
     public void setBaselineDate(Date baselineDate) {
         this.baselineDate = baselineDate;
+    }
+    public Set getWaterUserCommittees() {
+        return this.waterUserCommittees;
+    }
+
+    public void setWaterUserCommittees(Set waterUserCommittees) {
+        this.waterUserCommittees = waterUserCommittees;
     }
 }

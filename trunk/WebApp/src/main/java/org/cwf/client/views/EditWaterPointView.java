@@ -30,6 +30,7 @@ import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.model.WaterPointModel;
 import org.m4water.server.admin.model.Inspection;
 import org.m4water.server.admin.model.InspectionQuestions;
+import org.m4water.server.admin.model.WaterUserCommittee;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -81,10 +82,10 @@ public class EditWaterPointView extends View {
         ticketsDataTable = new FlexTable();
         ticketsDataTable.setWidth("98%");
         ticketsDataTable.setWidget(0, 0, getWaterPointDetailsFldset());
-        ticketsDataTable.setWidget(1, 0, getWaterUsercommitteeFldset());
-        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setColSpan(0, 1, 2);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 0, "40%");
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+//        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0,details.getHeight()+"px");
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
@@ -194,12 +195,12 @@ public class EditWaterPointView extends View {
         inspectionFldset.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
-        layout.setLabelWidth(75);
+        layout.setLabelWidth(150);
         inspectionFldset.setLayout(layout);
 
         questionTflds = new ArrayList<TextField<String>>();
-
-        for (Inspection x : questions) {
+        if (!questions.isEmpty()) {
+            Inspection x = questions.get(questions.size() - 1);
             Set quiz = x.getInspectionQuestionses();
             for (Object object : quiz) {
                 TextField<String> questionFld = new TextField<String>();
@@ -214,13 +215,14 @@ public class EditWaterPointView extends View {
             Label lable = new Label("There is no Inspection done for this waterpoint");
             inspectionFldset.add(lable);
         }
-        ticketsDataTable.setWidget(0, 1, inspectionFldset);
+        inspectionFldset.setWidth("98%");
+        ticketsDataTable.setWidget(1,0, inspectionFldset);
         ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
 
-    public FieldSet getWaterUsercommitteeFldset() {
+    public FieldSet getWaterUsercommitteeFldset(Waterpoint point) {
         FieldSet userCommittee = new FieldSet();
         userCommittee.setHeading(appMessages.waterUserCommittee());
         userCommittee.setCheckboxToggle(false);
@@ -229,16 +231,21 @@ public class EditWaterPointView extends View {
         layout.setLabelWidth(100);
         userCommittee.setLayout(layout);
         initializeTextfields();
-        waterUserCommitteeFields = new HashMap<String, TextField<String>>();
-        userCommittee.add(addUserCommitteeFld("Id", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Waterpoint Id", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Commissioned", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Year Established", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Trained", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Collect Fees", ""), formData);
-        userCommittee.add(addUserCommitteeFld("Regular Service", ""), formData);
-
-
+        List<WaterUserCommittee> committee = new ArrayList<WaterUserCommittee>(point.getWaterUserCommittees());
+        for (WaterUserCommittee x : committee) {
+            waterUserCommitteeFields = new HashMap<String, TextField<String>>();
+            userCommittee.add(addUserCommitteeFld("Commissioned", x.getCommissioned()), formData);
+            userCommittee.add(addUserCommitteeFld("Year Established", x.getYrEstablished()), formData);
+            userCommittee.add(addUserCommitteeFld("Trained", x.getTrained()), formData);
+            userCommittee.add(addUserCommitteeFld("Collect Fees", x.getCollectFees()), formData);
+            userCommittee.add(addUserCommitteeFld("Regular Service", x.getRegularService()), formData);
+        }
+        if (committee.isEmpty()) {
+            Label lable = new Label("There is no Water User Committee for this waterpoint");
+            inspectionFldset.add(lable);
+        }
+        ticketsDataTable.setWidget(0,1,userCommittee);
+        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
         return userCommittee;
     }
 
@@ -322,6 +329,8 @@ public class EditWaterPointView extends View {
         ownershipTfld.setValue(waterPoint.getOwnership());
         houseHoldsTfld.setValue(waterPoint.getHouseholds());
         typeOfMagtTfld.setValue(waterPoint.getTypeOfMagt());
+        setInspectionQuestion(new ArrayList<Inspection>(waterPoint.getInspections()));
+        getWaterUsercommitteeFldset(waterPoint);
     }
 
     @Override
@@ -331,7 +340,7 @@ public class EditWaterPointView extends View {
             String waterPointId = event.getData();
             EditWaterPointController controller2 = (EditWaterPointController) EditWaterPointView.this.getController();
             controller2.getWaterPoint(waterPointId);
-            controller2.getInspections();
+//            controller2.getInspections();
             showWindow();
         }
     }
