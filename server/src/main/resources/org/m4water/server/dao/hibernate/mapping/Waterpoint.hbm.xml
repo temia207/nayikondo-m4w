@@ -2,61 +2,68 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-  <class catalog="m4water" name="org.m4water.server.admin.model.Waterpoint" table="waterpoint">
-    <id name="waterpointId" type="string">
-      <column length="200" name="waterpoint_id"/>
-      <generator class="assigned"/>
-    </id>
-    <many-to-one class="org.m4water.server.admin.model.Village" lazy="false" fetch="join" name="village">
-      <column length="200" name="village_id" not-null="true"/>
-    </many-to-one>
-    <many-to-one class="org.m4water.server.admin.model.WaterpointTypes" lazy="false" fetch="join" name="waterpointTypes">
-      <column name="waterpoint_type_id" not-null="true"/>
-    </many-to-one>
-    <property name="name" type="string">
-      <column length="200" name="name" not-null="true"/>
-    </property>
-    <property name="dateInstalled" type="date">
-      <column length="10" name="date_installed" not-null="true"/>
-    </property>
-    <property name="eastings" type="string">
-      <column length="200" name="eastings" not-null="true"/>
-    </property>
-    <property name="northings" type="string">
-      <column length="200" name="northings" not-null="true"/>
-    </property>
-    <property name="elevation" type="string">
-      <column length="200" name="elevation" not-null="true"/>
-    </property>
-    <property name="fundingSource" type="string">
-      <column length="200" name="funding_source" not-null="true"/>
-    </property>
-    <property name="ownership" type="string">
-      <column length="200" name="ownership" not-null="true"/>
-    </property>
-    <property name="households" type="string">
-      <column length="200" name="households" not-null="true"/>
-    </property>
-    <property name="typeOfMagt" type="string">
-      <column length="200" name="type_of_magt" not-null="true">
-        <comment>should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private
-                operator,institutional</comment>
-      </column>
-    </property>
-    <property name="baselineDate" type="date">
-      <column length="10" name="baseline_date" not-null="false"/>
-    </property>
-    <set cascade="all" fetch="join" inverse="true" name="problems" lazy="false" >
-      <key>
-        <column length="200" name="waterpoint_id" not-null="true"/>
-      </key>
-      <one-to-many class="org.m4water.server.admin.model.Problem"/>
-    </set>
-     <set cascade="all" fetch="join" name="inspections" inverse="true" lazy="false">
-         <key>
-              <column name="waterpoint_id" length="200" />
-          </key>
-          <one-to-many class="org.m4water.server.admin.model.Inspection" />
+    <class catalog="m4water" name="org.m4water.server.admin.model.Waterpoint" table="waterpoint">
+        <id name="waterpointId" type="string">
+            <column length="200" name="waterpoint_id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="org.m4water.server.admin.model.Village" lazy="false" fetch="join" name="village">
+            <column length="200" name="village_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="org.m4water.server.admin.model.WaterpointTypes" lazy="false" fetch="join" name="waterpointTypes">
+            <column name="waterpoint_type_id" not-null="true"/>
+        </many-to-one>
+        <property name="name" type="string">
+            <column length="200" name="name" not-null="true"/>
+        </property>
+        <property name="dateInstalled" type="date">
+            <column length="10" name="date_installed" not-null="true"/>
+        </property>
+        <property name="eastings" type="string">
+            <column length="200" name="eastings" not-null="true"/>
+        </property>
+        <property name="northings" type="string">
+            <column length="200" name="northings" not-null="true"/>
+        </property>
+        <property name="elevation" type="string">
+            <column length="200" name="elevation" not-null="true"/>
+        </property>
+        <property name="fundingSource" type="string">
+            <column length="200" name="funding_source" not-null="true"/>
+        </property>
+        <property name="ownership" type="string">
+            <column length="200" name="ownership" not-null="true"/>
+        </property>
+        <property name="households" type="string">
+            <column length="200" name="households" not-null="true"/>
+        </property>
+        <property name="typeOfMagt" type="string">
+            <column length="200" name="type_of_magt" not-null="true">
+                <comment>should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private
+                operator,institutional
+                </comment>
+            </column>
+        </property>
+        <property name="baselineDate" type="date">
+            <column length="10" name="baseline_date" not-null="false"/>
+        </property>
+        <set cascade="save-update,delete-orphan" fetch="join" inverse="true" name="problems" lazy="false" >
+            <key>
+                <column length="200" name="waterpoint_id" not-null="true"/>
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.Problem"/>
         </set>
-  </class>
+        <set cascade="save-update,delete-orphan" name="inspections" inverse="true" lazy="false">
+            <key>
+                <column name="waterpoint_id" length="200" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.Inspection" />
+        </set>
+        <set cascade="save-update,delete-orphan" name="waterUserCommittees" inverse="true" lazy="false">
+            <key>
+                <column name="waterpoint_id" length="200" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.WaterUserCommittee" />
+        </set>
+    </class>
 </hibernate-mapping>
