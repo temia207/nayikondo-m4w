@@ -38,7 +38,7 @@ public class M4WDldManager {
         public void getFormVersionID(TransportLayerListener listener) {
                 setCommunicationParams();
                 WFRequest req = wfDldMgr.getRequest("DldSurvey", null);
-                StudyFormId infoList = new StudyFormId();
+                ServerSettings infoList = new ServerSettings();
                 PersistentInt nullDataFromIn = new PersistentInt(-1);
                 ResponseHeader rh = new ResponseHeader();
                 tLayer.download(req, nullDataFromIn, rh, infoList, listener,
@@ -46,9 +46,9 @@ public class M4WDldManager {
                         "Checking Current For Current Form");
         }
 
-        public void uploadData(Vector formData, TransportLayerListener listener) {
+        public void uploadData(Vector formData, TransportLayerListener listener, String action) {
                 setCommunicationParams();
-                WFRequest req = wfDldMgr.getRequest("InspectUpload", null);
+                WFRequest req = wfDldMgr.getRequest(action, null);
                 Persistent nullDataFromOut = new SurveyResponse();
                 ResponseHeader rh = new ResponseHeader();
                 StudyData studyData = new StudyData(-1);

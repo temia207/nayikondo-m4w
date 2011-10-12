@@ -13,11 +13,12 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 import org.m4w.workflow.mobile.M4WDldManager;
 import org.m4w.workflow.mobile.M4WFactory;
-import org.m4w.workflow.mobile.StudyFormId;
+import org.m4w.workflow.mobile.M4WMidlet;
+import org.m4w.workflow.mobile.StudyIDFormID;
 import org.m4w.workflow.mobile.SurveyResponse;
 import org.m4w.workflow.mobile.command.M4WCommands;
 import org.m4w.workflow.mobile.db.M4WStorage;
-import org.m4w.workflow.mobile.view.InspectionDataView;
+import org.m4w.workflow.mobile.view.FormDefDataView;
 import org.openxdata.db.OpenXdataDataStorage;
 import org.openxdata.db.util.Persistent;
 import org.openxdata.forms.FormManager;
@@ -40,24 +41,23 @@ import org.openxdata.workflow.mobile.util.AlertMsgHelper;
  *
  * @author kay
  */
-public class InspectionDataPresenter extends FormListenerAdaptor implements ActionListener, CommandListener, Viewable, AlertMessageListener {
+public class FormDefDataPresenter extends FormListenerAdaptor implements ActionListener, CommandListener, Viewable, AlertMessageListener {
 
         private Display display;
         private ActionDispatcher dispatcher;
         private final M4WDldManager dldManager;
         private final DownloadManager wfDldManager;
         private Viewable vwbl;
-        private final InspectionDataView view;
-        
-        private StudyFormId mStudyFormId;
+        private final FormDefDataView view;
+        private StudyIDFormID mStudyFormId;
         private static Command newDataCmd = new Command("New", Command.SCREEN, 1);
         private static Command cmdUploadData = new Command("Upload Data", Command.SCREEN, 0);
         private static Command cmdDelete = new Command("Delete", Command.SCREEN, 0);
         private Command currCommand;
 
-        public InspectionDataPresenter(Display display, ActionDispatcher dispatcher,
+        public FormDefDataPresenter(Display display, ActionDispatcher dispatcher,
                 M4WDldManager dldManager,
-                InspectionDataView view,
+                FormDefDataView view,
                 DownloadManager wfDldManager) {
                 this.display = display;
                 this.dispatcher = dispatcher;
@@ -73,9 +73,8 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
         public boolean handle(Command cmnd, Viewable vwbl, Object o) {
                 this.vwbl = vwbl;
                 if (cmnd == M4WCommands.inspctCmd) {
-                        downloadOrShowFormDataList();
-                } else if(cmnd == M4WCommands.dldInspection){
-                        dldManager.getFormVersionID(this);
+                        mStudyFormId = (StudyIDFormID) o;
+                        showFormDataOrDownload(mStudyFormId);
                 }
                 return false;
         }
@@ -89,24 +88,12 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
                 getFormManager().showForm(true, formData, true, vwbl.getDisplay());
         }
 
-        private void downloadOrShowFormDataList() {
-                mStudyFormId = M4WStorage.getStudyFormID();
-                if (mStudyFormId == null) {
-                        dldManager.getFormVersionID(this);
-                } else {
-                        showFormData(mStudyFormId);
-                }
-        }
-
         public void downloaded(Persistent dataOutParams, Persistent dataOut) {
                 ResponseHeader rh = (ResponseHeader) dataOutParams;
                 if (rh == null || !rh.isSuccess()) {
                         return;// TODO show appropriate message
                 }
-                if (dataOut instanceof StudyFormId) {
-                        M4WStorage.saveStudyFormID((StudyFormId) dataOut);
-                        showFormDataOrDownload(((StudyFormId) dataOut));
-                } else if (dataOut instanceof UserListStudyDefList) {
+                if (dataOut instanceof UserListStudyDefList) {
                         WFStorage.saveUserListStudyDefList((UserListStudyDefList) dataOut);
                         showFormData(mStudyFormId);
                 }
@@ -119,9 +106,7 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
                 }
         }
 
-     
-
-        private void showFormDataOrDownload(StudyFormId studyFormId) {
+        private void showFormDataOrDownload(StudyIDFormID studyFormId) {
                 StudyDef studyDef = OpenXdataDataStorage.getStudy(studyFormId.getStudyID());
                 this.mStudyFormId = studyFormId;
                 if (studyDef == null) {
@@ -132,7 +117,7 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
                 //frmManager.showForm(true, "formVarName", false, display, vwbl.getDisplay(), this);
         }
 
-        private void showFormData(StudyFormId studyFormId) {
+        private void showFormData(StudyIDFormID studyFormId) {
                 FormDef frmDef = M4WStorage.getCurrentFormDef(studyFormId);
                 Vector formDataVctr = OpenXdataDataStorage.getFormData(studyFormId.getStudyID(), studyFormId.getFormID());
                 if (formDataVctr == null) {
@@ -171,17 +156,23 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
 
         public void commandAction(Command cmnd, Displayable dsplbl) {
                 currCommand = cmnd;
-                if (cmnd == newDataCmd) {
-                        collectNewFormData(M4WStorage.getCurrentFormDef(mStudyFormId));
-                } else if (cmnd == cmdUploadData) {
-                        uploadData();
-                } else if (cmnd == List.SELECT_COMMAND) {
-                        openSelectedFormData();
-                } else if (cmnd == cmdDelete) {
-                        deleteFormData(true);
-                } else {
-                        dispatcher.fireAction(cmnd, this, null);
+                try {
+                        if (cmnd == newDataCmd) {
+                                collectNewFormData(M4WStorage.getCurrentFormDef(mStudyFormId));
+                        } else if (cmnd == cmdUploadData) {
+                                uploadData();
+                        } else if (cmnd == List.SELECT_COMMAND) {
+                                openSelectedFormData();
+                        } else if (cmnd == cmdDelete) {
+                                deleteFormData(true);
+                        } else {
+                                dispatcher.fireAction(cmnd, this, null);
+                        }
+                } catch (Exception ec) {
+                        AlertMsgHelper.showMsg(display, dsplbl, "Error Occured: " + ec.getMessage());
+                        ec.printStackTrace();
                 }
+
         }
 
         public void show() {
@@ -203,21 +194,24 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
         private void uploadData() {
                 Vector formData = //OpenXdataDataStorage.getFormData(studyFormId.getStudyID(), studyFormId.getFormID());
                         view.getFormDataVctr();
-                this.dldManager.uploadData(formData, this);
+                this.dldManager.uploadData(formData, this, this.mStudyFormId.getAction());
         }
 
         public void uploaded(Persistent dataOutParams, Persistent dataOut) {
-
-                SurveyResponse response = (SurveyResponse) dataOut;
-                String message = response.isSuccess() ? "Data Uploaded Succesfully" : response.getMessage();
-                AlertMsgHelper.showMsg(display, vwbl.getDisplay(), message);
-                if (!response.isSuccess()) {
-                        return;
-                }
-                Vector formData = view.getFormDataVctr();
-                for (int i = 0; i < formData.size(); i++) {
-                        FormData formData1 = (FormData) formData.elementAt(i);
-                        OpenXdataDataStorage.deleteFormData(mStudyFormId.getStudyID(), formData1);
+                try {
+                        SurveyResponse response = (SurveyResponse) dataOut;
+                        String message = response.isSuccess() ? "Data Uploaded Succesfully" : response.getMessage();
+                        AlertMsgHelper.showMsg(display, vwbl.getDisplay(), message);
+                        if (!response.isSuccess()) {
+                                return;
+                        }
+                        Vector formData = view.getFormDataVctr();
+                        for (int i = 0; i < formData.size(); i++) {
+                                FormData formData1 = (FormData) formData.elementAt(i);
+                                OpenXdataDataStorage.deleteFormData(mStudyFormId.getStudyID(), formData1);
+                        }
+                } catch (Exception ex) {
+                        M4WMidlet.handleEx(view.getDisplayable(), ex);
                 }
         }
 
@@ -256,8 +250,4 @@ public class InspectionDataPresenter extends FormListenerAdaptor implements Acti
                         deleteFormData(false);
                 }
         }
-
- 
-
-
 }
