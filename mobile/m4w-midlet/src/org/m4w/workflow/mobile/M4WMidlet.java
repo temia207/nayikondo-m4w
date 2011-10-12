@@ -1,16 +1,18 @@
 package org.m4w.workflow.mobile;
 
 import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 import org.m4w.workflow.mobile.presenter.MainMenuPresenter;
 
 import org.openxdata.forms.LogonListener;
 import org.openxdata.forms.LogoutListener;
+import org.openxdata.workflow.mobile.util.AlertMsgHelper;
 
 public class M4WMidlet extends MIDlet implements LogonListener, LogoutListener {
 
-       private MainMenuPresenter menuPresenter;
+        private MainMenuPresenter menuPresenter;
 
         public M4WMidlet() {
                 super();
@@ -30,8 +32,6 @@ public class M4WMidlet extends MIDlet implements LogonListener, LogoutListener {
                 }
         }
 
-  
-
         public boolean onLoggedOn() {
                 menuPresenter.show();
                 return false;
@@ -50,5 +50,10 @@ public class M4WMidlet extends MIDlet implements LogonListener, LogoutListener {
         }
 
         public void onLogout() {
+        }
+
+        public static void handleEx(Displayable displayable, Exception ec) {
+                AlertMsgHelper.showMsg(M4WFactory.getDisplay(), displayable, "Error Occured: " + ec.getMessage());
+                ec.printStackTrace();
         }
 }

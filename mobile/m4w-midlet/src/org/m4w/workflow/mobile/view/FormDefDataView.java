@@ -5,6 +5,7 @@
 package org.m4w.workflow.mobile.view;
 
 import java.util.Vector;
+import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -17,15 +18,16 @@ import org.openxdata.model.FormDef;
  *
  * @author kay
  */
-public class InspectionDataView {
+public class FormDefDataView {
 
         private Display display;
         private List list;
         private Vector formDataVctr;
 
-        public InspectionDataView(Display display) {
+        public FormDefDataView(Display display) {
                 this.display = display;
                 list = new List("Inspection Data", List.IMPLICIT);
+                list.setFitPolicy(Choice.TEXT_WRAP_ON);
         }
 
         public void show() {

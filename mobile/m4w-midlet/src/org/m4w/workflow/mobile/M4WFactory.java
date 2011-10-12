@@ -1,9 +1,9 @@
 package org.m4w.workflow.mobile;
 
 import javax.microedition.lcdui.Display;
-import org.m4w.workflow.mobile.presenter.InspectionDataPresenter;
+import org.m4w.workflow.mobile.presenter.FormDefDataPresenter;
 import org.m4w.workflow.mobile.presenter.MainMenuPresenter;
-import org.m4w.workflow.mobile.view.InspectionDataView;
+import org.m4w.workflow.mobile.view.FormDefDataView;
 import org.m4w.workflow.mobile.view.MainMenuView;
 
 import org.openxdata.communication.TransportLayer;
@@ -18,7 +18,7 @@ public class M4WFactory {
         private static M4WMidlet m4wMainForm;
         private static M4WDldManager m4wDldManager;
         private static MainMenuPresenter mainMenuPresenter;
-        private static InspectionDataPresenter inspectionDataPresenter;
+        private static FormDefDataPresenter inspectionDataPresenter;
         private static MainMenuView mainMenuView;
         private static TransportLayer tLayer;
         private static UserManager userMgr;
@@ -69,8 +69,10 @@ public class M4WFactory {
 
         public static MainMenuPresenter getMainMenuPresenter() {
                 if (mainMenuPresenter == null) {
-                        mainMenuPresenter = new MainMenuPresenter(display, getMainMenuView(), commandDispatcher,
-                                getWirManger(), getTransportLayer());
+                        mainMenuPresenter =
+//                                new MainMenuPresenter(display, getMainMenuView(), commandDispatcher,
+//                                getWirManger(), getTransportLayer());
+                        new MainMenuPresenter(display, getMainMenuView(), Factory.commandDispatcher, getWirManger(), getTransportLayer(), getM4WDldManager());
                 }
                 return mainMenuPresenter;
         }
@@ -101,9 +103,9 @@ public class M4WFactory {
                 return wirManager;
         }
 
-        public static InspectionDataPresenter getInspctnDataPrsntr() {
+        public static FormDefDataPresenter getInspctnDataPrsntr() {
                 if (inspectionDataPresenter == null) {
-                        inspectionDataPresenter = new InspectionDataPresenter(display, commandDispatcher, getM4WDldManager(),                        new InspectionDataView(display), Factory.getDldMgr());
+                        inspectionDataPresenter = new FormDefDataPresenter(display, commandDispatcher, getM4WDldManager(),                        new FormDefDataView(display), Factory.getDldMgr());
                 }
                 return inspectionDataPresenter;
         }
