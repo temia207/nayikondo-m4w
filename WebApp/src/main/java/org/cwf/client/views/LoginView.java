@@ -86,6 +86,14 @@ public class LoginView extends View {
         window.add(loginForm);
     }
 
+    public void showWindow() {
+        window.show();
+    }
+
+    public void closeWindow() {
+        window.hide();
+    }
+
     @Override
     protected void handleEvent(AppEvent event) {
         System.out.println("============ loginview");

@@ -120,7 +120,7 @@ public class OpenXDataSecurityUtil {
 	}
 
         public static void setSecurityContext(M4waterUserDetails userDetails, String sessionId) {
-            User user = userDetails.getOXDUser();
+            User user = userDetails.getM4WaterUser();
                 // Proceed to put the User in the spring security Context.
 		SecurityContext sc = new SecurityContextImpl();
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(), userDetails.getAuthorities());
@@ -138,7 +138,7 @@ public class OpenXDataSecurityUtil {
             Object principal = auth.getPrincipal();
             if (principal instanceof M4waterUserDetails) {
                 M4waterUserDetails userDetails = (M4waterUserDetails) principal;
-                return userDetails.getOXDUser();
+                return userDetails.getM4WaterUser();
             } else if (principal instanceof User) {
                 return (User) principal;
             }

@@ -75,11 +75,29 @@
         <servlet-name>yawlService</servlet-name>
         <url-pattern>/cwf/yawlservice</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>userService</servlet-name>
+        <servlet-class>org.cwf.server.UserServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userService</servlet-name>
+        <url-pattern>/cwf/user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>authenticationservice</servlet-name>
+        <servlet-class>org.cwf.server.AuthenticationServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authenticationservice</servlet-name>
+        <url-pattern>/cwf/authentication</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
     /WEB-INF/m4water-web-applicationContext-security.xml
-    </param-value>
+        </param-value>
     </context-param>
     <!-- Acegi/Spring Security filter (to intercept the requests and perform security checks) s-->
     <filter>
@@ -101,8 +119,8 @@
     <context-param>
         <param-name>InterfaceB_BackEnd</param-name>
 <!--        <param-value>http://localhost:8787/yawl/ib</param-value>-->
-      <param-value>http://workflowtest.openxdata.org:8080/yawl/ib</param-value>
-      </context-param>
+        <param-value>http://workflowtest.openxdata.org:8080/yawl/ib</param-value>
+    </context-param>
     <!-- secures resources which would be otherwise accessible via a direct link -->
     <security-constraint>
         <web-resource-collection>
