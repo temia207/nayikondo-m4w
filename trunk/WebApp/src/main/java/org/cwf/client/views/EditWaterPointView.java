@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Set;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditWaterPointController;
-import org.cwf.client.model.WaterPointModel;
 import org.m4water.server.admin.model.Inspection;
 import org.m4water.server.admin.model.InspectionQuestions;
 import org.m4water.server.admin.model.WaterUserCommittee;
@@ -45,14 +44,13 @@ public class EditWaterPointView extends View {
     private TextField<String> waterPointNameTfld, dateIstalledTfld, fundingSrcTfld, ownershipTfld, houseHoldsTfld, typeOfMagtTfld;
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
-    private final OtherParametersFieldset otherParameters = new OtherParametersFieldset();
     private Waterpoint waterPoint;
     private FlexTable ticketsDataTable;
     private FieldSet inspectionFldset;
     private List<TextField<String>> questionTflds;
     private FormData formData;
     private HashMap<String, TextField<String>> waterUserCommitteeFields;
-//    private WaterPointModel waterPointSummary;
+    private FieldSet detailsFldSet;
 
     public EditWaterPointView(Controller controller) {
         super(controller);
@@ -81,7 +79,8 @@ public class EditWaterPointView extends View {
         formPanel.setLayout(new FlowLayout());
         ticketsDataTable = new FlexTable();
         ticketsDataTable.setWidth("98%");
-        ticketsDataTable.setWidget(0, 0, getWaterPointDetailsFldset());
+        detailsFldSet =  getWaterPointDetailsFldset();
+        ticketsDataTable.setWidget(0, 0,detailsFldSet);
         ticketsDataTable.getFlexCellFormatter().setColSpan(0, 1, 2);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 0, "40%");
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
@@ -216,7 +215,7 @@ public class EditWaterPointView extends View {
             inspectionFldset.add(lable);
         }
         inspectionFldset.setWidth("98%");
-        ticketsDataTable.setWidget(1,0, inspectionFldset);
+        ticketsDataTable.setWidget(0,1, inspectionFldset);
         ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
@@ -244,7 +243,8 @@ public class EditWaterPointView extends View {
             Label lable = new Label("There is no Water User Committee for this waterpoint");
             inspectionFldset.add(lable);
         }
-        ticketsDataTable.setWidget(0,1,userCommittee);
+        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight()+"px");
+        ticketsDataTable.setWidget(1,0,userCommittee);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
         return userCommittee;
     }
