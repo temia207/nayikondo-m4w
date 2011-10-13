@@ -15,7 +15,7 @@ public class M4waterUserDetails extends User {
     
     private static final long serialVersionUID = 2323963197126198664L;
 
-    private org.m4water.server.admin.model.User oxdUser;
+    private org.m4water.server.admin.model.User m4waterUser;
 
     public M4waterUserDetails(org.m4water.server.admin.model.User oxdUser,
             boolean enabled, boolean accountNonExpired,
@@ -24,11 +24,11 @@ public class M4waterUserDetails extends User {
     	
         super(oxdUser.getUserId(), oxdUser.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
                 accountNonLocked, authorities);
-        this.oxdUser = oxdUser;
+        this.m4waterUser = oxdUser;
     }
 
-    public org.m4water.server.admin.model.User getOXDUser() {
-        return oxdUser;
+    public org.m4water.server.admin.model.User getM4WaterUser() {
+        return m4waterUser;
     }
 
 

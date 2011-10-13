@@ -38,5 +38,7 @@
     <servlet path="/inspection" class="org.cwf.server.InspectionClientServiceImpl"/>
     <servlet path="/assessment" class="org.cwf.server.AssessmentClientServiceImpl"/>
     <servlet path="/yawlservice" class="org.cwf.server.YawlServiceImpl"/>
+    <servlet path="/user" class="org.cwf.server.UserServiceImpl"/>
+    <servlet path="/authentication" class="org.cwf.server.AuthenticationServiceImpl"/>
 
 </module>
