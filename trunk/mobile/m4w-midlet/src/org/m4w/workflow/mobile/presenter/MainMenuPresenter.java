@@ -21,13 +21,17 @@ import org.openxdata.communication.TransportLayer;
 import org.openxdata.communication.TransportLayerListener;
 import org.openxdata.db.util.Persistent;
 import org.openxdata.db.util.StorageListener;
+import org.openxdata.forms.GlobalVariables;
+import org.openxdata.model.OpenXdataConstants;
 import org.openxdata.model.ResponseHeader;
 import org.openxdata.util.AlertMessageListener;
+import org.openxdata.util.DefaultCommands;
 import org.openxdata.workflow.mobile.Factory;
 import org.openxdata.workflow.mobile.WorkitemManager;
 import org.openxdata.workflow.mobile.command.ActionDispatcher;
 import org.openxdata.workflow.mobile.command.ActionListener;
 import org.openxdata.workflow.mobile.command.Viewable;
+import org.openxdata.workflow.mobile.command.WFCommands;
 import org.openxdata.workflow.mobile.util.AlertMsgHelper;
 
 /**
@@ -41,13 +45,15 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
         private MainMenuView view;
         private ActionDispatcher dispatcher;
         private static final int ASSIGNED_WORK_IDX = 0;
-        private static final int SURVEY_IDX = 1;
-        private static final int GET_INSPCTN_IDX = 2;
-        private static final int COLLECT_DATA = 3;
+        private static final int DO_INSPECTION = 1;
+        private static final int NEW_WATERPOINT = 2;
+        private static final int GET_INSPCTN_IDX = 3;
+        
         private final WorkitemManager wirManager;
         private Command currCmd;
         private int currIdx;
         private final M4WDldManager dldManager;
+        private final TransportLayer tLayer;
 
         public MainMenuPresenter(Display display,
                 MainMenuView view, ActionDispatcher dispatcher,
@@ -59,6 +65,7 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
                 this.dispatcher = dispatcher;
                 this.wirManager = wirManager;
                 this.dldManager = dldManager;
+                this.tLayer = tlayer;
                 this.dispatcher.registerListener(M4WCommands.mainMenuCmd, this);
                 initCommands();
 
@@ -69,10 +76,17 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
         private void initCommands() {
                 view.addCommand("Available Work");
                 view.addCommand("Do Inspection");
-                view.addCommand("Update Forms");
                 view.addCommand("Register New Waterpoint");
+                view.addCommand("Update Forms");
                 view.addCommandListener(this);
                 wirManager.getWirPresenter().getView().addCommand(M4WCommands.mainMenuCmd);
+                wirManager.getWirPresenter().getView().removeCommand(WFCommands.cmdUpdateForms);
+                wirManager.getWirPresenter().getView().removeCommand(WFCommands.cmdOpenWir);
+                wirManager.getWirPresenter().getView().removeCommand(WFCommands.cmdPrevWir);
+                wirManager.getWirPresenter().getView().removeCommand(DefaultCommands.cmdSettings);
+                view.addCommand(WFCommands.cmdUpdateForms);
+                view.addCommand(DefaultCommands.cmdSettings);
+
 
         }
 
@@ -81,7 +95,10 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
                 try {
                         if (cmnd == List.SELECT_COMMAND) {
                                 processSelection(view.getSelectedIndex());
-                        } else if (cmnd == M4WCommands.mainMenuCmd) {
+                        } else if (cmnd == DefaultCommands.cmdSettings) {
+                                tLayer.getUserSettings(display, view.getDisplayable(), GlobalVariables.username, GlobalVariables.password);
+                        }else {
+                                dispatcher.fireAction(cmnd, this, null);
                         }
                 } catch (Exception ex) {
                         AlertMsgHelper.showError(display, dsplbl, "Error Occured: " + ex.getMessage());
@@ -94,11 +111,11 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
                 currIdx = selectedIndex;
                 if (ASSIGNED_WORK_IDX == selectedIndex) {
                         wirManager.showWorkItems();
-                } else if (SURVEY_IDX == selectedIndex) {
+                } else if (DO_INSPECTION == selectedIndex) {
                         doSurvey();
                 } else if (GET_INSPCTN_IDX == selectedIndex) {
                         downloadInspectionForm(true);
-                } else if (COLLECT_DATA == selectedIndex) {
+                } else if (NEW_WATERPOINT == selectedIndex) {
                        registerNewWaterPoint();
 
                 }
@@ -206,9 +223,9 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
         }
 
         private void onSettingDownloaded(Persistent dataOut) {
-                if (currIdx == SURVEY_IDX) {
+                if (currIdx == DO_INSPECTION) {
                         doSurvey();
-                } else if (currIdx == COLLECT_DATA) {
+                } else if (currIdx == NEW_WATERPOINT) {
                         registerNewWaterPoint();
                 } else {
                         view.showYourSelf();

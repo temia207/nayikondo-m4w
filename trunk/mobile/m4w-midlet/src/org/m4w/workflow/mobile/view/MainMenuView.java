@@ -4,6 +4,7 @@
  */
 package org.m4w.workflow.mobile.view;
 
+import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -26,6 +27,10 @@ public class MainMenuView {
         public void addCommand(String string) {
                 list.append(string, null);
         }
+        public void addCommand(Command cmd) {
+                list.addCommand(cmd);
+        }
+
 
         public void addCommandListener(CommandListener listerner) {
                 list.setCommandListener(listerner);
