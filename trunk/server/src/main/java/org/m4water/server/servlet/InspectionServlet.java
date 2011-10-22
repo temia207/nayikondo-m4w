@@ -30,6 +30,7 @@ import org.m4water.server.admin.model.Subcounty;
 import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.WaterUserCommittee;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterpointTypes;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.DistrictService;
 import org.m4water.server.service.InspectionService;
@@ -60,6 +61,7 @@ public class InspectionServlet extends HttpServlet {
     private JAXBContext jxbCntxt;
     @Autowired private PlatformTransactionManager transactionManager;
     private TransactionTemplate txTemplate;
+    private WaterpointTypes waterpointType;
 
     @Override
     public void init() throws ServletException {
@@ -74,6 +76,7 @@ public class InspectionServlet extends HttpServlet {
         WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(sctx);
     ctx.getAutowireCapableBeanFactory().autowireBean(this);
     txTemplate = new TransactionTemplate(transactionManager);
+    this.waterpointType = waterPointService.getWaterPointType("BH");
         // Manual Injection
 //        userService = (UserService) ctx.getBean("userService");
 //        waterPointService = (WaterPointService) ctx.getBean("waterpointService");
@@ -187,6 +190,13 @@ public class InspectionServlet extends HttpServlet {
             waterpoint.setBaselineDate(new Date(1));
             waterpoint.setName(jxbWaterPoint.getSourceName());
             waterpoint.setVillage(village);
+            waterpoint.setTypeOfMagt(jxbWaterPoint.getTypeOfManagement());
+            waterpoint.setOwnership(jxbWaterPoint.getCurrentOwnership() == null? "N/A":jxbWaterPoint.getCurrentOwnership());//TODO: Send user message abt owner ship
+            waterpoint.setBaselineDate(new Date(1));
+            waterpoint.setWaterpointTypes(waterpointType);// fix this
+            waterpoint.setDateInstalled(new Date());
+            waterpoint.setFundingSource("N/A");
+            
 
             String non_functional_reason = jxbWaterPoint.getReasonNonFunctional();
             String functionality = jxbWaterPoint.getIsFunctional();
@@ -205,7 +215,7 @@ public class InspectionServlet extends HttpServlet {
             funx.setId(new Date());
             funx.setWaterpoint(waterpoint);
             funx.setFunctionalityStatus(functionality);
-            funx.setReason(non_functional_reason);
+            funx.setReason(non_functional_reason == null? "N/A":non_functional_reason);
             funx.setDetailsLastRepair("");
 
             waterpoint.getWaterFunctionality().add(funx);
@@ -219,9 +229,10 @@ public class InspectionServlet extends HttpServlet {
                         "N/A Collect Fees",
                         jxbWaterPoint.getIsWucFunctional(),
                         "Regular Service Not Known",
-                        jxbWaterPoint.getWomenKeypositionsNumberWuc(),
+                        jxbWaterPoint.getNumberActiveMembers(),
                         jxbWaterPoint.getWomenNumberWuc(),
-                        jxbWaterPoint.getCurrentOwnership());
+                        jxbWaterPoint.getWomenKeypositionsNumberWuc());
+                wuc.setCommissioned("N/A");
                 waterpoint.getWaterUserCommittees().add(wuc);
             }
             waterPoints.add(waterpoint);

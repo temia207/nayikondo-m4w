@@ -15,12 +15,12 @@ public class Waterpoint extends AbstractEditable<String> {
     private WaterpointTypes waterpointTypes;
     private String name;
     private Date dateInstalled;
-    private String eastings;
-    private String northings;
-    private String elevation;
+    private String eastings = "";
+    private String northings = "";
+    private String elevation = "";
     private String fundingSource;
     private String ownership;
-    private String households;
+    private String households ="N/A";
     private String typeOfMagt;
     private Date baselineDate;
     private Set problems = new HashSet(0);
