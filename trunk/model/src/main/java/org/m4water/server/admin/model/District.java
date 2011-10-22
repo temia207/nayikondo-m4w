@@ -51,6 +51,19 @@ public class District  extends AbstractEditable<String> {
         this.counties = counties;
     }
 
+    public Subcounty getSubcouty(String sbcntyName) {
+        for (Object object : counties) {
+            County county = (County) object;
+            Set subcounties = county.getSubcounties();
+            for (Object sbcntyObj : subcounties) {
+               Subcounty subcounty1= (Subcounty) sbcntyObj;
+               if(subcounty1.getSubcountyName()!=null && subcounty1.getSubcountyName().equalsIgnoreCase(sbcntyName))
+                   return subcounty1;
+            }
+        }
+        return null;
+    }
+
 
 
 
