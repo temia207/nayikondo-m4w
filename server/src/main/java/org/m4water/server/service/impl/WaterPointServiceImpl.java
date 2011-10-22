@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.List;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterpointTypes;
 import org.m4water.server.dao.WaterPointDao;
+import org.m4water.server.dao.WaterPointTypeDao;
 import org.m4water.server.service.WaterPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public class WaterPointServiceImpl implements WaterPointService{
 
     @Autowired
     private WaterPointDao waterPointDao;
+    @Autowired
+    private WaterPointTypeDao pointTypeDao;
     
     @Override
     @Transactional(readOnly = true)
@@ -51,6 +55,10 @@ public class WaterPointServiceImpl implements WaterPointService{
     @Override
     public Date getBaselineSetDate() {
         return waterPointDao.getBaselineSetDate();
+    }
+
+    public WaterpointTypes getWaterPointType(String name) {
+       return this.pointTypeDao.searchUniqueByPropertyEqual("name", name);
     }
 
 }

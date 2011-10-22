@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterpointTypes;
 
 /**
  *
@@ -15,4 +16,5 @@ public interface WaterPointService {
     List<WaterPointSummary> getWaterPointSummaries();
     void saveWaterPoint(Waterpoint waterPoint);
     public Date getBaselineSetDate();
+    WaterpointTypes getWaterPointType(String name);
 }
