@@ -33,7 +33,7 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
     @Override
     public Waterpoint getWaterPoint(String waterpointId) {
-        return searchUniqueByPropertyEqual("id", waterpointId);
+        return searchUniqueByPropertyEqual("waterpointId", waterpointId);
     }
 
     @Override
