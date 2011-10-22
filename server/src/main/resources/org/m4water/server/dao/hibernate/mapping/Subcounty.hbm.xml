@@ -26,5 +26,11 @@
             </key>
             <one-to-many class="org.m4water.server.admin.model.User" />
         </set>
+        <set name="parishs" inverse="true">
+            <key>
+                <column name="subcounty_id" length="200" not-null="true" />
+            </key>
+            <one-to-many class="com.mycompany.uuidsubounty.Parish" />
+        </set>
     </class>
 </hibernate-mapping>
