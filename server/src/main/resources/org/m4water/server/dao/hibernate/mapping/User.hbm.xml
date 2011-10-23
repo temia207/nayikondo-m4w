@@ -4,14 +4,14 @@
 <!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="org.m4water.server.admin.model.User" table="user" catalog="m4water">
-        <id name="id" type="string">
+        <id name="userId" type="string">
             <column name="user_id" length="200" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="subcounty" class="org.m4water.server.admin.model.Subcounty" fetch="select">
+        <many-to-one name="subcounty" class="org.m4water.server.admin.model.Subcounty" lazy="false">
             <column name="subcounty_id" length="200" not-null="true" />
         </many-to-one>
-        <many-to-one name="userProfile" class="org.m4water.server.admin.model.UserProfile" fetch="select" lazy="false">
+        <many-to-one name="userProfile" class="org.m4water.server.admin.model.UserProfile" lazy="false">
             <column name="staff_profile_id" length="200" />
         </many-to-one>
         <property name="username" type="string">

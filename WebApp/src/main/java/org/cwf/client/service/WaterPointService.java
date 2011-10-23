@@ -21,6 +21,7 @@ public interface WaterPointService extends RemoteService{
     List<Waterpoint> getWaterPoints();
     Waterpoint getWaterPoint(String waterpointId);
     List<WaterPointSummary> getWaterPointSummaries();
+    List<WaterPointSummary> getWaterPointSummaries(String district);
     void saveWaterPoint(Waterpoint waterPoint);
     public Date getBaselineSetDate();
 }

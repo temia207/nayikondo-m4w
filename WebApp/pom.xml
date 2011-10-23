@@ -18,7 +18,7 @@
         <cwf.gwt.module>org.cwf.CwfFirefox</cwf.gwt.module>
         <filtered.sourceDir>${project.build.directory}/generated-sources/filtered</filtered.sourceDir>
         <name>M4water Project</name>
-        <logo>images/m4w/cwflogo.png</logo>
+        <logo>images/m4w/m4wlogo.png</logo>
         <logoUrl>http://www.cwf.org/</logoUrl>
     </properties>
     <dependencies>

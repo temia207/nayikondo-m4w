@@ -42,6 +42,8 @@ import org.cwf.client.RefreshableEvent;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.ProblemSummary;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.User;
+import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
  *
@@ -54,8 +56,11 @@ public class HomeView extends View implements Refreshable {
     private ContentPanel cpCenter;
     private Portlet portlet;
     public List<Problem> tickets = new ArrayList<Problem>();
+    public List<WaterPointSummary> waterPointSummary = new ArrayList<WaterPointSummary>();
     private CenterHomePageView centerpanel;
     public Date baselineSetDate;
+    private User loggedinUser;
+    private ContentPanel cp;
 
     public HomeView(Controller controller) {
         super(controller);
@@ -69,7 +74,7 @@ public class HomeView extends View implements Refreshable {
     public void initUi() {
         GWT.log("Home view: init UI");
         centerpanel = new CenterHomePageView(this);
-        ContentPanel cp = new ContentPanel();
+        cp = new ContentPanel();
         cp.setHeading("Home View");
         cp.setSize(600, 500);
         cp.setLayout(new BorderLayout());
@@ -82,10 +87,10 @@ public class HomeView extends View implements Refreshable {
         BorderLayoutData west = new BorderLayoutData(LayoutRegion.WEST, 250, 300, 550);
         west.setMargins(new Margins(5));
         west.setSplit(true);
-        cpWest.add(addLeftMenu(appMessages.home()));
+//        cpWest.add(addLeftMenu(appMessages.home()));
+        cpWest.add(addLeftMenu(appMessages.tickets()));
         cpWest.add(addLeftMenu(appMessages.allWaterPoints()));
 //        cpWest.add(addLeftMenu(appMessages.newWaterPoints()));
-        cpWest.add(addLeftMenu(appMessages.tickets()));
         cpWest.add(addLeftMenu(appMessages.reports()));
         cpWest.add(addLeftMenu(appMessages.users()));
         cpWest.add(addLeftMenu(appMessages.settings()));
@@ -118,9 +123,11 @@ public class HomeView extends View implements Refreshable {
             Portal portal = Registry.get(IndexEntryPoint.PORTAL);
             portal.add(portlet, 0);
             maximisePortlet(portlet);
+            loggedinUser = event.getData();
+            cp.setHeading(cp.getHeading()+":"+loggedinUser.getSubcounty().getCounty().getDistrict().getName()+" District");
             HomeController controller2 = (HomeController) HomeView.this.getController();
             controller2.getTickets();
-            controller2.getWaterPointSummaries();
+            controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
             controller2.getBaselineSetDate();
         }
 
@@ -174,12 +181,10 @@ public class HomeView extends View implements Refreshable {
             @Override
             public void onClick(ClickEvent event) {
                 String txt = label.getText();
-                if (txt.equals(appMessages.home())) {
-                    centerpanel.setActiveItem(0);
-                } else if (txt.equals(appMessages.allWaterPoints())) {
+                if (txt.equals(appMessages.allWaterPoints())) {
                     centerpanel.setActiveItem(1);
                 } else if (txt.equals("Tickets")) {
-                    centerpanel.setActiveItem(2);
+                    centerpanel.setActiveItem(0);
                 }
             }
         });

@@ -45,7 +45,6 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         this.parentView = view;
         initialize();
         setTicketSummary(parentView.tickets);
-        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.TICKET_UPDATE, this);
     }
 
     private void initialize() {
@@ -109,7 +108,9 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
     public void refresh(RefreshableEvent event) {
         if (event.getEventType() == RefreshableEvent.Type.TICKET_UPDATE) {
             ListStore<ProblemSummary> store1 = grid.getStore();
-            store1.removeAll();
+            if (store1.getCount() > 0) {
+                store1.removeAll();
+            }
             System.out.println("-------------------------------------------------------------");
             List<Problem> tkts = event.getData();
             for (Problem t : tkts) {
@@ -128,7 +129,6 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
                     }
                 }
             }
-//            grid.getView().refresh(true);
 
         }
     }

@@ -47,6 +47,11 @@
         <property name="baselineDate" type="date">
             <column length="10" name="baseline_date" not-null="false"/>
         </property>
+        <property name="baselinePending" type="string">
+            <column length="10" name="baseline_pending" not-null="true">
+                <comment> T-true,F-false</comment>
+            </column>
+        </property>
         <set cascade="save-update,delete-orphan" fetch="join" inverse="true" name="problems" lazy="false" >
             <key>
                 <column length="200" name="waterpoint_id" not-null="true"/>

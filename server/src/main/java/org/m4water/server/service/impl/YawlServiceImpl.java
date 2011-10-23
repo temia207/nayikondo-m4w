@@ -110,16 +110,19 @@ public class YawlServiceImpl implements YawlService {
         params.put("namesms", mechanic.getUsername());
         params.put("userAssignedCollector", mechanic.getUsername());
         params.put("userAssignedReviewer", healthWorker.getUsername());
-        try {
-            yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
-        } catch (IOException ex) {
-            throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
-        }
+//        try {
+//            yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
+//        } catch (IOException ex) {
+//            throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
+//        }
     }
 
     @Override
     public void launchWaterPointBaseline(String waterpointId) {
         Waterpoint waterPoint = waterPointService.getWaterPoint(waterpointId);
         launchWaterPointBaseline(waterPoint);
+        //set this waterpoint to pending basleine
+        waterPoint.setBaselinePending("T");
+        waterPointService.saveWaterPoint(waterPoint);
     }
 }

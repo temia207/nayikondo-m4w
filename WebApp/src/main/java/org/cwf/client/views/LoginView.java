@@ -45,7 +45,7 @@ public class LoginView extends View {
         window.setResizable(true);
         window.setDraggable(false);
         window.setPlain(false);
-        window.setHeading("CWF-Login");
+        window.setHeading("M4W-Login");
         window.setBorders(false);
         window.setBodyBorder(false);
         loginForm = new FormPanel();

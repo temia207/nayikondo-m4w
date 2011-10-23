@@ -4,9 +4,12 @@
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.District" table="district">
     <id name="id" type="string">
-      <column length="200" name="district_id"/>
+      <column length="200" name="id"/>
       <generator class="assigned"/>
     </id>
+    <property name="districtId" type="string">
+      <column length="200" name="district_id" not-null="true"/>
+    </property>
     <property name="name" type="string">
       <column length="200" name="name" not-null="true"/>
     </property>

@@ -23,7 +23,7 @@ public class RefreshableEvent implements Serializable {
 
     public static enum Type {
 
-        CAPTURE, NAME_CHANGE, FORM_DATA_UPDATE,NEW_WATER_POINTS,ALL_WATER_POINTS, DELETE,TICKET_UPDATE
+        WATERPOINT_CHANGES, NAME_CHANGE, FORM_DATA_UPDATE,NEW_WATER_POINTS,ALL_WATER_POINTS, DELETE,TICKET_UPDATE
     };
     private Type eventType;
     private Map<String, Object> data = new HashMap<String, Object>();

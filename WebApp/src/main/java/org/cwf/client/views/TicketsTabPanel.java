@@ -11,6 +11,8 @@ import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 
 /**
  *
@@ -37,18 +39,21 @@ public class TicketsTabPanel extends ContentPanel {
         openTickets.setLayout(new FitLayout());
         TicketDetailsPanel openTicketsItem = new TicketDetailsPanel(parentView,appMessages.open());
         openTicketsItem.setHeaderVisible(false);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.TICKET_UPDATE,openTicketsItem);
         openTickets.add(openTicketsItem);
 
         TabItem closedTickets = new TabItem("Closed");
         closedTickets.setLayout(new FitLayout());
         TicketDetailsPanel closedTicketsItem = new TicketDetailsPanel(parentView,appMessages.closed());
         closedTicketsItem.setHeaderVisible(false);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.TICKET_UPDATE,closedTicketsItem);
         closedTickets.add(closedTicketsItem);
 
         TabItem suspendedTickets = new TabItem("Suspended");
         suspendedTickets.setLayout(new FitLayout());
         TicketDetailsPanel suspendedTicketsItem = new TicketDetailsPanel(parentView,appMessages.suspended());
         suspendedTicketsItem.setHeaderVisible(false);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.TICKET_UPDATE,suspendedTicketsItem);
         suspendedTickets.add(suspendedTicketsItem);
 
         ticketPanel.add(openTickets);

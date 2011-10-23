@@ -167,7 +167,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         TableData userBannerTableData = new TableData();
         userBannerTableData.setHorizontalAlign(HorizontalAlignment.CENTER);
         userBannerTableData.setVerticalAlign(VerticalAlignment.MIDDLE);
-        userBanner = new Text("");
+        userBanner = new Text("ss");
         userBanner.setStyleName("userBanner");
         northPanel.add(userBanner, userBannerTableData);
 

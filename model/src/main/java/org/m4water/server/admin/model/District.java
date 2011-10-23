@@ -20,11 +20,13 @@ public class District  extends AbstractEditable<String> {
     }
 
 	
-    public District(String districtId, String name) {
+    public District(String id,String districtId, String name) {
+        this.id = id;
         this.districtId = districtId;
         this.name = name;
     }
-    public District(String districtId, String name, Set counties) {
+    public District(String id,String districtId, String name, Set counties) {
+        this.id = id;
         this.districtId = districtId;
        this.name = name;
        this.counties = counties;
