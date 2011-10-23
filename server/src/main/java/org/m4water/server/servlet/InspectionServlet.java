@@ -196,6 +196,7 @@ public class InspectionServlet extends HttpServlet {
             waterpoint.setWaterpointTypes(waterpointType);// fix this
             waterpoint.setDateInstalled(new Date());
             waterpoint.setFundingSource("N/A");
+            waterpoint.setBaselinePending("F");
             
 
             String non_functional_reason = jxbWaterPoint.getReasonNonFunctional();

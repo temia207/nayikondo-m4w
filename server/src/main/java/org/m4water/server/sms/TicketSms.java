@@ -92,7 +92,7 @@ public class TicketSms implements TicketService, InitializingBean {
         problem.setWaterpoint(waterPoint);
         waterPoint.getProblems().add(problem);
 
-        ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, waterPoint.getWaterpointId());
+        ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, complaint);
         problem.getProblemLogs().add(problemLog);
         launchCase(problem);
         saveProblem(problem);
