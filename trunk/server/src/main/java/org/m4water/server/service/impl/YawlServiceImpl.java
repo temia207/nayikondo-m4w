@@ -3,8 +3,6 @@ package org.m4water.server.service.impl;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.m4water.server.OpenXDataPropertyPlaceholderConfigurer;
 import org.m4water.server.admin.model.County;
 import org.m4water.server.admin.model.District;
@@ -110,11 +108,11 @@ public class YawlServiceImpl implements YawlService {
         params.put("namesms", mechanic.getUsername());
         params.put("userAssignedCollector", mechanic.getUsername());
         params.put("userAssignedReviewer", healthWorker.getUsername());
-//        try {
-//            yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
-//        } catch (IOException ex) {
-//            throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
-//        }
+        try {
+            yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
+        } catch (IOException ex) {
+            throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
+        }
     }
 
     @Override
