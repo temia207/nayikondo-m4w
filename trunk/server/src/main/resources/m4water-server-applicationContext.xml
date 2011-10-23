@@ -45,7 +45,7 @@
     </bean>
     <bean name="openSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
         <property name="sessionFactory" ref="sessionFactory"/>
-        <property name="singleSession" value="false"/>
+        <property name="singleSession" value="true"/>
     </bean>
 <!--	  **************************  SCHEDULER CONFIGURATION  *************************
 	<bean id="schedulerService" class="org.openxdata.server.service.impl.SchedulerServiceImpl" init-method="start" destroy-method="stop">
