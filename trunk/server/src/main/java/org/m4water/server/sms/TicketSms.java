@@ -94,7 +94,7 @@ public class TicketSms implements TicketService, InitializingBean {
 
         ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, waterPoint.getWaterpointId());
         problem.getProblemLogs().add(problemLog);
-//        launchCase(problem);
+        launchCase(problem);
         saveProblem(problem);
 
     }
