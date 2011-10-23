@@ -59,7 +59,7 @@ public class YawlServiceImpl implements YawlService {
             params.setSenderNumber(problemLog.getSenderNo());
             params.setMechanicNumber((mechanic.getContacts() + "").replace("-", ""));
             params.setWaterPointID(problem.getWaterpoint().getWaterpointId());
-            params.setTicketMessage(problemLog.getIssue());
+            params.setTicketMessage(problem.getProblemDescsription());
 
             params.put("district", district.getName());
             params.put("county", county.getCountyName());
