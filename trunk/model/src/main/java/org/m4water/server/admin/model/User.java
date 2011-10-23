@@ -9,7 +9,8 @@ package org.m4water.server.admin.model;
 public class User extends AbstractEditable<String> {
 
 
-     
+
+     private String userId;
      private Subcounty subcounty;
      private UserProfile userProfile;
      private String username;
@@ -26,12 +27,12 @@ public class User extends AbstractEditable<String> {
 
 	
     public User(String userId, Subcounty subcounty, String contacts) {
-        this.id = userId;
+        this.userId = userId;
         this.subcounty = subcounty;
         this.contacts = contacts;
     }
     public User(String userId, Subcounty subcounty, String username, UserProfile userProfile, String firstname, String lastname, String contacts, String password, String oxdName,String phoneId, String assignedNumber) {
-       this.id = userId;
+       this.userId = userId;
        this.subcounty = subcounty;
        this.userProfile = userProfile;
        this.username = username;
@@ -43,13 +44,13 @@ public class User extends AbstractEditable<String> {
        this.phoneId = phoneId;
        this.assignedNumber = assignedNumber;
     }
-   
+
     public String getUserId() {
-        return this.id;
+        return this.userId;
     }
-    
+
     public void setUserId(String userId) {
-        this.id = userId;
+        this.userId = userId;
     }
     public Subcounty getSubcounty() {
         return this.subcounty;

@@ -73,6 +73,9 @@ public class CommentView extends View {
                 if (action.equals(appMessages.close())) {
                     problem.setProblemStatus("closed");
                     ((CommentController) CommentView.this.getController()).saveTicket(problem);
+                } else if (action.equalsIgnoreCase(appMessages.suspended())) {
+                    problem.setProblemStatus("suspended");
+                    ((CommentController) CommentView.this.getController()).saveTicket(problem);
                 }
             }
         });

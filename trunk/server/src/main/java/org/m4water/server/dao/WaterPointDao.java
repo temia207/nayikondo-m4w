@@ -18,6 +18,7 @@ public interface WaterPointDao extends  BaseDAO<Waterpoint, String>{
     Waterpoint getWaterPoint(String waterPointId);
     void saveWaterPoint(Waterpoint waterPoint);
     public List<WaterPointSummary> getWaterPointSummaries();
+    public List<WaterPointSummary> getWaterPointSummaries(String district);
     public Date getBaselineSetDate();
 
 }

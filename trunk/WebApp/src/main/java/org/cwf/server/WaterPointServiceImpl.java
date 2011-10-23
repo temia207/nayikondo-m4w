@@ -38,6 +38,11 @@ public class WaterPointServiceImpl extends M4waterPersistentRemoteService implem
     }
 
     @Override
+    public List<WaterPointSummary> getWaterPointSummaries(String district) {
+        return getWaterPointService().getWaterPointSummaries(district);
+    }
+
+    @Override
     public Date getBaselineSetDate() {
         return getWaterPointService().getBaselineSetDate();
     }

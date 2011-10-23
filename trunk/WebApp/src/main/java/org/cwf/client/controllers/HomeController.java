@@ -10,6 +10,7 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -95,10 +96,10 @@ public class HomeController extends Controller {
         });
     }
 
-    public void getWaterPointSummaries() {
+    public void getWaterPointSummaries(String district) {
         GWT.log("HomeController : getWaterPointSummaries()");
         ProgressIndicator.showProgressBar();
-        waterpointService.getWaterPointSummaries(new M4waterAsyncCallback<List<WaterPointSummary>>() {
+        waterpointService.getWaterPointSummaries(district,new M4waterAsyncCallback<List<WaterPointSummary>>() {
 
             @Override
             public void onSuccess(List<WaterPointSummary> result) {
@@ -139,13 +140,29 @@ public class HomeController extends Controller {
 
             @Override
             public void onSuccess(Void result) {
-                //RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
                 ProgressIndicator.hideProgressBar();
                 MessageBox.alert("Info", "Workflow Lanched For ID: "+waterPointId, null);
             }
 
             @Override
             public void onFailurePostProcessing(Throwable throwable) {
+                ProgressIndicator.hideProgressBar();
+            }
+        });
+    }
+
+    public void updateLocalWaterPointSummarries(final String id, final List<WaterPointSummary> summaries) {
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+
+            @Override
+            public void execute() {
+                ProgressIndicator.showProgressBar();
+                for (WaterPointSummary summary : summaries) {
+                    if (summary.getWaterPointId().equalsIgnoreCase(id)) {
+                        summary.setBaselinePending("T");
+                    }
+                }
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, summaries));
                 ProgressIndicator.hideProgressBar();
             }
         });

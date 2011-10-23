@@ -23,6 +23,7 @@ public class Waterpoint extends AbstractEditable<String> {
     private String households ="N/A";
     private String typeOfMagt;
     private Date baselineDate;
+    private String baselinePending;
     private Set problems = new HashSet(0);
     private Set waterFunctionality = new HashSet(0);
     private Set inspections = new HashSet(0);
@@ -31,7 +32,7 @@ public class Waterpoint extends AbstractEditable<String> {
     public Waterpoint() {
     }
 
-    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String fundingOrg, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Date baselineDate) {
+    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String fundingOrg, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Date baselineDate, String baselinePending) {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
@@ -45,9 +46,10 @@ public class Waterpoint extends AbstractEditable<String> {
         this.households = households;
         this.typeOfMagt = typeOfMagt;
         this.baselineDate = baselineDate;
+        this.baselinePending = baselinePending;
     }
 
-    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections,Set waterUserCommittee, Date baselineDate) {
+    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections, Set waterUserCommittee, Date baselineDate, String baselinePending) {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
@@ -65,6 +67,7 @@ public class Waterpoint extends AbstractEditable<String> {
         this.inspections = inspections;
         this.waterUserCommittees = waterUserCommittee;
         this.baselineDate = baselineDate;
+        this.baselinePending = baselinePending;
     }
 
     public String getWaterpointId() {
@@ -208,11 +211,20 @@ public class Waterpoint extends AbstractEditable<String> {
     public void setBaselineDate(Date baselineDate) {
         this.baselineDate = baselineDate;
     }
+
     public Set getWaterUserCommittees() {
         return this.waterUserCommittees;
     }
 
     public void setWaterUserCommittees(Set waterUserCommittees) {
         this.waterUserCommittees = waterUserCommittees;
+    }
+
+    public String getBaselinePending() {
+        return this.baselinePending;
+    }
+
+    public void setBaselinePending(String baselinePending) {
+        this.baselinePending = baselinePending;
     }
 }

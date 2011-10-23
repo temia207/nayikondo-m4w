@@ -62,9 +62,10 @@ public class LoginController extends Controller {
             @Override
             public void onSuccess(User result) {
 
-                if (result != null) {
+                if (result != null && hasPrivillages(result)) {
                     Dispatcher dispatcher = Dispatcher.get();
                     AppEvent event = new AppEvent(HomeController.HOME);
+                    event.setData(result);
                     dispatcher.dispatch(event);
                 } else {
                     MessageBox.alert(appMessages.error(), appMessages.unsuccessfulLogin(), new Listener<MessageBoxEvent>() {
@@ -78,5 +79,13 @@ public class LoginController extends Controller {
                 ProgressIndicator.hideProgressBar();
             }
         });
+    }
+
+    private boolean hasPrivillages(User user) {
+        String profile= user.getUserProfile().getProfileDescription();
+        if (profile.equalsIgnoreCase("DWO")) {
+            return true;
+        }
+        return false;
     }
 }

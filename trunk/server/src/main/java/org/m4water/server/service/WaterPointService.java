@@ -14,6 +14,7 @@ public interface WaterPointService {
     List<Waterpoint> getWaterPoints();
     Waterpoint getWaterPoint(String referenceNumber);
     List<WaterPointSummary> getWaterPointSummaries();
+    List<WaterPointSummary> getWaterPointSummaries(String district);
     void saveWaterPoint(Waterpoint waterPoint);
     public Date getBaselineSetDate();
     WaterpointTypes getWaterPointType(String name);

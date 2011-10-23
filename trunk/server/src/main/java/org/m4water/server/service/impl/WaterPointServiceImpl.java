@@ -61,4 +61,9 @@ public class WaterPointServiceImpl implements WaterPointService{
        return this.pointTypeDao.searchUniqueByPropertyEqual("name", name);
     }
 
+    @Override
+    public List<WaterPointSummary> getWaterPointSummaries(String district) {
+        return waterPointDao.getWaterPointSummaries(district);
+    }
+
 }
