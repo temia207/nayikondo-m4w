@@ -59,7 +59,7 @@ public class HomeView extends View implements Refreshable {
     public List<WaterPointSummary> waterPointSummary = new ArrayList<WaterPointSummary>();
     private CenterHomePageView centerpanel;
     public Date baselineSetDate;
-    private User loggedinUser;
+    public User loggedinUser;
     private ContentPanel cp;
 
     public HomeView(Controller controller) {

@@ -111,19 +111,23 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
             if (store1.getCount() > 0) {
                 store1.removeAll();
             }
+            String district = parentView.loggedinUser.getSubcounty().getCounty().getDistrict().getName();
             System.out.println("-------------------------------------------------------------");
             List<Problem> tkts = event.getData();
             for (Problem t : tkts) {
 
                 if (status.equalsIgnoreCase(appMessages.open())) {
-                    if (t.getProblemStatus().equalsIgnoreCase(appMessages.open())) {
+                    if (t.getProblemStatus().equalsIgnoreCase(appMessages.open())&&
+                            t.getWaterpoint().getVillage().getParish().getSubcounty().getCounty().getDistrict().getName().equals(district)) {
                         store1.add(new ProblemSummary(t));
                     }
-                } else if (status.equalsIgnoreCase(appMessages.closed())) {
+                } else if (status.equalsIgnoreCase(appMessages.closed())&&
+                            t.getWaterpoint().getVillage().getParish().getSubcounty().getCounty().getDistrict().getName().equals(district)) {
                     if (t.getProblemStatus().equalsIgnoreCase(appMessages.closed())) {
                         store1.add(new ProblemSummary(t));
                     }
-                } else if (status.equalsIgnoreCase(appMessages.suspended())) {
+                } else if (status.equalsIgnoreCase(appMessages.suspended())&&
+                            t.getWaterpoint().getVillage().getParish().getSubcounty().getCounty().getDistrict().getName().equals(district)) {
                     if (t.getProblemStatus().equalsIgnoreCase(appMessages.suspended())) {
                         store1.add(new ProblemSummary(t));
                     }
