@@ -18,7 +18,6 @@ import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.WaterUserCommittee;
 import org.m4water.server.admin.model.Waterpoint;
-import org.m4water.server.dao.WaterFunctionalityDao;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.AssessmentService;
 import org.m4water.server.service.WUCService;
@@ -105,15 +104,11 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
         try {
             String action = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "action");
-            if (action == null) {
-                processAssesMent(workItemRecord);
-            } else if (action.equals("baseline")) {
+            if (action!=null && action.equals("baseline")) {
                 processBaseLine(workItemRecord);
-
-            }
-
-
-
+            }else{
+                processAssesMent(workItemRecord);
+            } 
         } finally {
             yawlHelper.checkInWorkItem(workItemRecord);
         }
@@ -126,6 +121,11 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         String problemFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "problemFixed");
         String reasonNotFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "reasonNotFixed");
 
+        System.out.println("Processing workitem recourd Retrieving waterpoint "
+                + "\nWaterpoint id = "+waterPointID
+                +"\n assesment = "+assesment
+                +"\n repairDetails = "+repairDetails
+                +"\n ");
         Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
         if (waterPoint == null)
             throw new RuntimeException("Water point id [" + waterPointID + "] sent from yawl was not found");
@@ -223,6 +223,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         waterPoint.setFundingSource(current_ownership);
         waterPoint.setBaselineDate(new Date());
         waterPoint.setTypeOfMagt(management_type);
+        waterPoint.setBaselinePending("F");
         //waterPoint.setHouseholds();
 
         WaterFunctionality funx = new WaterFunctionality(new Date(),
