@@ -1,7 +1,6 @@
 package org.m4water.server.servlet;
 
 import org.m4water.server.admin.model.District;
-import org.m4water.server.admin.model.Village;
 import org.m4water.server.xml.InspectionQuestion;
 import org.m4water.server.xml.Inspection;
 import org.m4water.server.xml.InspectionQuestions;
@@ -26,14 +25,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.m4water.server.admin.model.InspectionQuestionType;
-import org.m4water.server.admin.model.Subcounty;
-import org.m4water.server.admin.model.WaterFunctionality;
-import org.m4water.server.admin.model.WaterUserCommittee;
+import org.m4water.server.admin.model.Setting;
+import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.WaterpointTypes;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.DistrictService;
 import org.m4water.server.service.InspectionService;
+import org.m4water.server.service.SettingService;
 import org.m4water.server.service.UserService;
 import org.m4water.server.service.WUCService;
 import org.m4water.server.service.WaterFunctionalityService;
@@ -44,7 +43,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.yawlfoundation.yawl.util.StringUtil;
 
 /**
  *
@@ -62,7 +60,8 @@ public class InspectionServlet extends HttpServlet {
     @Autowired private PlatformTransactionManager transactionManager;
     private TransactionTemplate txTemplate;
     private WaterpointTypes waterpointType;
-
+    @Autowired private SettingService settingService;
+//    @Autowired private SettingGroupDAO settingGroup;
     @Override
     public void init() throws ServletException {
 
@@ -161,7 +160,7 @@ public class InspectionServlet extends HttpServlet {
         WaterPointsList waterPointsList = (WaterPointsList) createUnmarshaller.unmarshal(new StringReader(xml));
 
 
-        List<Waterpoint> waterPoints = new ArrayList<Waterpoint>();
+        List<SettingGroup> newWaterPoints = new ArrayList<SettingGroup>();
 
         for (org.m4water.server.xml.Waterpoint jxbWaterPoint : waterPointsList) {
             //Validate that the district exist
@@ -170,84 +169,141 @@ public class InspectionServlet extends HttpServlet {
                 writeMessage(resp, "<fail>District [" + jxbWaterPoint.getDistrict() + "] does not exist</fail>");
                 return;
             }
+//            Subcounty subcounty = districtByName.getSubcouty(jxbWaterPoint.getSubcounty());
+//
+//            if (subcounty == null) {
+//                writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");
+//                return;
+//            }
+//
+//            Village village = subcounty.getVillage(jxbWaterPoint.getVillage());
+//
+//            if (village == null) {
+//                writeMessage(resp, StringUtil.wrap("Village name [" + jxbWaterPoint.getVillage() + "] does not exist", "fail"));
+//                return;
+//            }
+            //get parent seeting group
+            SettingGroup parentGroup = settingService.getSettingGroup("waterpoints");
 
-            Subcounty subcounty = districtByName.getSubcouty(jxbWaterPoint.getSubcounty());
-
-            if (subcounty == null) {
-                writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");
-                return;
-            }
-
-            Village village = subcounty.getVillage(jxbWaterPoint.getVillage());
-
-            if (village == null) {
-                writeMessage(resp, StringUtil.wrap("Village name [" + jxbWaterPoint.getVillage() + "] does not exist", "fail"));
-                return;
-            }
-
-            Waterpoint waterpoint = new Waterpoint();
-            waterpoint.setWaterpointId(UUID.jUuid());
-            waterpoint.setBaselineDate(new Date(1));
-            waterpoint.setName(jxbWaterPoint.getSourceName());
-            waterpoint.setVillage(village);
-            waterpoint.setTypeOfMagt(jxbWaterPoint.getTypeOfManagement());
-            waterpoint.setOwnership(jxbWaterPoint.getCurrentOwnership() == null? "N/A":jxbWaterPoint.getCurrentOwnership());//TODO: Send user message abt owner ship
-            waterpoint.setBaselineDate(new Date(1));
-            waterpoint.setWaterpointTypes(waterpointType);// fix this
-            waterpoint.setDateInstalled(new Date());
-            waterpoint.setFundingSource("N/A");
-            waterpoint.setBaselinePending("F");
+            SettingGroup waterPointGrp = new SettingGroup();
+            waterPointGrp.setParentSettingGroup(parentGroup);
+            waterPointGrp.setName(UUID.jUuid());
             
+            //add setting
+            Setting waterPiointId = new Setting();
+            waterPiointId.setName("id");
+            waterPiointId.setValue(UUID.jUuid());
+            List<Setting> settings = waterPointGrp.getSettings();
+            settings.add(waterPiointId);
+            Setting baselineDate = new Setting("baselinedate", "", new Date(1).toString());
+            baselineDate.setSettingGroup(waterPointGrp);
+            settings.add(baselineDate);
+            Setting waterppointName = new Setting("waterpointname", "", jxbWaterPoint.getSourceName());
+            waterppointName.setSettingGroup(waterPointGrp);
+            settings.add(waterppointName);
+            Setting villageName = new Setting("village", "",jxbWaterPoint.getVillage());
+            villageName.setSettingGroup(waterPointGrp);
+            settings.add(villageName);
+            Setting typeOfManagement = new Setting("typeOfManagement", "", jxbWaterPoint.getTypeOfManagement());
+            typeOfManagement.setSettingGroup(waterPointGrp);
+            settings.add(typeOfManagement);
+            Setting ownership = new Setting("ownership", "",jxbWaterPoint.getCurrentOwnership() == null? "N/A":jxbWaterPoint.getCurrentOwnership());//TODO: Send user message abt owner ship
+            ownership.setSettingGroup(waterPointGrp);
+            settings.add(ownership);
+            Setting waterPointType = new Setting("waterpointType", "", waterpointType.getName());
+            waterPointType.setSettingGroup(waterPointGrp);
+            settings.add(waterPointType);
+            Setting dateInstalled = new Setting("dateInstalled", "", new Date().toString());
+            dateInstalled.setSettingGroup(waterPointGrp);
+            settings.add(dateInstalled);
+            Setting fundinfSrc = new Setting("fundingSource", "", "N/A");
+            fundinfSrc.setSettingGroup(waterPointGrp);
+            settings.add(fundinfSrc);
+            Setting baselinePending = new Setting("baslinePending", "", "F");
+            baselinePending.setSettingGroup(waterPointGrp);
+            settings.add(baselinePending);
 
+//waterpoint functionality
             String non_functional_reason = jxbWaterPoint.getReasonNonFunctional();
             String functionality = jxbWaterPoint.getIsFunctional();
             //String lastRepair = jxbWaterPoint.get
 
-            WaterFunctionality funx = new WaterFunctionality(new Date(),
-                    waterpoint,
-                    functionality,
-                    new Date(1),
-                    non_functional_reason,
-                    new Date(1),
-                    "No Last Repair",
-                    new Date(1),
-                    new Date(1));
+            SettingGroup functionalityGroup = new SettingGroup("functionality");
+            functionalityGroup.setParentSettingGroup(waterPointGrp);
+            List<Setting> waterFunctionality = functionalityGroup.getSettings();
+            Setting date = new Setting("date", "", new Date().toString());
+            date.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(date);
+            Setting functinalityStatus = new Setting("functionalityStatus", "", functionality);
+            functinalityStatus.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(functinalityStatus);
+            Setting dayNonFunctional = new Setting("dayNonFunctional", "", new Date(1).toString());
+            dayNonFunctional.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(dayNonFunctional);
+            Setting reasonNonFunctional = new Setting("reasonNonFunctional", "",non_functional_reason == null? "N/A":non_functional_reason);
+            reasonNonFunctional.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(reasonNonFunctional);
+            Setting dateLastRepair = new Setting("dateLastRepair", "", new Date(1).toString());
+            dateLastRepair.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(dateLastRepair);
+            Setting detailsLastRepair = new Setting("detailsLastRepair", "","No Last Repair");
+            detailsLastRepair.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(detailsLastRepair);
+            Setting dateLastMinorService = new Setting("dateLastMinorService", "", new Date(1).toString());
+            dateLastMinorService.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(dateLastMinorService);
+            Setting dateLastMajorService = new Setting("dateLastMajorService", "", new Date(1).toString());
+            dateLastMajorService.setSettingGroup(functionalityGroup);
+            waterFunctionality.add(dateLastMajorService);
+            Setting id = new Setting("id", "", new Date().toString());
+            waterFunctionality.add(id);
+            waterPointGrp.getGroups().add(functionalityGroup);
 
-            funx.setId(new Date());
-            funx.setWaterpoint(waterpoint);
-            funx.setFunctionalityStatus(functionality);
-            funx.setReason(non_functional_reason == null? "N/A":non_functional_reason);
-            funx.setDetailsLastRepair("");
-
-            waterpoint.getWaterFunctionality().add(funx);
-
+//water user committee
             if (jxbWaterPoint.getIsWucEstablished().equalsIgnoreCase("yes")) {
-                WaterUserCommittee wuc = new WaterUserCommittee(UUID.jUuid(),
-                        waterpoint,
-                        jxbWaterPoint.getCurrentOwnership(),
-                        "1900",
-                        jxbWaterPoint.getIsWucTrained(),
-                        "N/A Collect Fees",
-                        jxbWaterPoint.getIsWucFunctional(),
-                        "Regular Service Not Known",
-                        jxbWaterPoint.getNumberActiveMembers(),
-                        jxbWaterPoint.getWomenNumberWuc(),
-                        jxbWaterPoint.getWomenKeypositionsNumberWuc());
-                wuc.setCommissioned("N/A");
-                waterpoint.getWaterUserCommittees().add(wuc);
+                SettingGroup waterUserCom = new SettingGroup("waterusercommittee");
+                waterUserCom.setParentSettingGroup(waterPointGrp);
+                List<Setting> wucSettings = waterUserCom.getSettings();
+                Setting wid = new Setting("id", "", UUID.jUuid());
+                wid.setSettingGroup(waterUserCom);
+                wucSettings.add(wid);
+                Setting currentOwnership = new Setting("currentOwnership", "", jxbWaterPoint.getCurrentOwnership());
+                currentOwnership.setSettingGroup(waterUserCom);
+                wucSettings.add(currentOwnership);
+                Setting yearEstablished = new Setting("yearEstablished", "", "1900");
+                yearEstablished.setSettingGroup(waterUserCom);
+                wucSettings.add(yearEstablished);
+                Setting trained = new Setting("trained", "", jxbWaterPoint.getIsWucTrained());
+                trained.setSettingGroup(waterUserCom);
+                wucSettings.add(trained);
+                Setting collectFees = new Setting("collectFees", "", "N/A Collect Fees");
+                collectFees.setSettingGroup(waterUserCom);
+                wucSettings.add(collectFees);
+                Setting regularService = new Setting("regualarService", "", jxbWaterPoint.getIsWucFunctional());
+                regularService.setSettingGroup(waterUserCom);
+                wucSettings.add(regularService);
+                Setting regularMeeting = new Setting("regularMeeting", "", "Regular Service Not Known");
+                regularMeeting.setSettingGroup(waterUserCom);
+                wucSettings.add(regularMeeting);
+                Setting noActiveMembers = new Setting("noActiveMembers", "", jxbWaterPoint.getNumberActiveMembers());
+                noActiveMembers.setSettingGroup(waterUserCom);
+                wucSettings.add(noActiveMembers);
+                Setting womenNumber = new Setting("numberOfWomen", "", jxbWaterPoint.getWomenNumberWuc());
+                womenNumber.setSettingGroup(waterUserCom);
+                wucSettings.add(womenNumber);
+                Setting womenKeypos = new Setting("womenKeyPosition", "", jxbWaterPoint.getWomenKeypositionsNumberWuc());
+                womenKeypos.setSettingGroup(waterUserCom);
+                wucSettings.add(womenKeypos);
+                Setting commissioned = new Setting("commissioned", "", "N/A");
+                commissioned.setSettingGroup(waterUserCom);
+                wucSettings.add(commissioned);
+                waterPointGrp.getGroups().add(waterUserCom);
             }
-            waterPoints.add(waterpoint);
+            newWaterPoints.add(waterPointGrp);
         }
 
-        for (Waterpoint waterpoint : waterPoints) {
-            waterPointService.saveWaterPoint(waterpoint);
-            WaterFunctionality next = (WaterFunctionality) waterpoint.getWaterFunctionality().iterator().next();
-            funxService.save(next);
-            if (!waterpoint.getWaterUserCommittees().isEmpty()) {
-                WaterUserCommittee wuc = (WaterUserCommittee) waterpoint.getWaterUserCommittees().iterator().next();
-                wUCService.save(wuc);
-            }
-
+        for (SettingGroup waterpoint : newWaterPoints) {
+            settingService.saveSettingGroup(waterpoint);
         }
         writeMessage(resp, "<success>Success</Success>");
     }
