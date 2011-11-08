@@ -26,5 +26,7 @@
     <mapping resource="org/m4water/server/dao/hibernate/mapping/Inspection.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/InspectionQuestionType.hbm.xml"/>
     <mapping resource="org/m4water/server/dao/hibernate/mapping/InspectionQuestions.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/Setting.hbm.xml"/>
+    <mapping resource="org/m4water/server/dao/hibernate/mapping/SettingGroup.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
