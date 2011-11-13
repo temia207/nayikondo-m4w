@@ -1,0 +1,20 @@
+
+# /WebApp/
+/WebApp/target
+
+# /WebApp/war/
+/WebApp/war/cwf
+
+# /WebApp/war/WEB-INF/
+/WebApp/war/WEB-INF/classes
+/WebApp/war/WEB-INF/deploy
+/WebApp/war/WEB-INF/lib
+
+# /mobile/m4w-midlet/
+/mobile/m4w-midlet/bin
+/mobile/m4w-midlet/build
+/mobile/m4w-midlet/dist
+/model/.settings/
+/server/target/
+/yawl/target/
+/model/target/
