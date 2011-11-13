@@ -9,6 +9,7 @@
 /WebApp/war/WEB-INF/classes
 /WebApp/war/WEB-INF/deploy
 /WebApp/war/WEB-INF/lib
+/WebApp/spy.log
 
 # /mobile/m4w-midlet/
 /mobile/m4w-midlet/bin

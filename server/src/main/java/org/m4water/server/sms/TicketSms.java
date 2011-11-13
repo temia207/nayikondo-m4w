@@ -76,7 +76,7 @@ public class TicketSms implements TicketService, InitializingBean {
             }
         };
         Channel ch = new TextMeUgChannel("m4w", "Trip77e");
-        SMSServer server = new SMSServer(ch, requestListener, 10);
+        SMSServer server = new SMSServer(ch, requestListener, 5);
         System.out.println("Starting SMS server");
         server.startServer();
         System.out.println("Started SMS server");
