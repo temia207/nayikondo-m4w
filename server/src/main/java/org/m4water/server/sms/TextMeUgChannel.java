@@ -115,7 +115,7 @@ public class TextMeUgChannel implements Channel {
 
         private void bufferTheMessages(List<TextMeMessage> msgs) {
                 for (TextMeMessage message : msgs) {
-                        log.debug("Received SMS: " + message.getMessage(), null, message.getSender());
+                        log.debug("=======> Received SMS: " + message.getMessage(), null, message.getSender());
                         SMSMessage req = new SMSMessage(message.getSender(), message.getMessage(), this);
                         req.put("msgID", message.getMsgID());
                         req.put("time", message.getTime());
