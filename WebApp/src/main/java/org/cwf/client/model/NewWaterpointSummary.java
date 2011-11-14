@@ -6,53 +6,34 @@ package org.cwf.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 import java.util.Date;
-import org.m4water.server.admin.model.Village;
-import org.m4water.server.admin.model.WaterPointSummary;
-import org.m4water.server.admin.model.WaterpointTypes;
+import org.m4water.server.admin.model.SettingGroup;
 
 /**
  *
  * @author victor
  */
-public class WaterPointModel extends BaseModel {
+public class NewWaterpointSummary extends BaseModel {
 
-    private WaterPointSummary waterPoint;
+    private SettingGroup waterPoint;
 
-    public WaterPointModel() {
+    public NewWaterpointSummary() {
     }
 
-    public WaterPointModel(WaterPointSummary waterPointSummary) {
-        setWaterPoint(waterPointSummary);
+    public String getGroupSetting() {
+        return "groupsetting";
     }
 
-    public WaterPointModel(String waterPointId, String village, String types,
-            String fundingOrg, Date date, String eastings, String northings, String elevation,
-            String fundingSrce, String ownership, String households, String typeOfMgt) {
-        setDate(date);
-        setId(waterPointId);
-        setVillage(village);
-        setWaterpointTypes(types);
-        setEastings(eastings);
-        setNorthings(northings);
-        setElevation(elevation);
-        setFundingSrc(fundingSrce);
-        setOwnership(ownership);
-        setHouseHolds(households);
-        setTypeOfMagt(typeOfMgt);
+    public void setGroupSetting(String groupSetting) {
+        set("groupsetting", groupSetting);
     }
 
-    public WaterPointModel(String waterPointId, String villageName, String parishName,
-            String subcountyName, String countyName, String district,Date date) {
-        setId(waterPointId);
-        setVillage(villageName);
-        setParish(parishName);
-        setSubcounty(subcountyName);
-        setCounty(countyName);
-        setDistrict(district);
-        setDate(date);
+    public SettingGroup getSettingGroup() {
+        return waterPoint;
     }
 
-    public void setId(String id) {
+    public void setSettingGroup(SettingGroup settingGroup) {
+        this.waterPoint = settingGroup;
+    } public void setId(String id) {
         set("id", id);
     }
 
@@ -116,11 +97,6 @@ public class WaterPointModel extends BaseModel {
         set("typeOfManagement", typeOfManagement);
     }
 
-    public void setWaterPoint(WaterPointSummary waterPointSummary) {
-        this.waterPoint = waterPointSummary;
-        updateWaterPoint(waterPointSummary);
-    }
-
     public String getId() {
         return get("id");
     }
@@ -129,7 +105,7 @@ public class WaterPointModel extends BaseModel {
         return get("village");
     }
 
-    public WaterpointTypes getWaterpointTypes() {
+    public String getWaterpointTypes() {
         return get("waterpointtypes");
     }
 
@@ -183,28 +159,5 @@ public class WaterPointModel extends BaseModel {
 
     public String getDistrict() {
         return get("district");
-    }
-
-    public WaterPointSummary getWaterPointSummary() {
-        return this.waterPoint;
-    }
-
-    public void updateWaterPoint(WaterPointSummary summary) {
-        this.waterPoint = summary;
-        setDate(summary.getDate());
-        setId(summary.getWaterPointId());
-        setVillage(summary.getVillageName());
-        setParish(summary.getParishName());
-        setSubcounty(summary.getSubcountyName());
-        setCounty(summary.getCountyName());
-        setDistrict(summary.getDistrict());
-//        setWaterpointTypes(summary.getWaterpointTypes().getName());
-//        setEastings(summary.getEastings());
-//        setNorthings(summary.getNorthings());
-//        setElevation(summary.getElevation());
-//        setFundingSrc(summary.getFundingSource());
-//        setOwnership(summary.getOwnership());
-//        setHouseHolds(summary.getHouseholds());
-//        setTypeOfMagt(summary.getTypeOfMagt());
     }
 }

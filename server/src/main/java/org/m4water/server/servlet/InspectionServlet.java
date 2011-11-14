@@ -27,6 +27,7 @@ import javax.xml.bind.Unmarshaller;
 import org.m4water.server.admin.model.InspectionQuestionType;
 import org.m4water.server.admin.model.Setting;
 import org.m4water.server.admin.model.SettingGroup;
+import org.m4water.server.admin.model.Subcounty;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.WaterpointTypes;
 import org.m4water.server.security.util.UUID;
@@ -169,12 +170,12 @@ public class InspectionServlet extends HttpServlet {
                 writeMessage(resp, "<fail>District [" + jxbWaterPoint.getDistrict() + "] does not exist</fail>");
                 return;
             }
-//            Subcounty subcounty = districtByName.getSubcouty(jxbWaterPoint.getSubcounty());
-//
-//            if (subcounty == null) {
-//                writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");
-//                return;
-//            }
+            Subcounty subcounty = districtByName.getSubcouty(jxbWaterPoint.getSubcounty());
+
+            if (subcounty == null) {
+                writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");
+                return;
+            }
 //
 //            Village village = subcounty.getVillage(jxbWaterPoint.getVillage());
 //
@@ -190,10 +191,11 @@ public class InspectionServlet extends HttpServlet {
             waterPointGrp.setName(UUID.jUuid());
             
             //add setting
+            List<Setting> settings = waterPointGrp.getSettings();
             Setting waterPiointId = new Setting();
             waterPiointId.setName("id");
             waterPiointId.setValue(UUID.jUuid());
-            List<Setting> settings = waterPointGrp.getSettings();
+            waterPiointId.setSettingGroup(waterPointGrp);
             settings.add(waterPiointId);
             Setting baselineDate = new Setting("baselinedate", "", new Date(1).toString());
             baselineDate.setSettingGroup(waterPointGrp);
@@ -204,6 +206,15 @@ public class InspectionServlet extends HttpServlet {
             Setting villageName = new Setting("village", "",jxbWaterPoint.getVillage());
             villageName.setSettingGroup(waterPointGrp);
             settings.add(villageName);
+            Setting parish= new Setting("parish", "",jxbWaterPoint.getParish());
+            parish.setSettingGroup(waterPointGrp);
+            settings.add(parish);
+            Setting subcty= new Setting("subcounty", "",subcounty.getSubcountyName());
+            subcty.setSettingGroup(waterPointGrp);
+            settings.add(subcty);
+            Setting county= new Setting("county", "",subcounty.getCounty().getCountyName());
+            county.setSettingGroup(waterPointGrp);
+            settings.add(county);
             Setting typeOfManagement = new Setting("typeOfManagement", "", jxbWaterPoint.getTypeOfManagement());
             typeOfManagement.setSettingGroup(waterPointGrp);
             settings.add(typeOfManagement);

@@ -25,9 +25,9 @@ public class Waterpoint extends AbstractEditable<String> {
     private Date baselineDate;
     private String baselinePending;
     private Set problems = new HashSet(0);
-    private Set waterFunctionality = new HashSet(0);
     private Set inspections = new HashSet(0);
     private Set waterUserCommittees = new HashSet(0);
+     private Set waterFunctionalities = new HashSet(0);
 
     public Waterpoint() {
     }
@@ -49,7 +49,7 @@ public class Waterpoint extends AbstractEditable<String> {
         this.baselinePending = baselinePending;
     }
 
-    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections, Set waterUserCommittee, Date baselineDate, String baselinePending) {
+    public Waterpoint(String waterpointId, Village village, WaterpointTypes waterpointTypes, String name, Date dateInstalled, String eastings, String northings, String elevation, String fundingSource, String ownership, String households, String typeOfMagt, Set problems, Set waterFunctionality, Set inspections, Set waterUserCommittee, Date baselineDate, String baselinePending, Set waterFunctionalities) {
         this.waterpointId = waterpointId;
         this.village = village;
         this.waterpointTypes = waterpointTypes;
@@ -63,7 +63,7 @@ public class Waterpoint extends AbstractEditable<String> {
         this.households = households;
         this.typeOfMagt = typeOfMagt;
         this.problems = problems;
-        this.waterFunctionality = waterFunctionality;
+        this.waterFunctionalities = waterFunctionalities;
         this.inspections = inspections;
         this.waterUserCommittees = waterUserCommittee;
         this.baselineDate = baselineDate;
@@ -174,14 +174,13 @@ public class Waterpoint extends AbstractEditable<String> {
         this.problems = problems;
     }
 
-    public void setWaterFunctionality(Set waterFunctionality) {
-        this.waterFunctionality = waterFunctionality;
+    public Set getWaterFunctionalities() {
+        return this.waterFunctionalities;
     }
 
-    public Set getWaterFunctionality() {
-        return this.waterFunctionality;
+    public void setWaterFunctionalities(Set waterFunctionalities) {
+        this.waterFunctionalities = waterFunctionalities;
     }
-
     public boolean hasOpenProblems() {
         return getOpenProblem() != null;
     }

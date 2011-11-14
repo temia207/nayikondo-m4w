@@ -21,6 +21,9 @@
         <comment>T=fixed,F=not fixed,due to hibernate enum issues</comment>
       </column>
     </property>
+    <property name="yawlid" type="string">
+        <column name="yawlid" length="200" not-null="true" />
+     </property>
     <set inverse="true" name="problemLogs" lazy="false" cascade="save-update,delete-orphan">
       <key>
         <column name="problem_id" not-null="true"/>

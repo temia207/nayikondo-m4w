@@ -40,5 +40,6 @@
     <servlet path="/yawlservice" class="org.cwf.server.YawlServiceImpl"/>
     <servlet path="/user" class="org.cwf.server.UserServiceImpl"/>
     <servlet path="/authentication" class="org.cwf.server.AuthenticationServiceImpl"/>
+    <servlet path="/settingService" class="org.cwf.server.SettingServiceImpl"/>
 
 </module>

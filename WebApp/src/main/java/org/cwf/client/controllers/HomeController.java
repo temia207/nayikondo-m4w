@@ -21,13 +21,16 @@ import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.model.ProblemSummary;
+import org.cwf.client.model.NewWaterpointSummary;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.service.ProblemServiceAsync;
+import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.service.YawlServiceAsync;
 import org.cwf.client.util.ProgressIndicator;
 import org.cwf.client.views.HomeView;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 
@@ -43,12 +46,14 @@ public class HomeController extends Controller {
     ProblemServiceAsync ticketService;
     WaterPointServiceAsync waterpointService;
     YawlServiceAsync yawlService;
+    SettingServiceAsync settingService;
 
-    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService, YawlServiceAsync aYawlService) {
+    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService, YawlServiceAsync aYawlService,SettingServiceAsync aSettingService) {
         super();
         ticketService = aTicketService;
         waterpointService = aWaterPointService;
         yawlService = aYawlService;
+        settingService = aSettingService;
         registerEventTypes(HOME);
     }
 
@@ -75,7 +80,13 @@ public class HomeController extends Controller {
         event.setData(waterPointId);
         dispatcher.dispatch(event);
     }
-
+    public void forwardToEditNewWaterPoint(NewWaterpointSummary model) {
+        GWT.log("HomeController : forwardToEditWaterPoint(WaterPointModel model)");
+        Dispatcher dispatcher = Dispatcher.get();
+        AppEvent event = new AppEvent(EditNewWaterPointController.EDIT_NEW_WATER_POINT);
+        event.setData(model);
+        dispatcher.dispatch(event);
+    }
     public void forwardToViewTicketDetails(ProblemSummary summary) {
         GWT.log("HomeController : forwardToViewTicketDetails");
         Dispatcher dispatcher = Dispatcher.get();
@@ -106,6 +117,17 @@ public class HomeController extends Controller {
                 GWT.log("HomeController : waterpointsummarries found");
                 RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
                 ProgressIndicator.hideProgressBar();
+            }
+        });
+    }
+    public void getNewWaterPoints() {
+        GWT.log("HomeController : getNewWaterPoints()");
+        settingService.getSettingGroup("waterpoints", new M4waterAsyncCallback<SettingGroup>() {
+
+            @Override
+            public void onSuccess(SettingGroup result) {
+                GWT.log("HomeController : waterpointsummarries found");
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
             }
         });
     }

@@ -61,6 +61,7 @@ public interface AppMessages extends Messages {
         String assessmentAndRepairs();
         String waterpointInspection();
         String waterUserCommittee();
+        String waterFunctionality();
 
         String baseLineNotDone();
         String baseLineForReview();
