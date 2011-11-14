@@ -14,21 +14,23 @@ public class Problem extends AbstractEditable<String> {
     private Date dateProblemReported;
     private String problemDescsription;
     private String problemStatus;
+    private String yawlid;
     private Set problemLogs = new HashSet(0);
     private Set faultAssessments = new HashSet(0);
 
     public Problem() {
     }
 
-    public Problem(String problemId, Waterpoint waterpoint, Date dateProblemReported, String problemDescsription, String problemStatus) {
+    public Problem(String problemId, Waterpoint waterpoint, Date dateProblemReported, String problemDescsription, String problemStatus, String yawlid) {
         this.id = problemId;
         this.waterpoint = waterpoint;
         this.dateProblemReported = dateProblemReported;
         this.problemDescsription = problemDescsription;
         this.problemStatus = problemStatus;
+        this.yawlid = yawlid;
     }
 
-    public Problem(String problemId, Waterpoint waterpoint, Date dateProblemReported, String problemDescsription, String problemStatus, Set problemLogs, Set faultAssessments) {
+    public Problem(String problemId, Waterpoint waterpoint, Date dateProblemReported, String problemDescsription, String problemStatus, String yawlid, Set problemLogs, Set faultAssessments) {
         this.id = problemId;
         this.waterpoint = waterpoint;
         this.dateProblemReported = dateProblemReported;
@@ -36,6 +38,7 @@ public class Problem extends AbstractEditable<String> {
         this.problemStatus = problemStatus;
         this.problemLogs = problemLogs;
         this.faultAssessments = faultAssessments;
+        this.yawlid = yawlid;
     }
 
     public String getProblemId() {
@@ -96,5 +99,12 @@ public class Problem extends AbstractEditable<String> {
 
     public boolean isOpen() {
         return problemStatus != null && problemStatus.equals("open");
+    }
+    public String getYawlid() {
+        return this.yawlid;
+    }
+
+    public void setYawlid(String yawlid) {
+        this.yawlid = yawlid;
     }
 }

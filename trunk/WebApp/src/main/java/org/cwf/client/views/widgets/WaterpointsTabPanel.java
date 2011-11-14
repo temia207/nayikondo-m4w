@@ -15,6 +15,7 @@ import org.cwf.client.RefreshableEvent;
 import org.cwf.client.views.AvailableWaterpointsView;
 import org.cwf.client.views.HomeView;
 import org.cwf.client.RefreshablePublisher;
+import org.cwf.client.views.NewWaterPointsView;
 
 /**
  *
@@ -37,13 +38,13 @@ public class WaterpointsTabPanel extends ContentPanel {
         waterpointsPanel.setAutoHeight(true);
         setHeading(appMessages.allWaterPoints()+":to filter values right click the colum->filters");
 
-        TabItem baseLineNotdoneTab = new TabItem(appMessages.newWaterPoints());
-        baseLineNotdoneTab.setLayout(new FitLayout());
-        AvailableWaterpointsView waterpoints1 = new AvailableWaterpointsView(parentView,appMessages.newWaterPoints());
+        TabItem newWaterpoints = new TabItem(appMessages.newWaterPoints());
+        newWaterpoints.setLayout(new FitLayout());
+        NewWaterPointsView waterpoints1 = new NewWaterPointsView(parentView,appMessages.newWaterPoints());
         waterpoints1.setWidth("100%");
         waterpoints1.setHeading(appMessages.allWaterPoints());
-        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.ALL_WATER_POINTS,waterpoints1);
-        baseLineNotdoneTab.add(waterpoints1);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.NEW_WATER_POINTS,waterpoints1);
+        newWaterpoints.add(waterpoints1);
 
         TabItem baseLineForReview = new TabItem(appMessages.baseLineNotDone());
         baseLineForReview.setLayout(new FitLayout());
@@ -73,7 +74,7 @@ public class WaterpointsTabPanel extends ContentPanel {
 
         waterpointsPanel.add(baselineComplete);
         waterpointsPanel.add(baseLineForReview);
-        waterpointsPanel.add(baseLineNotdoneTab);
+        waterpointsPanel.add(newWaterpoints);
         waterpointsPanel.add(pendingBaseline);
         add(waterpointsPanel);
         setLayout(new FitLayout());

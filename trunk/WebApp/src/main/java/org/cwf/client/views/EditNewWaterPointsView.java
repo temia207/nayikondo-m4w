@@ -23,20 +23,18 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import org.cwf.client.AppMessages;
+import org.cwf.client.controllers.EditNewWaterPointController;
 import org.cwf.client.controllers.EditWaterPointController;
-import org.m4water.server.admin.model.Inspection;
-import org.m4water.server.admin.model.InspectionQuestions;
-import org.m4water.server.admin.model.WaterFunctionality;
-import org.m4water.server.admin.model.WaterUserCommittee;
+import org.cwf.client.model.NewWaterpointSummary;
+import org.m4water.server.admin.model.Setting;
+import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.Waterpoint;
-
 /**
  *
  * @author victor
  */
-public class EditWaterPointView extends View {
+public class EditNewWaterPointsView extends View {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Window window;
@@ -53,7 +51,7 @@ public class EditWaterPointView extends View {
     private HashMap<String, TextField<String>> waterFunctionalityFields;
     private FieldSet detailsFldSet;
 
-    public EditWaterPointView(Controller controller) {
+    public EditNewWaterPointsView (Controller controller) {
         super(controller);
     }
 
@@ -89,7 +87,6 @@ public class EditWaterPointView extends View {
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
-        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
         formPanel.add(ticketsDataTable);
         formPanel.setButtonAlign(HorizontalAlignment.CENTER);
         createButtons();
@@ -100,6 +97,7 @@ public class EditWaterPointView extends View {
         window.setWidth("82%");
     }
 
+    
     public FieldSet getWaterPointDetailsFldset() {
         FieldSet waterPointDetails = new FieldSet();
         waterPointDetails.setHeading("Water point Details");
@@ -190,7 +188,7 @@ public class EditWaterPointView extends View {
         return waterPointDetails;
     }
 
-    public void setInspectionQuestion(List<Inspection> questions) {
+    public void setInspectionQuestion(List<Setting> settings) {
         inspectionFldset = new FieldSet();
         inspectionFldset.setHeading(appMessages.waterpointInspection());
         inspectionFldset.setCheckboxToggle(false);
@@ -200,19 +198,17 @@ public class EditWaterPointView extends View {
         inspectionFldset.setLayout(layout);
 
         questionTflds = new ArrayList<TextField<String>>();
-        if (!questions.isEmpty()) {
-            Inspection x = questions.get(questions.size() - 1);
-            Set quiz = x.getInspectionQuestionses();
-            for (Object object : quiz) {
+        if (!settings.isEmpty()) {
+            for (Setting setting : settings) {
                 TextField<String> questionFld = new TextField<String>();
-                questionFld.setFieldLabel(((InspectionQuestions) object).getQuestion());
-                questionFld.setValue(((InspectionQuestions) object).getAnswer());
+                questionFld.setFieldLabel(setting.getName());
+                questionFld.setValue(setting.getValue());
                 inspectionFldset.add(questionFld, formData);
                 questionFld.setReadOnly(true);
 //                addInspectionQuestion(((InspectionQuestions) object).getQuestion());
             }
         }
-        if (questions.isEmpty()) {
+        if (settings.isEmpty()) {
             Label lable = new Label("There is no Inspection done for this waterpoint");
             inspectionFldset.add(lable);
         }
@@ -223,7 +219,7 @@ public class EditWaterPointView extends View {
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
 
-    public FieldSet getWaterUsercommitteeFldset(Waterpoint point) {
+    public FieldSet getWaterUsercommitteeFldset(List<Setting> settings) {
         FieldSet userCommittee = new FieldSet();
         userCommittee.setHeading(appMessages.waterUserCommittee());
         userCommittee.setCheckboxToggle(false);
@@ -232,49 +228,38 @@ public class EditWaterPointView extends View {
         layout.setLabelWidth(100);
         userCommittee.setLayout(layout);
         initializeTextfields();
-        List<WaterUserCommittee> committee = new ArrayList<WaterUserCommittee>(point.getWaterUserCommittees());
-        for (WaterUserCommittee x : committee) {
+        for (Setting x : settings) {
             waterUserCommitteeFields = new HashMap<String, TextField<String>>();
-            userCommittee.add(addUserCommitteeFld("Commissioned", x.getCommissioned()), formData);
-            userCommittee.add(addUserCommitteeFld("Year Established", x.getYrEstablished()), formData);
-            userCommittee.add(addUserCommitteeFld("Trained", x.getTrained()), formData);
-            userCommittee.add(addUserCommitteeFld("Collect Fees", x.getCollectFees()), formData);
-            userCommittee.add(addUserCommitteeFld("Regular Service", x.getRegularService()), formData);
+            userCommittee.add(addUserCommitteeFld(x.getName(), x.getValue()), formData);
         }
-        if (committee.isEmpty()) {
+        if (settings.isEmpty()) {
             Label lable = new Label("There is no Water User Committee for this waterpoint");
             userCommittee.add(lable);
         }
-        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight()+"px");
+//        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight()+"px");
         ticketsDataTable.setWidget(1,0,userCommittee);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
         return userCommittee;
     }
-    public FieldSet getWaterFunctionalityFldset(Waterpoint point){
+
+    public FieldSet getWaterFunctionalityFldset(List<Setting> settings){
         FieldSet functionality = new FieldSet();
         functionality.setHeading(appMessages.waterFunctionality());
         functionality.setCheckboxToggle(false);
 
         FormLayout layout = new FormLayout();
-        layout.setLabelWidth(100);
+        layout.setLabelWidth(150);
         functionality.setLayout(layout);
         initializeTextfields();
-        List<WaterFunctionality> func = new ArrayList<WaterFunctionality>(point.getWaterFunctionalities());
-        for (WaterFunctionality x : func) {
+        for (Setting x : settings) {
             waterFunctionalityFields = new HashMap<String, TextField<String>>();
-            functionality.add(addFunctionalityFld("Functionality Status", x.getFunctionalityStatus()), formData);
-            functionality.add(addFunctionalityFld("Day non Functional", x.getDayNonFunctional().toString()), formData);
-            functionality.add(addFunctionalityFld("Reason", x.getReason()), formData);
-            functionality.add(addFunctionalityFld("Date Last Repaired", x.getDateLastRepaired().toString()), formData);
-            functionality.add(addFunctionalityFld("Details Last Repair", x.getDetailsLastRepair()), formData);
-            functionality.add(addFunctionalityFld("Date Last minor service", x.getDateLastMinorService().toString()), formData);
-            functionality.add(addFunctionalityFld("Date Last major service", x.getDateLastMajorService().toString()), formData);
+            functionality.add(addFunctionalityFld(x.getName(), x.getValue()), formData);
         }
-        if (func.isEmpty()) {
+        if (settings.isEmpty()) {
             Label lable = new Label("There is no Water Functionality for this waterpoint");
             functionality.add(lable);
         }
-        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight() + "px");
+//        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight() + "px");
         ticketsDataTable.setWidget(2, 0, functionality);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
         return functionality;
@@ -288,6 +273,7 @@ public class EditWaterPointView extends View {
         return committeeQuiz;
 
     }
+
     private TextField<String> addFunctionalityFld(String name, String value) {
         TextField<String> functionalityQuiz = new TextField<String>();
         functionalityQuiz.setFieldLabel(name);
@@ -297,7 +283,6 @@ public class EditWaterPointView extends View {
         return functionalityQuiz;
 
     }
-
     public void save(Waterpoint waterpoint) {
         waterpoint.setWaterpointId(idTextFld.getValue().trim());
         waterpoint.setName(waterPointNameTfld.getValue().trim());
@@ -305,7 +290,7 @@ public class EditWaterPointView extends View {
         waterpoint.setHouseholds(houseHoldsTfld.getValue().trim());
         waterpoint.setOwnership(ownershipTfld.getValue().trim());
         waterpoint.setTypeOfMagt(typeOfMagtTfld.getValue().trim());
-        ((EditWaterPointController) EditWaterPointView.this.getController()).saveWaterPoint(waterPoint);
+        ((EditWaterPointController)EditNewWaterPointsView .this.getController()).saveWaterPoint(waterPoint);
     }
 
     private void createButtons() {
@@ -354,33 +339,39 @@ public class EditWaterPointView extends View {
         window.hide();
     }
 
-    public void setWaterPointData(Waterpoint waterPoint) {
-        this.waterPoint = waterPoint;
-        idTextFld.setValue(waterPoint.getWaterpointId());
-        waterPointNameTfld.setValue(waterPoint.getName());
-        districtTfld.setValue(waterPoint.getVillage().getParish().getSubcounty().getCounty().getDistrict().getName());
-        subcountyTfld.setValue(waterPoint.getVillage().getParish().getSubcounty().getSubcountyName());
-        villageTfld.setValue(waterPoint.getVillage().getVillagename());
-        eastingsTfld.setValue(waterPoint.getEastings());
-        northingsTfld.setValue(waterPoint.getNorthings());
-        dateIstalledTfld.setValue(waterPoint.getDateInstalled().toString());
-        fundingSrcTfld.setValue(waterPoint.getFundingSource());
-        ownershipTfld.setValue(waterPoint.getOwnership());
-        houseHoldsTfld.setValue(waterPoint.getHouseholds());
-        typeOfMagtTfld.setValue(waterPoint.getTypeOfMagt());
-        setInspectionQuestion(new ArrayList<Inspection>(waterPoint.getInspections()));
-        getWaterUsercommitteeFldset(waterPoint);
-        getWaterFunctionalityFldset(waterPoint);
+    public void setWaterPointData(NewWaterpointSummary model) {
+        SettingGroup group = model.getSettingGroup();
+        idTextFld.setValue(model.getId());
+        waterPointNameTfld.setValue(model.getFundingOrganisation());
+        districtTfld.setValue(model.getDistrict());
+        subcountyTfld.setValue(model.getParish());
+        villageTfld.setValue(model.getVillage());
+        eastingsTfld.setValue(model.getEastings());
+        northingsTfld.setValue(model.getNorthings());
+        dateIstalledTfld.setValue(model.getDate().toString());
+        fundingSrcTfld.setValue(model.getFundingSrc());
+        ownershipTfld.setValue(model.getOwnership());
+        houseHoldsTfld.setValue(model.getHouseHolds());
+        typeOfMagtTfld.setValue(model.getTypeOfMagt());
+        List<SettingGroup> groups = group.getGroups();
+        for(SettingGroup x:groups){
+            if(x.getName().equalsIgnoreCase("functionality")){
+                getWaterFunctionalityFldset(x.getSettings());
+            }else if(x.getName().equalsIgnoreCase("waterusercommittee")){
+                getWaterUsercommitteeFldset(x.getSettings());
+            }else if(x.getName().equalsIgnoreCase("inspection")){
+                setInspectionQuestion(x.getSettings());
+            }
+            setInspectionQuestion(new ArrayList<Setting>());
+        }
     }
 
     @Override
     protected void handleEvent(AppEvent event) {
         GWT.log("Edit waterpoint : handleEvent");
-        if (event.getType() == EditWaterPointController.EDIT_WATER_POINT) {
-            String waterPointId = event.getData();
-            EditWaterPointController controller2 = (EditWaterPointController) EditWaterPointView.this.getController();
-            controller2.getWaterPoint(waterPointId);
-//            controller2.getInspections();
+        if (event.getType() == EditNewWaterPointController.EDIT_NEW_WATER_POINT) {
+            NewWaterpointSummary model = event.getData();
+            setWaterPointData(model);
             showWindow();
         }
     }

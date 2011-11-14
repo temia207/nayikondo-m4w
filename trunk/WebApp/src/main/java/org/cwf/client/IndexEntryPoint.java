@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import org.cwf.client.controllers.CommentController;
+import org.cwf.client.controllers.EditNewWaterPointController;
 import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
@@ -54,6 +55,7 @@ import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.service.AssessmentClientServiceAsync;
 import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.ProblemServiceAsync;
+import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.UserServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.service.YawlServiceAsync;
@@ -77,6 +79,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     AssessmentClientServiceAsync assessmentService;
     UserServiceAsync userService;
     YawlServiceAsync yawlService;
+    SettingServiceAsync settingService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -104,17 +107,19 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         assessmentService = AssessmentClientServiceAsync.Util.getInstance();
         yawlService = YawlServiceAsync.Util.getInstance();
         userService = UserServiceAsync.Util.getInstance();
+        settingService = SettingServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController(userService);
 
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
-        dispatcher.addController(new HomeController(ticketSmsService,waterPointService,yawlService));
+        dispatcher.addController(new HomeController(ticketSmsService,waterPointService,yawlService,settingService));
         dispatcher.addController(new EditWaterPointController(waterPointService,inspectionService));
         dispatcher.addController(new TicketDetailsController(ticketSmsService,inspectionService,assessmentService));
         dispatcher.addController(new CommentController(ticketSmsService));
         dispatcher.addController(new ProblemHistoryController(ticketSmsService,assessmentService));
+        dispatcher.addController(new EditNewWaterPointController(waterPointService, settingService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);

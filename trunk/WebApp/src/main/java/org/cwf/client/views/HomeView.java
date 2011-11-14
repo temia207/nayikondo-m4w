@@ -129,6 +129,7 @@ public class HomeView extends View implements Refreshable {
             controller2.getTickets();
             controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
             controller2.getBaselineSetDate();
+            controller2.getNewWaterPoints();
         }
 
     }

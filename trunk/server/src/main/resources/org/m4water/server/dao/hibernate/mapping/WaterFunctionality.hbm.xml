@@ -7,7 +7,7 @@
       <column length="10" name="date"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.Waterpoint" fetch="select" name="waterpoint">
+    <many-to-one class="org.m4water.server.admin.model.Waterpoint" lazy="false" name="waterpoint">
       <column length="200" name="waterpoint_id" not-null="true"/>
     </many-to-one>
     <property name="functionalityStatus" type="string">

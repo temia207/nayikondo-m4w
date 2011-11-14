@@ -5,7 +5,6 @@
 package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -27,7 +26,6 @@ import com.extjs.gxt.ui.client.widget.grid.filters.ListFilter;
 import com.extjs.gxt.ui.client.widget.grid.filters.StringFilter;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
@@ -210,7 +208,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
                         store1.add(new WaterPointModel(point));
                     }
                 } else if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
-                    if ((point.getBaselineDate() != null) && (point.getBaselineDate().before(parentView.baselineSetDate))) {
+                    if (point.getBaselinePending().equalsIgnoreCase("F")&&(point.getBaselineDate() != null) && (point.getBaselineDate().before(parentView.baselineSetDate))) {
                         store1.add(new WaterPointModel(point));
                     }
                 } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {

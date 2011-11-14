@@ -70,5 +70,11 @@
             </key>
             <one-to-many class="org.m4water.server.admin.model.WaterUserCommittee" />
         </set>
+        <set name="waterFunctionalities" cascade="save-update,delete-orphan" inverse="true" lazy="false">
+            <key>
+                <column name="waterpoint_id" length="200" not-null="true" />
+            </key>
+            <one-to-many class="org.m4water.server.admin.model.WaterFunctionality" />
+        </set>
     </class>
 </hibernate-mapping>

@@ -130,9 +130,9 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         if (waterPoint == null)
             throw new RuntimeException("Water point id [" + waterPointID + "] sent from yawl was not found");
         WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date());
-        Set waterFunctionality = waterPoint.getWaterFunctionality();
+        Set waterFunctionality = waterPoint.getWaterFunctionalities();
         waterFunctionality.add(functionality);
-        waterPoint.setWaterFunctionality(waterFunctionality);
+        waterPoint.setWaterFunctionalities(waterFunctionality);
         functionality.setFunctionalityStatus("Working = " + problemFixed + " Assesment = " + assesment);
         //            waterPoint.setDate(new Date());
         Date baselineDate = waterPoint.getBaselineDate();
