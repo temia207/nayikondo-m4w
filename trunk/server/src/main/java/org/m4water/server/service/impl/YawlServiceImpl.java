@@ -1,6 +1,7 @@
 package org.m4water.server.service.impl;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Set;
 import org.m4water.server.OpenXDataPropertyPlaceholderConfigurer;
@@ -121,6 +122,9 @@ public class YawlServiceImpl implements YawlService {
         launchWaterPointBaseline(waterPoint);
         //set this waterpoint to pending basleine
         waterPoint.setBaselinePending("T");
+        if(waterPoint.getBaselineDate() == null){
+            waterPoint.setBaselineDate(new Date(1));
+        }
         waterPointService.saveWaterPoint(waterPoint);
     }
 }
