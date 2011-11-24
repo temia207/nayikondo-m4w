@@ -9,10 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.cwf.client.model.Subcounty;
-import org.m4water.server.admin.model.Setting;
-import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.WaterPointSummary;
-import org.m4water.server.admin.model.Waterpoint;
 
 /**
  *
