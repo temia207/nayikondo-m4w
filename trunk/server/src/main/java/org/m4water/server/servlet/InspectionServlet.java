@@ -189,7 +189,6 @@ public class InspectionServlet extends HttpServlet {
             SettingGroup waterPointGrp = new SettingGroup();
             waterPointGrp.setParentSettingGroup(parentGroup);
             waterPointGrp.setName(UUID.jUuid());
-            
             //add setting
             List<Setting> settings = waterPointGrp.getSettings();
             Setting waterPiointId = new Setting();
@@ -215,6 +214,9 @@ public class InspectionServlet extends HttpServlet {
             Setting county= new Setting("county", "",subcounty.getCounty().getCountyName());
             county.setSettingGroup(waterPointGrp);
             settings.add(county);
+            Setting district = new Setting("district", "",districtByName.getName());
+            district.setSettingGroup(waterPointGrp);
+            settings.add(district);
             Setting typeOfManagement = new Setting("typeOfManagement", "", jxbWaterPoint.getTypeOfManagement());
             typeOfManagement.setSettingGroup(waterPointGrp);
             settings.add(typeOfManagement);
