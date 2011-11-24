@@ -76,4 +76,6 @@ public interface  SettingService extends RemoteService{
 	 * @throws OpenXDataSecurityException For any <tt>security related</tt> that occurs on the <tt>service layer.</tt>
 	 */
 	SettingGroup getSettingGroup(String name);
+
+	void exportSettingGroupToWaterPoint(SettingGroup group);
 }

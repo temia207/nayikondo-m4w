@@ -9,9 +9,11 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.service.InspectionClientServiceAsync;
+import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.EditWaterPointView;
 import org.m4water.server.admin.model.Inspection;
+import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**

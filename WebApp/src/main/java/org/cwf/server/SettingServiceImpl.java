@@ -45,6 +45,10 @@ public class SettingServiceImpl extends M4waterPersistentRemoteService implement
     public void deleteSettingGroup(SettingGroup settingGroup) {
         getSettingService().deleteSettingGroup(settingGroup);
     }
+    @Override
+    public void exportSettingGroupToWaterPoint(SettingGroup group){
+	getSettingService().exportSettingGroupToWaterPoint(group);
+    }
 
     @Override
     public String getSetting(String settingName, String defaultValue) {

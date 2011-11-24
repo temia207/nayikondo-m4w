@@ -156,6 +156,8 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
                 model.setSubcounty(setting.getValue());
             } else if (setting.getName().equalsIgnoreCase("county")) {
                 model.setCounty(setting.getValue());
+            }else if (setting.getName().equalsIgnoreCase("district")) {
+                model.setDistrict(setting.getValue());
             }else if (setting.getName().equalsIgnoreCase("waterpointType")) {
                 model.setWaterpointTypes(setting.getValue());
             } else if (setting.getName().equalsIgnoreCase("waterpointname")) {

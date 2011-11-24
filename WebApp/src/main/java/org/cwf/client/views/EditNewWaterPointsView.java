@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.EditNewWaterPointController;
-import org.cwf.client.controllers.EditWaterPointController;
 import org.cwf.client.model.NewWaterpointSummary;
 import org.m4water.server.admin.model.Setting;
 import org.m4water.server.admin.model.SettingGroup;
@@ -43,6 +42,7 @@ public class EditNewWaterPointsView extends View {
     private Button saveChangesBtn, confirmBtn, cancelBtn;
     private FormPanel formPanel;
     private Waterpoint waterPoint;
+    private SettingGroup settingGroup;
     private FlexTable ticketsDataTable;
     private FieldSet inspectionFldset;
     private List<TextField<String>> questionTflds;
@@ -112,78 +112,78 @@ public class EditNewWaterPointsView extends View {
         idTextFld.setFieldLabel("ID");
         idTextFld.setName("id");
         waterPointDetails.add(idTextFld, formData);
-        idTextFld.setReadOnly(true);
+        idTextFld.setReadOnly(false);
 
 
         waterPointNameTfld = new TextField<String>();
         waterPointNameTfld.setFieldLabel("Waterpoint Name");
         waterPointNameTfld.setName("waterpointname");
         waterPointDetails.add(waterPointNameTfld, formData);
-        waterPointNameTfld.setReadOnly(true);
+        waterPointNameTfld.setReadOnly(false);
 
 
         districtTfld = new TextField<String>();
         districtTfld.setFieldLabel("District");
         districtTfld.setName("district");
         waterPointDetails.add(districtTfld, formData);
-        districtTfld.setReadOnly(true);
+        districtTfld.setReadOnly(false);
 
 
         subcountyTfld = new TextField<String>();
         subcountyTfld.setFieldLabel("Subcounty");
         subcountyTfld.setName("subcounty");
         waterPointDetails.add(subcountyTfld, formData);
-        subcountyTfld.setReadOnly(true);
+        subcountyTfld.setReadOnly(false);
 
 
         villageTfld = new TextField<String>();
         villageTfld.setFieldLabel("Village");
         villageTfld.setName("village");
         waterPointDetails.add(villageTfld, formData);
-        villageTfld.setReadOnly(true);
+        villageTfld.setReadOnly(false);
 
 
         eastingsTfld = new TextField<String>();
         eastingsTfld.setFieldLabel("Eastings");
         eastingsTfld.setName("eastings");
         waterPointDetails.add(eastingsTfld, formData);
-        eastingsTfld.setReadOnly(true);
+        eastingsTfld.setReadOnly(false);
 
         northingsTfld = new TextField<String>();
         northingsTfld.setFieldLabel("Northings");
         northingsTfld.setName("northings");
         waterPointDetails.add(northingsTfld, formData);
-        northingsTfld.setReadOnly(true);
+        northingsTfld.setReadOnly(false);
 
         dateIstalledTfld = new TextField<String>();
         dateIstalledTfld.setFieldLabel("Date Installed");
         dateIstalledTfld.setName("installdate");
         waterPointDetails.add(dateIstalledTfld, formData);
-        dateIstalledTfld.setReadOnly(true);
+        dateIstalledTfld.setReadOnly(false);
 
         fundingSrcTfld = new TextField<String>();
         fundingSrcTfld.setFieldLabel("Funding Source");
         fundingSrcTfld.setName("fundingsrc");
         waterPointDetails.add(fundingSrcTfld, formData);
-        fundingSrcTfld.setReadOnly(true);
+        fundingSrcTfld.setReadOnly(false);
 
         ownershipTfld = new TextField<String>();
         ownershipTfld.setFieldLabel("Ownership");
         ownershipTfld.setName("ownership");
         waterPointDetails.add(ownershipTfld, formData);
-        ownershipTfld.setReadOnly(true);
+        ownershipTfld.setReadOnly(false);
 
         houseHoldsTfld = new TextField<String>();
         houseHoldsTfld.setFieldLabel("Number Of Households");
         houseHoldsTfld.setName("households");
         waterPointDetails.add(houseHoldsTfld, formData);
-        houseHoldsTfld.setReadOnly(true);
+        houseHoldsTfld.setReadOnly(false);
 
         typeOfMagtTfld = new TextField<String>();
         typeOfMagtTfld.setFieldLabel("Type of management");
         typeOfMagtTfld.setName("typeofmagt");
         waterPointDetails.add(typeOfMagtTfld, formData);
-        typeOfMagtTfld.setReadOnly(true);
+        typeOfMagtTfld.setReadOnly(false);
 
         return waterPointDetails;
     }
@@ -204,7 +204,7 @@ public class EditNewWaterPointsView extends View {
                 questionFld.setFieldLabel(setting.getName());
                 questionFld.setValue(setting.getValue());
                 inspectionFldset.add(questionFld, formData);
-                questionFld.setReadOnly(true);
+                questionFld.setReadOnly(false);
 //                addInspectionQuestion(((InspectionQuestions) object).getQuestion());
             }
         }
@@ -228,8 +228,8 @@ public class EditNewWaterPointsView extends View {
         layout.setLabelWidth(100);
         userCommittee.setLayout(layout);
         initializeTextfields();
+        waterUserCommitteeFields = new HashMap<String, TextField<String>>();
         for (Setting x : settings) {
-            waterUserCommitteeFields = new HashMap<String, TextField<String>>();
             userCommittee.add(addUserCommitteeFld(x.getName(), x.getValue()), formData);
         }
         if (settings.isEmpty()) {
@@ -251,8 +251,8 @@ public class EditNewWaterPointsView extends View {
         layout.setLabelWidth(150);
         functionality.setLayout(layout);
         initializeTextfields();
+        waterFunctionalityFields = new HashMap<String, TextField<String>>();
         for (Setting x : settings) {
-            waterFunctionalityFields = new HashMap<String, TextField<String>>();
             functionality.add(addFunctionalityFld(x.getName(), x.getValue()), formData);
         }
         if (settings.isEmpty()) {
@@ -264,12 +264,18 @@ public class EditNewWaterPointsView extends View {
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
         return functionality;
     }
+    private void setSettingWUCorFunc(SettingGroup group,HashMap<String, TextField<String>> fields){
+	List<Setting> settings = group.getSettings();
+	for (Setting setting : settings) {
+	    setting.setValue(fields.get(setting.getName()).getValue());
+	}
+    }
     private TextField<String> addUserCommitteeFld(String name, String value) {
         TextField<String> committeeQuiz = new TextField<String>();
         committeeQuiz.setFieldLabel(name);
         committeeQuiz.setValue(value);
         waterUserCommitteeFields.put(name, committeeQuiz);
-        committeeQuiz.setReadOnly(true);
+        committeeQuiz.setReadOnly(false);
         return committeeQuiz;
 
     }
@@ -279,27 +285,24 @@ public class EditNewWaterPointsView extends View {
         functionalityQuiz.setFieldLabel(name);
         functionalityQuiz.setValue(value);
         waterFunctionalityFields.put(name, functionalityQuiz);
-        functionalityQuiz.setReadOnly(true);
+        functionalityQuiz.setReadOnly(false);
         return functionalityQuiz;
 
+    }    
+    public void saveWaterPoint(SettingGroup group) {
+        ((EditNewWaterPointController)EditNewWaterPointsView .this.
+		getController()).exportSettingGroupToWaterPoint(group);
     }
-    public void save(Waterpoint waterpoint) {
-        waterpoint.setWaterpointId(idTextFld.getValue().trim());
-        waterpoint.setName(waterPointNameTfld.getValue().trim());
-        waterpoint.setFundingSource(fundingSrcTfld.getValue().trim());
-        waterpoint.setHouseholds(houseHoldsTfld.getValue().trim());
-        waterpoint.setOwnership(ownershipTfld.getValue().trim());
-        waterpoint.setTypeOfMagt(typeOfMagtTfld.getValue().trim());
-        ((EditWaterPointController)EditNewWaterPointsView .this.getController()).saveWaterPoint(waterPoint);
+    public void saveSettingGroup(SettingGroup group){
+        ((EditNewWaterPointController)EditNewWaterPointsView .this.getController()).saveSettingGroup(group);
     }
-
     private void createButtons() {
         saveChangesBtn = new Button("Save changes");
         saveChangesBtn.addListener(Events.Select, new Listener<ButtonEvent>() {
 
             @Override
             public void handleEvent(ButtonEvent be) {
-                save(waterPoint);
+		saveSettingGroup(getFieldValues(settingGroup));
             }
         });
 
@@ -308,8 +311,7 @@ public class EditNewWaterPointsView extends View {
 
             @Override
             public void handleEvent(ButtonEvent be) {
-//                save(waterPoint);
-                idTextFld.setValue("kkkkkkkkkk");
+                saveWaterPoint(getFieldValues(settingGroup));
             }
         });
 
@@ -342,9 +344,9 @@ public class EditNewWaterPointsView extends View {
     public void setWaterPointData(NewWaterpointSummary model) {
         SettingGroup group = model.getSettingGroup();
         idTextFld.setValue(model.getId());
-        waterPointNameTfld.setValue(model.getFundingOrganisation());
+        waterPointNameTfld.setValue(model.getWaterpointName());
         districtTfld.setValue(model.getDistrict());
-        subcountyTfld.setValue(model.getParish());
+        subcountyTfld.setValue(model.getSubCounty());
         villageTfld.setValue(model.getVillage());
         eastingsTfld.setValue(model.getEastings());
         northingsTfld.setValue(model.getNorthings());
@@ -365,13 +367,60 @@ public class EditNewWaterPointsView extends View {
             setInspectionQuestion(new ArrayList<Setting>());
         }
     }
-
+    private SettingGroup getFieldValues(SettingGroup group){
+	group.setName(idTextFld.getValue());
+		List<Setting> settings = group.getSettings();
+		for (Setting setting : settings) {
+		    if (setting.getName().equalsIgnoreCase("id")) {
+			setting.setValue(waterPointNameTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("village")) {
+			setting.setValue(villageTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("parish")) {
+//			setting.setValue(setting.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("subcounty")) {
+			setting.setValue(subcountyTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("county")) {
+//			setting.setValue(setting.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("district")) {
+			setting.setValue(districtTfld.getValue());
+		    }  else if (setting.getName().equalsIgnoreCase("waterpointType")) {
+//			setting.setValue(setting.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("waterpointname")) {
+			setting.setValue(waterPointNameTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("dateInstalled")) {
+			setting.setValue(dateIstalledTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("fundingSource")) {
+			setting.setValue(fundingSrcTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("ownership")) {
+			setting.setValue(ownershipTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("nohousehold")) {
+			setting.setValue(houseHoldsTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("typeOfManagement")) {
+			setting.setValue(typeOfMagtTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("eastings")) {
+			setting.setValue(eastingsTfld.getValue());
+		    } else if (setting.getName().equalsIgnoreCase("norhtings")) {
+			setting.setValue(northingsTfld.getValue());
+		    }
+		}
+		//FIX ME saveWaterPoint wuc data and functionality data
+		List<SettingGroup> groups = group.getGroups();
+		for (SettingGroup x : groups) {
+		    if (x.getName().equalsIgnoreCase("functionality")) {
+			setSettingWUCorFunc(x, waterFunctionalityFields);
+		    } else if (x.getName().equalsIgnoreCase("waterusercommittee")) {
+			setSettingWUCorFunc(x, waterUserCommitteeFields);
+		    }
+		}
+		return group;
+    }
     @Override
     protected void handleEvent(AppEvent event) {
         GWT.log("Edit waterpoint : handleEvent");
         if (event.getType() == EditNewWaterPointController.EDIT_NEW_WATER_POINT) {
             NewWaterpointSummary model = event.getData();
             setWaterPointData(model);
+	    settingGroup = model.getSettingGroup();
             showWindow();
         }
     }

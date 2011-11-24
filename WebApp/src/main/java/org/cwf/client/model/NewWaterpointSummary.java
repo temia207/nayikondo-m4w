@@ -61,8 +61,8 @@ public class NewWaterpointSummary extends BaseModel {
         set("waterpointtypes", types);
     }
 
-    public void setWaterPointName(String fundingOrg) {
-        set("fundingorg", fundingOrg);
+    public void setWaterPointName(String name) {
+        set("waterpointname", name);
     }
 
     public void setDate(Date date) {
@@ -109,8 +109,8 @@ public class NewWaterpointSummary extends BaseModel {
         return get("waterpointtypes");
     }
 
-    public String getFundingOrganisation() {
-        return get("fundingorg");
+    public String getWaterpointName() {
+        return get("waterpointname");
     }
 
     public Date getDate() {

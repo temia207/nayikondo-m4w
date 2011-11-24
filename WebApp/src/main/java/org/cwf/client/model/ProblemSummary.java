@@ -78,7 +78,7 @@ public class ProblemSummary extends BaseModel {
     }
 
     public void updateProblem(Problem problem) {
-        setId(problem.getProblemId());
+        setId(problem.getYawlid());
         setWaterPoint(problem.getWaterpoint().getWaterpointId());
         setDate(problem.getDateProblemReported());
         setProblemDescription(problem.getProblemDescsription());

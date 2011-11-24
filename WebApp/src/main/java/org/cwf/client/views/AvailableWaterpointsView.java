@@ -161,8 +161,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
         districtFilter.setDisplayProperty("name");
         ListFilter countyFilter = new ListFilter("county", counties);
         countyFilter.setDisplayProperty("name");
-        ListFilter subcountyFilter = new ListFilter("subcounty", subcounties);
-        subcountyFilter.setDisplayProperty("name");
+        StringFilter subcountyFilter = new StringFilter("subcounty");
         StringFilter villageFilter = new StringFilter("village");
         StringFilter parishFilter = new StringFilter("parish");
         StringFilter waterPointFilter = new StringFilter("id");
