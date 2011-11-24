@@ -70,7 +70,9 @@ public class SettingGroup extends AbstractEditable {
     public void removeSetting(Setting setting) {
         settings.remove(setting);
     }
-
+    public void removeSettingGroup(SettingGroup settingGroup){
+	groups.remove(settingGroup);
+    }
     @Override
     public void setDirty(boolean dirty) {
         super.setDirty(dirty);
@@ -131,7 +133,7 @@ public class SettingGroup extends AbstractEditable {
      * @param name the setting name.
      * @return the setting if found, else null.
      */
-    private static Setting getSetting(List<Setting> settings, String name) {
+    public static Setting getSetting(List<Setting> settings, String name) {
         if (settings == null) {
             return null;
         }

@@ -54,7 +54,6 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
                 + " parish.subcounty_id = subcounty.id inner join county on"
                 + " subcounty.county_id = county.county_id inner join district on"
                 + " county.id = district.id";
-        System.out.println(query);
         SQLQuery createSQLQuery = getSession().createSQLQuery(query);
         List list = createSQLQuery.list();
 

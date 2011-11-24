@@ -20,4 +20,5 @@ public interface ProblemDao extends BaseDAO<Problem,Long> {
     List<Problem> getProblemHistory(Waterpoint waterPointId);
     void deleteProblem(Problem problem);
     void saveProblem(Problem problem);
+    int getTotalProblems(String waterPointId);
 }
