@@ -10,6 +10,8 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.views.EditNewWaterPointsView;
@@ -66,8 +68,34 @@ public class EditNewWaterPointController extends Controller {
 
             @Override
             public void onSuccess(Void result) {
+		getNewWaterPoints();
                 editNewWaterpointView.closeWindow();
             }
         });
     }
+
+    public  void exportSettingGroupToWaterPoint(SettingGroup group){
+	GWT.log("HomeController: exportSettingGroupToWaterPoint(SettingGroup group)");
+	settingService.exportSettingGroupToWaterPoint(group, new M4waterAsyncCallback<Void>() {
+
+	    @Override
+	    public void onSuccess(Void result) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.RELOAD_WATERPOINTS, result));
+		editNewWaterpointView.closeWindow();
+	    }
+	});
+    }
+
+    public void getNewWaterPoints() {
+        GWT.log("HomeController : getNewWaterPoints()");
+        settingService.getSettingGroup("waterpoints", new M4waterAsyncCallback<SettingGroup>() {
+
+            @Override
+            public void onSuccess(SettingGroup result) {
+                GWT.log("HomeController : waterpointsummarries found");
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
+            }
+        });
+    }
+
 }

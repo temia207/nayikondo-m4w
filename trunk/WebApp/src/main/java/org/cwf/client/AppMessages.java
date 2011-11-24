@@ -9,6 +9,7 @@ public interface AppMessages extends Messages {
 	String user();
 	String login();
 	String logout();
+	String refresh();
 	String userProfile();	
 	String myDetails();
 	String username();

@@ -13,6 +13,7 @@ import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.Style.VerticalAlignment;
+import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -187,7 +188,16 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         });
         FlexTable ft = new FlexTable();
         ft.setBorderWidth(0);
-        ft.setWidget(0, 0, logout);
+	Button refreshBtn = new Button(appMessages.refresh());
+	refreshBtn.addListener(Events.Select, new Listener<ButtonEvent>(){
+
+	    @Override
+	    public void handleEvent(ButtonEvent be) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.RELOAD, ""));
+	    }
+	});
+	ft.setWidget(0, 0, refreshBtn);
+        ft.setWidget(0, 1, logout);
         TableData buttonsTableData = new TableData();
         buttonsTableData.setHorizontalAlign(HorizontalAlignment.RIGHT);
         buttonsTableData.setVerticalAlign(VerticalAlignment.MIDDLE);

@@ -218,7 +218,7 @@ public class EditWaterPointView extends View {
         }
         inspectionFldset.setWidth("98%");
         ticketsDataTable.setWidget(0,1, inspectionFldset);
-        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 3);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
@@ -240,6 +240,7 @@ public class EditWaterPointView extends View {
             userCommittee.add(addUserCommitteeFld("Trained", x.getTrained()), formData);
             userCommittee.add(addUserCommitteeFld("Collect Fees", x.getCollectFees()), formData);
             userCommittee.add(addUserCommitteeFld("Regular Service", x.getRegularService()), formData);
+            break;
         }
         if (committee.isEmpty()) {
             Label lable = new Label("There is no Water User Committee for this waterpoint");
@@ -274,7 +275,7 @@ public class EditWaterPointView extends View {
             Label lable = new Label("There is no Water Functionality for this waterpoint");
             functionality.add(lable);
         }
-        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0, detailsFldSet.getHeight() + "px");
+        ticketsDataTable.getFlexCellFormatter().setHeight(1, 0, wucFldSet.getHeight() + "px");
         ticketsDataTable.setWidget(2, 0, functionality);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
         return functionality;
@@ -353,7 +354,7 @@ public class EditWaterPointView extends View {
     public void closeWindow() {
         window.hide();
     }
-
+    FieldSet wucFldSet;
     public void setWaterPointData(Waterpoint waterPoint) {
         this.waterPoint = waterPoint;
         idTextFld.setValue(waterPoint.getWaterpointId());
@@ -369,7 +370,7 @@ public class EditWaterPointView extends View {
         houseHoldsTfld.setValue(waterPoint.getHouseholds());
         typeOfMagtTfld.setValue(waterPoint.getTypeOfMagt());
         setInspectionQuestion(new ArrayList<Inspection>(waterPoint.getInspections()));
-        getWaterUsercommitteeFldset(waterPoint);
+        wucFldSet = getWaterUsercommitteeFldset(waterPoint);
         getWaterFunctionalityFldset(waterPoint);
     }
 

@@ -39,6 +39,7 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.IndexEntryPoint;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.ProblemSummary;
 import org.m4water.server.admin.model.Problem;
@@ -64,6 +65,8 @@ public class HomeView extends View implements Refreshable {
 
     public HomeView(Controller controller) {
         super(controller);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RELOAD_WATERPOINTS,HomeView.this);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RELOAD,HomeView.this);
     }
 
     @Override
@@ -196,6 +199,19 @@ public class HomeView extends View implements Refreshable {
     public void refresh(RefreshableEvent event) {
         if (event.getEventType() == RefreshableEvent.Type.TICKET_UPDATE) {
             System.out.println("tttttttttttttttttttttttttttttttttttttttttttttttttttt");
+        }else if (event.getEventType() == RefreshableEvent.Type.RELOAD_WATERPOINTS) {
+	    GWT.log("HomeView Refresh:Reloading all waterpoints");
+	    HomeController controller2 = (HomeController) HomeView.this.getController();
+            controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+            controller2.getBaselineSetDate();
+            controller2.getNewWaterPoints();
+        }else if (event.getEventType() == RefreshableEvent.Type.RELOAD) {
+	    GWT.log("HomeView Refresh:Refreshing the UI");
+	    HomeController controller2 = (HomeController) HomeView.this.getController();
+            controller2.getTickets();
+            controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+            controller2.getBaselineSetDate();
+            controller2.getNewWaterPoints();
         }
     }
 }
