@@ -15,7 +15,10 @@ public class HibernateSettingGroupDAO extends BaseDAOImpl<SettingGroup,String> i
 
 	@Override
 	public void deleteSettingGroup(SettingGroup settingGroup) {
-		remove(settingGroup);
+		SettingGroup parent = settingGroup.getParentSettingGroup();
+		parent.removeSettingGroup(settingGroup);
+		save(parent);
+//		remove(settingGroup);
 	}
 
 	@Override
