@@ -77,16 +77,6 @@ public class InspectionServlet extends HttpServlet {
     ctx.getAutowireCapableBeanFactory().autowireBean(this);
     txTemplate = new TransactionTemplate(transactionManager);
     this.waterpointType = waterPointService.getWaterPointType("BH");
-        // Manual Injection
-//        userService = (UserService) ctx.getBean("userService");
-//        waterPointService = (WaterPointService) ctx.getBean("waterpointService");
-//        insptnSrvc = (InspectionService) ctx.getBean("inspectionService");
-//        districtService = (DistrictService) ctx.getBean("districtService");
-//        funxService = (WaterFunctionalityService) ctx.getBean("waterFunctionalityServiceImpl");
-//        wUCService = (WUCService) ctx.getBean("wucService");
-//        String[] beanNamesForType = ctx.getBeanNamesForType(PlatformTransactionManager.class);
-//         ctx.getBean(beanNamesForType[0]);
-
     }
 
     @Override
