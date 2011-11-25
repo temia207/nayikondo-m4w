@@ -256,7 +256,7 @@ public class TicketSms implements TicketService, InitializingBean {
         msg = StringUtils.trimToEmpty(msg);
         msg = msg.replaceAll("\\s+", " ");
         if (msg.toLowerCase().startsWith("m4w")) {
-            msg = msg.substring(4);
+            msg = msg.replaceFirst("m4w", "").trim();
         }
         return msg;
     }
