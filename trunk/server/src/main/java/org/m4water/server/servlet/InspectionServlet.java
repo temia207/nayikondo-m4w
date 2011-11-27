@@ -175,65 +175,32 @@ public class InspectionServlet extends HttpServlet {
 		writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");
 		return;
 	    }
-//
-//            Village village = subcounty.getVillage(jxbWaterPoint.getVillage());
-//
-//            if (village == null) {
-//                writeMessage(resp, StringUtil.wrap("Village name [" + jxbWaterPoint.getVillage() + "] does not exist", "fail"));
-//                return;
-//            }
 	    //get parent seeting group
-	    SettingGroup parentGroup = settingService.getSettingGroup("waterpoints");
 
-	    SettingGroup waterPointGrp = new SettingGroup();
-	    waterPointGrp.setParentSettingGroup(parentGroup);
-	    waterPointGrp.setName(UUID.jUuid());
-	    //add setting
-	    List<Setting> settings = waterPointGrp.getSettings();
-	    Setting waterPiointId = new Setting();
-	    waterPiointId.setName("id");
-	    waterPiointId.setValue(UUID.jUuid());
-	    waterPiointId.setSettingGroup(waterPointGrp);
-	    settings.add(waterPiointId);
-	    Setting baselineDate = new Setting("baselinedate", "", new Date(1).toString());
-	    baselineDate.setSettingGroup(waterPointGrp);
-	    settings.add(baselineDate);
-	    Setting waterppointName = new Setting("waterpointname", "", jxbWaterPoint.getSourceName());
-	    waterppointName.setSettingGroup(waterPointGrp);
-	    settings.add(waterppointName);
-	    Setting villageName = new Setting("village", "", jxbWaterPoint.getVillage());
-	    villageName.setSettingGroup(waterPointGrp);
-	    settings.add(villageName);
-	    Setting parish = new Setting("parish", "", jxbWaterPoint.getParish());
-	    parish.setSettingGroup(waterPointGrp);
-	    settings.add(parish);
-	    Setting subcty = new Setting("subcounty", "", subcounty.getSubcountyName());
-	    subcty.setSettingGroup(waterPointGrp);
-	    settings.add(subcty);
-	    Setting county = new Setting("county", "", subcounty.getCounty().getCountyName());
-	    county.setSettingGroup(waterPointGrp);
-	    settings.add(county);
-	    Setting district = new Setting("district", "", districtByName.getName());
-	    district.setSettingGroup(waterPointGrp);
-	    settings.add(district);
-	    Setting typeOfManagement = new Setting("typeOfManagement", "", jxbWaterPoint.getTypeOfManagement());
-	    typeOfManagement.setSettingGroup(waterPointGrp);
-	    settings.add(typeOfManagement);
-	    Setting ownership = new Setting("ownership", "", jxbWaterPoint.getCurrentOwnership() == null ? "N/A" : jxbWaterPoint.getCurrentOwnership());//TODO: Send user message abt owner ship
-	    ownership.setSettingGroup(waterPointGrp);
-	    settings.add(ownership);
-	    Setting waterPointType = new Setting("waterpointType", "", waterpointType.getName());
-	    waterPointType.setSettingGroup(waterPointGrp);
-	    settings.add(waterPointType);
-	    Setting dateInstalled = new Setting("dateInstalled", "", new Date().toString());
-	    dateInstalled.setSettingGroup(waterPointGrp);
-	    settings.add(dateInstalled);
-	    Setting fundinfSrc = new Setting("fundingSource", "", "N/A");
-	    fundinfSrc.setSettingGroup(waterPointGrp);
-	    settings.add(fundinfSrc);
-	    Setting baselinePending = new Setting("baslinePending", "", "F");
-	    baselinePending.setSettingGroup(waterPointGrp);
-	    settings.add(baselinePending);
+	    SettingGroup waterpointGroup = settingService.getSettingGroup("waterpoints");
+	    SettingGroup parentGroup = new SettingGroup();
+	    parentGroup.setParentSettingGroup(waterpointGroup);
+	    parentGroup.setName(UUID.jUuid());
+	    createSetting("id", UUID.jUuid(), parentGroup);
+	    createSetting("baselinedate", new Date(1).toString(), parentGroup);
+	    createSetting("waterpointname", jxbWaterPoint.getSourceName(), parentGroup);
+	    createSetting("village", jxbWaterPoint.getVillage(), parentGroup);
+	    createSetting("parish", jxbWaterPoint.getParish(), parentGroup);
+	    createSetting("subcounty", subcounty.getSubcountyName(), parentGroup);
+	    createSetting("county", subcounty.getCounty().getCountyName(), parentGroup);
+	    createSetting("district", districtByName.getName(), parentGroup);
+	    createSetting("typeOfManagement", jxbWaterPoint.getTypeOfManagement(), parentGroup);
+	    createSetting("ownership", jxbWaterPoint.getCurrentOwnership() == null ? "N/A" : jxbWaterPoint.getCurrentOwnership(), parentGroup);//TODO: Send user message abt owner ship
+	    createSetting("waterpointType", waterpointType.getName(), parentGroup);
+	    createSetting("dateInstalled", new Date().toString(), parentGroup);
+	    createSetting("fundingSource", jxbWaterPoint.getSourceOfFunding(), parentGroup);
+	    createSetting("baselinePending", "F", parentGroup);
+	    createSetting("yearOfConstruction", jxbWaterPoint.getYearOfConstruction(), parentGroup);
+	    createSetting("sourceNumber", jxbWaterPoint.getSourceNumber(), parentGroup);
+	    createSetting("typeOfWaterSource", jxbWaterPoint.getTypeOfWaterSource(), parentGroup);
+	    createSetting("sourceOfFunding", jxbWaterPoint.getSourceOfFunding(), parentGroup);
+	    
+
 
 //waterpoint functionality
 	    String non_functional_reason = jxbWaterPoint.getReasonNonFunctional();
@@ -241,7 +208,7 @@ public class InspectionServlet extends HttpServlet {
 	    //String lastRepair = jxbWaterPoint.get
 
 	    SettingGroup functionalityGroup = new SettingGroup("functionality");
-	    functionalityGroup.setParentSettingGroup(waterPointGrp);
+	    functionalityGroup.setParentSettingGroup(parentGroup);
 	    List<Setting> waterFunctionality = functionalityGroup.getSettings();
 	    Setting date = new Setting("date", "", new Date().toString());
 	    date.setSettingGroup(functionalityGroup);
@@ -269,12 +236,12 @@ public class InspectionServlet extends HttpServlet {
 	    waterFunctionality.add(dateLastMajorService);
 	    Setting id = new Setting("id", "", new Date().toString());
 	    waterFunctionality.add(id);
-	    waterPointGrp.getGroups().add(functionalityGroup);
+	    parentGroup.getGroups().add(functionalityGroup);
 
 //water user committee
 	    if (jxbWaterPoint.getIsWucEstablished().equalsIgnoreCase("yes")) {
 		SettingGroup waterUserCom = new SettingGroup("waterusercommittee");
-		waterUserCom.setParentSettingGroup(waterPointGrp);
+		waterUserCom.setParentSettingGroup(parentGroup);
 		List<Setting> wucSettings = waterUserCom.getSettings();
 		Setting wid = new Setting("id", "", UUID.jUuid());
 		wid.setSettingGroup(waterUserCom);
@@ -309,9 +276,9 @@ public class InspectionServlet extends HttpServlet {
 		Setting commissioned = new Setting("commissioned", "", "N/A");
 		commissioned.setSettingGroup(waterUserCom);
 		wucSettings.add(commissioned);
-		waterPointGrp.getGroups().add(waterUserCom);
+		parentGroup.getGroups().add(waterUserCom);
 	    }
-	    newWaterPoints.add(waterPointGrp);
+	    newWaterPoints.add(parentGroup);
 	}
 
 	for (SettingGroup waterpoint : newWaterPoints) {
@@ -323,6 +290,13 @@ public class InspectionServlet extends HttpServlet {
     private void writeMessage(HttpServletResponse resp, String msg) throws IOException {
 	resp.getWriter().print(msg);
 	resp.getWriter().flush();
+    }
+
+    public Setting createSetting(String name, String value, SettingGroup group) {
+	Setting setting = new Setting(name, "", value);
+	group.getSettings().add(setting);
+	setting.setSettingGroup(group);
+	return setting;
     }
 }
 //Get district
