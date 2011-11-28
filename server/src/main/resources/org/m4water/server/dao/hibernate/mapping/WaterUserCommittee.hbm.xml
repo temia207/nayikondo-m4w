@@ -37,5 +37,11 @@
     <property name="noOfWomenKeypos" type="string">
       <column length="200" name="no_of_women_keypos" not-null="true"/>
     </property>
+        <property name="noOfMembersOnWuc" type="string">
+            <column name="no_of_members_on_wuc" length="200" />
+        </property>
+        <property name="functionalityOfWuc" type="string">
+            <column name="functionality_of_wuc" length="200" />
+        </property>
   </class>
 </hibernate-mapping>

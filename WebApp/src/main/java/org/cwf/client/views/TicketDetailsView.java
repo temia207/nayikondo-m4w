@@ -28,6 +28,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -208,7 +209,7 @@ public class TicketDetailsView extends View {
         if (!fields.isEmpty()) {
             FaultAssessment x = fields.get(fields.size() - 1);
             String id = "" + x.getAssessmentId();
-            inspectionFldset.add(addAssessmentFld("Id", id), formData);
+//            inspectionFldset.add(addAssessmentFld("Id", id), formData);
             inspectionFldset.add(addAssessmentFld("Problem", x.getProblem().getProblemDescsription()), formData);
             inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()), formData);
             inspectionFldset.add(addAssessmentFld("Date", x.getDate().toString()), formData);
@@ -267,7 +268,7 @@ public class TicketDetailsView extends View {
     private TextField<String> addAssessmentFld(String name, String value) {
         TextField<String> assessmentQuiz = new TextField<String>();
         assessmentQuiz.setFieldLabel(name);
-        assessmentQuiz.setAllowBlank(false);
+        assessmentQuiz.setAllowBlank(true);
         assessmentQuiz.setValue(value);
         faultAssessmentFields.put(name, assessmentQuiz);
         assessmentQuiz.setReadOnly(true);
@@ -331,9 +332,10 @@ public class TicketDetailsView extends View {
         if (event.getType() == TicketDetailsController.TICKET_DETAILS) {
             TicketDetailsController controller2 = (TicketDetailsController) TicketDetailsView.this.getController();
             controller2.getUsers();
-            controller2.getFaultAssessments();
+//            controller2.getFaultAssessments();
             ProblemSummary ticketSummary = event.getData();
             setProblemData(ticketSummary);
+	    setAssessmentFields(new ArrayList<FaultAssessment>(ticketSummary.getProblem().getFaultAssessments()));
             showWindow();
         }
     }
