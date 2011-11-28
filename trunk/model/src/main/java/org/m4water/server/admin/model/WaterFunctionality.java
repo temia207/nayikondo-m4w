@@ -10,29 +10,34 @@ import java.util.Date;
 public class WaterFunctionality  extends AbstractEditable<Date> {
 
 
-     
      private Waterpoint waterpoint;
      private String functionalityStatus;
-     private Date dayNonFunctional;
+     private Date dateNonFunctional;
      private String reason;
      private Date dateLastRepaired;
      private String detailsLastRepair;
      private Date dateLastMinorService;
      private Date dateLastMajorService;
+     private String anyPreviousRepairs;
+     private String anyPreviousMinorService;
+     private String anyPreviousMajorService;
 
     public WaterFunctionality() {
     }
 
-    public WaterFunctionality(Date date, Waterpoint waterpoint, String functionalityStatus, Date dayNonFunctional, String reason, Date dateLastRepaired, String detailsLastRepair, Date dateLastMinorService, Date dateLastMajorService) {
+    public WaterFunctionality(Date date, Waterpoint waterpoint, String functionalityStatus, Date dayNonFunctional, String reason, Date dateLastRepaired, String detailsLastRepair, Date dateLastMinorService, Date dateLastMajorService, String anyPreviousRepairs, String anyPreviousMinorService, String anyPreviousMajorService) {
        this.id = date;
        this.waterpoint = waterpoint;
        this.functionalityStatus = functionalityStatus;
-       this.dayNonFunctional = dayNonFunctional;
+       this.dateNonFunctional = dayNonFunctional;
        this.reason = reason;
        this.dateLastRepaired = dateLastRepaired;
        this.detailsLastRepair = detailsLastRepair;
        this.dateLastMinorService = dateLastMinorService;
        this.dateLastMajorService = dateLastMajorService;
+       this.anyPreviousRepairs = anyPreviousRepairs;
+       this.anyPreviousMinorService = anyPreviousMinorService;
+       this.anyPreviousMajorService = anyPreviousMajorService;
     }
    
     public Date getDate() {
@@ -56,12 +61,12 @@ public class WaterFunctionality  extends AbstractEditable<Date> {
     public void setFunctionalityStatus(String functionalityStatus) {
         this.functionalityStatus = functionalityStatus;
     }
-    public Date getDayNonFunctional() {
-        return this.dayNonFunctional;
+    public Date getDateNonFunctional() {
+        return this.dateNonFunctional;
     }
-    
-    public void setDayNonFunctional(Date dayNonFunctional) {
-        this.dayNonFunctional = dayNonFunctional;
+
+    public void setDateNonFunctional(Date dateNonFunctional) {
+        this.dateNonFunctional = dateNonFunctional;
     }
     public String getReason() {
         return this.reason;
@@ -97,6 +102,26 @@ public class WaterFunctionality  extends AbstractEditable<Date> {
     
     public void setDateLastMajorService(Date dateLastMajorService) {
         this.dateLastMajorService = dateLastMajorService;
+    }    public String getAnyPreviousRepairs() {
+        return this.anyPreviousRepairs;
+    }
+
+    public void setAnyPreviousRepairs(String anyPreviousRepairs) {
+        this.anyPreviousRepairs = anyPreviousRepairs;
+    }
+    public String getAnyPreviousMinorService() {
+        return this.anyPreviousMinorService;
+    }
+
+    public void setAnyPreviousMinorService(String anyPreviousMinorService) {
+        this.anyPreviousMinorService = anyPreviousMinorService;
+    }
+    public String getAnyPreviousMajorService() {
+        return this.anyPreviousMajorService;
+    }
+
+    public void setAnyPreviousMajorService(String anyPreviousMajorService) {
+        this.anyPreviousMajorService = anyPreviousMajorService;
     }
 
 

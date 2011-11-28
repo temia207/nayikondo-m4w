@@ -20,11 +20,13 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
      private String noActiveMembers;
      private String noOfWomen;
      private String noOfWomenKeypos;
+     private String noOfMembersOnWuc;
+     private String functionalityOfWuc;
 
     public WaterUserCommittee() {
     }
 
-    public WaterUserCommittee(String userCommitteeId, Waterpoint waterpoint, String commissioned, String yrEstablished, String trained, String collectFees, String regularService, String regularMeeting, String noActiveMembers, String noOfWomen, String noOfWomenKeypos) {
+    public WaterUserCommittee(String userCommitteeId, Waterpoint waterpoint, String commissioned, String yrEstablished, String trained, String collectFees, String regularService, String regularMeeting, String noActiveMembers, String noOfWomen, String noOfWomenKeypos, String noOfMembersOnWuc, String functionalityOfWuc) {
        this.id = userCommitteeId;
        this.waterpoint = waterpoint;
        this.commissioned = commissioned;
@@ -36,6 +38,8 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
        this.noActiveMembers = noActiveMembers;
        this.noOfWomen = noOfWomen;
        this.noOfWomenKeypos = noOfWomenKeypos;
+       this.noOfMembersOnWuc = noOfMembersOnWuc;
+       this.functionalityOfWuc = functionalityOfWuc;
     }
    
     public String getUserCommitteeId() {
@@ -114,6 +118,20 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
     
     public void setNoOfWomenKeypos(String noOfWomenKeypos) {
         this.noOfWomenKeypos = noOfWomenKeypos;
+    }
+    public String getNoOfMembersOnWuc() {
+        return this.noOfMembersOnWuc;
+    }
+
+    public void setNoOfMembersOnWuc(String noOfMembersOnWuc) {
+        this.noOfMembersOnWuc = noOfMembersOnWuc;
+    }
+    public String getFunctionalityOfWuc() {
+        return this.functionalityOfWuc;
+    }
+
+    public void setFunctionalityOfWuc(String functionalityOfWuc) {
+        this.functionalityOfWuc = functionalityOfWuc;
     }
 
 

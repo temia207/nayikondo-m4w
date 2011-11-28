@@ -171,7 +171,7 @@ public class SettingServiceImpl implements SettingService {
 	funx.setDate(parseStringToDate(SettingGroup.getSetting(functionality, "date").getValue()));
         funx.setWaterpoint(waterPoint);
         funx.setFunctionalityStatus(SettingGroup.getSetting(functionality, "functionalityStatus").getValue());
-        funx.setDayNonFunctional(parseStringToDate(SettingGroup.getSetting(functionality,
+        funx.setDateNonFunctional(parseStringToDate(SettingGroup.getSetting(functionality,
 		"dayNonFunctional").getValue()));
 	funx.setReason(SettingGroup.getSetting(functionality, "reasonNonFunctional").getValue());
 	funx.setDateLastRepaired(parseStringToDate(SettingGroup.getSetting(functionality,

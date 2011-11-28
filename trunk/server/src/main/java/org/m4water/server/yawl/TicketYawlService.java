@@ -129,7 +129,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
         if (waterPoint == null)
             throw new RuntimeException("Water point id [" + waterPointID + "] sent from yawl was not found");
-        WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date());
+        WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date(),"","","");
         Set waterFunctionality = waterPoint.getWaterFunctionalities();
         waterFunctionality.add(functionality);
         waterPoint.setWaterFunctionalities(waterFunctionality);
@@ -234,10 +234,10 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                 new Date(1),
                 "No Last Repair",
                 new Date(1),
-                new Date(1));
+                new Date(1),"","","");
         funx.setId(new Date());;
         funx.setWaterpoint(waterPoint);
-        funx.setFunctionalityStatus(wuc_functional);
+        funx.setFunctionalityStatus(functionality);
         funx.setReason(non_functional_reason);
         funx.setDetailsLastRepair("");
 
@@ -251,7 +251,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                 "Regular Service Not Known",
                 activeWUCmembers,
                 wuc_women_number,
-                management_type);
+                management_type,"","");
         
         wUCService.save(wuc);
         funxService.save(funx);

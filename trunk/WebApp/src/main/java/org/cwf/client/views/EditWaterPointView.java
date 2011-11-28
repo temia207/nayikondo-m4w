@@ -240,6 +240,12 @@ public class EditWaterPointView extends View {
             userCommittee.add(addUserCommitteeFld("Trained", x.getTrained()), formData);
             userCommittee.add(addUserCommitteeFld("Collect Fees", x.getCollectFees()), formData);
             userCommittee.add(addUserCommitteeFld("Regular Service", x.getRegularService()), formData);
+            userCommittee.add(addUserCommitteeFld("Regular Meeting", x.getRegularMeeting()), formData);
+            userCommittee.add(addUserCommitteeFld("Functionality Of Committee", x.getFunctionalityOfWuc()), formData);
+            userCommittee.add(addUserCommitteeFld("Number Of Members", x.getNoOfMembersOnWuc()), formData);
+            userCommittee.add(addUserCommitteeFld("Number Of Active Members", x.getNoActiveMembers()), formData);
+            userCommittee.add(addUserCommitteeFld("Number Of Women on Committee", x.getNoOfWomen()), formData);
+            userCommittee.add(addUserCommitteeFld("Number Of Women in Key Positions", x.getNoOfWomenKeypos()), formData);
             break;
         }
         if (committee.isEmpty()) {
@@ -264,12 +270,15 @@ public class EditWaterPointView extends View {
         for (WaterFunctionality x : func) {
             waterFunctionalityFields = new HashMap<String, TextField<String>>();
             functionality.add(addFunctionalityFld("Functionality Status", x.getFunctionalityStatus()), formData);
-            functionality.add(addFunctionalityFld("Day non Functional", x.getDayNonFunctional().toString()), formData);
+            functionality.add(addFunctionalityFld("Date non Functional", x.getDateNonFunctional().toString()), formData);
             functionality.add(addFunctionalityFld("Reason", x.getReason()), formData);
             functionality.add(addFunctionalityFld("Date Last Repaired", x.getDateLastRepaired().toString()), formData);
             functionality.add(addFunctionalityFld("Details Last Repair", x.getDetailsLastRepair()), formData);
             functionality.add(addFunctionalityFld("Date Last minor service", x.getDateLastMinorService().toString()), formData);
             functionality.add(addFunctionalityFld("Date Last major service", x.getDateLastMajorService().toString()), formData);
+            functionality.add(addFunctionalityFld("Any previous Repairs", x.getAnyPreviousRepairs()), formData);
+            functionality.add(addFunctionalityFld("Any Previous Major service", x.getAnyPreviousMajorService()), formData);
+            functionality.add(addFunctionalityFld("Any Previous Minor service", x.getAnyPreviousMinorService()), formData);
         }
         if (func.isEmpty()) {
             Label lable = new Label("There is no Water Functionality for this waterpoint");
