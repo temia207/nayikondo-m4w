@@ -219,7 +219,7 @@ public class TicketDetailsView extends View {
             inspectionFldset.add(addAssessmentFld("If Not fixed why?", x.getReasonNotFixed()), formData);
             inspectionFldset.add(addAssessmentFld("Repairs Done", x.getRepairsDone()), formData);
             inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
-            inspectionFldset.add(addAssessmentFld("Username", x.getUserId()), formData);
+            inspectionFldset.add(addAssessmentFld("Name Of HPM", x.getUserId()), formData);
         } else {
             Label lable = new Label("There is no assessment done for this fault");
             inspectionFldset.add(lable);
