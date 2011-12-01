@@ -4,6 +4,7 @@
  */
 package org.m4water.server.sms;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -84,13 +85,15 @@ public class TicketSms implements TicketService, InitializingBean {
 
     private void createNewProblem(String complaint, Waterpoint waterPoint, String sender) throws HibernateException {
         Date date = new Date();
+	Calendar c = Calendar.getInstance();
+	c.setTime(date);
 
         Problem problem = new Problem();
         problem.setDateProblemReported(date);
         problem.setProblemDescsription(complaint);
         problem.setProblemStatus("open");
         problem.setWaterpoint(waterPoint);
-        problem.setYawlid(waterPoint.getWaterpointId()+"T"+(problemDao.getTotalProblems(waterPoint.getWaterpointId())+1));
+        problem.setYawlid("T"+(problemDao.getTotalProblems()+1)+"-"+c.get(Calendar.YEAR));
         waterPoint.getProblems().add(problem);
 
         ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, complaint);

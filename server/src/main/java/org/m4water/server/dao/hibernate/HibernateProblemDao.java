@@ -52,4 +52,14 @@ public class HibernateProblemDao extends BaseDAOImpl<Problem,Long> implements Pr
         max = Integer.parseInt(res.get(0)+"");
         return max;
     }
+
+    @Override
+    public int getTotalProblems() {
+	int max = 0;
+        String query = "SELECT count(problem_id) FROM problem";
+        SQLQuery createQuery = getSession().createSQLQuery(query);
+        List res = createQuery.list();
+        max = Integer.parseInt(res.get(0)+"");
+        return max;
+    }
 }
