@@ -3,6 +3,8 @@ package org.cwf.client.views;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
@@ -17,6 +19,8 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayout.VBoxLayoutAlign;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayoutData;
+import com.extjs.gxt.ui.client.widget.menu.Menu;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -91,13 +95,73 @@ public class HomeView extends View implements Refreshable {
         west.setMargins(new Margins(5));
         west.setSplit(true);
 //        cpWest.add(addLeftMenu(appMessages.home()));
-        cpWest.add(addLeftMenu(appMessages.tickets()));
-        cpWest.add(addLeftMenu(appMessages.allWaterPoints()));
-//        cpWest.add(addLeftMenu(appMessages.newWaterPoints()));
-        cpWest.add(addLeftMenu(appMessages.reports()));
-        cpWest.add(addLeftMenu(appMessages.users()));
-        cpWest.add(addLeftMenu(appMessages.settings()));
-        //==========
+	Menu contextMenu = new Menu();
+	MenuItem ticketMenu = new MenuItem(appMessages.tickets());
+	ticketMenu.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+		centerpanel.setActiveItem(0);
+	    }
+	});
+	contextMenu.add(ticketMenu);
+	MenuItem allwaterpointsMenu = new MenuItem(appMessages.allWaterPoints());
+	allwaterpointsMenu.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+		centerpanel.setActiveItem(1);
+	    }
+	});
+	contextMenu.add(allwaterpointsMenu);
+	MenuItem reportsMenu = new MenuItem(appMessages.reports());
+	reportsMenu.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+//		throw new UnsupportedOperationException("Not supported yet.");
+	    }
+	});
+	Menu reportsSubMenu = new Menu();
+	MenuItem setting1 = new MenuItem("report 1");
+	setting1.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+		centerpanel.setActiveItem(1);
+	    }
+	});
+	reportsSubMenu.add(setting1);
+	MenuItem setting2 = new MenuItem("report  2");
+	setting2.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+		centerpanel.setActiveItem(1);
+	    }
+	});
+	reportsSubMenu.add(setting2);
+	reportsMenu.setSubMenu(reportsSubMenu);
+	contextMenu.add(reportsMenu);
+	MenuItem usersMenu = new MenuItem(appMessages.users());
+	usersMenu.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+//		throw new UnsupportedOperationException("Not supported yet.");
+	    }
+	});
+	contextMenu.add(usersMenu);
+	MenuItem settingsMenu = new MenuItem(appMessages.settings());
+	settingsMenu.addSelectionListener(new SelectionListener<MenuEvent>(){
+
+	    @Override
+	    public void componentSelected(MenuEvent ce) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	    }
+	});
+	contextMenu.add(settingsMenu);
+	cpWest.add(contextMenu);
         cp.add(cpWest, west);
         cpCenter = new ContentPanel();
         cpCenter.setHeaderVisible(false);
@@ -155,44 +219,6 @@ public class HomeView extends View implements Refreshable {
     public void showTicketDetails(ProblemSummary summary) {
         HomeController controller2 = (HomeController) HomeView.this.getController();
         controller2.forwardToViewTicketDetails(summary);
-    }
-
-    public FocusPanel addLeftMenu(String name) {
-        final FocusPanel panel = new FocusPanel();
-        panel.setSize("300px", "20px");
-        panel.addStyleName("focusPanel");
-        final Label label = new Label(name);
-        label.addStyleName("leftmenu-text");
-        panel.add(label);
-        label.addMouseOverHandler(new MouseOverHandler() {
-
-            @Override
-            public void onMouseOver(MouseOverEvent event) {
-                label.setStyleName("leftMenuover");
-//                panel.setStyleName("focusPanel-over");
-            }
-        });
-        label.addMouseOutHandler(new MouseOutHandler() {
-
-            @Override
-            public void onMouseOut(MouseOutEvent event) {
-                label.removeStyleName("leftMenuover");
-                label.addStyleName("leftmenu-text");
-            }
-        });
-        label.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                String txt = label.getText();
-                if (txt.equals(appMessages.allWaterPoints())) {
-                    centerpanel.setActiveItem(1);
-                } else if (txt.equals("Tickets")) {
-                    centerpanel.setActiveItem(0);
-                }
-            }
-        });
-        return panel;
     }
 
     @Override
