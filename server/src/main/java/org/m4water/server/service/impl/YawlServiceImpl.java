@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.m4water.server.OpenXDataPropertyPlaceholderConfigurer;
 import org.m4water.server.admin.model.County;
 import org.m4water.server.admin.model.District;
@@ -15,6 +17,7 @@ import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.exception.M4waterRuntimeException;
+import org.m4water.server.dao.ProblemDao;
 import org.m4water.server.service.WaterPointService;
 import org.m4water.server.service.YawlService;
 import org.m4water.server.yawl.TicketYawlService;
@@ -32,9 +35,19 @@ public class YawlServiceImpl implements YawlService {
     TicketYawlService yawlService;
     @Autowired
     private WaterPointService waterPointService;
+    @Autowired ProblemDao problemDao;
     @Autowired
     OpenXDataPropertyPlaceholderConfigurer prptyPlcHlder;
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(YawlServiceImpl.class);
+
+    public void cancelCase(String caseID) throws RuntimeException {
+	try {
+	    yawlService.cancelWorkflow(caseID);
+	    log.info("Canceled case : <"+caseID+">");
+	} catch (IOException ex) {
+	   throw new RuntimeException(ex);
+	}
+    }
 
     @Override
     public String launchWaterPointFlow(Problem problem) {
@@ -128,4 +141,22 @@ public class YawlServiceImpl implements YawlService {
         waterPointService.saveWaterPoint(waterPoint);
 	return caseID;
     }
+    
+    public void cancelProblem(int problemID){
+	Problem problem = problemDao.find((long)problemID);
+	Waterpoint waterpoint = problem.getWaterpoint();
+	String baselinePending = problem.getYawlid();
+	if(baselinePending == null)
+	    return;
+	 baselinePending = baselinePending.replaceFirst("T", "");
+	String caseID = null;
+	try {
+	    caseID = baselinePending.split("-")[0];
+	} catch (Exception e) {
+	    throw new RuntimeException("Error Extracting yawl case ID from Problem + Waterpoint<"+problemID+" + "+waterpoint.getId()+"> YawlID <"+problem.getYawlid()+">");
+	}
+	cancelCase(caseID);
+    }
+    
+    
 }
