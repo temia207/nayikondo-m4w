@@ -18,4 +18,7 @@ public interface YawlService extends RemoteService {
     public void launchWaterPointBaseline(Waterpoint waterpoint);
 
     public void launchWaterPointBaseline(String waterpointId);
+    
+    	    public void cancelProblem(int problemID);
+	     public void cancelCase(String caseID);
 }

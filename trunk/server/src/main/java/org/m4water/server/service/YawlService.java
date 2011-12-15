@@ -13,4 +13,6 @@ public interface YawlService {
         
         public String launchWaterPointBaseline(Waterpoint waterpoint);
         public String launchWaterPointBaseline(String waterpointId);
+	    public void cancelProblem(int problemID);
+	     public void cancelCase(String caseID);
 }

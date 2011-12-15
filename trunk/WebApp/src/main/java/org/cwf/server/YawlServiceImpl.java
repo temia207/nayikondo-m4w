@@ -31,4 +31,14 @@ public class YawlServiceImpl extends M4waterPersistentRemoteService implements Y
         }
         return yawlService;
     }
+
+    @Override
+    public void cancelProblem(int problemID) {
+	yawlService.cancelProblem(problemID);
+    }
+
+    @Override
+    public void cancelCase(String caseID) {
+	yawlService.cancelCase(caseID);
+    }
 }
