@@ -199,7 +199,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             villages = new ListStore<Subcounty>();
             for (WaterPointSummary point : summary) {
                 if (type.equalsIgnoreCase(appMessages.pendingBaseline())) {
-                    if (point.getBaselinePending().equalsIgnoreCase("T")) {
+                    if (!point.getBaselinePending().equalsIgnoreCase("F")) {
                         store1.add(new WaterPointModel(point));
                     }
                 } else if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {

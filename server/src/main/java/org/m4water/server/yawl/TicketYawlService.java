@@ -92,13 +92,14 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         ticketYawlService = this;
     }
 
-    public void launchCase(Params params) throws IOException, YAWLException {
+    public String launchCase(Params params) throws IOException, YAWLException {
         Properties resolvedProps = properties.getResolvedProps();
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", resolvedProps.getProperty("yawl.version")), params.asXML("WaterFlow"), yawlHelper.initSessionHandle());
-        boolean successful = successful(launchCase);
+        String caseID = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", resolvedProps.getProperty("yawl.version")), params.asXML("WaterFlow"), yawlHelper.initSessionHandle());
+        boolean successful = successful(caseID);
         if (!successful) {
-            throw new YAWLException(launchCase);
+            throw new YAWLException(caseID);
         }
+	return caseID;
     }
 
     private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
@@ -193,12 +194,13 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         return yawlHelper.describeRequiredParams(params);
     }
 
-    public void launchCase(String specName, String version, Params params) throws IOException {
+    public String launchCase(String specName, String version, Params params) throws IOException {
         String launchCase = _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML("BaselineNet"), yawlHelper.initSessionHandle());
            boolean successful = successful(launchCase);
         if (!successful) {
             throw new RuntimeException(new YAWLException(launchCase));//WaterFlow
         }
+	return launchCase;
     }
 
     private void processBaseLine(WorkItemRecord workItemRecord) {

@@ -9,8 +9,8 @@ import org.m4water.server.admin.model.Waterpoint;
  */
 public interface YawlService {
 
-        public void launchWaterPointFlow(Problem problem);
+        public String launchWaterPointFlow(Problem problem);
         
-        public void launchWaterPointBaseline(Waterpoint waterpoint);
-        public void launchWaterPointBaseline(String waterpointId);
+        public String launchWaterPointBaseline(Waterpoint waterpoint);
+        public String launchWaterPointBaseline(String waterpointId);
 }

@@ -37,7 +37,7 @@ public class YawlServiceImpl implements YawlService {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(YawlServiceImpl.class);
 
     @Override
-    public void launchWaterPointFlow(Problem problem) {
+    public String launchWaterPointFlow(Problem problem) {
         try {
             Waterpoint waterpoint = problem.getWaterpoint();
 
@@ -69,7 +69,7 @@ public class YawlServiceImpl implements YawlService {
             params.put("village", village.getVillagename());
             params.put("waterPointName", waterpoint.getName());
             params.put("ticketID", problem.getId() + "");
-            yawlService.launchCase(params);
+           return yawlService.launchCase(params);
         } catch (Exception ex) {
 
             throw new RuntimeException("Error occured while launching a ticket workflow", ex);
@@ -89,7 +89,7 @@ public class YawlServiceImpl implements YawlService {
     }
 
     @Override
-    public void launchWaterPointBaseline(Waterpoint waterpoint) {
+    public String launchWaterPointBaseline(Waterpoint waterpoint) {
         Properties resolvedProps = prptyPlcHlder.getResolvedProps();
         Village village = waterpoint.getVillage();
         Parish parish = village.getParish();
@@ -110,21 +110,22 @@ public class YawlServiceImpl implements YawlService {
         params.put("userAssignedCollector", mechanic.getUsername());
         params.put("userAssignedReviewer", healthWorker.getUsername());
         try {
-            yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
+            return yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
         } catch (IOException ex) {
             throw new M4waterRuntimeException("Error While lauching baseline workflow for water point: "+waterpoint.getId()+ " \n"+ex.getMessage(), ex);
         }
     }
 
     @Override
-    public void launchWaterPointBaseline(String waterpointId) {
+    public String launchWaterPointBaseline(String waterpointId) {
         Waterpoint waterPoint = waterPointService.getWaterPoint(waterpointId);
-        launchWaterPointBaseline(waterPoint);
+        String caseID = launchWaterPointBaseline(waterPoint);
         //set this waterpoint to pending basleine
-        waterPoint.setBaselinePending("T");
+        waterPoint.setBaselinePending(caseID);
         if(waterPoint.getBaselineDate() == null){
             waterPoint.setBaselineDate(new Date(1));
         }
         waterPointService.saveWaterPoint(waterPoint);
+	return caseID;
     }
 }
