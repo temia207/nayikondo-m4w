@@ -93,12 +93,13 @@ public class TicketSms implements TicketService, InitializingBean {
         problem.setProblemDescsription(complaint);
         problem.setProblemStatus("open");
         problem.setWaterpoint(waterPoint);
-        problem.setYawlid("T"+(problemDao.getTotalProblems()+1)+"-"+c.get(Calendar.YEAR));
+        
         waterPoint.getProblems().add(problem);
 
         ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, complaint);
         problem.getProblemLogs().add(problemLog);
-        launchCase(problem);
+	String caseID = launchCase(problem);
+	problem.setYawlid("T"+caseID+"-"+c.get(Calendar.YEAR));
         saveProblem(problem);
 
     }
@@ -199,9 +200,9 @@ public class TicketSms implements TicketService, InitializingBean {
         problemDao.deleteProblem(problem);
     }
 
-    public void launchCase(Problem problem) {
+    public String launchCase(Problem problem) {
 
-        yawlService.launchWaterPointFlow(problem);
+        return yawlService.launchWaterPointFlow(problem);
     }
 
     public boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
