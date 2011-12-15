@@ -260,6 +260,10 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         waterPointService.saveWaterPoint(waterPoint);
     }
 
+    public void cancelWorkflow(String caseID) throws IOException {
+	   yawlHelper.cancelCase(caseID, yawlHelper.initSessionHandle());
+    }
+
     public static class Params {
 
         Map<String, String> params = new LinkedHashMap<String, String>();
