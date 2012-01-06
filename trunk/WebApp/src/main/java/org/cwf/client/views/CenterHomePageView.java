@@ -12,6 +12,7 @@ import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.views.reports.FunctionalityView;
 
 /**
  *
@@ -53,6 +54,8 @@ public class CenterHomePageView extends CardPanel {
         WaterpointsTabPanel waterPointsView = new WaterpointsTabPanel(parentView);
         waterPointsView.setWidth("100%");
         containers.add(waterPointsView);
+
+		
         return containers;
     }
 

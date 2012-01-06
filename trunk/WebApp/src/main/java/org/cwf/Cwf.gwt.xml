@@ -19,7 +19,7 @@
     <inherits name='net.sf.gilead.Gilead4Gwt' />
     <inherits name='org.m4water.server.admin.Model' />
     <inherits name="com.google.gwt.inject.Inject"/>
-	<!-- <inherits name='com.extjs.gxt.charts.Chart' /> -->
+	<inherits name='com.extjs.gxt.charts.Chart' /> 
 
 	<!-- Specify the app entry point class.                         -->
     <entry-point class='org.cwf.client.IndexEntryPoint' />
@@ -41,5 +41,6 @@
     <servlet path="/user" class="org.cwf.server.UserServiceImpl"/>
     <servlet path="/authentication" class="org.cwf.server.AuthenticationServiceImpl"/>
     <servlet path="/settingService" class="org.cwf.server.SettingServiceImpl"/>
+    <servlet path="/responseTimeService" class="org.cwf.server.ResponseTimeServiceImpl"/>
 
 </module>

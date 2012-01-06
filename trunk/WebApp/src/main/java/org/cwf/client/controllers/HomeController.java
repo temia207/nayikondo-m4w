@@ -11,9 +11,6 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.cwf.client.AppMessages;
@@ -22,8 +19,8 @@ import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.model.ProblemSummary;
 import org.cwf.client.model.NewWaterpointSummary;
-import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.service.ProblemServiceAsync;
+import org.cwf.client.service.ResponseTimeServiceAsync;
 import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
 import org.cwf.client.service.YawlServiceAsync;
@@ -33,6 +30,7 @@ import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.SettingGroup;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.reports.ResponseTime;
 
 /**
  *
@@ -47,8 +45,10 @@ public class HomeController extends Controller {
     WaterPointServiceAsync waterpointService;
     YawlServiceAsync yawlService;
     SettingServiceAsync settingService;
+	ResponseTimeServiceAsync responseTimeAsync;
 
-    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService, YawlServiceAsync aYawlService,SettingServiceAsync aSettingService) {
+    public HomeController(ProblemServiceAsync aTicketService, WaterPointServiceAsync aWaterPointService,
+			YawlServiceAsync aYawlService,SettingServiceAsync aSettingService,ResponseTimeServiceAsync aResponseTimeAsync) {
         super();
         ticketService = aTicketService;
         waterpointService = aWaterPointService;
@@ -94,6 +94,13 @@ public class HomeController extends Controller {
         event.setData(summary);
         dispatcher.dispatch(event);
     }
+    public void forwardToReportsView() {
+        GWT.log("HomeController : forwardToViewTicketDetails");
+        Dispatcher dispatcher = Dispatcher.get();
+        AppEvent event = new AppEvent(ReportsController.RESPONSE_TIME);
+        dispatcher.dispatch(event);
+    }
+
 
     public void getTickets() {
         GWT.log("HomeController : getTickets()");
@@ -189,4 +196,15 @@ public class HomeController extends Controller {
             }
         });
     }
+	public void getResponseTime(String year,String district){
+        GWT.log("HomeController : getResponseTime()");
+		responseTimeAsync.getResponseTimes(year, district, new M4waterAsyncCallback<List<ResponseTime>>() {
+
+			@Override
+			public void onSuccess(List<ResponseTime> result) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+		});
+	}
+
 }

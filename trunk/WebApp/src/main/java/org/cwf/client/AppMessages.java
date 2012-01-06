@@ -52,10 +52,13 @@ public interface AppMessages extends Messages {
         String ticketTweets();
         String ticketSummary();
 
-	String accessDeniedError();
+		String accessDeniedError();
         String home();
         String tickets();
         String reports();
+		String functionality();
+		String coverage();
+		String management();
         String users();
         String settings();
 
