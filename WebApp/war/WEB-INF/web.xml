@@ -101,6 +101,15 @@
         <servlet-name>settingservice</servlet-name>
         <url-pattern>/cwf/settingService</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>responseTimeService</servlet-name>
+        <servlet-class>org.cwf.server.ResponseTimeServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>responseTimeService</servlet-name>
+        <url-pattern>/cwf/responseTimeService</url-pattern>
+    </servlet-mapping>
+<!--///////////////////////////////////////////////////////////////	-->
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
