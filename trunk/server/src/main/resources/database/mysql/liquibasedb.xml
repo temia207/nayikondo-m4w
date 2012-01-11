@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="victor (generated)" id="1326276640595-1">
+        <createTable tableName="baselinedate">
+            <column name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="baselineDate" type="DATE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-2">
+        <createTable tableName="county">
+            <column name="county_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="county_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="district_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="boundary_data" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-3">
+        <createTable tableName="district">
+            <column defaultValue="" name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="district_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-4">
+        <createTable tableName="fault_assessment">
+            <column name="assessment_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="problem_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="faults" type="VARCHAR(200)"/>
+            <column name="date" type="DATE"/>
+            <column name="assessed_by" type="VARCHAR(200)"/>
+            <column name="type_of_repaires_needed" type="VARCHAR(1000)"/>
+            <column name="problem_fixed" remarks="T=fixed" type="VARCHAR(20)"/>
+            <column name="reason_not_fixed" type="VARCHAR(1000)"/>
+            <column name="repairs_done" type="VARCHAR(1000)"/>
+            <column name="recommendations" type="VARCHAR(1000)"/>
+            <column name="user_id" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-5">
+        <createTable tableName="inspection">
+            <column name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="waterpoint_id" type="VARCHAR(200)"/>
+            <column name="inspector_name" type="VARCHAR(200)"/>
+            <column name="inspector_title" type="VARCHAR(200)"/>
+            <column name="inspection_date" type="DATE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-6">
+        <createTable tableName="inspection_question_type">
+            <column name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="question_type" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-7">
+        <createTable tableName="inspection_questions">
+            <column name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="question_type" type="VARCHAR(200)"/>
+            <column name="inspection_id" type="VARCHAR(200)"/>
+            <column name="question" type="TEXT"/>
+            <column name="answer" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-8">
+        <createTable tableName="parish">
+            <column name="parish_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="parish_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subcounty_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="boundary_data" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-9">
+        <createTable tableName="permission">
+            <column name="permission_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValue="no" name="reports" type="enum('no','yes')">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="no" name="read" type="enum('yes','no')">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="no" name="write" type="enum('yes','no')">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="no" name="data" type="enum('yes','no')">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="no" name="view" type="enum('yes','no')">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-10">
+        <createTable tableName="problem">
+            <column name="problem_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date_problem_reported" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="problem_descsription" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="F" name="problem_status" remarks="T=fixed,F=not fixed,due to hibernate enum issues" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="waterpoint_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="yawlid" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-11">
+        <createTable tableName="problem_log">
+            <column name="log_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="problem_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender_no" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueDate="0002-11-30" name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="issue" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-12">
+        <createTable tableName="setting">
+            <column autoIncrement="true" name="setting_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="value" type="TEXT"/>
+            <column name="setting_group_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-13">
+        <createTable tableName="setting_group">
+            <column autoIncrement="true" name="setting_group_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="parent_setting_group_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-14">
+        <createTable tableName="smsmessagelog">
+            <column defaultValue="" name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="textme_id" type="VARCHAR(200)"/>
+            <column name="sender" type="VARCHAR(200)"/>
+            <column name="time" type="VARCHAR(200)"/>
+            <column name="message" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-15">
+        <createTable tableName="subcounty">
+            <column name="id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="subcounty_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subcounty_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="county_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="boundary_data" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-16">
+        <createTable tableName="user">
+            <column defaultValue="" name="user_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(200)"/>
+            <column name="firstname" type="VARCHAR(200)"/>
+            <column name="lastname" type="VARCHAR(200)"/>
+            <column name="contacts" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(200)"/>
+            <column name="staff_profile_id" type="VARCHAR(200)"/>
+            <column name="subcounty_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="oxd_name" type="VARCHAR(200)"/>
+            <column name="phoneId" type="VARCHAR(200)"/>
+            <column name="assignedNumber" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-17">
+        <createTable tableName="user_assigned">
+            <column name="user_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="problem_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_assigned" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-18">
+        <createTable tableName="user_profile">
+            <column name="user_profile_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="profile_description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-19">
+        <createTable tableName="village">
+            <column name="village_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="villagename" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parish_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-20">
+        <createTable tableName="water_functionality">
+            <column name="date" type="DATE">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="waterpoint_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="F" name="functionality_status" remarks="due to hibernate issues we use varchar for now. can be either T or F" type="VARCHAR(200)"/>
+            <column name="date_non_functional" type="DATE"/>
+            <column name="reason" type="VARCHAR(200)"/>
+            <column name="date_last_repaired" type="DATE"/>
+            <column name="details_last_repair" type="VARCHAR(200)"/>
+            <column name="date_last_minor_service" type="DATE"/>
+            <column name="date_last_major_service" type="DATE"/>
+            <column name="any_previous_repairs" type="VARCHAR(200)"/>
+            <column name="any_previous_minor_service" type="VARCHAR(200)"/>
+            <column name="any_previous_major_service" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-21">
+        <createTable tableName="water_user_committee">
+            <column name="user_committee_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="waterpoint_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commissioned" type="VARCHAR(200)"/>
+            <column name="yr_established" type="VARCHAR(200)"/>
+            <column name="trained" type="VARCHAR(200)"/>
+            <column name="collect_fees" type="VARCHAR(200)"/>
+            <column name="regular_service" type="VARCHAR(200)"/>
+            <column name="regular_meeting" type="VARCHAR(200)"/>
+            <column name="no_active_members" type="VARCHAR(200)"/>
+            <column name="no_of_women" type="VARCHAR(200)"/>
+            <column name="no_of_women_keypos" type="VARCHAR(200)"/>
+            <column name="no_of_members_on_wuc" type="VARCHAR(200)"/>
+            <column name="functionality_of_wuc" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-22">
+        <createTable tableName="waterpoint">
+            <column name="waterpoint_id" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="waterpoint_type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_installed" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="village_id" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="eastings" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="northings" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="elevation" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="funding_source" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ownership" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="households" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_of_magt" remarks="should have used enum but with hibernate issues, we use varchar but this can be one of communal,private individual,private operator,institutional" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="baseline_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="baseline_pending" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="victor (generated)" id="1326276640595-23">
+        <createTable tableName="waterpoint_types">
+            <column name="type_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
