@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="victor (generated)" id="1326276640595-24">
+		<addPrimaryKey columnNames="user_id, problem_id" tableName="user_assigned"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-25">
+		<createIndex indexName="problemm" tableName="fault_assessment" unique="false">
+			<column name="problem_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-26">
+		<createIndex indexName="inspection_waterpoint" tableName="inspection" unique="false">
+			<column name="waterpoint_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-27">
+		<createIndex indexName="question_type" tableName="inspection_question_type" unique="true">
+			<column name="question_type"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-28">
+		<createIndex indexName="subcounty" tableName="parish" unique="false">
+			<column name="subcounty_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-29">
+		<createIndex indexName="problem_waterpoint" tableName="problem" unique="false">
+			<column name="waterpoint_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-30">
+		<createIndex indexName="problem_log_problem" tableName="problem_log" unique="false">
+			<column name="problem_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-31">
+		<createIndex indexName="setting_setting_group_id" tableName="setting" unique="false">
+			<column name="setting_group_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-32">
+		<createIndex indexName="unique_msg_id" tableName="smsmessagelog" unique="true">
+			<column name="textme_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-33">
+		<createIndex indexName="county" tableName="subcounty" unique="true">
+			<column name="county_id"/>
+			<column name="subcounty_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-34">
+		<createIndex indexName="subcounty_id" tableName="subcounty" unique="false">
+			<column name="subcounty_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-35">
+		<createIndex indexName="user_subcounty" tableName="user" unique="false">
+			<column name="subcounty_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-36">
+		<createIndex indexName="problem" tableName="user_assigned" unique="false">
+			<column name="problem_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-37">
+		<createIndex indexName="waterpoint" tableName="water_functionality" unique="false">
+			<column name="waterpoint_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-38">
+		<createIndex indexName="waterpointt" tableName="water_user_committee" unique="false">
+			<column name="waterpoint_id"/>
+		</createIndex>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-39">
+		<addForeignKeyConstraint baseColumnNames="district_id" baseTableName="county" constraintName="district" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="district"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-40">
+		<addForeignKeyConstraint baseColumnNames="inspection_id" baseTableName="inspection_questions" constraintName="inspection_question_inspection" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inspection"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-41">
+		<addForeignKeyConstraint baseColumnNames="question_type" baseTableName="inspection_questions" constraintName="inspection_question_type" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inspection_question_type"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-42">
+		<addForeignKeyConstraint baseColumnNames="county_id" baseTableName="subcounty" constraintName="county" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="county_id" referencedTableName="county"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-43">
+		<addForeignKeyConstraint baseColumnNames="staff_profile_id" baseTableName="user" constraintName="user_profile" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="user_profile_id" referencedTableName="user_profile"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-44">
+		<addForeignKeyConstraint baseColumnNames="subcounty_id" baseTableName="user" constraintName="user_subcounty2" deferrable="false" initiallyDeferred="false" onUpdate="CASCADE" referencedColumnNames="id, id" referencedTableName="subcounty"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-45">
+		<addForeignKeyConstraint baseColumnNames="problem_id" baseTableName="user_assigned" constraintName="problem2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="problem_id, problem_id, problem_id" referencedTableName="problem"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-46">
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_assigned" constraintName="userid2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="user_id" referencedTableName="user"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-47">
+		<addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="user_profile" constraintName="permission2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="permission_id" referencedTableName="permission"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-48">
+		<addForeignKeyConstraint baseColumnNames="parish_id" baseTableName="village" constraintName="parish2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="parish_id" referencedTableName="parish"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-49">
+		<addForeignKeyConstraint baseColumnNames="waterpoint_id" baseTableName="water_user_committee" constraintName="waterpointt2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="waterpoint_id, waterpoint_id, waterpoint_id, waterpoint_id" referencedTableName="waterpoint"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-50">
+		<addForeignKeyConstraint baseColumnNames="village_id" baseTableName="waterpoint" constraintName="village2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="village_id" referencedTableName="village"/>
+	</changeSet>
+	<changeSet author="victor (generated)" id="1326276640595-51">
+		<addForeignKeyConstraint baseColumnNames="waterpoint_type_id" baseTableName="waterpoint" constraintName="type2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="type_id" referencedTableName="waterpoint_types"/>
+	</changeSet>
+
+</databaseChangeLog>
