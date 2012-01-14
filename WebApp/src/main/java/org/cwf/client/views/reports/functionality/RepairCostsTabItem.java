@@ -3,6 +3,7 @@ package org.cwf.client.views.reports.functionality;
 import com.extjs.gxt.charts.client.Chart;
 import com.extjs.gxt.charts.client.model.ChartModel;
 import com.extjs.gxt.charts.client.model.axis.XAxis;
+import com.extjs.gxt.charts.client.model.axis.YAxis;
 import com.extjs.gxt.charts.client.model.charts.AreaChart;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -58,37 +59,46 @@ public class RepairCostsTabItem extends ContentPanel {
 	}
 
 	public ChartModel getChartModel(int segments) {
-		ChartModel cm = new ChartModel("Growth per Region", "font-size: 14px; font-family: Verdana;");
+		ChartModel cm = new ChartModel("Cost of repairs per district", "font-size: 14px; font-family: Verdana;");
 		cm.setBackgroundColour("#ffffff");
 		XAxis xa = new XAxis();
-		xa.setLabels("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D");
+		xa.setLabels("Jan", "Feb", "Ma", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec");
 		cm.setXAxis(xa);
-		AreaChart area1 = new AreaChart();
-		area1.setFillAlpha(0.3f);
-		area1.setColour("#ff0000");
-		area1.setFillColour("#ff0000");
+		YAxis ya = new YAxis();
+		ya.setRange(0, 1000000, 100000);
+		cm.setYAxis(ya);
+		AreaChart labourLine = new AreaChart();
+		labourLine.setFillAlpha(0.3f);
+		labourLine.setColour("#ff0000");
+		labourLine.setFillColour("#ff0000");
+		labourLine.setText("cost of Labour");
+		int init = 50000;
 		for (int n = 0; n < 12; n++) {
-			if (n % 3 != 0 && n != 11) {
-				area1.addNullValue();
-			} else {
-				area1.addValues(n * Random.nextDouble());
-			}
+			init = init + 50000;
+			labourLine.addValues(init);
 		}
-		cm.addChartConfig(area1);
-		AreaChart area2 = new AreaChart();
-		area2.setFillAlpha(0.3f);
-		area2.setColour("#00aa00");
-		area2.setFillColour("#00aa00");
+		cm.addChartConfig(labourLine);
+		AreaChart materialLine = new AreaChart();
+		materialLine.setFillAlpha(0.3f);
+		materialLine.setColour("#00aa00");
+		materialLine.setFillColour("#00aa00");
 		int floor = Random.nextInt(3);
 		double grade = (Random.nextInt(4) + 1) / 10.0;
-		for (int n = 0; n < 12; n++) {
-			if (n % 2 != 0 && n != 11) {
-				area2.addNullValue();
-			} else {
-				area2.addValues(n * grade + floor);
-			}
-		}
-		cm.addChartConfig(area2);
+		int init2 = 10000;
+		materialLine.addValues(init2);
+		materialLine.addValues(init2+10000);
+		materialLine.addValues(init2+900000);
+		materialLine.addValues(init2+10000);
+		materialLine.addValues(init2+10000);
+		materialLine.addValues(init2+70000);
+		materialLine.addValues(init2-10000);
+		materialLine.addValues(init2-10000);
+		materialLine.addValues(init2-10000);
+		materialLine.addValues(init2+50000);
+		materialLine.addValues(init2+30000);
+		materialLine.addValues(init2+10000);
+		materialLine.setText("cost of materials");
+		cm.addChartConfig(materialLine);
 		return cm;
 
 	}

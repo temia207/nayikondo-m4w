@@ -21,6 +21,8 @@ public class FaultAssessment  extends AbstractEditable<String> {
      private String repairsDone;
      private String recommendations;
      private String userId;
+	 private String costOfLabour;
+	 private String costOfMaterials;
 
     public FaultAssessment() {
         
@@ -32,7 +34,8 @@ public class FaultAssessment  extends AbstractEditable<String> {
         this.problem = problem;
         this.userId = userId;
     }
-    public FaultAssessment(String assessmentId, Problem problem, String faults, Date date, String assessedBy, String typeOfRepairesNeeded, String problemFixed, String reasonNotFixed, String repairsDone, String recommendations, String userId) {
+    public FaultAssessment(String assessmentId, Problem problem, String faults, Date date, String assessedBy, String typeOfRepairesNeeded, String problemFixed, 
+			String reasonNotFixed, String repairsDone, String recommendations, String userId,String costOfLabour,String costOfMaterials) {
        this.assessmentId = assessmentId;
        this.problem = problem;
        this.faults = faults;
@@ -44,6 +47,8 @@ public class FaultAssessment  extends AbstractEditable<String> {
        this.repairsDone = repairsDone;
        this.recommendations = recommendations;
        this.userId = userId;
+	   this.costOfLabour = costOfLabour;
+	   this.costOfMaterials = costOfMaterials;
     }
 
     public String getAssessmentId() {
@@ -124,7 +129,21 @@ public class FaultAssessment  extends AbstractEditable<String> {
         this.userId = userId;
     }
 
+	public String getCostOfLabour() {
+		return this.costOfLabour;
+	}
 
+	public void setCostOfLabour(String costOfLabour) {
+		this.costOfLabour = costOfLabour;
+	}
+
+	public String getCostOfMaterials() {
+		return this.costOfMaterials;
+	}
+
+	public void setCostOfMaterials(String costOfMaterials) {
+		this.costOfMaterials = costOfMaterials;
+	}
 
 
 }

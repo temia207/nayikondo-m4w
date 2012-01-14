@@ -90,9 +90,9 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 			centerLayoutPanel.setHeading(centerLayoutPanel.getHeading() + ":" + loggedinUser.getSubcounty().getCounty().getDistrict().getName() + " District");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
 			controller2.getTickets();
-//			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
-//			controller2.getNewWaterPoints();
+			controller2.getNewWaterPoints();
 		}
 
 	}
@@ -124,16 +124,16 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 		} else if (event.getEventType() == RefreshableEvent.Type.RELOAD_WATERPOINTS) {
 			GWT.log("HomeView Refresh:Reloading all waterpoints");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
-//			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
-//			controller2.getNewWaterPoints();
+			controller2.getNewWaterPoints();
 		} else if (event.getEventType() == RefreshableEvent.Type.RELOAD) {
 			GWT.log("HomeView Refresh:Refreshing the UI");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
 			controller2.getTickets();
-//			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
-//			controller2.getNewWaterPoints();
+			controller2.getNewWaterPoints();
 		}
 	}
 
