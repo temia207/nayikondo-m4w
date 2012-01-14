@@ -39,5 +39,11 @@
     <property name="userId" type="string">
       <column length="200" name="user_id" not-null="true"/>
     </property>
+    <property name="costOfLabour" type="string">
+      <column length="255" name="cost_of_labour"/>
+    </property>
+    <property name="costOfMaterials" type="string">
+      <column length="255" name="cost_of_materials"/>
+    </property>
   </class>
 </hibernate-mapping>

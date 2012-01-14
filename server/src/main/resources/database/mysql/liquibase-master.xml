@@ -6,4 +6,5 @@
 	<!-- master changelog includes all other changelogs	-->
 	<include file="database/mysql/liquibasedb.xml" />
 	<include file="database/mysql/liquibase-foreign-keys.xml" />
+	<include file="database/mysql/liquibase-update.xml" />
 </databaseChangeLog>
