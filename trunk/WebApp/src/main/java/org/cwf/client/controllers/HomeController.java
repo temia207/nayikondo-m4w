@@ -117,39 +117,39 @@ public class HomeController extends Controller {
     public void getWaterPointSummaries(String district) {
         GWT.log("HomeController : getWaterPointSummaries()");
         ProgressIndicator.showProgressBar();
-        waterpointService.getWaterPointSummaries(district,new M4waterAsyncCallback<List<WaterPointSummary>>() {
-
-            @Override
-            public void onSuccess(List<WaterPointSummary> result) {
-                GWT.log("HomeController : waterpointsummarries found");
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
-                ProgressIndicator.hideProgressBar();
-            }
-        });
+//        waterpointService.getWaterPointSummaries(district,new M4waterAsyncCallback<List<WaterPointSummary>>() {
+//
+//            @Override
+//            public void onSuccess(List<WaterPointSummary> result) {
+//                GWT.log("HomeController : waterpointsummarries found");
+//                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
+//                ProgressIndicator.hideProgressBar();
+//            }
+//        });
     }
     public void getNewWaterPoints() {
         GWT.log("HomeController : getNewWaterPoints()");
-        settingService.getSettingGroup("waterpoints", new M4waterAsyncCallback<SettingGroup>() {
-
-            @Override
-            public void onSuccess(SettingGroup result) {
-                GWT.log("HomeController : waterpointsummarries found");
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
-            }
-        });
+//        settingService.getSettingGroup("waterpoints", new M4waterAsyncCallback<SettingGroup>() {
+//
+//            @Override
+//            public void onSuccess(SettingGroup result) {
+//                GWT.log("HomeController : waterpointsummarries found");
+//                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
+//            }
+//        });
     }
 
     public void getWaterPoints() {
         GWT.log("HomeController : getWaterPoints()");
-        waterpointService.getWaterPoints(new M4waterAsyncCallback<List<Waterpoint>>() {
-
-            @Override
-            public void onSuccess(List<Waterpoint> result) {
-                GWT.log("HomeController : waterpoints found");
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
-            }
-        });
+//        waterpointService.getWaterPoints(new M4waterAsyncCallback<List<Waterpoint>>() {
+//
+//            @Override
+//            public void onSuccess(List<Waterpoint> result) {
+//                GWT.log("HomeController : waterpoints found");
+//                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.ALL_WATER_POINTS, result));
+//                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.NEW_WATER_POINTS, result));
+//            }
+//        });
     }
 
     public void getBaselineSetDate() {

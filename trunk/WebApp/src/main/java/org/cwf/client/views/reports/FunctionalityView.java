@@ -15,6 +15,8 @@ import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
+import org.cwf.client.controllers.FunctionalityParamController;
+import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.views.reports.functionality.BreakdownFrequency;
 import org.cwf.client.views.reports.functionality.PerTechnology;
@@ -42,11 +44,11 @@ public class FunctionalityView  extends ContentPanel{
         setHeading(appMessages.functionality());
 		TabItem repaircostsTab = new TabItem("Repair Costs");
 		repaircostsTab.setLayout(new FitLayout());
-		repaircostsTab.addListener(Events.Select, new Listener<ComponentEvent>(){
+		repaircostsTab.addListener(Events.OnClick, new Listener<ComponentEvent>(){
 
 			@Override
 			public void handleEvent(ComponentEvent be) {
-//				((HomeController)parentView.getController()).forwardToReportsView();
+				((ReportsController)parentView.getController()).forwardToReportsView();
 			}
 		});
 		RepairCostsTabItem page1 = new RepairCostsTabItem();

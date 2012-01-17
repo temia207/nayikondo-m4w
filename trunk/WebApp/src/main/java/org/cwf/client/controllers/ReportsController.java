@@ -24,7 +24,6 @@ public class ReportsController extends Controller {
 	AppMessages appMessages = GWT.create(AppMessages.class);
 	public final static EventType RESPONSE_TIME = new EventType();
 	private ResponseTimeServiceAsync responseTimeAsync;
-//	private FunctionalityParameter functionalityparemeter;
 	private ReportsFrame reportsFrameView;
 
 	public ReportsController(ResponseTimeServiceAsync aResponseTimeAsync) {
@@ -51,18 +50,8 @@ public class ReportsController extends Controller {
     public void forwardToReportsView() {
         GWT.log("HomeController : forwardToViewTicketDetails");
         Dispatcher dispatcher = Dispatcher.get();
-        AppEvent event = new AppEvent(ReportsController.RESPONSE_TIME);
+        AppEvent event = new AppEvent(FunctionalityParamController.FUNCTIONALITY_PARAM);
         dispatcher.dispatch(event);
     }
 
-	public void getResponseTime(String year, String district) {
-		GWT.log("HomeController : getResponseTime()");
-		responseTimeAsync.getResponseTimes(year, district, new M4waterAsyncCallback<List<ResponseTime>>() {
-
-			@Override
-			public void onSuccess(List<ResponseTime> result) {
-				RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.RESPONSE_TIME,result));
-			}
-		});
-	}
 }

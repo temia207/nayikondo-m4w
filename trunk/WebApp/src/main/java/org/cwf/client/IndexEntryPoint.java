@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import org.cwf.client.controllers.CommentController;
 import org.cwf.client.controllers.EditNewWaterPointController;
 import org.cwf.client.controllers.EditWaterPointController;
+import org.cwf.client.controllers.FunctionalityParamController;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.controllers.LoginController;
 import org.cwf.client.controllers.ProblemHistoryController;
@@ -126,6 +127,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         dispatcher.addController(new ProblemHistoryController(ticketSmsService,assessmentService));
         dispatcher.addController(new EditNewWaterPointController(waterPointService, settingService));
 		dispatcher.addController(new ReportsController(responseTimeService));
+		dispatcher.addController(new FunctionalityParamController(responseTimeService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);
