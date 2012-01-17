@@ -9,7 +9,6 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
@@ -18,11 +17,11 @@ import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.Radio;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import java.util.ArrayList;
 import java.util.List;
+import org.cwf.client.controllers.FunctionalityParamController;
 import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.model.District;
 
@@ -89,7 +88,7 @@ public class FunctionalityParameter extends View {
 
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-				((ReportsController) FunctionalityParameter.this.getController()).
+				((FunctionalityParamController) FunctionalityParameter.this.getController()).
 						getResponseTime(yearCombo.getValue().getYear(),districtCombo.getValue().getName());
 			}
 		});
