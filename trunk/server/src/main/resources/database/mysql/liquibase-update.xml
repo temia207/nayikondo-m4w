@@ -13,5 +13,35 @@
 			<column name="cost_of_materials" type="varchar(255)"/>
 		</addColumn>
 	</changeSet>
+	<changeSet id="add_problem_status_view" author="vkakama@gmail.com">
+		<createView viewName = "problem_status_view">
+			select problem.waterpoint_id,(select count(*) from problem where problem_status = 'Open') as open,
+			(select count(*) from problem where problem_status = 'closed') as fixed,district.name from problem inner join waterpoint
+			on problem.waterpoint_id = waterpoint.waterpoint_id inner join village  on waterpoint.village_id = village.village_id inner join parish  on village.parish_id = parish.parish_id
+			inner join subcounty on  parish.subcounty_id = subcounty.id inner join county on  subcounty.county_id = county.county_id
+			inner join district on  county.district_id = district.id
+		</createView>
+	</changeSet>
+	<changeSet id="add_district_waterpoints" author="vkakama@gmail.com">
+		<createView viewName="district_waterpoint">
+			select waterpoint.waterpoint_id,district.name from waterpoint inner join village on waterpoint.village_id = village.village_id
+			inner join parish on village.parish_id = parish.parish_id inner join subcounty on parish.subcounty_id = subcounty.id
+			inner join county on subcounty.county_id = county.county_id inner join district on county.district_id = district.id
+		</createView>
+	</changeSet>
+	<changeSet id="add_pending_waterpoints" author="vkakama@gmail.com">
+		<createView viewName="pending_waterpoints">
+			select MONTH(date_problem_reported) as month,count(*) as pending,district_waterpoint.name as district from problem
+			inner join district_waterpoint on problem.waterpoint_id = district_waterpoint.waterpoint_id where problem_status = 'open'
+			group by MONTH(date_problem_reported)
+		</createView>
+	</changeSet>
+	<changeSet id="add_fixed_waterpoints" author="vkakama@gmail.com">
+		<createView viewName="fixed_waterpoints">
+			select MONTH(date_problem_reported) as month,count(*) as fixed,district_waterpoint.name as
+			district from problem inner join district_waterpoint on problem.waterpoint_id = district_waterpoint.waterpoint_id
+			where problem_status = 'Closed' group by MONTH(date_problem_reported)
+		</createView>
+	</changeSet>
 
 </databaseChangeLog>
