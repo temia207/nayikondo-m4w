@@ -30,7 +30,8 @@ public class ResponseTimeDaoImpl extends BaseDAOImpl<ResponseTime, Long> impleme
 	public List<ResponseTime> getResponseTimes(String year,String district) {
 		List<ResponseTime> responseTimes = new ArrayList<ResponseTime>();
 		String query = "SELECT pending_waterpoints.month,pending,fixed from pending_waterpoints "
-				+ "left join fixed_waterpoints on pending_waterpoints.month = fixed_waterpoints.month";
+				+ "left join fixed_waterpoints on pending_waterpoints.month = fixed_waterpoints.month"+
+				" where month = '"+year+"' and district = '"+district+"'";
 		SQLQuery createQuery = getSession().createSQLQuery(query);
 		List list = createQuery.list();
 		for (Object object : list) {

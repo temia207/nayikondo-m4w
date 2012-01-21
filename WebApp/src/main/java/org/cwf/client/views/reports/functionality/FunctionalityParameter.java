@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.controllers.FunctionalityParamController;
-import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.model.District;
 
 /**

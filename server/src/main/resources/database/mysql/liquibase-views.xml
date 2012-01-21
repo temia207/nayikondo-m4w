@@ -43,5 +43,19 @@
 			where problem_status = 'Closed' group by MONTH(date_problem_reported)
 		</createView>
 	</changeSet>
+	<changeSet id="alter_pending_waterpoints_date" author="vkakama@gmail.com">
+		<createView viewName="pending_waterpoints" replaceIfExists="true">
+			 select date_problem_reported as month,count(*) as pending,district_waterpoint.name as district from problem
+			inner join district_waterpoint on problem.waterpoint_id = district_waterpoint.waterpoint_id where problem_status = 'open'
+			group by MONTH(date_problem_reported)
+		</createView>
+	</changeSet>
+	<changeSet id="alter_fixed_waterpoints_date" author="vkakama@gmail.com">
+		<createView viewName="fixed_waterpoints" replaceIfExists="true">
+			select date_problem_reported as month,count(*) as fixed,district_waterpoint.name as
+			district from problem inner join district_waterpoint on problem.waterpoint_id = district_waterpoint.waterpoint_id
+			where problem_status = 'Closed' group by MONTH(date_problem_reported)
+		</createView>
+	</changeSet>
 
 </databaseChangeLog>
