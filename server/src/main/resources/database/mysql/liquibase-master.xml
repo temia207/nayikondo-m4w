@@ -6,5 +6,22 @@
 	<!-- master changelog includes all other changelogs	-->
 	<include file="database/mysql/liquibasedb.xml" />
 	<include file="database/mysql/liquibase-foreign-keys.xml" />
+	<changeSet author="vkakama@gmail.com" id="rename-liquibase-update-to-views">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="database/mysql/liquibase-update.xml">
+                <![CDATA[
+                select FILENAME
+                from DATABASECHANGELOG 
+                where
+                   FILENAME='database/mysql/liquibase-update.xml';
+                ]]>
+			</sqlCheck>
+		</preConditions>
+		<comment>renamed changelog file</comment>
+		<update tableName="DATABASECHANGELOG">
+			<column name="FILENAME" value="database/mysql/liquibase-views.xml"/>
+			<where>filename='database/mysql/liquibase-update.xml'</where>
+		</update>
+	</changeSet>
 	<include file="database/mysql/liquibase-views.xml" />
 </databaseChangeLog>
