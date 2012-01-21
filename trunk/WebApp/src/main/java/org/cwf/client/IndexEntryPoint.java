@@ -13,6 +13,7 @@ import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.Style.VerticalAlignment;
+import com.extjs.gxt.ui.client.core.XDOM;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -190,7 +191,9 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
 
             @Override
             public void handleEvent(ButtonEvent be) {
-                Window.Location.replace(GWT.getHostPageBaseURL() + "j_spring_security_logout");
+//                Window.Location.replace(GWT.getHostPageBaseURL() + "j_spring_security_logout");
+//                Window.Location.replace(GWT.getHostPageBaseURL() + "index.html");
+				XDOM.reload();
             }
         });
         FlexTable ft = new FlexTable();

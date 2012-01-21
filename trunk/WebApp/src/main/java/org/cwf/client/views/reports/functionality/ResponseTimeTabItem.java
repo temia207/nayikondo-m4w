@@ -19,7 +19,6 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
-import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.model.ResponseTimeSummary;
 import org.m4water.server.admin.model.reports.ResponseTime;
 
@@ -85,6 +84,9 @@ public class ResponseTimeTabItem extends ContentPanel implements Refreshable {
 	public void refresh(RefreshableEvent event) {
 		if (event.getEventType() == RefreshableEvent.Type.RESPONSE_TIME) {
 			ListStore<ResponseTimeSummary> store1 = grid.getStore();
+            if (store1.getCount() > 0) {
+                store1.removeAll();
+            }
 			List<ResponseTime> responseTimes = event.getData();
 			for (ResponseTime r : responseTimes) {
 				ResponseTimeSummary summary = new ResponseTimeSummary(r.getMonth(),
