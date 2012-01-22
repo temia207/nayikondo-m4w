@@ -52,7 +52,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
     private String type;
     private HomeView parentView;
     private ListStore<Subcounty> subcounties, districts, counties, parishes, villages;
-    private Button launchBaseline;
+    private Button launchBaseline, btnCancelBaseline;
     private List<WaterPointSummary> waterpointSummaries = new ArrayList<WaterPointSummary>();
     private ListStore<WaterPointModel> store;
 
@@ -122,8 +122,21 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
                 grid.setSelectionModel(new GridSelectionModel<WaterPointModel>());
             }
         });
+	
+	btnCancelBaseline = new Button("Cancel Baseline");
+	btnCancelBaseline.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+	    @Override
+	    public void componentSelected(ButtonEvent ce) {
+		cancelBaseline();
+	    }
+
+	   
+	});
         addButton(launchBaseline);
+	addButton(btnCancelBaseline);
         launchBaseline.hide();
+	btnCancelBaseline.setVisible(false);
         setLayout(new FitLayout());
     }
 
@@ -228,17 +241,24 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {
                 launchBaseline.setText("Redo Baseline");
                 launchBaseline.show();
-            }
+            } else if (type.equalsIgnoreCase(appMessages.pendingBaseline())){
+		btnCancelBaseline.show();
+	    }
             System.out.println("done retrieving waterpoint summaries");
 
         } else if ((event.getEventType() == RefreshableEvent.Type.WATERPOINT_CHANGES)) {
             GWT.log("Refreshable event ===== "+RefreshableEvent.Type.WATERPOINT_CHANGES);
             if (type.equalsIgnoreCase(appMessages.pendingBaseline())) {
-                WaterPointSummary summary = event.getData();
+		WaterPointSummary summary = event.getData();
                 ListStore<WaterPointModel> store1 = grid.getStore();
                 store1.add(new WaterPointModel(summary));
-            }
+            } 
         }
         ProgressIndicator.hideProgressBar();
     }
+    
+     private void cancelBaseline() {
+	WaterPointModel selectedItem = grid.getSelectionModel().getSelectedItem();
+        
+	    }
 }
