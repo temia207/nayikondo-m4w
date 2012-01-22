@@ -1,6 +1,9 @@
 package org.m4water.server.yawl;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -24,6 +27,7 @@ import org.m4water.server.service.WUCService;
 import org.m4water.server.service.WaterFunctionalityService;
 import org.m4water.server.service.WaterPointService;
 import org.openxdata.yawl.util.InterfaceBHelper;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,6 +55,7 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     private AssessmentService assessmentService;
     @Autowired WaterFunctionalityService funxService;
     @Autowired WUCService wUCService;
+    private org.slf4j.Logger log = LoggerFactory.getLogger(TicketYawlService.class);
 
     public static TicketYawlService getInstance() {
         return ticketYawlService;
@@ -204,6 +209,9 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     private void processBaseLine(WorkItemRecord workItemRecord) {
+	//Functionality of of water user committee
+	//collect fees
+	
         String source_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "source_number");
         String functionality = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "functionality");
         String wuc_member_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_member_number");
@@ -218,7 +226,16 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         String management_type = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "management_type");
         String activeWUCmembers = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "activeWUCmembers");
         String assessorName = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "assessorName");
+	String dateVisit = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateVisit");
+	String dateLastMinorService = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateMinorService");
+	String dateLastMajorService = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateMajorService");
+	
 
+	        System.out.println("Processing workitem recourd Retrieving waterpoint "
+                + "\nWaterpoint id = "+source_number
+                +"\n functionality = "+functionality
+                +"\n ");
+	
         Waterpoint waterPoint = waterPointService.getWaterPoint(source_number);
         if (waterPoint == null)
             throw new RuntimeException("WaterPointID [" + source_number + "]from yawl in Baseline Could not be found");
@@ -242,6 +259,11 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         funx.setFunctionalityStatus(functionality);
         funx.setReason(non_functional_reason);
         funx.setDetailsLastRepair("");
+	funx.setDateLastMajorService(toDate(dateLastMajorService));
+	funx.setDateLastMinorService(toDate(dateLastMinorService));
+	
+	
+	
 
         WaterUserCommittee wuc = new WaterUserCommittee(UUID.jUuid(),
                 waterPoint,
@@ -307,5 +329,17 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
             
             return StringUtil.wrap(builder.toString(), WaterFlow);
         }
+    }
+    
+    private Date toDate(String dateString){
+	
+	Date date = new Date(1);
+	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	try {
+	    date = df.parse(dateString);
+	} catch (ParseException ex) {
+	  log.error("Error while processing date from yawl:"+dateString);
+	}
+	return date;
     }
 }
