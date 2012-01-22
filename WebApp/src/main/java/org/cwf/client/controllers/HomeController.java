@@ -179,6 +179,23 @@ public class HomeController extends Controller {
             }
         });
     }
+    
+    public void cancelCase(final String caseId){
+	ProgressIndicator.showProgressBar();
+	yawlService.cancelCase(caseId, new M4waterAsyncCallback<Void>() {
+
+	    @Override
+	    public void onSuccess(Void result) {
+		ProgressIndicator.hideProgressBar();
+                MessageBox.alert("Info", "Baseline Review Canceled: Yawl CaseID:"+caseId, null);
+	    }
+
+	    @Override
+	    public void onFailurePostProcessing(Throwable throwable) {
+		 ProgressIndicator.hideProgressBar();
+	    }
+	});
+    }
 
     public void updateLocalWaterPointSummarries(final String id, final List<WaterPointSummary> summaries) {
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
