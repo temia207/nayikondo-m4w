@@ -13,6 +13,7 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.grid.BufferView;
 import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
@@ -259,6 +260,14 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
     
      private void cancelBaseline() {
 	WaterPointModel selectedItem = grid.getSelectionModel().getSelectedItem();
-        
-	    }
+	String baselinePending = selectedItem.getWaterPointSummary().getBaselinePending();
+	int caseId = 0;
+	try{
+	     caseId = Integer.parseInt(baselinePending);
+	}catch(Exception ex){
+	    MessageBox.alert("Warning", "Baseling Cannot be Canceled because the Yawl ID Is Not Available", null);
+	}
+	 HomeController controller = (HomeController) parentView.getController();
+	 controller.cancelCase(caseId+"");
+    }
 }
