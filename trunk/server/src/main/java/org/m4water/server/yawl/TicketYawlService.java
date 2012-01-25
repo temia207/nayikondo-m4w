@@ -261,6 +261,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
         funx.setDetailsLastRepair("");
 	funx.setDateLastMajorService(toDate(dateLastMajorService));
 	funx.setDateLastMinorService(toDate(dateLastMinorService));
+	if(!toDate(non_functional_days).equals(new Date(1)))
+	funx.setDateNonFunctional(toDate(non_functional_days));
 	
 	
 	
