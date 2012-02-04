@@ -10,8 +10,6 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.CardPanel;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
-import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.layout.CardLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -22,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
+import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.views.widgets.CenterLayoutPanel;
 
 /**
@@ -85,6 +84,13 @@ public class ReportsFrame extends View implements ClickHandler {
 		FunctionalityView functionality = new FunctionalityView(this, "Functionality");
 		functionality.setWidth("100%");
 		containers.add(functionality);
+		CoverageView coverageView = new CoverageView(this, "Coverage");
+		coverageView.setWidth("100%");
+		containers.add(coverageView);
+
+		ManagementView managementView = new ManagementView(this,"Management");
+		managementView.setWidth("100%");
+		containers.add(managementView);
 		return containers;
 	}
 
@@ -99,11 +105,12 @@ public class ReportsFrame extends View implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		String txt = ((Label) event.getSource()).getText();
 		if (txt.equals(appMessages.functionality())) {
-			cardPanel.setActiveItem(pages.get(0));
+			wizardLayout.setActiveItem(pages.get(0));
 		} else if (txt.equals(appMessages.coverage())) {
-			cardPanel.setActiveItem(pages.get(0));
+			wizardLayout.setActiveItem(pages.get(1));
+			((ReportsController)ReportsFrame.this.getController()).getDistrictSummaries();
 		} else if (txt.equals(appMessages.management())) {
-			cardPanel.setActiveItem(pages.get(0));
+			wizardLayout.setActiveItem(pages.get(2));
 		}
 	}
 }

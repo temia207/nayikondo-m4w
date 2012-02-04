@@ -24,4 +24,5 @@
 		</update>
 	</changeSet>
 	<include file="database/mysql/liquibase-views.xml" />
+	<include file="database/mysql/liquibase-update-1.0.xml" />
 </databaseChangeLog>

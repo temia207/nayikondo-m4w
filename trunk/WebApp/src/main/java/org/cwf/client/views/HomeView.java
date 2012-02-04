@@ -145,7 +145,7 @@ public class HomeView extends View implements Refreshable,ClickHandler {
                 } else if (txt.equals("Tickets")) {
                     centerpanel.setActiveItem(0);
                 } else if(txt.equals("Reports")){
-					((HomeController) HomeView.this.getController()).forwardToReportsView();
+//					((HomeController) HomeView.this.getController()).forwardToReportsView();
 				}
 	}
 }

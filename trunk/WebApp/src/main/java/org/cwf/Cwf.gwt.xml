@@ -41,6 +41,6 @@
     <servlet path="/user" class="org.cwf.server.UserServiceImpl"/>
     <servlet path="/authentication" class="org.cwf.server.AuthenticationServiceImpl"/>
     <servlet path="/settingService" class="org.cwf.server.SettingServiceImpl"/>
-    <servlet path="/responseTimeService" class="org.cwf.server.ResponseTimeServiceImpl"/>
+    <servlet path="/reportService" class="org.cwf.server.ReportServiceImpl"/>
 
 </module>

@@ -57,5 +57,22 @@
 			where problem_status = 'Closed' group by MONTH(date_problem_reported)
 		</createView>
 	</changeSet>
+	<changeSet id="add_problem_summary_view" author="vkakama@gmail.com">
+		<createView viewName="problem_summary">
+			select district_waterpoint.name,monthname(date_problem_reported) as month,year(date_problem_reported) as year,problem_status,count(problem_id) as number from problem
+			inner join district_waterpoint on problem.waterpoint_id = district_waterpoint.waterpoint_id
+			group by problem_status,month(date_problem_reported),year(date_problem_reported)
+		</createView>
+	</changeSet>
+	<changeSet id="add_district_comparisons" author="vkakama@gmail.com">
+		<createView viewName="district_comparisons">
+			select district.name as district,subcounty_name as subcounty,parish_name,villagename,waterpoint_id,(select name from waterpoint_types where type_id = waterpoint_type_id) as type
+			from district right join county
+			on district.id = county.district_id right join subcounty on county.county_id = subcounty.county_id right join parish
+			on parish.subcounty_id = subcounty.id right join village
+			on village.parish_id = parish.parish_id  right join waterpoint
+			on village.village_id = waterpoint.village_id order by subcounty_name,parish_name,villagename
+		</createView>
+	</changeSet>
 
 </databaseChangeLog>
