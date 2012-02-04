@@ -13,7 +13,7 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
-import org.cwf.client.service.ResponseTimeServiceAsync;
+import org.cwf.client.service.ReportServiceAsync;
 import org.cwf.client.views.reports.functionality.FunctionalityParameter;
 import org.m4water.server.admin.model.reports.ResponseTime;
 
@@ -26,11 +26,11 @@ public class FunctionalityParamController extends Controller {
 	AppMessages appMessages = GWT.create(AppMessages.class);
 	public final static EventType FUNCTIONALITY_PARAM = new EventType();
 	private FunctionalityParameter functionalityparemeter;
-	private ResponseTimeServiceAsync responseTimeAsync;
+	private ReportServiceAsync reportsAsync;
 
-	public FunctionalityParamController(ResponseTimeServiceAsync aResponseTimeAsync) {
+	public FunctionalityParamController(ReportServiceAsync aResponseTimeAsync) {
 		super();
-		this.responseTimeAsync = aResponseTimeAsync;
+		this.reportsAsync = aResponseTimeAsync;
 		registerEventTypes(FUNCTIONALITY_PARAM);
 	}
 
@@ -51,7 +51,7 @@ public class FunctionalityParamController extends Controller {
 
 	public void getResponseTime(String year, String district) {
 		GWT.log("HomeController : getResponseTime()");
-		responseTimeAsync.getResponseTimes(year, district, new M4waterAsyncCallback<List<ResponseTime>>() {
+		reportsAsync.getResponseTimes(year, district, new M4waterAsyncCallback<List<ResponseTime>>() {
 
 			@Override
 			public void onSuccess(List<ResponseTime> result) {

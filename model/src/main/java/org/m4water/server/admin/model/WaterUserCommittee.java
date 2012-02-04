@@ -14,9 +14,6 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
      private String commissioned;
      private String yrEstablished;
      private String trained;
-     private String collectFees;
-     private String regularService;
-     private String regularMeeting;
      private String noActiveMembers;
      private String noOfWomen;
      private String noOfWomenKeypos;
@@ -26,15 +23,12 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
     public WaterUserCommittee() {
     }
 
-    public WaterUserCommittee(String userCommitteeId, Waterpoint waterpoint, String commissioned, String yrEstablished, String trained, String collectFees, String regularService, String regularMeeting, String noActiveMembers, String noOfWomen, String noOfWomenKeypos, String noOfMembersOnWuc, String functionalityOfWuc) {
+    public WaterUserCommittee(String userCommitteeId, Waterpoint waterpoint, String commissioned, String yrEstablished, String trained, String noActiveMembers, String noOfWomen, String noOfWomenKeypos, String noOfMembersOnWuc, String functionalityOfWuc) {
        this.id = userCommitteeId;
        this.waterpoint = waterpoint;
        this.commissioned = commissioned;
        this.yrEstablished = yrEstablished;
        this.trained = trained;
-       this.collectFees = collectFees;
-       this.regularService = regularService;
-       this.regularMeeting = regularMeeting;
        this.noActiveMembers = noActiveMembers;
        this.noOfWomen = noOfWomen;
        this.noOfWomenKeypos = noOfWomenKeypos;
@@ -76,27 +70,6 @@ public class WaterUserCommittee  extends AbstractEditable<String> {
     
     public void setTrained(String trained) {
         this.trained = trained;
-    }
-    public String getCollectFees() {
-        return this.collectFees;
-    }
-    
-    public void setCollectFees(String collectFees) {
-        this.collectFees = collectFees;
-    }
-    public String getRegularService() {
-        return this.regularService;
-    }
-    
-    public void setRegularService(String regularService) {
-        this.regularService = regularService;
-    }
-    public String getRegularMeeting() {
-        return this.regularMeeting;
-    }
-    
-    public void setRegularMeeting(String regularMeeting) {
-        this.regularMeeting = regularMeeting;
     }
     public String getNoActiveMembers() {
         return this.noActiveMembers;

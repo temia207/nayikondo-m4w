@@ -189,11 +189,11 @@ public class SettingServiceImpl implements SettingService {
 	 wuc.setId(java.util.UUID.randomUUID().toString());
 	 wuc.setWaterpoint(waterPoint);
 	 wuc.setCommissioned(SettingGroup.getSetting(functionality, "commissioned").getValue());
-	 wuc.setCollectFees(SettingGroup.getSetting(functionality, "collectFees").getValue());
+//	 wuc.setCollectFees(SettingGroup.getSetting(functionality, "collectFees").getValue());
 	 wuc.setNoActiveMembers(SettingGroup.getSetting(functionality, "noActiveMembers").getValue());
 	 wuc.setNoOfWomen(SettingGroup.getSetting(functionality, "numberOfWomen").getValue());
-	 wuc.setRegularService(SettingGroup.getSetting(functionality, "regualarService").getValue());
-	 wuc.setRegularMeeting(SettingGroup.getSetting(functionality, "regularMeeting").getValue());
+//	 wuc.setRegularService(SettingGroup.getSetting(functionality, "regualarService").getValue());
+//	 wuc.setRegularMeeting(SettingGroup.getSetting(functionality, "regularMeeting").getValue());
 	 wuc.setTrained(SettingGroup.getSetting(functionality, "trained").getValue());
 	 wuc.setNoOfWomenKeypos(SettingGroup.getSetting(functionality, "womenKeyPosition").getValue());
 	 wuc.setYrEstablished(SettingGroup.getSetting(functionality, "yearEstablished").getValue());

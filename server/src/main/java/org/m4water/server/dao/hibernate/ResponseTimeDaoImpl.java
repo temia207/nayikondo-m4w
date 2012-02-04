@@ -27,23 +27,26 @@ public class ResponseTimeDaoImpl extends BaseDAOImpl<ResponseTime, Long> impleme
 	}
 
 	@Override
-	public List<ResponseTime> getResponseTimes(String year,String district) {
+	public List<ResponseTime> getResponseTimes(String year, String district) {
 		List<ResponseTime> responseTimes = new ArrayList<ResponseTime>();
-		String query = "SELECT pending_waterpoints.month,pending,fixed from pending_waterpoints "
-				+ "left join fixed_waterpoints on pending_waterpoints.month = fixed_waterpoints.month"+
-				" where month = '"+year+"' and district = '"+district+"'";
+		String query = "select name,monthname(date_problem_reported) as month,sum(if(problem_status ="
+				+ " 'open',1,0)) as open,sum(if(problem_status = 'closed',1,0)) as closed,"
+				+ "sum(if(problem_status = 'Suspended',1,0)) as suspended from problem inner join district_waterpoint"
+				+ " on problem.waterpoint_id = district_waterpoint.waterpoint_id where district_waterpoint.name = '" + district + "' "
+				+ "and year(date_problem_reported) = '"+year+"'"
+				+ "group by month(date_problem_reported) order by date_problem_reported ";
 		SQLQuery createQuery = getSession().createSQLQuery(query);
 		List list = createQuery.list();
 		for (Object object : list) {
 			Object[] strings = (Object[]) object;
 			ResponseTime resp = new ResponseTime();
-			resp.setMonth(strings[0] + "");
-			resp.setWaterPointsFixed(strings[1]  + "");
+			resp.setMonth(strings[1] + "");
 			resp.setWaterPointsPending(strings[2] + "");
+			resp.setWaterPointsFixed(strings[3] + "");
 			resp.setAverageResponseTime("");
 			resp.setStandardDeviation("");
 			responseTimes.add(resp);
-			System.out.println("========= "+strings[0]+"========= "+strings[1]+"========= "+strings[2]);
+			System.out.println("========= " + strings[0] + "========= " + strings[1] + "========= " + strings[2]);
 		}
 		return responseTimes;
 	}

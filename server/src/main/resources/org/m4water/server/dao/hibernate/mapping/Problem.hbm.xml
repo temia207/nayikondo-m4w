@@ -4,7 +4,7 @@
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.Problem" table="problem">
     <id name="id" type="string">
-      <column name="problem_id" length="200"/>
+      <column length="200" name="problem_id"/>
       <generator class="uuid.hex"/>
     </id>
     <many-to-one class="org.m4water.server.admin.model.Waterpoint" lazy="false" name="waterpoint">
@@ -22,19 +22,19 @@
       </column>
     </property>
     <property name="yawlid" type="string">
-        <column name="yawlid" length="200" not-null="true" />
-     </property>
-    <set inverse="true" name="problemLogs" lazy="false" cascade="save-update,delete-orphan">
+      <column length="200" name="yawlid" not-null="true"/>
+    </property>
+    <set cascade="save-update,delete-orphan" inverse="true" lazy="false" name="problemLogs">
       <key>
         <column name="problem_id" not-null="true"/>
       </key>
       <one-to-many class="org.m4water.server.admin.model.ProblemLog"/>
     </set>
-        <set name="faultAssessments" inverse="true" lazy="false">
-            <key>
-                <column name="problem_id" length="200" not-null="true" />
-            </key>
-            <one-to-many class="org.m4water.server.admin.model.FaultAssessment" />
-        </set>
+    <set inverse="true" lazy="false" name="faultAssessments">
+      <key>
+        <column length="200" name="problem_id" not-null="true"/>
+      </key>
+      <one-to-many class="org.m4water.server.admin.model.FaultAssessment"/>
+    </set>
   </class>
 </hibernate-mapping>

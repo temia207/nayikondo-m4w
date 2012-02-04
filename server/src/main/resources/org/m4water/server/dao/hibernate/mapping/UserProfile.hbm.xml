@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 18, 2011 5:57:08 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="org.m4water.server.admin.model.UserProfile" table="user_profile" catalog="m4water">
-        <id name="id" type="string">
-            <column name="user_profile_id" length="200" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="permission" class="org.m4water.server.admin.model.Permission" fetch="select" lazy="false">
-            <column name="permission_id" not-null="true" />
-        </many-to-one>
-        <property name="profileDescription" type="string">
-            <column name="profile_description" length="200" not-null="true" />
-        </property>
-        <set name="users" inverse="true" >
-            <key>
-                <column name="staff_profile_id" length="200" />
-            </key>
-            <one-to-many class="org.m4water.server.admin.model.User" />
-        </set>
-    </class>
+  <class catalog="m4water" name="org.m4water.server.admin.model.UserProfile" table="user_profile">
+    <id name="id" type="string">
+      <column length="200" name="user_profile_id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.m4water.server.admin.model.Permission" fetch="select" lazy="false" name="permission">
+      <column name="permission_id" not-null="true"/>
+    </many-to-one>
+    <property name="profileDescription" type="string">
+      <column length="200" name="profile_description" not-null="true"/>
+    </property>
+    <set inverse="true" name="users">
+      <key>
+        <column length="200" name="staff_profile_id"/>
+      </key>
+      <one-to-many class="org.m4water.server.admin.model.User"/>
+    </set>
+  </class>
 </hibernate-mapping>

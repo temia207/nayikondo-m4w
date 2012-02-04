@@ -98,7 +98,13 @@ public class TicketSms implements TicketService, InitializingBean {
 
         ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, complaint);
         problem.getProblemLogs().add(problemLog);
-	String caseID = launchCase(problem);
+		String caseID = null;
+		try {
+			caseID = launchCase(problem);
+		} catch (Exception e) {
+			waterPoint.getProblems().remove(problem);
+			throw new RuntimeException(e);
+		}
 	problem.setYawlid("T"+caseID+"-"+c.get(Calendar.YEAR));
         saveProblem(problem);
 
