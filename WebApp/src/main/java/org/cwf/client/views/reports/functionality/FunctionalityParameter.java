@@ -166,6 +166,9 @@ public class FunctionalityParameter extends View {
 		List<District> districts = new ArrayList<District>();
 		districts.add(new District("District"));
 		districts.add(new District("Kasese"));
+		districts.add(new District("Lira"));
+		districts.add(new District("Arua"));
+		districts.add(new District("Kabarole"));
 		return districts;
 	}
 }

@@ -102,12 +102,12 @@
         <url-pattern>/cwf/settingService</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>responseTimeService</servlet-name>
-        <servlet-class>org.cwf.server.ResponseTimeServiceImpl</servlet-class>
+        <servlet-name>reportService</servlet-name>
+        <servlet-class>org.cwf.server.ReportServiceImpl</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>responseTimeService</servlet-name>
-        <url-pattern>/cwf/responseTimeService</url-pattern>
+        <servlet-name>reportService</servlet-name>
+        <url-pattern>/cwf/reportService</url-pattern>
     </servlet-mapping>
 <!--///////////////////////////////////////////////////////////////	-->
 

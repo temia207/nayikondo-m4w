@@ -59,7 +59,7 @@ import org.cwf.client.controllers.TicketDetailsController;
 import org.cwf.client.service.AssessmentClientServiceAsync;
 import org.cwf.client.service.InspectionClientServiceAsync;
 import org.cwf.client.service.ProblemServiceAsync;
-import org.cwf.client.service.ResponseTimeServiceAsync;
+import org.cwf.client.service.ReportServiceAsync;
 import org.cwf.client.service.SettingServiceAsync;
 import org.cwf.client.service.UserServiceAsync;
 import org.cwf.client.service.WaterPointServiceAsync;
@@ -85,7 +85,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     UserServiceAsync userService;
     YawlServiceAsync yawlService;
     SettingServiceAsync settingService;
-	ResponseTimeServiceAsync responseTimeService;
+	ReportServiceAsync reportsService;
     // top level UI components
     private Viewport viewport;
     private Portal portal;
@@ -114,21 +114,21 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         yawlService = YawlServiceAsync.Util.getInstance();
         userService = UserServiceAsync.Util.getInstance();
         settingService = SettingServiceAsync.Util.getInstance();
-		responseTimeService = ResponseTimeServiceAsync.Util.getInstance();
+		reportsService = ReportServiceAsync.Util.getInstance();
         initializeUi();
         RootPanel.get().setStylePrimaryName("body");
         LoginController controller = new LoginController(userService);
 
         Dispatcher dispatcher = Dispatcher.get();
         dispatcher.addController(controller);
-        dispatcher.addController(new HomeController(ticketSmsService,waterPointService,yawlService,settingService,responseTimeService));
+        dispatcher.addController(new HomeController(ticketSmsService,waterPointService,yawlService,settingService,reportsService));
         dispatcher.addController(new EditWaterPointController(waterPointService,inspectionService));
         dispatcher.addController(new TicketDetailsController(ticketSmsService,inspectionService,assessmentService));
         dispatcher.addController(new CommentController(ticketSmsService));
         dispatcher.addController(new ProblemHistoryController(ticketSmsService,assessmentService));
         dispatcher.addController(new EditNewWaterPointController(waterPointService, settingService));
-		dispatcher.addController(new ReportsController(responseTimeService));
-		dispatcher.addController(new FunctionalityParamController(responseTimeService));
+		dispatcher.addController(new ReportsController(reportsService));
+		dispatcher.addController(new FunctionalityParamController(reportsService));
 
         RefreshablePublisher publisher = RefreshablePublisher.get();
         publisher.subscribe(RefreshableEvent.Type.NAME_CHANGE, this);
