@@ -19,15 +19,6 @@
     <property name="trained" type="string">
       <column length="200" name="trained" not-null="true"/>
     </property>
-    <property name="collectFees" type="string">
-      <column length="200" name="collect_fees" not-null="true"/>
-    </property>
-    <property name="regularService" type="string">
-      <column length="200" name="regular_service" not-null="true"/>
-    </property>
-    <property name="regularMeeting" type="string">
-      <column length="200" name="regular_meeting" not-null="true"/>
-    </property>
     <property name="noActiveMembers" type="string">
       <column length="200" name="no_active_members" not-null="true"/>
     </property>
@@ -37,11 +28,11 @@
     <property name="noOfWomenKeypos" type="string">
       <column length="200" name="no_of_women_keypos" not-null="true"/>
     </property>
-        <property name="noOfMembersOnWuc" type="string">
-            <column name="no_of_members_on_wuc" length="200" />
-        </property>
-        <property name="functionalityOfWuc" type="string">
-            <column name="functionality_of_wuc" length="200" />
-        </property>
+    <property name="noOfMembersOnWuc" type="string">
+      <column length="200" name="no_of_members_on_wuc"/>
+    </property>
+    <property name="functionalityOfWuc" type="string">
+      <column length="200" name="functionality_of_wuc"/>
+    </property>
   </class>
 </hibernate-mapping>

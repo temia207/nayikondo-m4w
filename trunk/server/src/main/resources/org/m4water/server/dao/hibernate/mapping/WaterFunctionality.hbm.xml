@@ -15,9 +15,9 @@
         <comment>due to hibernate issues we use varchar for now. can be either T or F</comment>
       </column>
     </property>
-        <property name="dateNonFunctional" type="date">
-            <column name="date_non_functional" length="10" not-null="true" />
-        </property>
+    <property name="dateNonFunctional" type="date">
+      <column length="10" name="date_non_functional" not-null="true"/>
+    </property>
     <property name="reason" type="string">
       <column length="200" name="reason" not-null="true"/>
     </property>
@@ -32,15 +32,15 @@
     </property>
     <property name="dateLastMajorService" type="date">
       <column length="10" name="date_last_major_service" not-null="true"/>
-	</property>
-	<property name="anyPreviousRepairs" type="string">
-	    <column name="any_previous_repairs" length="200" not-null="true" />
-	</property>
-	<property name="anyPreviousMinorService" type="string">
-	    <column name="any_previous_minor_service" length="200" not-null="true" />
-	</property>
-	<property name="anyPreviousMajorService" type="string">
-	    <column name="any_previous_major_service" length="200" not-null="true" />
-	</property>
+    </property>
+    <property name="anyPreviousRepairs" type="string">
+      <column length="200" name="any_previous_repairs" not-null="true"/>
+    </property>
+    <property name="anyPreviousMinorService" type="string">
+      <column length="200" name="any_previous_minor_service" not-null="true"/>
+    </property>
+    <property name="anyPreviousMajorService" type="string">
+      <column length="200" name="any_previous_major_service" not-null="true"/>
+    </property>
   </class>
 </hibernate-mapping>

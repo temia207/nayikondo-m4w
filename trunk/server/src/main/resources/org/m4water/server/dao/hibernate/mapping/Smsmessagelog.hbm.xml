@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 16, 2011 6:01:53 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="org.m4water.server.admin.model.Smsmessagelog" table="smsmessagelog" catalog="m4water">
-        <id name="id" type="string">
-            <column name="id" length="200" />
-            <generator class="assigned" />
-        </id>
-        <property name="textmeId" type="string">
-            <column name="textme_id" length="200" unique="true" />
-        </property>
-        <property name="sender" type="string">
-            <column name="sender" length="200" />
-        </property>
-        <property name="time" type="string">
-            <column name="time" length="200" />
-        </property>
-        <property name="message" type="string">
-            <column name="message" length="65535" />
-        </property>
-    </class>
+  <class catalog="m4water" name="org.m4water.server.admin.model.Smsmessagelog" table="smsmessagelog">
+    <id name="id" type="string">
+      <column length="200" name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="textmeId" type="string">
+      <column length="200" name="textme_id" unique="true"/>
+    </property>
+    <property name="sender" type="string">
+      <column length="200" name="sender"/>
+    </property>
+    <property name="time" type="string">
+      <column length="200" name="time"/>
+    </property>
+    <property name="message" type="string">
+      <column length="65535" name="message"/>
+    </property>
+  </class>
 </hibernate-mapping>

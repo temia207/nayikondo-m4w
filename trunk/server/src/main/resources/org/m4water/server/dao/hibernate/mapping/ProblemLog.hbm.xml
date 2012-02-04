@@ -4,10 +4,10 @@
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.ProblemLog" table="problem_log">
     <id name="id" type="string">
-      <column name="log_id" length="200"/>
+      <column length="200" name="log_id"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="org.m4water.server.admin.model.Problem" lazy="false"  fetch="join" name="problem">
+    <many-to-one class="org.m4water.server.admin.model.Problem" fetch="join" lazy="false" name="problem">
       <column name="problem_id" not-null="true"/>
     </many-to-one>
     <property name="senderNo" type="string">

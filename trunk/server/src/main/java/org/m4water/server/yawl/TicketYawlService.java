@@ -272,9 +272,6 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
                 wuc_established,
                 "1900",
                 wuc_trained,
-                "N/A Collect Fees",
-                wuc_functional,
-                "Regular Service Not Known",
                 activeWUCmembers,
                 wuc_women_number,
                 management_type,"","");
