@@ -29,6 +29,7 @@ import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.muk.fcit.results.sms.SMSServer;
 import org.muk.fcit.results.util.MLogger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -37,8 +38,9 @@ import org.muk.fcit.results.util.MLogger;
  */
 public class TextMeUgChannel implements Channel {
 
+      private org.slf4j.Logger log = LoggerFactory.getLogger(TextMeUgChannel.class);
         private String hostNameOrVariable;
-        private final MLogger log = MLogger.getLogger();
+
         private List<SMSMessage> bufferedMessages = new ArrayList<SMSMessage>();
         private Set<Integer> alreadyReceivedIds = new HashSet<Integer>();
         private String password;
@@ -99,10 +101,15 @@ public class TextMeUgChannel implements Channel {
                 for (;;) {
                         try {
                                 String executeSMSGet = executeSMSGet();
-                                // log.debug(executeSMSGet.substring(0, 50), null, "TextMe.UG.Channel=" + this.hostNameOrVariable);
+                                //log.trace(executeSMSGet.substring(0, 50), null, "TextMe.UG.Channel=" + this.hostNameOrVariable);
                                 newMsgArrivals = parseJsonString(executeSMSGet);
+				log.trace("************Got ["+newMsgArrivals.size()+"] new Arrivals");
+				log.trace("************Now receive message contains ["+alreadyReceivedIds.size()+"]");
                                 if (executeSMSGet == null || newMsgArrivals.isEmpty())
-                                        Thread.sleep(2000);
+				{
+				    log.trace("************Sleeping for One Seconds");
+                                        Thread.sleep(1000);
+				}
                                 else
                                         break;
 
@@ -127,19 +134,19 @@ public class TextMeUgChannel implements Channel {
                 URI uri = buildUrl();
 
                 HttpClient client = new DefaultHttpClient();
-                HttpResponse httpResponse = client.execute(new HttpGet(uri));
-                //  System.out.println("Executing URL for Server...");
+                HttpResponse httpResponse = client.execute(new HttpGet("http://localhost:8084/VirtualTextMeUg/pollsms"));
+                log.trace("************Executing URL for Server...");
 
                 StatusLine statusLine = httpResponse.getStatusLine();
                 if (statusLine.getStatusCode() != 200) {
-                        System.out.println("Failed To Query the SMS HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase() + "URL: " + uri.toString());
+                        log.error("Failed To Query the SMS HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase() + "URL: " + uri.toString());
                         return null;
                 }
 
                 HttpEntity entity = httpResponse.getEntity();
 
                 if (entity == null) {
-                        System.out.println("Server Replied with Invalid response for message: ");
+                        log.error("Server Replied with Invalid response for message: ");
                 } else {
                         InputStream content = entity.getContent();
                         return IOUtils.toString(content);
@@ -171,7 +178,7 @@ public class TextMeUgChannel implements Channel {
                                 }
                         }
                 } catch (Exception e) {
-                        log.warn("Problem while Deserialising json: " + executeSMSGet, e, "TextMeUgChannel");
+                        log.error("Problem while Deserialising json: " + jsonResponse, e);
                 }
 
                 return newMessages;
