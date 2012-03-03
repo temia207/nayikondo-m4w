@@ -26,7 +26,6 @@ import org.muk.fcit.results.sms.Channel;
 import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.muk.fcit.results.sms.SMSServer;
-import org.muk.fcit.results.util.MLogger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
