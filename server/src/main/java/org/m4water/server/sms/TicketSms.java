@@ -27,6 +27,7 @@ import org.muk.fcit.results.sms.RequestListener;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.muk.fcit.results.sms.SMSServer;
 import org.muk.fcit.results.util.MLogger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Transactional
 public class TicketSms implements TicketService, InitializingBean {
 
-    MLogger log = MLogger.getLogger();
+   private org.slf4j.Logger log = LoggerFactory.getLogger(TextMeUgChannel.class);
     @Autowired
     private WaterPointDao waterPointDao;
     @Autowired
@@ -77,7 +78,7 @@ public class TicketSms implements TicketService, InitializingBean {
             }
         };
         Channel ch = new TextMeUgChannel("m4w", "Trip77e");
-        SMSServer server = new SMSServer(ch, requestListener, 5);
+        SMSServer server = new SMSServer(ch, requestListener, 1);
         System.out.println("Starting SMS server");
         server.startServer();
         System.out.println("Started SMS server");
