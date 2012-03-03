@@ -19,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,14 +29,20 @@ import org.springframework.stereotype.Component;
 @Component("smsService")
 public class SMSServiceImpl  {
 
-      
+    private org.slf4j.Logger log = LoggerFactory.getLogger(SMSServiceImpl.class);
+    
         public void sendSMS(String number, String message) {
+	    //FIXME
+//	    if(0<1) {
+//		log.debug("Sending message: <" + message + "> to " + number);
+//		return;
+//	    }
                 try {
                         String bodyContent = executeSMSGet(number, message);
-                        System.out.println("Server Replied: " + bodyContent);
+                        log.debug("Server Replied: " + bodyContent);
 
                         if (bodyContent == null) {
-                                System.out.println("SMS Server experienced and error with request");
+                                log.debug("SMS Server experienced and error with request");
                         }
 
                         boolean sendSuccesful = isSendSuccesful(bodyContent);
@@ -45,15 +52,14 @@ public class SMSServiceImpl  {
 
 
                         if (sendSuccesful)
-                                System.out.println("Sending message: <" + message + "> to " + number);
+                                log.debug("Sending message: <" + message + "> to " + number);
                         else {
-                                System.out.println("Sending Message Failed: <" + getMessageString(number, message) + "> WIth Status Code <" + bodyContent + ">");
+                                log.debug("Sending Message Failed: <" + getMessageString(number, message) + "> WIth Status Code <" + bodyContent + ">");
                         }
                 } catch (IOException ex) {
-                        System.out.println("Error While Sending message: " + getMessageString(number, message));
-                        ex.printStackTrace();
+                        log.error("Error While Sending message: " + getMessageString(number, message),ex);
                 } catch (URISyntaxException ex) {
-                        System.out.println("Failed sending message: " + ex.getMessage());
+                        log.error("Failed sending message: " + ex.getMessage());
                         return;
                 }
 
@@ -64,18 +70,18 @@ public class SMSServiceImpl  {
 
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse httpResponse = client.execute(new HttpGet(uri));
-                System.out.println("Executing URL for Server...");
+                log.debug("Connecting to SMS Server...");
 
                 StatusLine statusLine = httpResponse.getStatusLine();
                 if (statusLine.getStatusCode() != 200) {
-                        System.out.println("Failed seneding Reminder message to" + getMessageString(number, message) + " HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase());
+                        log.info("Failed seneding Reminder message to" + getMessageString(number, message) + " HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase());
                         return null;
                 }
 
                 HttpEntity entity = httpResponse.getEntity();
 
                 if (entity == null) {
-                        System.out.println("Server Replied with Invalid response for message: " + getMessageString(number, message));
+                        log.info("Server Replied with Invalid response for message: " + getMessageString(number, message));
                 } else {
                         InputStream content = entity.getContent();
                         return IOUtils.toString(content);
@@ -93,7 +99,7 @@ public class SMSServiceImpl  {
                 URI uri = URIUtils.createURI("http", "TextMe.UG", 80, "/bulk_api/get.php3",
                         URLEncodedUtils.format(qparams, "UTF-8"), null);
                 HttpGet httpget = new HttpGet(uri);
-                System.out.println(httpget.getURI());
+                log.trace("HTTP QUERY: "+httpget.getURI());
                 return uri;
         }
 

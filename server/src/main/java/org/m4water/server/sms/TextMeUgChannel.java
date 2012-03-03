@@ -81,7 +81,9 @@ public class TextMeUgChannel implements Channel {
                 open();
                 while (bufferedMessages.isEmpty()) {
                         try {
+				log.trace("*******Wating for new messages***********");
                                 waitForNewMessages();
+				log.trace("***********Got new messages**************");
                         } catch (Exception ex) {
                                 throw new ChannelException(ex);
                         }
@@ -90,7 +92,7 @@ public class TextMeUgChannel implements Channel {
         }
 
         public void write(Object obj, String destination) throws ChannelException {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("@Not supported yet.");
         }
 
         public void close() {
@@ -99,30 +101,35 @@ public class TextMeUgChannel implements Channel {
         private void waitForNewMessages() throws IOException, TimeoutException, URISyntaxException {
                 List<TextMeMessage> newMsgArrivals = null;
                 for (;;) {
+			log.trace("");
+			log.trace("@----------------------------------");
                         try {
                                 String executeSMSGet = executeSMSGet();
                                 //log.trace(executeSMSGet.substring(0, 50), null, "TextMe.UG.Channel=" + this.hostNameOrVariable);
                                 newMsgArrivals = parseJsonString(executeSMSGet);
-				log.trace("************Got ["+newMsgArrivals.size()+"] new Arrivals");
-				log.trace("************Now receive message contains ["+alreadyReceivedIds.size()+"]");
+				log.trace("@And Got ["+newMsgArrivals.size()+"] new Message Arrivals");
+				log.trace("@Now received messages cache contains ["+alreadyReceivedIds.size()+"]");
                                 if (executeSMSGet == null || newMsgArrivals.isEmpty())
 				{
-				    log.trace("************Sleeping for One Seconds");
-                                        Thread.sleep(1000);
+				    log.trace("@Now Sleeping for 3 Seconds...");
+                                        Thread.sleep(3000);
 				}
-                                else
+				else{
+				    log.trace("@----------------------------------");
                                         break;
+				}
 
                         } catch (InterruptedException ex) {
                                 Logger.getLogger(TextMeUgChannel.class.getName()).log(Level.SEVERE, null, ex);
                         }
+			log.trace("@----------------------------------");
                 }
                 bufferTheMessages(newMsgArrivals);
         }
 
         private void bufferTheMessages(List<TextMeMessage> msgs) {
                 for (TextMeMessage message : msgs) {
-                        log.debug("=======> Received SMS: " + message.getMessage(), null, message.getSender());
+                        log.debug("@Received SMS: " + message.getMessage(), null, message.getSender());
                         SMSMessage req = new SMSMessage(message.getSender(), message.getMessage(), this);
                         req.put("msgID", message.getMsgID());
                         req.put("time", message.getTime());
@@ -134,19 +141,20 @@ public class TextMeUgChannel implements Channel {
                 URI uri = buildUrl();
 
                 HttpClient client = new DefaultHttpClient();
-                HttpResponse httpResponse = client.execute(new HttpGet("http://localhost:8084/VirtualTextMeUg/pollsms"));
-                log.trace("************Executing URL for Server...");
+                //FIXME HttpResponse httpResponse = client.execute(new HttpGet("http://localhost:8084/VirtualTextMeUg/pollsms"));
+		 HttpResponse httpResponse = client.execute(new HttpGet(uri));
+                log.trace("@Executing URL for Server...");
 
                 StatusLine statusLine = httpResponse.getStatusLine();
                 if (statusLine.getStatusCode() != 200) {
-                        log.error("Failed To Query the SMS HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase() + "URL: " + uri.toString());
+                        log.error("@Failed To Query the SMS HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase() + "URL: " + uri.toString());
                         return null;
                 }
 
                 HttpEntity entity = httpResponse.getEntity();
 
                 if (entity == null) {
-                        log.error("Server Replied with Invalid response for message: ");
+                        log.error("@Server Replied with Invalid response for message: ");
                 } else {
                         InputStream content = entity.getContent();
                         return IOUtils.toString(content);
@@ -171,6 +179,7 @@ public class TextMeUgChannel implements Channel {
 
                 try {
                         TextMeMessageList msgList = gs.fromJson(jsonResponse, TextMeMessageList.class);
+			log.trace("@Received ["+(msgList.messages != null? msgList.messages.size():0)+"] Queued Messages from the SMS Server");
                         for (TextMeMessage sMSMessage : msgList.messages) {
                                 if (!alreadyReceivedIds.contains(sMSMessage.getIntID())) {
                                         newMessages.add(sMSMessage);
@@ -178,7 +187,7 @@ public class TextMeUgChannel implements Channel {
                                 }
                         }
                 } catch (Exception e) {
-                        log.error("Problem while Deserialising json: " + jsonResponse, e);
+                        log.error("@Problem while Deserialising json: " + jsonResponse, e);
                 }
 
                 return newMessages;
@@ -214,7 +223,7 @@ public class TextMeUgChannel implements Channel {
 
                         public void processRequest(SMSMessage request) {
                                 Thread currentThread = Thread.currentThread();
-                                MLogger.getLogger().debug("Processing request by thread: " + currentThread.getName() + " From: " + request.getSender(), null, "textme.ug.gateway");
+                                MLogger.getLogger().debug("@Processing request by thread: " + currentThread.getName() + " From: " + request.getSender(), null, "textme.ug.gateway");
                                 try {
                                         Thread.sleep(5000);
                                 } catch (InterruptedException ex) {

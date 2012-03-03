@@ -45,7 +45,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Transactional
 public class TicketSms implements TicketService, InitializingBean {
 
-   private org.slf4j.Logger log = LoggerFactory.getLogger(TextMeUgChannel.class);
+   private static org.slf4j.Logger log = LoggerFactory.getLogger(TicketSms.class);
+   private int msgCount = 0;
     @Autowired
     private WaterPointDao waterPointDao;
     @Autowired
@@ -78,9 +79,9 @@ public class TicketSms implements TicketService, InitializingBean {
         };
         Channel ch = new TextMeUgChannel("m4w", "Trip77e");
         SMSServer server = new SMSServer(ch, requestListener, 1);
-        System.out.println("Starting SMS server");
+        log.info("Starting SMS server");
         server.startServer();
-        System.out.println("Started SMS server");
+        log.info("Started SMS server");
     }
 
     private void createNewProblem(String complaint, Waterpoint waterPoint, String sender) throws HibernateException {
@@ -111,8 +112,9 @@ public class TicketSms implements TicketService, InitializingBean {
     }
 
     private void processSms(final SMSMessage request) throws TransactionException {
-        System.out.println("new message " + request.getSmsData());
+        log.debug("Fresh New message Received From SMS Channel" + request.getSmsData());
         if (!isMessageNew(request, false)) {
+	      log.debug("Received New Message Form SMS Channel But Its Not New: Message<"+request.getSmsData()+":"+ request.getSender()+">");
             return;
         }
 
@@ -130,9 +132,10 @@ public class TicketSms implements TicketService, InitializingBean {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 try {
-
+		    
                     if (!isMessageNew(request, true)) {
-                        return;
+                     	    log.debug("Received New Message Form SMS Channel But Its Not New: Message<"+request.getSmsData()+":"+ request.getSender()+">");
+			return;
                     }
 
                     saveAndCacheMessage(request);
@@ -145,7 +148,7 @@ public class TicketSms implements TicketService, InitializingBean {
 
                 } catch (Throwable x) {
                     smsService.sendSMS(request.getSender(), "Server is temporarily down try again later");
-                    x.printStackTrace();
+                    log.error("Error occured while processing SMS", x);
                 }
             }
         });
@@ -211,15 +214,18 @@ public class TicketSms implements TicketService, InitializingBean {
         return yawlService.launchWaterPointFlow(problem);
     }
 
-    public boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
-        if (loadFromDb) {
+    public  boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
+
+	if (loadFromDb) {
             mayBeLoadMsgIds();
         }
         Object msgId = message.get("msgID");
         if (msgId == null) {
             return true;
         }
-        return !receivedIds.contains(msgId + "");
+	final boolean isNew = !receivedIds.contains(msgId + "");
+	
+        return isNew;
     }
 
     public void setMessageLogDao(SmsMessageLogDao messageLogDao) {
@@ -259,6 +265,7 @@ public class TicketSms implements TicketService, InitializingBean {
         for (Smsmessagelog smsmessagelog : findAll) {
             receivedIds.add(smsmessagelog.getTextmeId());
         }
+	log.debug(">>Sms Message DAO loaded ["+receivedIds.size()+"] Messages");
     }
 
     public String cleanSms(final SMSMessage request) {
@@ -272,8 +279,10 @@ public class TicketSms implements TicketService, InitializingBean {
     }
 
     private void saveNewMessageToDb(SMSMessage request) {
-        log.info("Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
-        messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
+	log.debug("saveNewMessageToDb()...NumCalls: "+ (++this.msgCount));
+        log.info("@>>>Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
+      //FIXME
+	  messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
     }
 
     private static boolean validWaterPointID(String sourceId) {

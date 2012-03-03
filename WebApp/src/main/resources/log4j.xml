@@ -18,11 +18,24 @@
             <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n" />
         </layout>
     </appender>
+    
+    <appender name="SMSLOGFILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="maxFileSize" value="1000KB" />
+        <param name="maxBackupIndex" value="10" />
+        <param name="File" value="${catalina.base}/logs/m4wsms.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n" />
+        </layout>
+    </appender>
 
     <logger name="org.m4water" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="LOGFILE" />
+    </logger>
+    <logger name="org.m4waterserver.sms" additivity="false">
+        <level value="TRACE" />
+        <appender-ref ref="SMSLOGFILE" />
     </logger>
 <!--    <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
