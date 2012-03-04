@@ -20,7 +20,7 @@
     </appender>
     
     <appender name="SMSLOGFILE" class="org.apache.log4j.RollingFileAppender">
-        <param name="maxFileSize" value="1000KB" />
+        <param name="maxFileSize" value="10000KB" />
         <param name="maxBackupIndex" value="10" />
         <param name="File" value="${catalina.base}/logs/m4wsms.log" />
         <layout class="org.apache.log4j.PatternLayout">
