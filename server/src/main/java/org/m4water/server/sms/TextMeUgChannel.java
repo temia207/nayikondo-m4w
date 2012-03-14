@@ -146,6 +146,7 @@ public class TextMeUgChannel implements Channel {
                 log.trace("@Executing URL for Server...");
 
                 StatusLine statusLine = httpResponse.getStatusLine();
+                log.trace("Succesfully executed");
                 if (statusLine.getStatusCode() != 200) {
                         log.error("@Failed To Query the SMS HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase() + "URL: " + uri.toString());
                         return null;
@@ -156,8 +157,13 @@ public class TextMeUgChannel implements Channel {
                 if (entity == null) {
                         log.error("@Server Replied with Invalid response for message: ");
                 } else {
+                    log.trace("@Reading content from stream...");
                         InputStream content = entity.getContent();
-                        return IOUtils.toString(content);
+                        log.trace("@Done done reading content. Converting Stream to string...");
+                        String msgs = IOUtils.toString(content);
+                        log.trace("@Successfuly converted stream to String with");
+                        return msgs;
+                        
                 }
                 return null;
         }
