@@ -66,20 +66,24 @@ public class SMSCustomService extends InterfaceBWebsideController {
                         log.error("handleEnabledWorkItemEvent: Error While processing enable workitem", ex);
                 } catch (IOException ex) {
                         log.error("handleEnabledWorkItemEvent: Error While processing enable workitem", ex);
+                }catch(Exception ex){
+                        log.error("handleEnabledWorkItemEvent: Error While processing enable workitem", ex);
                 }
         }
 
         private void processWorkItem(WorkItemRecord enabledWorkItem) throws IOException, JDOMException {
-                String userName = getValueFromWorkItem(enabledWorkItem, "name");
+               try{ String userName = getValueFromWorkItem(enabledWorkItem, "name");
                 String phoneNo = userService.getPhoneNoByUsername(userName);
                 if (phoneNo == null) {
                         sendSmsUsingParams(enabledWorkItem);
                 } else {
                         smsService.sendSMS(phoneNo, userName);
                 }
-                String wrap = StringUtil.wrap(null, getDecompositionID(enabledWorkItem));
-
-                checkInWorkItem(enabledWorkItem, wrap);
+               }finally{
+                  String wrap = StringUtil.wrap(null, getDecompositionID(enabledWorkItem));
+                  checkInWorkItem(enabledWorkItem, wrap); 
+               }
+                
         }
 
         public void checkInWorkItem(WorkItemRecord wir, String outPut) throws IOException, JDOMException {
