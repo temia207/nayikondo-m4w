@@ -47,10 +47,6 @@ public class SMSServiceImpl  {
 
                         boolean sendSuccesful = isSendSuccesful(bodyContent);
 
-                        if (!sendSuccesful && shouldResend(bodyContent))
-                                sendSMS(number, message);
-
-
                         if (sendSuccesful)
                                 log.debug("Sending message: <" + message + "> to " + number);
                         else {
@@ -91,15 +87,17 @@ public class SMSServiceImpl  {
 
         public URI buildUrl(String number, String message) throws URISyntaxException {
                 List<NameValuePair> qparams = new ArrayList<NameValuePair>();
-                qparams.add(new BasicNameValuePair("email", "kayondor@gmail.com"));
-                qparams.add(new BasicNameValuePair("password", "0872a1"));
-                qparams.add(new BasicNameValuePair("destination", number));
-                qparams.add(new BasicNameValuePair("source", "M4W"));
+                qparams.add(new BasicNameValuePair("username", "kayondor@gmail.com"));
+                qparams.add(new BasicNameValuePair("password", "m4w!!2012"));
+                qparams.add(new BasicNameValuePair("recipients", number));
+                qparams.add(new BasicNameValuePair("from", "M4W"));
                 qparams.add(new BasicNameValuePair("message", message+""));
-                URI uri = URIUtils.createURI("http", "TextMe.UG", 80, "/bulk_api/get.php3",
+                qparams.add(new BasicNameValuePair("token", "c4ca4238a0b923820dcc509a6f75849b"));
+                qparams.add(new BasicNameValuePair("type", "normal"));
+                //http://208.111.47.244/api.php 
+                URI uri = URIUtils.createURI("http", "208.111.47.244", 80, "/api.php",
                         URLEncodedUtils.format(qparams, "UTF-8"), null);
-                HttpGet httpget = new HttpGet(uri);
-                log.trace("HTTP QUERY: "+httpget.getURI());
+               log.debug(uri.toString());
                 return uri;
         }
 
@@ -108,15 +106,11 @@ public class SMSServiceImpl  {
         }
 
         private boolean isSendSuccesful(String content) throws IOException {
-                return hasCode("8000", content);
-        }
-
-        private boolean shouldResend(String content) {
-                return hasCode("6000", content);
+                return hasCode("Error", content);
         }
 
         private boolean hasCode(String code, String response) {
                 String trim = response.trim();
-                return trim.startsWith(code + "|");
+                return trim.startsWith(code + ":");
         }
 }
