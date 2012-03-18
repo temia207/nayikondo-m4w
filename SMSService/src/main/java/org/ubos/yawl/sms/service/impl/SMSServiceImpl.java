@@ -36,6 +36,7 @@ public class SMSServiceImpl implements SMSService {
 
                         if (bodyContent == null) {
                                 log.error("SMS Server experienced and error with request");
+                                return;
                         }
 
                         boolean sendSuccesful = isSendSuccesful(bodyContent);
