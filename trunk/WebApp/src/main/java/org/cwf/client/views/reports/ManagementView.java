@@ -18,7 +18,8 @@ import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.views.reports.coverage.DistrictComparison;
 import org.cwf.client.views.reports.coverage.ParishComparison;
 import org.cwf.client.views.reports.coverage.SubcountyComparison;
-import org.cwf.client.views.reports.management.WUCManagement;
+import org.cwf.client.views.reports.management.ServiceRepairs;
+import org.cwf.client.views.reports.management.WUCManagementView;
 
 /**
  *
@@ -50,10 +51,10 @@ public class ManagementView extends ContentPanel{
 //				((ReportsController) parentView.getController()).forwardToReportsView();
 			}
 		});
-		WUCManagement page1 = new WUCManagement ();
+		WUCManagementView page1 = new WUCManagementView (parentView);
 		page1.setWidth("100%");
 		wucmanagement.add(page1);
-
+		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.WUC_MANAGEMENT, page1);
 
 		TabItem servicerepairs = new TabItem("Service And Repairs");
 		servicerepairs.setLayout(new FitLayout());
@@ -64,7 +65,7 @@ public class ManagementView extends ContentPanel{
 //				((ReportsController) parentView.getController()).forwardToReportsView();
 			}
 		});
-		SubcountyComparison page2 = new SubcountyComparison();
+		ServiceRepairs  page2 = new ServiceRepairs(parentView);
 		page2.setWidth("100%");
 		servicerepairs.add(page2);
 		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RESPONSE_TIME, page2);

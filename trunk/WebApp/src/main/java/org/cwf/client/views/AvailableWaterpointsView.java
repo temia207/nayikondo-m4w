@@ -10,9 +10,11 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.grid.BufferView;
@@ -101,7 +103,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
-        grid.addPlugin(createFilters());
+//        grid.addPlugin(createFilters());
         grid.setSelectionModel(sm);
         grid.addPlugin(sm);
         BufferView buffer = new BufferView();
@@ -114,13 +116,21 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                //launch baseline work flow
-                WaterPointModel point = grid.getSelectionModel().getSelectedItem();
-                HomeController controller = (HomeController) parentView.getController();
-                controller.launchBaseline(point.getId());
-                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WATERPOINT_CHANGES,point.getWaterPointSummary()));
-                store.remove(grid.getSelectionModel().getSelectedItem());
-                grid.setSelectionModel(new GridSelectionModel<WaterPointModel>());
+
+		MessageBox.confirm(appMessages.cancel(), appMessages.areYouSure(), new Listener<MessageBoxEvent>() {
+			@Override
+			public void handleEvent(MessageBoxEvent be) {
+				if (be.getButtonClicked().getItemId().equals(Dialog.YES)) {
+					//launch baseline work flow
+					WaterPointModel point = grid.getSelectionModel().getSelectedItem();
+					HomeController controller = (HomeController) parentView.getController();
+					controller.launchBaseline(point.getId());
+					RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WATERPOINT_CHANGES, point.getWaterPointSummary()));
+					store.remove(grid.getSelectionModel().getSelectedItem());
+					grid.setSelectionModel(new GridSelectionModel<WaterPointModel>());
+				}
+			}
+		});
             }
         });
 	
@@ -129,7 +139,16 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
 
 	    @Override
 	    public void componentSelected(ButtonEvent ce) {
-		cancelBaseline();
+
+
+		MessageBox.confirm(appMessages.cancel(), appMessages.areYouSure(), new Listener<MessageBoxEvent>() {
+			@Override
+			public void handleEvent(MessageBoxEvent be) {
+				if (be.getButtonClicked().getItemId().equals(Dialog.YES)) {
+					cancelBaseline();
+				}
+			}
+		});
 	    }
 
 	   
@@ -161,7 +180,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
-        grid.addPlugin(createFilters());
+//        grid.addPlugin(createFilters());
         BufferView buffer = new BufferView();
         buffer.setScrollDelay(2);
         buffer.setRowHeight(28);
@@ -235,6 +254,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             subcounties.add(Utilities.filterSubcounties(summary, "subcounty"));
             parishes.add(Utilities.filterSubcounties(summary, "parish"));
             villages.add(Utilities.filterSubcounties(summary, "village"));
+	    grid.addPlugin(createFilters());
             if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
                 launchBaseline.show();
             } else if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {

@@ -72,4 +72,6 @@ public interface AppMessages extends Messages {
         String baseLineDataComplete();
         String pendingBaseline();
 
+	String areYouSure();
+
 }

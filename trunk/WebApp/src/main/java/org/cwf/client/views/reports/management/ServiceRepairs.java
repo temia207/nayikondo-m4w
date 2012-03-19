@@ -21,6 +21,7 @@ import org.cwf.client.AppMessages;
 import org.cwf.client.Refreshable;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.model.ResponseTimeSummary;
+import org.cwf.client.views.reports.ReportsFrame;
 import org.m4water.server.admin.model.reports.ResponseTime;
 
 /**
@@ -33,8 +34,10 @@ public class ServiceRepairs extends ContentPanel implements Refreshable {
 	private Grid<ResponseTimeSummary> grid;
 	private ColumnModel cm;
 	private ListStore<ResponseTimeSummary> store;
+	private ReportsFrame parentView;
 
-	public ServiceRepairs() {
+	public ServiceRepairs(ReportsFrame parent) {
+		this.parentView = parent;
 		initialize();
 	}
 

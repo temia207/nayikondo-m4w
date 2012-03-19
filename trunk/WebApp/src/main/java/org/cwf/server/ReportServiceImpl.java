@@ -9,6 +9,7 @@ import org.cwf.client.service.ReportService;
 import org.cwf.server.rpc.M4waterPersistentRemoteService;
 import org.m4water.server.admin.model.reports.DistrictComparisons;
 import org.m4water.server.admin.model.reports.ResponseTime;
+import org.m4water.server.admin.model.reports.WucManagement;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -28,6 +29,11 @@ public class ReportServiceImpl extends M4waterPersistentRemoteService implements
 	@Override
 	public List<DistrictComparisons> getDistrictSummaries() {
 		return getReportsService().getDistrictComparisons();
+	}
+
+	@Override
+	public List<WucManagement> getWucManagementReport() {
+		return getReportsService().getWucManagementReport();
 	}
 
 	public org.m4water.server.service.ReportsService getReportsService() {

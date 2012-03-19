@@ -8,9 +8,12 @@ import com.google.gwt.core.client.GWT;
 import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.M4waterAsyncCallback;
+import org.cwf.client.RefreshableEvent;
+import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.service.ReportServiceAsync;
 import org.cwf.client.views.reports.ReportsFrame;
 import org.m4water.server.admin.model.reports.DistrictComparisons;
+import org.m4water.server.admin.model.reports.WucManagement;
 
 /**
  *
@@ -56,7 +59,18 @@ public class ReportsController extends Controller {
 
 			@Override
 			public void onSuccess(List<DistrictComparisons> result) {
-				int x = 0;
+				RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.DISTRICT_SUMMARIES,result));
+			}
+		});
+	}
+
+	public void getWucManagementReport(){
+	GWT.log("ReportsController:getWucmanagementReport");
+	reportsAsync.getWucManagementReport(new M4waterAsyncCallback<List<WucManagement>>() {
+
+			@Override
+			public void onSuccess(List<WucManagement> result) {
+				RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WUC_MANAGEMENT,result));
 			}
 		});
 	}
