@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import java.util.List;
 import org.m4water.server.admin.model.reports.DistrictComparisons;
 import org.m4water.server.admin.model.reports.ResponseTime;
+import org.m4water.server.admin.model.reports.WucManagement;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface ReportService extends RemoteService {
 
 	List<ResponseTime> getResponseTimes(String year, String district);
 	List<DistrictComparisons> getDistrictSummaries();
+	List<WucManagement> getWucManagementReport();
 }

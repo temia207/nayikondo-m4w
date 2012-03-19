@@ -6,6 +6,7 @@ package org.m4water.server.dao;
 
 import java.util.List;
 import org.m4water.server.admin.model.reports.DistrictComparisons;
+import org.m4water.server.admin.model.reports.WucManagement;
 
 /**
  *
@@ -14,4 +15,6 @@ import org.m4water.server.admin.model.reports.DistrictComparisons;
 public interface ReportsDao extends BaseDAO<DistrictComparisons, Long> {
 
 	List<DistrictComparisons> getDistrictComparisons();
+	List<WucManagement> getWucManagementReport();
+	String[] getRepairCosts(String district);
 }

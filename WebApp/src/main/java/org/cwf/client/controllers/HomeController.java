@@ -28,6 +28,7 @@ import org.cwf.client.util.ProgressIndicator;
 import org.cwf.client.views.HomeView;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.SettingGroup;
+import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.reports.ResponseTime;
@@ -94,10 +95,11 @@ public class HomeController extends Controller {
         event.setData(summary);
         dispatcher.dispatch(event);
     }
-    public void forwardToReportsView() {
+    public void forwardToReportsView(User user) {
         GWT.log("HomeController : forwardToViewTicketDetails");
         Dispatcher dispatcher = Dispatcher.get();
         AppEvent event = new AppEvent(ReportsController.RESPONSE_TIME);
+		event.setData(user);
         dispatcher.dispatch(event);
     }
 

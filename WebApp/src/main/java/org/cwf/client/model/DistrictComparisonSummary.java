@@ -15,9 +15,18 @@ public class DistrictComparisonSummary extends BaseModel {
 
 	private DistrictComparisons summary;
 
-
 	public DistrictComparisonSummary() {
 		//
+	}
+	public DistrictComparisonSummary(String district,String subcounty,String borehall,
+			String shallowWell,String yadTaps,String protectedSpring,String total){
+	setDistrict(district);
+	setSubcounty(subcounty);
+	setBoreholes(borehall);
+	setShallowWells(shallowWell);
+	setPublicTaps(yadTaps);
+	setProtectedSprings(protectedSpring);
+	setTotal(total);
 	}
 	public String getBoreholes() {
 		return get("bh");
@@ -75,6 +84,13 @@ public class DistrictComparisonSummary extends BaseModel {
 		set("subcounty", subcounty);
 	}
 
+	public String getTotal() {
+		return get("total");
+	}
+
+	public void setTotal(String total) {
+		set("total",total);
+	}
 	public DistrictComparisons getSummary() {
 		return summary;
 	}

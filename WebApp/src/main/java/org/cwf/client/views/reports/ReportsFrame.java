@@ -22,6 +22,7 @@ import java.util.List;
 import org.cwf.client.AppMessages;
 import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.views.widgets.CenterLayoutPanel;
+import org.m4water.server.admin.model.User;
 
 /**
  *
@@ -38,6 +39,7 @@ public class ReportsFrame extends View implements ClickHandler {
 	private CardPanel cardPanel;
 	private List<ContentPanel> pages = new ArrayList<ContentPanel>();
 	private CenterLayoutPanel centerLayoutPanel;
+	public User loggedUser;
 
 	public ReportsFrame(Controller controller) {
 		super(controller);
@@ -98,6 +100,7 @@ public class ReportsFrame extends View implements ClickHandler {
 	protected void handleEvent(AppEvent event) {
 		int width = com.google.gwt.user.client.Window.getClientWidth() - 50;
 		int height = com.google.gwt.user.client.Window.getClientHeight() - 50;
+		loggedUser = event.getData();
 		showWindow("M4WATER Reports", width, height);
 	}
 
@@ -111,6 +114,7 @@ public class ReportsFrame extends View implements ClickHandler {
 			((ReportsController)ReportsFrame.this.getController()).getDistrictSummaries();
 		} else if (txt.equals(appMessages.management())) {
 			wizardLayout.setActiveItem(pages.get(2));
+			((ReportsController)ReportsFrame.this.getController()).getWucManagementReport();
 		}
 	}
 }

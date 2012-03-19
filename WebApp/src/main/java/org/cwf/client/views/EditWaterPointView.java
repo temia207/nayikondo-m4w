@@ -237,7 +237,7 @@ public class EditWaterPointView extends View {
         for (WaterUserCommittee x : committee) {
             waterUserCommitteeFields = new HashMap<String, TextField<String>>();
             userCommittee.add(addUserCommitteeFld("Commissioned", x.getCommissioned()), formData);
-            userCommittee.add(addUserCommitteeFld("Year Established", x.getYrEstablished()), formData);
+//            userCommittee.add(addUserCommitteeFld("Year Established", x.getYrEstablished()), formData);
             userCommittee.add(addUserCommitteeFld("Trained", x.getTrained()), formData);
 			TextArea functionalityTArea = new TextArea();
 			functionalityTArea.setFieldLabel("Functionality Of Committee");

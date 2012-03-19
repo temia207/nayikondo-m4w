@@ -3,6 +3,7 @@ package org.m4water.server.service.impl;
 import java.util.List;
 import org.m4water.server.admin.model.reports.DistrictComparisons;
 import org.m4water.server.admin.model.reports.ResponseTime;
+import org.m4water.server.admin.model.reports.WucManagement;
 import org.m4water.server.dao.ReportsDao;
 import org.m4water.server.dao.ResponseTimeDao;
 import org.m4water.server.service.ReportsService;
@@ -32,5 +33,15 @@ public class ReportsServiceImpl implements ReportsService {
 	@Override
 	public List<DistrictComparisons> getDistrictComparisons() {
 		return reportsDao.getDistrictComparisons();
+	}
+
+	@Override
+	public List<WucManagement> getWucManagementReport() {
+		return reportsDao.getWucManagementReport();
+	}
+
+	@Override
+	public String[] getRepairCosts(String district) {
+		return reportsDao.getRepairCosts(district);
 	}
 }

@@ -218,6 +218,8 @@ public class TicketDetailsView extends View {
             inspectionFldset.add(addAssessmentFld("Is the problem Fixed?", x.getProblemFixed().equals("T") ? "Yes" : "No"), formData);
             inspectionFldset.add(addAssessmentFld("If Not fixed why?", x.getReasonNotFixed()), formData);
             inspectionFldset.add(addAssessmentFld("Repairs Done", x.getRepairsDone()), formData);
+            inspectionFldset.add(addAssessmentFld("Cost of Materials", x.getCostOfMaterials()), formData);
+            inspectionFldset.add(addAssessmentFld("Cost of Labour", x.getCostOfLabour()), formData);
             inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
             inspectionFldset.add(addAssessmentFld("Name Of HPM", x.getUserId()), formData);
         } else {

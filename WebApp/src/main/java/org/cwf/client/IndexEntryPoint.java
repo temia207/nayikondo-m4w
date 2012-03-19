@@ -263,10 +263,18 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         sb.append("</td><td>");
         sb.append("<a href=\"#\" onclick=\"window.open('http://www.cell-life.org');\" title=\"Cell-Life : http://www.cell-life.org' style='cursor:hand;\">");
         sb.append("<img width=\"40\" height=\"34\" src=\"images/m4w/snvlogo.png\" title=\"SNV\" style=\"cursor:hand;\"/>");
+//		sb.append("<img width=\"40\" height=\"34\" src=\"images/m4w/wateraidlogo.png\" title=\"Water Aid\" style=\"cursor:hand;\"/>");
         sb.append("</a>");
-        sb.append("</td><td>");
-        sb.append(appMessages.and());
-        sb.append("</td><td valign=middle>");
+        sb.append("</td>");
+		
+        sb.append("<td valign=middle>");
+        sb.append("<a href=\"#\" onclick=\"window.open('http://www.openxdata.org');\" title=\"OpenXData : http://www.openxdata.org' style='cursor:hand;\">");
+        sb.append("<img  src=\"images/m4w/wateraidlogo.png\" valign=middle title=\"Makerere University\" style=\"cursor:hand;\"/>");
+        sb.append("</a>");
+        sb.append("</td>");
+		
+//        sb.append(appMessages.and());
+        sb.append("<td valign=middle>");
         sb.append("<a href=\"#\" onclick=\"window.open('http://www.openxdata.org');\" title=\"OpenXData : http://www.openxdata.org' style='cursor:hand;\">");
         sb.append("<img  src=\"images/m4w/muklogo.png\" valign=middle title=\"Makerere University\" style=\"cursor:hand;\"/>");
         sb.append("</a>");
