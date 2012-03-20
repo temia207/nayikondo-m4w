@@ -15,7 +15,7 @@
 	</context-param>
 	<context-param>
 		<param-name>InterfaceB_BackEnd</param-name>
-		<param-value>http://localhost:8787/yawl/ib</param-value>
+		<param-value>http://workflowtest.openxdata.org:8080/yawl/ib</param-value>
 	</context-param>
 	<filter>
 		<filter-name>guiceFilter</filter-name>
