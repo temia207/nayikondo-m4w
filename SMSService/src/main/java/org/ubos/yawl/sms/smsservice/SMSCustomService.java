@@ -1,12 +1,14 @@
 package org.ubos.yawl.sms.smsservice;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.openxdata.yawl.util.InterfaceBHelper;
 import org.ubos.yawl.sms.guice.ServletConfig;
 import org.ubos.yawl.sms.service.SMSService;
 import org.ubos.yawl.sms.service.UserService;
@@ -23,7 +25,7 @@ import org.yawlfoundation.yawl.util.StringUtil;
  *
  * @author kay
  */
-public class SMSCustomService extends InterfaceBWebsideController {
+public class SMSCustomService extends InterfaceBWebsideController implements Provider<InterfaceBHelper> {
 
         private static Logger log = Logger.getLogger(SMSCustomService.class);
         private String _sessionHandle = null;
@@ -31,6 +33,15 @@ public class SMSCustomService extends InterfaceBWebsideController {
         private UserService userService;
         @Inject
         private SMSService smsService;
+        @Inject
+        private InterfaceBHelper yHlp;
+
+    public SMSCustomService() {
+        yHlp = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
+        yHlp.selfInitialiseHandle(true);
+    }
+        
+        
 
         public static SMSCustomService getInstance() {
                 return ServletConfig.injector.getInstance(SMSCustomService.class);
@@ -154,4 +165,8 @@ public class SMSCustomService extends InterfaceBWebsideController {
 
                 smsService.sendSMS(number, msg);
         }
+
+    public InterfaceBHelper get() {
+        return yHlp;
+    }
 }
