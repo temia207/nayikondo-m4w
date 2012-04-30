@@ -114,6 +114,20 @@ public class Settings {
         String setting = st.read(property);
         return setting;
     }
+    
+	public synchronized static int readInt(String property) {
+		Settings st = Settings.instance();
+		String setting = st.read(property);
+		if (setting == null) {
+			return -1;
+		}
+		try {
+			return Integer.parseInt(setting);
+
+		} catch (NumberFormatException numberFormatException) {
+			return -1;
+		}
+	}
 
     public static Properties properties() {
         try {
