@@ -2,9 +2,13 @@ package org.ubos.yawl.sms.smsservice;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.ubos.yawl.sms.utils.Settings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -12,6 +16,7 @@ import org.openxdata.yawl.util.InterfaceBHelper;
 import org.ubos.yawl.sms.guice.ServletConfig;
 import org.ubos.yawl.sms.service.SMSService;
 import org.ubos.yawl.sms.service.UserService;
+import org.yawlfoundation.yawl.elements.YTask;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.TaskInformation;
@@ -33,18 +38,27 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
         private UserService userService;
         @Inject
         private SMSService smsService;
-        @Inject
         private InterfaceBHelper yHlp;
+	private YawlPinger yawlPinger = null;
 
     public SMSCustomService() {
-        yHlp = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
-        yHlp.selfInitialiseHandle(true);
     }
+
+	@Override
+	public void setUpInterfaceBClient(String backEndURI) {
+		super.setUpInterfaceBClient(backEndURI);
+		yHlp = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
+		yawlPinger = new YawlPinger();
+		yawlPinger.setName("SMS YawlPinger");
+		yawlPinger.start();
+		yHlp.selfInitialiseHandle(true);
+	}
         
         
 
         public static SMSCustomService getInstance() {
-                return ServletConfig.injector.getInstance(SMSCustomService.class);
+		 SMSCustomService instance = ServletConfig.injector.getInstance(SMSCustomService.class);
+                return instance;
         }
 
         @Override
@@ -169,4 +183,70 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
     public InterfaceBHelper get() {
         return yHlp;
     }
+    
+    public String getWorkitemName(WorkItemRecord wir){
+	    if(wir == null)
+		    return "null";
+	    return "<"+wir.getID()+":"+wir.getCaseID()+">";
+    }
+    
+
+	public class YawlPinger extends Thread {
+	
+		public void run() {
+			while (true) {
+				try {
+					if (Settings.readSetting("ping.yawl") == null) {
+						log.debug("Yawl Pinger Is Disaabled aborting ping");
+						sleep();
+						continue;
+					}
+					log.debug("@Pinging yawl for <TASKS> matching case smscustomservice.....");
+					Set<String> yTasks = yHlp.getTaskSetWithCustomServiceMatch("smsservice");
+					log.debug("@Got " + yTasks.size() + " Tasks");
+					int enabledworkiems = 0;
+					int executinng = 0;
+					for (String taskId : yTasks) {
+						log.debug("@Pinging Yawl for <WORKITEMS> for Tasks<"+taskId+">");
+						List<WorkItemRecord> workItemsForTask = yHlp.getWorkItemsForTask(taskId);
+						log.debug("@Got " + workItemsForTask.size() + " workitems");
+						for (WorkItemRecord wir : workItemsForTask) {
+							log.debug("@Handling workitem: " + wir.getID() + ":" + wir.getCaseID());
+							if (wir.statusEnabled.equals(wir.getStatus())) {
+								log.debug("@Handling enabled workitems event " + getWorkitemName(wir));
+								log.debug("@Enabled workitem count: "+(++enabledworkiems));
+								handleEnabledWorkItemEvent(wir);
+							} else if (wir.statusExecuting.equals(wir.getStatus())) {
+								log.debug("@Workitem " + getWorkitemName(wir) + " is in state <executing> going to check it in");
+								log.debug("@Executing workitem count: "+(++executinng));
+								_model.addWorkItem(wir);
+								yHlp.checkInWorkItem(wir);
+							}
+
+						}
+					}
+				} catch (Exception ex) {
+					log.error("Unexpected", ex);
+				}
+				sleep();
+			}
+		}
+
+		public void sleep() {
+			int time = Settings.readInt("sleepTime");
+			sleep(time);
+		}
+
+		private void sleep(int i) {
+			try {
+				if(i<=0) {
+					log.debug("Invalid slep time setting to default time. time = "+i);
+					i = 5000;
+				}
+				log.debug("@Sleeping for "+i+" mili secs before pinging yawl again");
+				Thread.currentThread().sleep(i);
+			} catch (InterruptedException ex) {
+				log.error("Unable to sleep for the specified time = "+i,ex);			}
+		}
+	}
 }
