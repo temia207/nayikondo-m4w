@@ -39,6 +39,7 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 	private CenterLayoutPanel centerLayoutPanel;
 	private ContentPanel cpWest;
 	private ContentPanel cpCenter;
+	public  String districtName;
 	private Portlet portlet;
 	public List<Problem> tickets = new ArrayList<Problem>();
 	public List<WaterPointSummary> waterPointSummary = new ArrayList<WaterPointSummary>();
@@ -69,13 +70,11 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.settings(),this));
 		VBoxLayoutData vBoxData = new VBoxLayoutData(5, 5, 5, 5);
 		vBoxData.setFlex(1);
-//        container.add(cp, new FlowData(10));
 		portlet = new Portlet(new FitLayout());
-//        portlet.setHeading("CWF home");
 		portlet.setHeaderVisible(false);
 		portlet.add(centerLayoutPanel);
 		portlet.setScrollMode(Scroll.AUTOY);
-		portlet.setSize(725, 200);
+		portlet.setSize(725, 100);
 		portlet.addStyleName("portlet-border");
 	}
 
@@ -87,11 +86,11 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 			portal.add(portlet, 0);
 			maximisePortlet(portlet);
 			loggedinUser = event.getData();
-			centerLayoutPanel.setHeading(centerLayoutPanel.getHeading() + ":" + loggedinUser.getSubcounty().getCounty().getDistrict().getName() + " District");
+			districtName = loggedinUser.getSubcounty().getCounty().getDistrict().getName();
+			centerLayoutPanel.setHeading(centerLayoutPanel.getHeading() + ":" + districtName + " District");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
-			controller2.getTickets();
-			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
+			controller2.getTickets();
 			controller2.getNewWaterPoints();
 		}
 
@@ -100,7 +99,7 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 	private void maximisePortlet(Portlet portlet) {
 		GWT.log("Home view: maximisePortlet");
 		Portal p = (Portal) portlet.getParent().getParent();
-		int height = p.getHeight() - 20;
+		int height = p.getHeight()-20;
 		portlet.setHeight(height);
 	}
 
@@ -124,14 +123,14 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 		} else if (event.getEventType() == RefreshableEvent.Type.RELOAD_WATERPOINTS) {
 			GWT.log("HomeView Refresh:Reloading all waterpoints");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
-			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+//			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
 			controller2.getNewWaterPoints();
 		} else if (event.getEventType() == RefreshableEvent.Type.RELOAD) {
 			GWT.log("HomeView Refresh:Refreshing the UI");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
 			controller2.getTickets();
-			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
+//			controller2.getWaterPointSummaries(loggedinUser.getSubcounty().getCounty().getDistrict().getName());
 			controller2.getBaselineSetDate();
 			controller2.getNewWaterPoints();
 		}

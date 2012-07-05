@@ -13,5 +13,10 @@
 	<changeSet author="vkakama@gmail.com" id="remove-date-foreign-key" >
 		<dropPrimaryKey tableName="water_functionality" constraintName="date"/>
 	</changeSet>
+	<changeSet author="vkakama@gmail.com" id="add-contact-of-assessor-2-4-2011" >
+		<addColumn tableName="fault_assessment">
+			<column name="assessor_tel" type="varchar(255)"/>
+		</addColumn>
+	</changeSet>
 
 </databaseChangeLog>

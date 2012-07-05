@@ -86,7 +86,6 @@ public class EditWaterPointView extends View {
         ticketsDataTable.getFlexCellFormatter().setColSpan(0, 1, 2);
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 0, "40%");
         ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
-//        ticketsDataTable.getFlexCellFormatter().setHeight(0, 0,details.getHeight()+"px");
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
         ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
@@ -281,6 +280,8 @@ public class EditWaterPointView extends View {
             functionality.add(addFunctionalityFld("Any previous Repairs", x.getAnyPreviousRepairs()), formData);
             functionality.add(addFunctionalityFld("Any Previous Major service", x.getAnyPreviousMajorService()), formData);
             functionality.add(addFunctionalityFld("Any Previous Minor service", x.getAnyPreviousMinorService()), formData);
+	    //break to avoid printing functionality more than once
+	    break;
         }
         if (func.isEmpty()) {
             Label lable = new Label("There is no Water Functionality for this waterpoint");

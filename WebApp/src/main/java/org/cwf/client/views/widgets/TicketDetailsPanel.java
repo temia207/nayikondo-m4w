@@ -62,7 +62,7 @@ public class TicketDetailsPanel extends ContentPanel implements Refreshable {
         setHeading("New Water Points");
         setButtonAlign(HorizontalAlignment.CENTER);
         setLayout(new FitLayout());
-        setSize(600, 300);
+        setSize(600, 340);
         grid = new Grid<ProblemSummary>(store, cm);
         grid.setStyleAttribute("borderTop", "none");
         grid.setAutoWidth(true);

@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.paging.PagingLoadConfig;
+import org.m4water.server.admin.model.paging.PagingLoadResult;
 
 /**
  *
@@ -22,6 +24,8 @@ public interface WaterPointService extends RemoteService{
     Waterpoint getWaterPoint(String waterpointId);
     List<WaterPointSummary> getWaterPointSummaries();
     List<WaterPointSummary> getWaterPointSummaries(String district);
+    List<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType);
     void saveWaterPoint(Waterpoint waterPoint);
     public Date getBaselineSetDate();
+    public PagingLoadResult<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType, PagingLoadConfig loadConfig);
 }

@@ -45,5 +45,8 @@
     <property name="costOfMaterials" type="string">
       <column length="255" name="cost_of_materials"/>
     </property>
+    <property name="assessorTel" type="string">
+      <column length="200" name="assessor_tel"/>
+    </property>
   </class>
 </hibernate-mapping>

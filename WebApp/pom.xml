@@ -42,6 +42,11 @@
             <artifactId>server</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.m4water</groupId>
+            <artifactId>server</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
 <!--            <version>2.2.0</version>-->
@@ -150,6 +155,7 @@
                         <module>${cwf.gwt.module}</module>
                     </modules>
                     <extraJvmArgs>-Xmx512M -Xss1024k -XX:MaxPermSize=256m</extraJvmArgs>
+                    <draftCompile>true</draftCompile>
                     <runTarget>index.html</runTarget>
                     <port>8889</port>
                     <hostedWebapp>war</hostedWebapp>

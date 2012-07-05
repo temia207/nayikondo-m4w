@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 7, 2011 12:43:35 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="m4water" name="org.m4water.server.admin.model.WaterPointSummary" table="waterpointsummary" mutable="false">
+<!--    <cache usage="read-only"/>-->
+    <id name="waterPointId" type="string">
+      <column length="200" name="waterpoint_id"/>
+    </id>
+    <property name="waterpointName" type="string">
+      <column length="200" name="name" not-null="true"/>
+    </property>
+    <property name="baselineDate" type="date">
+      <column length="200" name="baseline_date" not-null="true"/>
+    </property>
+    <property name="baselinePending" type="string">
+      <column length="10" name="baseline_pending" not-null="true">
+        <comment> T-true,F-false</comment>
+      </column>
+    </property>
+    <property name="villageName" type="string">
+      <column length="200" name="villagename" not-null="true"/>
+    </property>
+    <property name="parishName" type="string">
+      <column length="200" name="parish_name" not-null="true"/>
+    </property>
+    <property name="subcountyName" type="string">
+      <column length="200" name="subcounty_name" not-null="true"/>
+    </property>
+    <property name="countyName" type="string">
+      <column length="200" name="county_name" not-null="true"/>
+    </property>   
+    <property name="district" type="string">
+      <column length="200" name="district" not-null="true"/>
+    </property>
+    <property name="date" type="date">
+      <column length="200" name="date_installed" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

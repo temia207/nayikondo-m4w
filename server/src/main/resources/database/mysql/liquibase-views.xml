@@ -74,5 +74,15 @@
 			on village.village_id = waterpoint.village_id order by subcounty_name,parish_name,villagename
 		</createView>
 	</changeSet>
+	<changeSet id="waterpoint_summary_view" author="vkakama@gmail.com">
+		<createView viewName="waterpointsummary">
+			select waterpoint.waterpoint_id,waterpoint.name,waterpoint.baseline_date,waterpoint.baseline_pending,
+                        village.villagename,parish.parish_name, subcounty.subcounty_name,county.county_name,district.name as district,waterpoint.date_installed
+                        from waterpoint inner join village on waterpoint.village_id = village.village_id
+                        inner join parish on village.parish_id = parish.parish_id
+                        inner join subcounty on parish.subcounty_id = subcounty.id inner join county on subcounty.county_id = county.county_id
+                        inner join district on county.district_id = district.id
+		</createView>
+	</changeSet>
 
 </databaseChangeLog>

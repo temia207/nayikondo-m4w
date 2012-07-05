@@ -103,6 +103,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-9">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="permission"/>
+	      </not>
+	</preConditions>
         <createTable tableName="permission">
             <column name="permission_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -125,6 +130,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-10">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="problem"/>
+	      </not>
+	</preConditions>
         <createTable tableName="problem">
             <column name="problem_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -147,6 +157,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-11">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="problem_log"/>
+	      </not>
+	</preConditions>
         <createTable tableName="problem_log">
             <column name="log_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -166,6 +181,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-12">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="setting"/>
+	      </not>
+	</preConditions>
         <createTable tableName="setting">
             <column autoIncrement="true" name="setting_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -179,6 +199,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-13">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="setting_group"/>
+	      </not>
+	</preConditions>
         <createTable tableName="setting_group">
             <column autoIncrement="true" name="setting_group_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -191,6 +216,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-14">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="smsmessagelog"/>
+	      </not>
+	</preConditions>
         <createTable tableName="smsmessagelog">
             <column defaultValue="" name="id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -202,6 +232,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-15">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="subcounty"/>
+	      </not>
+	</preConditions>
         <createTable tableName="subcounty">
             <column name="id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -221,6 +256,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-16">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="user"/>
+	      </not>
+	</preConditions>
         <createTable tableName="user">
             <column defaultValue="" name="user_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -242,6 +282,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-17">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="user_assigned"/>
+	      </not>
+	</preConditions>
         <createTable tableName="user_assigned">
             <column name="user_id" type="VARCHAR(200)">
                 <constraints nullable="false"/>
@@ -255,6 +300,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-18">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="user_profile"/>
+	      </not>
+	</preConditions>
         <createTable tableName="user_profile">
             <column name="user_profile_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -268,6 +318,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-19">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="village"/>
+	      </not>
+	</preConditions>
         <createTable tableName="village">
             <column name="village_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -281,6 +336,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-20">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="water_functionality"/>
+	      </not>
+	</preConditions>
         <createTable tableName="water_functionality">
             <column name="date" type="DATE">
                 <constraints nullable="false" primaryKey="true"/>
@@ -301,6 +361,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-21">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="water_user_committee"/>
+	      </not>
+	</preConditions>
         <createTable tableName="water_user_committee">
             <column name="user_committee_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -322,6 +387,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-22">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="waterpoint"/>
+	      </not>
+	</preConditions>
         <createTable tableName="waterpoint">
             <column name="waterpoint_id" type="VARCHAR(200)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -366,6 +436,11 @@
         </createTable>
     </changeSet>
     <changeSet author="victor (generated)" id="1326276640595-23">
+        <preConditions onFail="MARK_RAN">
+	      <not>
+	        <tableExists tableName="waterpoint_types"/>
+	      </not>
+	</preConditions>
         <createTable tableName="waterpoint_types">
             <column name="type_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>

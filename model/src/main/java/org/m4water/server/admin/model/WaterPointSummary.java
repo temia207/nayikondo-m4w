@@ -13,6 +13,7 @@ import java.util.Date;
 public class WaterPointSummary implements Serializable{
 
     private String waterPointId;
+    private String waterpointName;
     private String villageName;
     private String parishName;
     private String subcountyName;
@@ -25,8 +26,9 @@ public class WaterPointSummary implements Serializable{
     public WaterPointSummary() {
     }
 
-    public WaterPointSummary(String waterPointId, String villageName, String parishName, String subcountyName, String countyName, String district, Date date,Date baselineDate,String baselinePending) {
+    public WaterPointSummary(String waterPointId,String waterpointName, String villageName, String parishName, String subcountyName, String countyName, String district, Date date,Date baselineDate,String baselinePending) {
         this.waterPointId = waterPointId;
+	this.waterpointName = waterpointName;
         this.villageName = villageName;
         this.parishName = parishName;
         this.subcountyName = subcountyName;
@@ -108,4 +110,12 @@ public class WaterPointSummary implements Serializable{
     public void setBaselinePending(String baselinePending) {
         this.baselinePending = baselinePending;
     }
+
+	public String getWaterpointName() {
+		return waterpointName;
+	}
+
+	public void setWaterpointName(String waterpointName) {
+		this.waterpointName = waterpointName;
+	}
 }

@@ -10,11 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.hibernate.SQLQuery;
-import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.dao.WaterPointDao;
 
 import org.springframework.stereotype.Repository;
@@ -46,8 +44,8 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
         List<WaterPointSummary> summary = new ArrayList<WaterPointSummary>();
 
-        String query = "select waterpoint.waterpoint_id,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
-                + " subcounty.subcounty_name,county.county_name,district.`name`,waterpoint.date_installed from waterpoint"
+        String query = "select waterpoint.waterpoint_id,waterpoint.name,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
+                + " subcounty.subcounty_name,county.county_name,district.name,waterpoint.date_installed from waterpoint"
                 + " inner join village"
                 + " on waterpoint.village_id = village.village_id inner join parish"
                 + " on village.parish_id = parish.parish_id inner join subcounty on"
@@ -62,19 +60,20 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
             Object[] strings = (Object[]) object;
             WaterPointSummary point = new WaterPointSummary();
             point.setWaterPointId(strings[0] + "");
-            point.setBaselinePending(strings[2] + "");
-            point.setVillageName(strings[3] + "");
-            point.setParishName(strings[4] + "");
-            point.setSubcountyName(strings[5] + "");
-            point.setCountyName(strings[6] + "");
-            point.setDistrict(strings[7] + "");
+            point.setWaterpointName(strings[1] + "");
+            point.setBaselinePending(strings[3] + "");
+            point.setVillageName(strings[4] + "");
+            point.setParishName(strings[5] + "");
+            point.setSubcountyName(strings[6] + "");
+            point.setCountyName(strings[7] + "");
+            point.setDistrict(strings[8] + "");
             //MM/dd/yyyy
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateInstalled = null;
             java.util.Date baselineDate = null;
             try {
-                dateInstalled = df.parse(strings[8] + "");
-                baselineDate = df.parse(strings[1] + "");
+                dateInstalled = df.parse(strings[9] + "");
+                baselineDate = df.parse(strings[2] + "");
             } catch (Exception e) {
             }
             point.setDate(dateInstalled);
@@ -109,14 +108,14 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
         List<WaterPointSummary> summary = new ArrayList<WaterPointSummary>();
 
-        String query = "select waterpoint.waterpoint_id,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
-                + " subcounty.subcounty_name,county.county_name,district.`name`,waterpoint.date_installed from waterpoint"
+        String query = "select waterpoint.waterpoint_id,waterpoint.name,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
+                + " subcounty.subcounty_name,county.county_name,district.name,waterpoint.date_installed from waterpoint"
                 + " inner join village"
                 + " on waterpoint.village_id = village.village_id inner join parish"
                 + " on village.parish_id = parish.parish_id inner join subcounty on"
                 + " parish.subcounty_id = subcounty.id inner join county on"
                 + " subcounty.county_id = county.county_id inner join district on"
-                + " county.district_id = district.id where district.name = '"+district+"'";
+                + " county.district_id = district.id where district.name = '" + district + "'";
         System.out.println(query);
         SQLQuery createSQLQuery = getSession().createSQLQuery(query);
         List list = createSQLQuery.list();
@@ -126,19 +125,20 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
             Object[] strings = (Object[]) object;
             WaterPointSummary point = new WaterPointSummary();
             point.setWaterPointId(strings[0] + "");
-            point.setBaselinePending(strings[2] + "");
-            point.setVillageName(strings[3] + "");
-            point.setParishName(strings[4] + "");
-            point.setSubcountyName(strings[5] + "");
-            point.setCountyName(strings[6] + "");
-            point.setDistrict(strings[7] + "");
+            point.setWaterpointName(strings[1] + "");
+            point.setBaselinePending(strings[3] + "");
+            point.setVillageName(strings[4] + "");
+            point.setParishName(strings[5] + "");
+            point.setSubcountyName(strings[6] + "");
+            point.setCountyName(strings[7] + "");
+            point.setDistrict(strings[8] + "");
             //MM/dd/yyyy
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateInstalled = null;
             java.util.Date baselineDate = null;
             try {
-                dateInstalled = df.parse(strings[8] + "");
-                baselineDate = df.parse(strings[1] + "");
+                dateInstalled = df.parse(strings[9] + "");
+                baselineDate = df.parse(strings[2] + "");
             } catch (Exception e) {
             }
             point.setDate(dateInstalled);
@@ -149,4 +149,91 @@ public class HibernateWaterPointDao extends BaseDAOImpl<Waterpoint, String> impl
 
         return summary;
     }
+
+    @Override
+    public List<Waterpoint> getWaterpoints(String baselineDone) {
+        return searchByPropertyEqual("baselinePending", baselineDone);
+    }
+
+    @Override
+    public List<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType) {
+        Date setBaselineDate = getBaselineSetDate();
+        List<WaterPointSummary> summary = new ArrayList<WaterPointSummary>();
+        String query = "";
+        if (baseLineType.equals("T")) {
+
+            query = "select waterpoint.waterpoint_id,waterpoint.name,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
+                    + " subcounty.subcounty_name,county.county_name,waterpoint.date_installed from waterpoint"
+                    + " inner join village"
+                    + " on waterpoint.village_id = village.village_id inner join parish"
+                    + " on village.parish_id = parish.parish_id inner join subcounty on"
+                    + " parish.subcounty_id = subcounty.id inner join county on"
+                    + " subcounty.county_id = county.county_id inner join district on"
+                    + " county.district_id = district.id where district.name = '" + district + "' "
+                    + "AND waterpoint.baseline_pending = 'T'";
+        } else {
+            //this includes both baseline complete and not done
+            //we probably need a better way of handling this.
+            query = "select waterpoint.waterpoint_id,waterpoint.name,waterpoint.baseline_date,waterpoint.baseline_pending,village.villagename,parish.parish_name,"
+                    + " subcounty.subcounty_name,county.county_name,waterpoint.date_installed from waterpoint"
+                    + " inner join village"
+                    + " on waterpoint.village_id = village.village_id inner join parish"
+                    + " on village.parish_id = parish.parish_id inner join subcounty on"
+                    + " parish.subcounty_id = subcounty.id inner join county on"
+                    + " subcounty.county_id = county.county_id inner join district on"
+                    + " county.district_id = district.id where district.name = '" + district + "' "
+                    + "AND waterpoint.baseline_pending != 'T'";
+        }
+        System.out.println(query);
+        SQLQuery createSQLQuery = getSession().createSQLQuery(query);
+        List list = createSQLQuery.list();
+
+
+        for (Object object : list) {
+            Object[] strings = (Object[]) object;
+            //MM/dd/yyyy
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateInstalled = null;
+            java.util.Date baselineDate = null;
+            try {
+                dateInstalled = df.parse(strings[8] + "");
+                baselineDate = df.parse(strings[2] + "");
+            } catch (Exception e) {
+                //ignore
+            }
+            WaterPointSummary point = new WaterPointSummary();
+            point.setWaterPointId(strings[0] + "");
+            point.setWaterpointName(strings[1] + "");
+            point.setBaselinePending(strings[3] + "");
+            point.setVillageName(strings[4] + "");
+            point.setParishName(strings[5] + "");
+            point.setSubcountyName(strings[6] + "");
+            point.setCountyName(strings[7] + "");
+            point.setDistrict(district);
+            point.setDate(dateInstalled);
+            point.setBaselineDate(baselineDate);
+            if (baseLineType.equals("T")) {
+                summary.add(point);
+            } else {
+                //seperate baseline complete and not done
+                fileterWaterPoints(baseLineType, point, summary, setBaselineDate);
+            }
+        }
+
+
+        return summary;
+    }
+
+    private void fileterWaterPoints(String baseLineType, WaterPointSummary point, List<WaterPointSummary> summary, Date setBaselineDate) {
+        if (baseLineType.equalsIgnoreCase("F")) {
+            if (point.getBaselineDate() != null && (point.getBaselineDate().before(setBaselineDate))) {
+                summary.add(point);
+            }
+        } else if (baseLineType.equalsIgnoreCase("c")) {
+            if (point.getBaselineDate() != null && (point.getBaselineDate().after(setBaselineDate))) {
+                summary.add(point);
+            }
+        }
+    }
+
 }

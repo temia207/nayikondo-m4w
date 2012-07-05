@@ -21,6 +21,7 @@ import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
@@ -198,38 +199,43 @@ public class TicketDetailsView extends View {
     }
 
     public void setAssessmentFields(List<FaultAssessment> fields) {
-        inspectionFldset = new FieldSet();
-        inspectionFldset.setHeading(appMessages.assessmentAndRepairs());
-        inspectionFldset.setCheckboxToggle(false);
+       inspectionFldset = new FieldSet();
+	    inspectionFldset.setHeading(appMessages.assessmentAndRepairs());
+	    inspectionFldset.setCheckboxToggle(false);
 
-        FormLayout layout = new FormLayout();
-        layout.setLabelWidth(200);
-        inspectionFldset.setLayout(layout);
-        faultAssessmentFields = new HashMap<String, TextField<String>>();
-        if (!fields.isEmpty()) {
-            FaultAssessment x = fields.get(fields.size() - 1);
-            String id = "" + x.getAssessmentId();
+	    FormLayout layout = new FormLayout();
+	    layout.setLabelWidth(200);
+	    inspectionFldset.setLayout(layout);
+	    faultAssessmentFields = new HashMap<String, TextField<String>>();
+	    if (!fields.isEmpty()) {
+		    FaultAssessment x = fields.get(fields.size() - 1);
+		    String id = "" + x.getAssessmentId();
 //            inspectionFldset.add(addAssessmentFld("Id", id), formData);
-            inspectionFldset.add(addAssessmentFld("Problem", x.getProblem().getProblemDescsription()), formData);
-            inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()), formData);
-            inspectionFldset.add(addAssessmentFld("Date", x.getDate().toString()), formData);
-            inspectionFldset.add(addAssessmentFld("Assessed By", x.getAssessedBy()), formData);
-            inspectionFldset.add(addAssessmentFld("Types of Repaires Needed", x.getTypeOfRepairesNeeded()), formData);
-            inspectionFldset.add(addAssessmentFld("Is the problem Fixed?", x.getProblemFixed().equals("T") ? "Yes" : "No"), formData);
-            inspectionFldset.add(addAssessmentFld("If Not fixed why?", x.getReasonNotFixed()), formData);
-            inspectionFldset.add(addAssessmentFld("Repairs Done", x.getRepairsDone()), formData);
-            inspectionFldset.add(addAssessmentFld("Cost of Materials", x.getCostOfMaterials()), formData);
-            inspectionFldset.add(addAssessmentFld("Cost of Labour", x.getCostOfLabour()), formData);
-            inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
-            inspectionFldset.add(addAssessmentFld("Name Of HPM", x.getUserId()), formData);
-        } else {
-            Label lable = new Label("There is no assessment done for this fault");
-            inspectionFldset.add(lable);
-        }
-        ticketsDataTable.setWidget(0, 1, inspectionFldset);
-        ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
-        ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
-        ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		    inspectionFldset.add(addAssessmentFld("Problem", x.getProblem().getProblemDescsription()), formData);
+		    inspectionFldset.add(addAssessmentFld("Faults", x.getFaults()), formData);
+		    inspectionFldset.add(addAssessmentFld("Date", x.getDate().toString()), formData);
+		    inspectionFldset.add(addAssessmentFld("Assessed By", x.getAssessedBy()), formData);
+		    inspectionFldset.add(addAssessmentFld("Assessor Telephone", x.getAssessedBy()), formData);
+		    inspectionFldset.add(addAssessmentFld("Types of Repaires Needed", x.getTypeOfRepairesNeeded()), formData);
+		    inspectionFldset.add(addAssessmentFld("Is the problem Fixed?", x.getProblemFixed().equals("T") ? "Yes" : "No"), formData);
+		    inspectionFldset.add(addAssessmentFld("If Not fixed why?", x.getReasonNotFixed()), formData);
+		    TextArea repairsDone = new TextArea();
+		    repairsDone.setFieldLabel("Repairs Done");
+		    repairsDone.setValue(x.getRepairsDone());
+		    repairsDone.setReadOnly(true);
+		    inspectionFldset.add(repairsDone, formData);
+		    inspectionFldset.add(addAssessmentFld("Cost of Materials", x.getCostOfMaterials()), formData);
+		    inspectionFldset.add(addAssessmentFld("Cost of Labour", x.getCostOfLabour()), formData);
+		    inspectionFldset.add(addAssessmentFld("Recommendations", x.getRecommendations()), formData);
+		    inspectionFldset.add(addAssessmentFld("Name Of HPM", x.getUserId()), formData);
+	    } else {
+		    Label lable = new Label("There is no assessment done for this fault");
+		    inspectionFldset.add(lable);
+	    }
+	    ticketsDataTable.setWidget(0, 1, inspectionFldset);
+	    ticketsDataTable.getFlexCellFormatter().setRowSpan(0, 1, 2);
+	    ticketsDataTable.getFlexCellFormatter().setWidth(0, 1, "50%");
+	    ticketsDataTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
     }
 
     private FieldSet createTwitsFieldset() {

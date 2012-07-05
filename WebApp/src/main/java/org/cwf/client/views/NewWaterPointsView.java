@@ -6,11 +6,14 @@ package org.cwf.client.views;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.grid.BufferView;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -20,7 +23,6 @@ import com.extjs.gxt.ui.client.widget.grid.filters.GridFilters;
 import com.extjs.gxt.ui.client.widget.grid.filters.ListFilter;
 import com.extjs.gxt.ui.client.widget.grid.filters.StringFilter;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,17 +34,15 @@ import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.NewWaterpointSummary;
 import org.cwf.client.model.Subcounty;
-import org.cwf.client.model.WaterPointModel;
 import org.cwf.client.utils.ProgressIndicator;
 import org.m4water.server.admin.model.Setting;
 import org.m4water.server.admin.model.SettingGroup;
-import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
  *
  * @author victor
  */
-public class NewWaterPointsView extends ContentPanel implements Refreshable {
+public class NewWaterPointsView extends FormPanel implements Refreshable {
 
     final AppMessages appMessages = GWT.create(AppMessages.class);
     private Grid<NewWaterpointSummary> grid;
@@ -50,6 +50,7 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
     //type may be new waterpoints or all waterpoints
     private String type;
     private HomeView parentView;
+    private Button exportToExcelBtn;
 
     public NewWaterPointsView(HomeView view, String type) {
         this.type = type;
@@ -96,6 +97,22 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         buffer.setRowHeight(28);
         grid.setView(buffer);
         add(grid);
+	exportToExcelBtn = new Button("Export To Excel");
+	exportToExcelBtn.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+			@Override
+			public void componentSelected(ButtonEvent ce) {
+				try {
+					ProgressIndicator.showProgressBar();
+					action();
+					ProgressIndicator.hideProgressBar();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+	exportToExcelBtn.setType("submit");
+	addButton(exportToExcelBtn);
         setLayout(new FitLayout());
     }
     private ListStore<Subcounty> subcounties;
@@ -174,4 +191,9 @@ public class NewWaterPointsView extends ContentPanel implements Refreshable {
         }
         return model;
     }
+
+   private void action() {
+		HomeController controller = (HomeController) parentView.getController();
+		controller.exportEditable(HomeController.NEW_WATER_POINTS,"newwaterpoint.xls");
+	}
 }

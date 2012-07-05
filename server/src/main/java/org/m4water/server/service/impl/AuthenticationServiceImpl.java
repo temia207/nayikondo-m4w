@@ -46,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     String sessionIdBefeoreNewContext = OpenXDataSecurityUtil.getCurrentSession();
                     OpenXDataSecurityUtil.setSecurityContext(userDetails, sessionIdBefeoreNewContext);
                     if (sessionIdBefeoreNewContext != null) {
-                        sessionRegistry.registerNewSession(sessionIdBefeoreNewContext, user.getUsername());
+                        sessionRegistry.registerNewSession(sessionIdBefeoreNewContext, user.getUserName());
                     }
                 } else {
                     //invalid password

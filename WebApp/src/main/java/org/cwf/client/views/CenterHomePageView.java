@@ -12,7 +12,6 @@ import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.List;
 import org.cwf.client.AppMessages;
-import org.cwf.client.views.reports.FunctionalityView;
 
 /**
  *
