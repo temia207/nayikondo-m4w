@@ -6,14 +6,11 @@ import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.extjs.gxt.ui.client.widget.custom.Portal;
 import com.extjs.gxt.ui.client.widget.custom.Portlet;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayoutData;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +21,6 @@ import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
 import org.cwf.client.controllers.HomeController;
 import org.cwf.client.model.ProblemSummary;
-import org.cwf.client.views.widgets.CenterLayoutPanel;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.WaterPointSummary;
@@ -33,17 +29,14 @@ import org.m4water.server.admin.model.WaterPointSummary;
  *
  * @author victor
  */
-public class HomeView extends View implements Refreshable,ClickHandler {
+public class HomeView extends View implements Refreshable{
 
 	final AppMessages appMessages = GWT.create(AppMessages.class);
-	private CenterLayoutPanel centerLayoutPanel;
-	private ContentPanel cpWest;
-	private ContentPanel cpCenter;
 	public  String districtName;
 	private Portlet portlet;
 	public List<Problem> tickets = new ArrayList<Problem>();
 	public List<WaterPointSummary> waterPointSummary = new ArrayList<WaterPointSummary>();
-	private CenterHomePageView centerpanel;
+        private M4WaterHomeViewTabPanel verticalTabPanel;
 	public Date baselineSetDate;
 	public User loggedinUser;
 
@@ -60,19 +53,13 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 
 	public void initUi() {
 		GWT.log("Home view: init UI");
-		centerLayoutPanel = new CenterLayoutPanel("Home View");
-		centerpanel = new CenterHomePageView(this);
-		centerLayoutPanel.addCenterPannel(centerpanel);
-		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.tickets(), this));
-		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.allWaterPoints(), this));
-		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.reports(),this));
-		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.users(),this));
-		centerLayoutPanel.getWestPanel().add(centerLayoutPanel.addLeftMenu(appMessages.settings(),this));
+                verticalTabPanel = new M4WaterHomeViewTabPanel(this);
+                verticalTabPanel.setWidth("100%");
 		VBoxLayoutData vBoxData = new VBoxLayoutData(5, 5, 5, 5);
 		vBoxData.setFlex(1);
 		portlet = new Portlet(new FitLayout());
 		portlet.setHeaderVisible(false);
-		portlet.add(centerLayoutPanel);
+		portlet.add(verticalTabPanel);
 		portlet.setScrollMode(Scroll.AUTOY);
 		portlet.setSize(725, 100);
 		portlet.addStyleName("portlet-border");
@@ -87,7 +74,7 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 			maximisePortlet(portlet);
 			loggedinUser = event.getData();
 			districtName = loggedinUser.getSubcounty().getCounty().getDistrict().getName();
-			centerLayoutPanel.setHeading(centerLayoutPanel.getHeading() + ":" + districtName + " District");
+			verticalTabPanel.setHeading(verticalTabPanel.getHeading() + ":" + districtName + " District");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
 			controller2.getBaselineSetDate();
 			controller2.getTickets();
@@ -136,15 +123,4 @@ public class HomeView extends View implements Refreshable,ClickHandler {
 		}
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-				String txt = ((Label)event.getSource()).getText();
-                if (txt.equals(appMessages.allWaterPoints())) {
-                    centerpanel.setActiveItem(1);
-                } else if (txt.equals("Tickets")) {
-                    centerpanel.setActiveItem(0);
-                } else if(txt.equals("Reports")){
-					((HomeController) HomeView.this.getController()).forwardToReportsView(loggedinUser);
-				}
-	}
 }

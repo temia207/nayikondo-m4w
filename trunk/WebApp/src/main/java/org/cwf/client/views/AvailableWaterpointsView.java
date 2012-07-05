@@ -118,7 +118,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         grid.getAriaSupport().setLabelledBy(getHeader().getId() + "-label");
-//        grid.addPlugin(createFilters());
+        grid.addPlugin(createFilters());
         grid.setSelectionModel(sm);
         grid.addPlugin(sm);
         BufferView buffer = new BufferView();
@@ -200,16 +200,16 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             }
         });
         exportToExcelBtn.setType("submit");
-//        if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
-//            addButton(launchBaseline);
-//        } else if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {
-//            launchBaseline.hide();
-//        } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {
-//            launchBaseline.setText("Redo Baseline");
-//            addButton(launchBaseline);
-//        } else if (type.equalsIgnoreCase(appMessages.pendingBaseline())) {
-//            addButton(btnCancelBaseline);
-//        }
+        if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
+            addButton(launchBaseline);
+        } else if (type.equalsIgnoreCase(appMessages.newWaterPoints())) {
+            launchBaseline.hide();
+        } else if (type.equalsIgnoreCase(appMessages.baseLineDataComplete())) {
+            launchBaseline.setText("Redo Baseline");
+            addButton(launchBaseline);
+        } else if (type.equalsIgnoreCase(appMessages.pendingBaseline())) {
+            addButton(btnCancelBaseline);
+        }
         addButton(exportToExcelBtn);
         setLayout(new FitLayout());
     }
@@ -317,8 +317,8 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
                         } else if (type.equalsIgnoreCase(appMessages.baseLineNotDone())) {
                             baselineStatus = "F";
                         }
-//                                controller.getPagedWaterPointSummaries(pagingLoadConfig, parentView.districtName,
-//                                        baselineStatus, parentView.baselineSetDate, callback);
+                                controller.getPagedWaterPointSummaries(pagingLoadConfig, parentView.districtName,
+                                        baselineStatus, parentView.baselineSetDate, callback);
 
                         nulldate = true;
                     }
