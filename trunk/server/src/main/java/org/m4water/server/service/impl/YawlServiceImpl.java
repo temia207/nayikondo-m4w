@@ -92,8 +92,8 @@ public class YawlServiceImpl implements YawlService {
     private User getSubcountHPM(Subcounty subcounty, String postfix) {
         for (Object user : subcounty.getUsers()) {
             User tempMech = (User) user;
-            if (tempMech.getUsername() != null) {
-                if (tempMech.getUsername().trim().endsWith(postfix)) {
+            if (tempMech.getUserName() != null) {
+                if (tempMech.getUserName().trim().endsWith(postfix)) {
                     return (User) user;
                 }
             }
@@ -119,9 +119,9 @@ public class YawlServiceImpl implements YawlService {
         params.put("source_name", waterpoint.getName());
         params.put("source_number", waterpoint.getWaterpointId());
         params.put("tel", (mechanic.getContacts() + "").replace("-", ""));
-        params.put("namesms", mechanic.getUsername());
-        params.put("userAssignedCollector", mechanic.getUsername());
-        params.put("userAssignedReviewer", healthWorker.getUsername());
+        params.put("namesms", mechanic.getUserName());
+        params.put("userAssignedCollector", mechanic.getUserName());
+        params.put("userAssignedReviewer", healthWorker.getUserName());
         try {
             return yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
         } catch (IOException ex) {

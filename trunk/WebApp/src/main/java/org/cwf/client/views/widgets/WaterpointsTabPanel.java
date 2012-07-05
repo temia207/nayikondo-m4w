@@ -51,7 +51,7 @@ public class WaterpointsTabPanel extends ContentPanel {
         AvailableWaterpointsView waterpoints2  = new AvailableWaterpointsView(parentView,appMessages.baseLineNotDone());
         waterpoints2.setWidth("100%");
         waterpoints2.setHeading(appMessages.allWaterPoints());
-        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.ALL_WATER_POINTS,waterpoints2);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.BASELINE_NOT_DONE,waterpoints2);
         RefreshablePublisher.get().subscribe(RefreshableEvent.Type.WATERPOINT_CHANGES,waterpoints2);
         baseLineForReview.add(waterpoints2);
 
@@ -60,7 +60,7 @@ public class WaterpointsTabPanel extends ContentPanel {
         AvailableWaterpointsView waterpoints3  = new AvailableWaterpointsView(parentView,appMessages.baseLineDataComplete());
         waterpoints3.setWidth("100%");
         waterpoints3.setHeading(appMessages.allWaterPoints());
-        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.ALL_WATER_POINTS,waterpoints3);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.BASELINE_COMPLETE,waterpoints3);
         baselineComplete.add(waterpoints3);
 
         TabItem pendingBaseline = new TabItem(appMessages.pendingBaseline());
@@ -68,7 +68,7 @@ public class WaterpointsTabPanel extends ContentPanel {
         AvailableWaterpointsView waterpoints4  = new AvailableWaterpointsView(parentView,appMessages.pendingBaseline());
         waterpoints4.setWidth("100%");
         waterpoints4.setHeading(appMessages.pendingBaseline());
-        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.ALL_WATER_POINTS,waterpoints4);
+        RefreshablePublisher.get().subscribe(RefreshableEvent.Type.BASELINE_PENDING,waterpoints4);
         RefreshablePublisher.get().subscribe(RefreshableEvent.Type.WATERPOINT_CHANGES,waterpoints4);
         pendingBaseline.add(waterpoints4);
 

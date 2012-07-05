@@ -44,6 +44,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -91,6 +95,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
     private Portal portal;
     // user dependent UI components
     private Text userBanner;
+	private static HandlerRegistration windowClosingRegistration;
 
     @Override
     public void onModuleLoad() {
@@ -107,6 +112,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
             }
         });
         System.out.println("================ starting ");
+	addWindowClosingHandler();
         ticketSmsService = ProblemServiceAsync.Util.getInstance();
         waterPointService = WaterPointServiceAsync.Util.getInstance();
         inspectionService = InspectionClientServiceAsync.Util.getInstance();
@@ -191,9 +197,9 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
 
             @Override
             public void handleEvent(ButtonEvent be) {
-//                Window.Location.replace(GWT.getHostPageBaseURL() + "j_spring_security_logout");
-//                Window.Location.replace(GWT.getHostPageBaseURL() + "index.html");
-				XDOM.reload();
+		windowClosingRegistration.removeHandler();
+		Window.Location.replace(GWT.getHostPageBaseURL() + "j_spring_security_logout");
+//		XDOM.reload();
             }
         });
         FlexTable ft = new FlexTable();
@@ -212,10 +218,10 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         buttonsTableData.setHorizontalAlign(HorizontalAlignment.RIGHT);
         buttonsTableData.setVerticalAlign(VerticalAlignment.MIDDLE);
         buttonsTableData.setWidth("200");
-        buttonsTableData.setHeight("40");
+        buttonsTableData.setHeight("30");
         northPanel.add(ft, buttonsTableData);
 
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 50);
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH,50);
         data.setMargins(new Margins(10, 40, 10, 14));
         viewport.add(northPanel, data);
     }
@@ -225,12 +231,12 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         center.setLayout(new FitLayout());
 
         portal = new Portal(1);
-        portal.setSpacing(10);
+        portal.setSpacing(3);
         portal.setColumnWidth(0, .99);
         center.add(portal);
 
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-        data.setMargins(new Margins(5, 5, 5, 5));
+        data.setMargins(new Margins(1, 5, 1, 5));
 
         viewport.add(center, data);
     }
@@ -239,6 +245,7 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
         final LayoutContainer lc = new LayoutContainer();
         lc.setBorders(false);
         lc.setBounds(1, 1, 1, 1);
+        lc.setHeight(10);
 
         VBoxLayout layout = new VBoxLayout();
         layout.setPadding(new Padding(0));
@@ -247,32 +254,22 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
 
         lc.add(new Text(""));
 
-        ContentPanel panel = new ContentPanel();
-
-        panel.setLayout(new RowLayout(Orientation.HORIZONTAL));
-        panel.setSize(380, 50);
-        panel.setFrame(false);
-        panel.setCollapsible(false);
-        panel.setHeaderVisible(false);
-        panel.setBorders(false);
-        panel.setBodyBorder(false);
-
         StringBuilder sb = new StringBuilder();
         sb.append("<table border=0 cellspacing=10><tr><td>");
         sb.append(appMessages.disclaimer());
         sb.append("</td><td>");
         sb.append("<a href=\"#\" onclick=\"window.open('http://www.cell-life.org');\" title=\"Cell-Life : http://www.cell-life.org' style='cursor:hand;\">");
-        sb.append("<img width=\"40\" height=\"34\" src=\"images/m4w/snvlogo.png\" title=\"SNV\" style=\"cursor:hand;\"/>");
+        sb.append("<img width=\"40\" src=\"images/m4w/snvlogo.png\" title=\"SNV\" style=\"cursor:hand;\"/>");
 //		sb.append("<img width=\"40\" height=\"34\" src=\"images/m4w/wateraidlogo.png\" title=\"Water Aid\" style=\"cursor:hand;\"/>");
         sb.append("</a>");
         sb.append("</td>");
-		
+
         sb.append("<td valign=middle>");
         sb.append("<a href=\"#\" onclick=\"window.open('http://www.openxdata.org');\" title=\"OpenXData : http://www.openxdata.org' style='cursor:hand;\">");
         sb.append("<img  src=\"images/m4w/wateraidlogo.png\" valign=middle title=\"Makerere University\" style=\"cursor:hand;\"/>");
         sb.append("</a>");
         sb.append("</td>");
-		
+
 //        sb.append(appMessages.and());
         sb.append("<td valign=middle>");
         sb.append("<a href=\"#\" onclick=\"window.open('http://www.openxdata.org');\" title=\"OpenXData : http://www.openxdata.org' style='cursor:hand;\">");
@@ -283,8 +280,8 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
 
         lc.add(html);
 
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH, 100);
-        data.setMargins(new Margins(10, 40, 10, 14));
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH,70);
+        data.setMargins(new Margins(1, 5, 20, 5));
         viewport.add(lc, data);
     }
 	
@@ -295,4 +292,21 @@ public class IndexEntryPoint implements EntryPoint, Refreshable {
 		}
 		return true;
 	}
+
+	public static void addWindowClosingHandler() {
+		windowClosingRegistration = Window.addWindowClosingHandler(new ClosingHandler() {
+			@Override
+			public void onWindowClosing(ClosingEvent event) {
+				// this should handle backspaces and escape button presses
+				event.setMessage("m4water");
+			}
+		});
+	}
+	public static void openWindow(String url) {
+		windowClosingRegistration.removeHandler();
+		GWT.log("Opening popup with URL:" + URL.encode(url));
+		Window.open(URL.encode(url), "popup", "height=175,width=320");
+		addWindowClosingHandler();
+	}
+
 }

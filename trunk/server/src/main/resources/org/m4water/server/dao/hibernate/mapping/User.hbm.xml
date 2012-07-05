@@ -13,7 +13,7 @@
     <many-to-one class="org.m4water.server.admin.model.UserProfile" lazy="false" name="userProfile">
       <column length="200" name="staff_profile_id"/>
     </many-to-one>
-    <property name="username" type="string">
+    <property name="userName" type="string">
       <column length="200" name="username"/>
     </property>
     <property name="firstname" type="string">

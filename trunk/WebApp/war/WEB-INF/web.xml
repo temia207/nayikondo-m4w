@@ -17,6 +17,16 @@
         <servlet-name>login.jsp</servlet-name>
         <jsp-file>/login.jsp</jsp-file>
     </servlet>
+  <!-- Servlet that handles export/download of items -->
+  <servlet>
+    <servlet-name>itemexport</servlet-name>
+    <servlet-class>org.m4water.server.servlet.ItemExportServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>itemexport</servlet-name>
+    <url-pattern>/actions/itemexport</url-pattern>
+  </servlet-mapping>
+
     <servlet>
         <servlet-name>yawlServlet</servlet-name>
         <servlet-class>org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedServer</servlet-class>
@@ -83,7 +93,6 @@
         <servlet-name>userService</servlet-name>
         <url-pattern>/cwf/user</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>authenticationservice</servlet-name>
         <servlet-class>org.cwf.server.AuthenticationServiceImpl</servlet-class>
@@ -92,7 +101,6 @@
         <servlet-name>authenticationservice</servlet-name>
         <url-pattern>/cwf/authentication</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>settingservice</servlet-name>
         <servlet-class>org.cwf.server.SettingServiceImpl</servlet-class>
@@ -109,13 +117,10 @@
         <servlet-name>reportService</servlet-name>
         <url-pattern>/cwf/reportService</url-pattern>
     </servlet-mapping>
-<!--///////////////////////////////////////////////////////////////	-->
-
+    <!--///////////////////////////////////////////////////////////////	-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>
-    /WEB-INF/m4water-web-applicationContext-security.xml
-        </param-value>
+        <param-value>/WEB-INF/m4water-web-applicationContext-security.xml         </param-value>
     </context-param>
     <!-- Acegi/Spring Security filter (to intercept the requests and perform security checks) s-->
     <filter>
@@ -136,8 +141,8 @@
     </context-param>
     <context-param>
         <param-name>InterfaceB_BackEnd</param-name>
-        <param-value>http://localhost:8787/yawl/ib</param-value>
-<!--        <param-value>http://workflowtest.openxdata.org:8080/yawl/ib</param-value>-->
+<!--        <param-value>http://localhost:8787/yawl/ib</param-value>-->
+                <param-value>http://workflowtest.openxdata.org:8080/yawl/ib</param-value>
     </context-param>
     <!-- secures resources which would be otherwise accessible via a direct link -->
     <security-constraint>

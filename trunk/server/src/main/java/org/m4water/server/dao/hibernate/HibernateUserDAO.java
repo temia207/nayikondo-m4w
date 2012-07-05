@@ -29,7 +29,8 @@ public class HibernateUserDAO extends BaseDAOImpl<User, String> implements UserD
 
     @Override
     public User getUser(String username) {
-        return searchUniqueByPropertyEqual("username", username);
+         User user = searchUniqueByPropertyEqual("userName", username);
+        return user;
     }
 
     @Override

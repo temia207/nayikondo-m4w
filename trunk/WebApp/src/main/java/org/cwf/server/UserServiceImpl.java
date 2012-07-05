@@ -80,7 +80,7 @@ public class UserServiceImpl extends M4waterPersistentRemoteService implements U
 
     @Override
     public boolean validatePassword(User user) throws M4waterSecurityException {
-        return getAuthenticationService().isValidUserPassword(user.getUsername(), user.getPassword());
+        return getAuthenticationService().isValidUserPassword(user.getUserName(), user.getPassword());
     }
 
     public org.m4water.server.service.UserService getUserService() {

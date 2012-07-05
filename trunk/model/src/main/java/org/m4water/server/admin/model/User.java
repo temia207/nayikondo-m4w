@@ -13,7 +13,7 @@ public class User extends AbstractEditable<String> {
      private String userId;
      private Subcounty subcounty;
      private UserProfile userProfile;
-     private String username;
+     private String userName;
      private String firstname;
      private String lastname;
      private String contacts;
@@ -35,7 +35,7 @@ public class User extends AbstractEditable<String> {
        this.userId = userId;
        this.subcounty = subcounty;
        this.userProfile = userProfile;
-       this.username = username;
+       this.userName = username;
        this.firstname = firstname;
        this.lastname = lastname;
        this.contacts = contacts;
@@ -59,12 +59,12 @@ public class User extends AbstractEditable<String> {
     public void setSubcounty(Subcounty subcounty) {
         this.subcounty = subcounty;
     }
-    public String getUsername() {
-        return this.username;
+    public String getUserName() {
+        return this.userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String username) {
+        this.userName = username;
     }
     public UserProfile getUserProfile() {
         return this.userProfile;

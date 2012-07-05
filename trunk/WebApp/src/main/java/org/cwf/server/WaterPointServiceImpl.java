@@ -6,6 +6,8 @@ import org.cwf.client.service.WaterPointService;
 import org.cwf.server.rpc.M4waterPersistentRemoteService;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.paging.PagingLoadConfig;
+import org.m4water.server.admin.model.paging.PagingLoadResult;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -38,13 +40,23 @@ public class WaterPointServiceImpl extends M4waterPersistentRemoteService implem
     }
 
     @Override
-    public List<WaterPointSummary> getWaterPointSummaries(String district) {
-        return getWaterPointService().getWaterPointSummaries(district);
-    }
+	public List<WaterPointSummary> getWaterPointSummaries(String district) {
+		return getWaterPointService().getWaterPointSummaries(district);
+	}
+
+	@Override
+	public List<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType) {
+		return getWaterPointService().getWaterPointSummaries(district, baseLineType);
+	}
 
     @Override
     public Date getBaselineSetDate() {
         return getWaterPointService().getBaselineSetDate();
+    }
+
+    @Override
+    public PagingLoadResult<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType, PagingLoadConfig loadConfig) {
+        return getWaterPointService().getWaterPointSummaries(district, baseLineType, loadConfig);
     }
 
     public org.m4water.server.service.WaterPointService getWaterPointService() {

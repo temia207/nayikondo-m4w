@@ -6,8 +6,8 @@
 package org.m4water.server.dao;
 import java.util.Date;
 import java.util.List;
-import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.WaterPointSummary;
 
 /**
  *
@@ -19,6 +19,8 @@ public interface WaterPointDao extends  BaseDAO<Waterpoint, String>{
     void saveWaterPoint(Waterpoint waterPoint);
     public List<WaterPointSummary> getWaterPointSummaries();
     public List<WaterPointSummary> getWaterPointSummaries(String district);
+    List<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType);
     public Date getBaselineSetDate();
+    public List<Waterpoint> getWaterpoints(String baselineDone);
 
 }
