@@ -35,7 +35,8 @@ public class WaterpointsTabPanel extends ContentPanel {
     private void initialize() {
         waterpointsPanel = new TabPanel();
         waterpointsPanel.setWidth(600);
-        waterpointsPanel.setAutoHeight(true);
+//        waterpointsPanel.setAutoHeight(true);
+        waterpointsPanel.setHeight(340);
         setHeading(appMessages.allWaterPoints()+":to filter values right click the colum->filters");
 
         TabItem newWaterpoints = new TabItem(appMessages.newWaterPoints());
