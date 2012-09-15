@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("smsService")
 public class SMSServiceImpl  {
+	private  String M4W = "M4W";
 
     private org.slf4j.Logger log = LoggerFactory.getLogger(SMSServiceImpl.class);
     
@@ -90,7 +91,7 @@ public class SMSServiceImpl  {
                 qparams.add(new BasicNameValuePair("username", "kayondor@gmail.com"));
                 qparams.add(new BasicNameValuePair("password", "m4w!!2012"));
                 qparams.add(new BasicNameValuePair("recipients", number));
-                qparams.add(new BasicNameValuePair("from", "M4W"));
+                qparams.add(new BasicNameValuePair("from", M4W));
                 qparams.add(new BasicNameValuePair("message", message+""));
                 qparams.add(new BasicNameValuePair("token", "c4ca4238a0b923820dcc509a6f75849b"));
                 qparams.add(new BasicNameValuePair("type", "normal"));
@@ -113,4 +114,10 @@ public class SMSServiceImpl  {
                 String trim = response.trim();
                 return trim.startsWith(code + ":");
         }
+	
+	public static void main(String[] args) {
+		SMSServiceImpl imp = new SMSServiceImpl();
+		imp.M4W = "CHonni";
+		imp.sendSMS("256712075579", "kayondor@gmail.com");
+	}
 }

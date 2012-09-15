@@ -1,8 +1,9 @@
-package ee.joonas;
+package org.m4water.server.servlet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -296,8 +297,14 @@ public class NameGenerator {
         return name;
     }
 
-        public static void main(String[] args) {
-        //        NameGenerator nc = new NameGenerator(null);
-//                nc.c
+        public static void main(String[] args) throws IOException {
+		URL resource = NameGenerator.class.getResource("/syl");
+                NameGenerator nc = new NameGenerator(resource.getFile());
+		for (int i = 0; i < 10; i++) {
+		String compose = nc.compose(4);
+			System.out.println("Name: "+ i+ " -> "+compose);
+		}
+		
+	
         }
 }
