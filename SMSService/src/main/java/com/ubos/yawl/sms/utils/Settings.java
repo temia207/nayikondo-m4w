@@ -52,7 +52,7 @@ public class Settings {
     }
 
     private void loadProperties(boolean reload) throws FileNotFoundException, IOException {
-        if (!reload || !prop.isEmpty()) {
+        if (!reload && !prop.isEmpty()) {
             return;
         }
         InputStream inputStream = new FileInputStream(userFile);
