@@ -34,16 +34,17 @@ import org.springframework.stereotype.Component;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.WorkItemRecord;
-import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceBWebsideController;
 import org.yawlfoundation.yawl.exceptions.YAWLException;
 import org.yawlfoundation.yawl.util.StringUtil;
+import org.openxdata.yawl.util.YawlPinger;
+import org.openxdata.yawl.util.YawlPingerListener;
 
 /**
  *
  * @author kay
  */
 @Component("yawlTicketService")
-public class TicketYawlService extends InterfaceBWebsideController implements InitializingBean {
+public class TicketYawlService extends YawlPingerListener implements InitializingBean {
 
     private static TicketYawlService ticketYawlService;
     private InterfaceBHelper yawlHelper;
@@ -56,7 +57,8 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     @Autowired WaterFunctionalityService funxService;
     @Autowired WUCService wUCService;
     private org.slf4j.Logger log = LoggerFactory.getLogger(TicketYawlService.class);
-
+	private YawlPinger pinger;
+    
     public static TicketYawlService getInstance() {
         return ticketYawlService;
     }
@@ -92,10 +94,22 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("Initiations the yawl custom service");
-        yawlHelper = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
-        ticketYawlService = this;
+	log.debug("Initiations the yawl custom service done by spring");
+	ticketYawlService = this;
     }
+
+	@Override
+	public void setUpInterfaceBClient(String backEndURI) {
+		super.setUpInterfaceBClient(backEndURI);
+	log.trace("Initiating interfaceB helper");	
+	yawlHelper = new InterfaceBHelper(this, _interfaceBClient, DEFAULT_ENGINE_USERNAME, DEFAULT_ENGINE_PASSWORD);
+	pinger = new YawlPinger(yawlHelper, ticketYawlService);
+	pinger.setServiceID("m4wticket");
+	log.debug("Starting Yawl Pinger for m4w.web app");
+	pinger.start();
+	}
+    
+    
 
     public String launchCase(Params params) throws IOException, YAWLException {
         Properties resolvedProps = properties.getResolvedProps();
@@ -108,16 +122,17 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     }
 
     private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
-        try {
+        
             String action = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "action");
             if (action!=null && action.equals("baseline")) {
                 processBaseLine(workItemRecord);
             }else{
                 processAssesMent(workItemRecord);
             } 
-        } finally {
+        
+	 _model.addWorkItem(workItemRecord);
             yawlHelper.checkInWorkItem(workItemRecord);
-        }
+        
     }
 
     private void processAssesMent(WorkItemRecord workItemRecord) throws RuntimeException {
@@ -284,6 +299,15 @@ public class TicketYawlService extends InterfaceBWebsideController implements In
     public void cancelWorkflow(String caseID) throws IOException {
 	   yawlHelper.cancelCase(caseID, yawlHelper.initSessionHandle());
     }
+
+	@Override
+	public void handleExcutingWorkitem(WorkItemRecord wir) {
+		try {
+			processWorkitem(wir);
+		} catch (Exception ex) {
+		 log.error("Error while processing executing workitem", ex);
+		} 
+	}
 
     public static class Params {
 

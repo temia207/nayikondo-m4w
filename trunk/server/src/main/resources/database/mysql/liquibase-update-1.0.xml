@@ -18,5 +18,18 @@
 			<column name="assessor_tel" type="varchar(255)"/>
 		</addColumn>
 	</changeSet>
-
+	<changeSet id="add_uuid_water_functionality" author="kay"  >
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<columnExists tableName="water_functionality" columnName="id"/>
+			</not>
+		</preConditions>
+		<addColumn tableName="water_functionality">
+			<column name="id" type="varchar(200)"/>
+		</addColumn>
+		<sql>
+			update water_functionality set id=(uuid())
+		</sql>
+		<addPrimaryKey tableName="water_functionality" columnNames="id"/>
+	</changeSet>
 </databaseChangeLog>
