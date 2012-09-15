@@ -116,11 +116,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate</artifactId>
-            <version>3.2.5.ga</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -146,6 +141,16 @@
             <groupId>com.googlecode.genericdao</groupId>
             <artifactId>dao-hibernate</artifactId>
             <version>1.0.0</version>
+	<exclusions>
+		<exclusion>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+		</exclusion>
+	    <exclusion>
+	        <artifactId>hibernate-core</artifactId>
+	        <groupId>org.hibernate</groupId>
+	    </exclusion>
+	</exclusions>
         </dependency>
 
         <dependency>

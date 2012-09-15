@@ -269,7 +269,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
                 "No Last Repair",
                 new Date(1),
                 new Date(1),"","","");
-        funx.setId(new Date());;
+        funx.setId(UUID.jUuid());;
         funx.setWaterpoint(waterPoint);
         funx.setFunctionalityStatus(functionality);
         funx.setReason(non_functional_reason);

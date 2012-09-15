@@ -3,44 +3,47 @@
 <!-- Generated Sep 7, 2011 11:37:28 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
   <class catalog="m4water" name="org.m4water.server.admin.model.WaterFunctionality" table="water_functionality">
-    <id name="date" type="date">
-      <column length="10" name="date"/>
-      <generator class="assigned"/>
-    </id>
-    <many-to-one class="org.m4water.server.admin.model.Waterpoint" lazy="false" name="waterpoint">
-      <column length="200" name="waterpoint_id" not-null="true"/>
-    </many-to-one>
-    <property name="functionalityStatus" type="string">
-      <column length="200" name="functionality_status" not-null="true">
-        <comment>due to hibernate issues we use varchar for now. can be either T or F</comment>
-      </column>
-    </property>
-    <property name="dateNonFunctional" type="date">
-      <column length="10" name="date_non_functional" not-null="true"/>
-    </property>
-    <property name="reason" type="string">
-      <column length="200" name="reason" not-null="true"/>
-    </property>
-    <property name="dateLastRepaired" type="date">
-      <column length="10" name="date_last_repaired" not-null="true"/>
-    </property>
-    <property name="detailsLastRepair" type="string">
-      <column length="200" name="details_last_repair" not-null="true"/>
-    </property>
-    <property name="dateLastMinorService" type="date">
-      <column length="10" name="date_last_minor_service" not-null="true"/>
-    </property>
-    <property name="dateLastMajorService" type="date">
-      <column length="10" name="date_last_major_service" not-null="true"/>
-    </property>
-    <property name="anyPreviousRepairs" type="string">
-      <column length="200" name="any_previous_repairs" not-null="true"/>
-    </property>
-    <property name="anyPreviousMinorService" type="string">
-      <column length="200" name="any_previous_minor_service" not-null="true"/>
-    </property>
-    <property name="anyPreviousMajorService" type="string">
-      <column length="200" name="any_previous_major_service" not-null="true"/>
-    </property>
+        <id name="id" type="string">
+            <column name="id" length="200" />
+            <generator class="uuid" />
+        </id>
+        <many-to-one name="waterpoint" class="org.m4water.server.admin.model.Waterpoint" fetch="select">
+            <column name="waterpoint_id" length="200" not-null="true" />
+        </many-to-one>
+        <property name="date" type="date">
+            <column name="date" length="10" not-null="true" />
+        </property>
+        <property name="functionalityStatus" type="string">
+            <column name="functionality_status" length="200">
+                <comment>due to hibernate issues we use varchar for now. can be either T or F</comment>
+            </column>
+        </property>
+        <property name="dateNonFunctional" type="date">
+            <column name="date_non_functional" length="10" />
+        </property>
+        <property name="reason" type="string">
+            <column name="reason" length="200" />
+        </property>
+        <property name="dateLastRepaired" type="date">
+            <column name="date_last_repaired" length="10" />
+        </property>
+        <property name="detailsLastRepair" type="string">
+            <column name="details_last_repair" length="200" />
+        </property>
+        <property name="dateLastMinorService" type="date">
+            <column name="date_last_minor_service" length="10" />
+        </property>
+        <property name="dateLastMajorService" type="date">
+            <column name="date_last_major_service" length="10" />
+        </property>
+        <property name="anyPreviousRepairs" type="string">
+            <column name="any_previous_repairs" length="200" />
+        </property>
+        <property name="anyPreviousMinorService" type="string">
+            <column name="any_previous_minor_service" length="200" />
+        </property>
+        <property name="anyPreviousMajorService" type="string">
+            <column name="any_previous_major_service" length="200" />
+        </property>
   </class>
 </hibernate-mapping>
