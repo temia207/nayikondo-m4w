@@ -6,6 +6,7 @@ package org.ubos.yawl.sms.service.impl;
 
 import com.ubos.yawl.sms.utils.Settings;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -36,7 +37,7 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
     public RouteSMSServiceImpl() {
         username = Settings.readSetting("username");
         password = Settings.readSetting("password");
-        log.info("Read From Prop File: " + username + "-" + password);
+        log.info("Read From Prop File: " + username + "-" + (password == null? "null":"***"));
     }
 
     @Override
@@ -94,11 +95,19 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
         String trim = response.trim();
         return trim.startsWith(code + "|");
     }
+
+	@Override
+	protected void printUrl(URI uri) {
+		String url = uri.toString();
+		url =url.replace("="+password, "=***");
+		log.debug(url);
+	}
     
 
 
     public static void main(String[] args) {
         RouteSMSServiceImpl impl = new RouteSMSServiceImpl();
-        impl.sendSMS("256704269020", "Halloooooo");
+        //impl.sendSMS("256704269020", "Halloooooo");
+	impl.sendSMS("256712075579", "Halloooooo");
     }
 }

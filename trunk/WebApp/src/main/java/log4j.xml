@@ -33,7 +33,7 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="LOGFILE" />
     </logger>
-    <logger name="org.m4waterserver.sms" additivity="false">
+    <logger name="org.m4water.server.sms" additivity="false">
         <level value="TRACE" />
         <appender-ref ref="SMSLOGFILE" />
     </logger>

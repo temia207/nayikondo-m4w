@@ -33,9 +33,13 @@ public abstract class BaseHTTPGetSMS {
         List<NameValuePair> qparams = getNameValuePairs(number, message);
         //http://208.111.47.244/api.php
         URI uri = URIUtils.createURI(getProtocol(), getHost(), getPort(), getPath(), URLEncodedUtils.format(qparams, "UTF-8"), null);
-        log.debug(uri.toString());
+        	printUrl(uri);
         return uri;
     }
+
+	protected void printUrl(URI uri) {
+		log.debug(uri.toString());
+	}
 
     public String executeSMSGet(String number, String message) throws URISyntaxException, IOException {
         URI uri = buildUrl(number, message);
