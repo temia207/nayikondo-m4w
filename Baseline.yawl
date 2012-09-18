@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.31</version>
+      <version>0.32</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -129,25 +129,25 @@
       </localVariable>
       <localVariable>
         <name>date_last_majorservice</name>
-        <type>string</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
         <name>date_last_minorservice</name>
-        <type>string</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
         <name>date_last_repair</name>
-        <type>string</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
         <name>date_of_visit</name>
-        <type>string</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -195,12 +195,12 @@
       </localVariable>
       <localVariable>
         <name>num_days_nonfunctional</name>
-        <type>string</type>
+        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>picture</name>
+        <name>picture_img</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
@@ -231,7 +231,7 @@
       </localVariable>
       <localVariable>
         <name>wuc_member_number</name>
-        <type>string</type>
+        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -243,13 +243,13 @@
       </localVariable>
       <localVariable>
         <name>wuc_women_keyposition_num</name>
-        <type>string</type>
+        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
         <name>wuc_women_number</name>
-        <type>string</type>
+        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
