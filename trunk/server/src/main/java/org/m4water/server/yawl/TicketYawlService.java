@@ -241,11 +241,24 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		activeWUCmembers = getValueFromWorkItem(workItemRecord, "wuc_active_members");
         String assessorName = getValueFromWorkItem(workItemRecord, "assessorName");//TODO Store this
 	if(assessorName == null)
-		assessorName = getValueFromWorkItem(workItemRecord, "caretaker_name");
+		assessorName = getValueFromWorkItem(workItemRecord, "name_of_reporter");
 	String dateVisit = getValueFromWorkItem(workItemRecord, "dateVisit");
 	String dateLastMinorService = getValueFromWorkItem(workItemRecord, "dateMinorService");
 	String dateLastMajorService = getValueFromWorkItem(workItemRecord, "dateMajorService");
 	String water_point_found = getValueFromWorkItem(workItemRecord, "water_point_found");
+	//location_source_name
+	//picture_img
+	//location_village
+	//location_subcounty
+	//location_parish
+	//location_district
+	//name_of_reporter
+	//caretaker_name
+	//caretaker_tel
+	//date_last_repair
+	//water_point_found
+	
+	
 	
 
 	        System.out.println("Processing workitem recourd Retrieving waterpoint "
