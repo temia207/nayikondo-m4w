@@ -120,8 +120,8 @@ public class YawlServiceImpl implements YawlService {
         params.put("source_number", waterpoint.getWaterpointId());
         params.put("tel", (mechanic.getContacts() + "").replace("-", ""));
         params.put("namesms", mechanic.getUserName());
-        params.put("userAssignedCollector", mechanic.getUserName());
-        params.put("userAssignedReviewer", healthWorker.getUserName());
+        params.put("userAssignedCollector_u", mechanic.getUserName());
+        params.put("userAssignedReviewer_u", healthWorker.getUserName());
         try {
             return yawlService.launchCase("baseline", resolvedProps.getProperty("baseline.version"), params);
         } catch (IOException ex) {
