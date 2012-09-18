@@ -38,6 +38,7 @@ import org.yawlfoundation.yawl.exceptions.YAWLException;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.openxdata.yawl.util.YawlPinger;
 import org.openxdata.yawl.util.YawlPingerListener;
+import static org.openxdata.yawl.util.InterfaceBHelper.*;
 
 /**
  *
@@ -123,7 +124,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 
     private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
         
-            String action = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "action");
+            String action = getValueFromWorkItem(workItemRecord, "action");
             if (action!=null && action.equals("baseline")) {
                 processBaseLine(workItemRecord);
             }else{
@@ -136,11 +137,11 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
     }
 
     private void processAssesMent(WorkItemRecord workItemRecord) throws RuntimeException {
-        String waterPointID = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "waterPointID");
-        String assesment = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "assesment");
-        String repairDetails = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "repairDetails");
-        String problemFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "problemFixed");
-        String reasonNotFixed = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "reasonNotFixed");
+        String waterPointID = getValueFromWorkItem(workItemRecord, "waterPointID");
+        String assesment = getValueFromWorkItem(workItemRecord, "assesment");
+        String repairDetails = getValueFromWorkItem(workItemRecord, "repairDetails");
+        String problemFixed = getValueFromWorkItem(workItemRecord, "problemFixed");
+        String reasonNotFixed = getValueFromWorkItem(workItemRecord, "reasonNotFixed");
 
         System.out.println("Processing workitem recourd Retrieving waterpoint "
                 + "\nWaterpoint id = "+waterPointID
@@ -223,23 +224,28 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	//Functionality of of water user committee
 	//collect fees
 	
-        String source_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "source_number");
-        String functionality = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "functionality");
-        String wuc_member_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_member_number");
-        String wuc_women_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_women_number");
-        String non_functional_days = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "non_functional_days");
-        String non_functional_reason = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "non_functional_reason");
-        String wuc_established = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_established");
-        String current_ownership = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "current_ownership");
-        String wuc_functional = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_functional");
-        String wuc_trained = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_trained");
-        String wuc_key_number = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "wuc_key_number");
-        String management_type = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "management_type");
-        String activeWUCmembers = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "activeWUCmembers");
-        String assessorName = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "assessorName");
-	String dateVisit = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateVisit");
-	String dateLastMinorService = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateMinorService");
-	String dateLastMajorService = InterfaceBHelper.getValueFromWorkItem(workItemRecord, "dateMajorService");
+        String source_number = getValueFromWorkItem(workItemRecord, "source_number");
+        String functionality = getValueFromWorkItem(workItemRecord, "functionality");
+        String wuc_member_number = getValueFromWorkItem(workItemRecord, "wuc_member_number");
+        String wuc_women_number = getValueFromWorkItem(workItemRecord, "wuc_women_number");
+        String non_functional_days = getValueFromWorkItem(workItemRecord, "non_functional_days");
+        String non_functional_reason = getValueFromWorkItem(workItemRecord, "non_functional_reason");
+        String wuc_established = getValueFromWorkItem(workItemRecord, "wuc_established");
+        String current_ownership = getValueFromWorkItem(workItemRecord, "current_ownership");
+        String wuc_functional = getValueFromWorkItem(workItemRecord, "wuc_functional");
+        String wuc_trained = getValueFromWorkItem(workItemRecord, "wuc_trained");
+        String wuc_women_key_number = getValueFromWorkItem(workItemRecord, "wuc_key_number");
+        String management_type = getValueFromWorkItem(workItemRecord, "management_type");
+        String activeWUCmembers = getValueFromWorkItem(workItemRecord, "activeWUCmembers");
+	if(activeWUCmembers == null)
+		activeWUCmembers = getValueFromWorkItem(workItemRecord, "wuc_active_members");
+        String assessorName = getValueFromWorkItem(workItemRecord, "assessorName");//TODO Store this
+	if(assessorName == null)
+		assessorName = getValueFromWorkItem(workItemRecord, "caretaker_name");
+	String dateVisit = getValueFromWorkItem(workItemRecord, "dateVisit");
+	String dateLastMinorService = getValueFromWorkItem(workItemRecord, "dateMinorService");
+	String dateLastMajorService = getValueFromWorkItem(workItemRecord, "dateMajorService");
+	String water_point_found = getValueFromWorkItem(workItemRecord, "water_point_found");
 	
 
 	        System.out.println("Processing workitem recourd Retrieving waterpoint "
