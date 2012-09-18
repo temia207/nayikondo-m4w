@@ -114,9 +114,11 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 
     public String launchCase(Params params) throws IOException, YAWLException {
         Properties resolvedProps = properties.getResolvedProps();
+	log.debug("launching ticket case: "+params.params.toString());
         String caseID = _interfaceBClient.launchCase(new YSpecificationID("WaterFlow", resolvedProps.getProperty("yawl.version")), params.asXML("WaterFlow"), yawlHelper.initSessionHandle());
         boolean successful = successful(caseID);
         if (!successful) {
+		log.error("Launching baseline failed: "+caseID);
             throw new YAWLException(caseID);
         }
 	return caseID;
@@ -212,9 +214,11 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
     }
 
     public String launchCase(String specName, String version, Params params) throws IOException {
-        String launchCase = _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML("BaselineNet"), yawlHelper.initSessionHandle());
+        log.debug("Launching Baseline: "+params.params.toString());
+	    String launchCase = _interfaceBClient.launchCase(new YSpecificationID(specName, version), params.asXML("BaselineNet"), yawlHelper.initSessionHandle());
            boolean successful = successful(launchCase);
         if (!successful) {
+		log.error("laucnhing basline failed: "+launchCase);
             throw new RuntimeException(new YAWLException(launchCase));//WaterFlow
         }
 	return launchCase;
