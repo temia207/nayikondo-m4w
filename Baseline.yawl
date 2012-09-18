@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.37</version>
+      <version>0.39</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -272,7 +272,43 @@
         <initialValue />
       </localVariable>
       <processControlElements>
-        <inputCondition id="InputCondition_1" />
+        <inputCondition id="InputCondition_1">
+          <flowsInto>
+            <nextElementRef id="Collect_Baseline_3" />
+          </flowsInto>
+        </inputCondition>
+        <task id="Collect_Baseline_3">
+          <name>Collect Baseline</name>
+          <flowsInto>
+            <nextElementRef id="Update_m4w_collection_4" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+        </task>
+        <task id="Update_m4w_collection_4">
+          <name>Update m4w collection</name>
+          <flowsInto>
+            <nextElementRef id="Send_SMS_To_Reviewer_8" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+        </task>
+        <task id="Send_SMS_To_Reviewer_8">
+          <name>Send SMS To Reviewer</name>
+          <flowsInto>
+            <nextElementRef id="Update_M4W_Review_9" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+        </task>
+        <task id="Update_M4W_Review_9">
+          <name>Update M4W Review</name>
+          <flowsInto>
+            <nextElementRef id="OutputCondition_2" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+        </task>
         <outputCondition id="OutputCondition_2" />
       </processControlElements>
     </decomposition>
@@ -287,14 +323,100 @@
         <viewport x="0" y="0" w="1203" h="571" />
         <vertex id="InputCondition_1">
           <attributes>
-            <bounds x="36.0" y="276.0" w="32.0" h="32.0" />
+            <bounds x="72.0" y="196.0" w="32.0" h="32.0" />
           </attributes>
         </vertex>
         <vertex id="OutputCondition_2">
           <attributes>
-            <bounds x="1128.0" y="276.0" w="32.0" h="32.0" />
+            <bounds x="912.0" y="200.0" w="32.0" h="32.0" />
           </attributes>
         </vertex>
+        <flow source="InputCondition_1" target="Collect_Baseline_3">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Collect_Baseline_3" target="Update_m4w_collection_4">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="269.0" y="215.5" />
+              <value x="714.0" y="203.5" />
+            </points>
+          </attributes>
+        </flow>
+        <container id="Collect_Baseline_3">
+          <vertex>
+            <attributes>
+              <bounds x="216.0" y="196.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="184.0" y="228.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Update_m4w_collection_4">
+          <vertex>
+            <attributes>
+              <bounds x="372.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="340.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <flow source="Update_m4w_collection_4" target="Send_SMS_To_Reviewer_8">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="467.0" y="211.5" />
+              <value x="908.0" y="143.5" />
+            </points>
+          </attributes>
+        </flow>
+        <container id="Send_SMS_To_Reviewer_8">
+          <vertex>
+            <attributes>
+              <bounds x="552.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="520.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <flow source="Update_M4W_Review_9" target="OutputCondition_2">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Send_SMS_To_Reviewer_8" target="Update_M4W_Review_9">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <container id="Update_M4W_Review_9">
+          <vertex>
+            <attributes>
+              <bounds x="728.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="696.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
       </net>
     </specification>
   </layout>
