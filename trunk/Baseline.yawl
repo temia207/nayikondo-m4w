@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.45</version>
+      <version>0.49</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -110,6 +110,12 @@
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <localVariable>
+        <name>approve_data</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
         <name>caretaker_name</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
@@ -207,7 +213,7 @@
       </localVariable>
       <localVariable>
         <name>non_functional_days</name>
-        <type>int</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -225,7 +231,7 @@
       </localVariable>
       <localVariable>
         <name>water_point_found</name>
-        <type>boolean</type>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -328,16 +334,16 @@
               <mapsTo>wuc_functional</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_active_members&gt;{/Collect_Baseline/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
-              <mapsTo>wuc_active_members</mapsTo>
+              <expression query="&lt;location_subcounty&gt;{/Collect_Baseline/location_subcounty/text()}&lt;/location_subcounty&gt;" />
+              <mapsTo>location_subcounty</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;management_type&gt;{/Collect_Baseline/management_type/text()}&lt;/management_type&gt;" />
               <mapsTo>management_type</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;location_subcounty&gt;{/Collect_Baseline/location_subcounty/text()}&lt;/location_subcounty&gt;" />
-              <mapsTo>location_subcounty</mapsTo>
+              <expression query="&lt;wuc_active_members&gt;{/Collect_Baseline/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <mapsTo>wuc_active_members</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;dateMinorService&gt;{/Collect_Baseline/dateMinorService/text()}&lt;/dateMinorService&gt;" />
@@ -360,12 +366,12 @@
               <mapsTo>wuc_women_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;location_source_name&gt;{/Collect_Baseline/location_source_name/text()}&lt;/location_source_name&gt;" />
-              <mapsTo>location_source_name</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;caretaker_tel&gt;{/Collect_Baseline/caretaker_tel/text()}&lt;/caretaker_tel&gt;" />
               <mapsTo>caretaker_tel</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_source_name&gt;{/Collect_Baseline/location_source_name/text()}&lt;/location_source_name&gt;" />
+              <mapsTo>location_source_name</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;wuc_key_number&gt;{/Collect_Baseline/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
@@ -392,12 +398,12 @@
               <mapsTo>wuc_trained</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;caretaker_name&gt;{/Collect_Baseline/caretaker_name/text()}&lt;/caretaker_name&gt;" />
-              <mapsTo>caretaker_name</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;dateMajorService&gt;{/Collect_Baseline/dateMajorService/text()}&lt;/dateMajorService&gt;" />
               <mapsTo>dateMajorService</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;caretaker_name&gt;{/Collect_Baseline/caretaker_name/text()}&lt;/caretaker_name&gt;" />
+              <mapsTo>caretaker_name</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;location_district&gt;{/Collect_Baseline/location_district/text()}&lt;/location_district&gt;" />
@@ -449,20 +455,20 @@
               <mapsTo>non_functional_reason</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;date_last_repair&gt;{/Update_m4w_collection/date_last_repair/text()}&lt;/date_last_repair&gt;" />
-              <mapsTo>date_last_repair</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;dateVisit&gt;{/Update_m4w_collection/dateVisit/text()}&lt;/dateVisit&gt;" />
               <mapsTo>dateVisit</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;water_point_found&gt;{/Update_m4w_collection/water_point_found/text()}&lt;/water_point_found&gt;" />
-              <mapsTo>water_point_found</mapsTo>
+              <expression query="&lt;date_last_repair&gt;{/Update_m4w_collection/date_last_repair/text()}&lt;/date_last_repair&gt;" />
+              <mapsTo>date_last_repair</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;picture_img&gt;{/Update_m4w_collection/picture_img/text()}&lt;/picture_img&gt;" />
               <mapsTo>picture_img</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;water_point_found&gt;{/Update_m4w_collection/water_point_found/text()}&lt;/water_point_found&gt;" />
+              <mapsTo>water_point_found</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;details_repair&gt;{/Update_m4w_collection/details_repair/text()}&lt;/details_repair&gt;" />
@@ -533,12 +539,12 @@
               <mapsTo>caretaker_tel</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;location_district&gt;{/Update_m4w_collection/location_district/text()}&lt;/location_district&gt;" />
-              <mapsTo>location_district</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;name_of_reporter&gt;{/Update_m4w_collection/name_of_reporter/text()}&lt;/name_of_reporter&gt;" />
               <mapsTo>name_of_reporter</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_district&gt;{/Update_m4w_collection/location_district/text()}&lt;/location_district&gt;" />
+              <mapsTo>location_district</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;wuc_trained&gt;{/Update_m4w_collection/wuc_trained/text()}&lt;/wuc_trained&gt;" />
@@ -611,6 +617,10 @@
               <mapsTo>subcounty</mapsTo>
             </mapping>
             <mapping>
+              <expression query="&lt;water_point_found&gt;{/BaselineNet/water_point_found/text()}&lt;/water_point_found&gt;" />
+              <mapsTo>water_point_found</mapsTo>
+            </mapping>
+            <mapping>
               <expression query="&lt;wuc_established&gt;{/BaselineNet/wuc_established/text()}&lt;/wuc_established&gt;" />
               <mapsTo>wuc_established</mapsTo>
             </mapping>
@@ -625,6 +635,10 @@
             <mapping>
               <expression query="&lt;village&gt;{/BaselineNet/village/text()}&lt;/village&gt;" />
               <mapsTo>village</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;userAssignedReviewer_u&gt;{/BaselineNet/userAssignedReviewer_u/text()}&lt;/userAssignedReviewer_u&gt;" />
+              <mapsTo>userAssignedReviewer_u</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;parish&gt;{/BaselineNet/parish/text()}&lt;/parish&gt;" />
@@ -653,12 +667,24 @@
           </startingMappings>
           <completedMappings>
             <mapping>
+              <expression query="&lt;wuc_established&gt;{/Review_Baseline_OXD/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <mapsTo>wuc_established</mapsTo>
+            </mapping>
+            <mapping>
               <expression query="&lt;wuc_active_members&gt;{/Review_Baseline_OXD/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
               <mapsTo>wuc_active_members</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_established&gt;{/Review_Baseline_OXD/wuc_established/text()}&lt;/wuc_established&gt;" />
-              <mapsTo>wuc_established</mapsTo>
+              <expression query="&lt;current_ownership&gt;{/Review_Baseline_OXD/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <mapsTo>current_ownership</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_women_number&gt;{/Review_Baseline_OXD/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <mapsTo>wuc_women_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;water_point_found&gt;{/Review_Baseline_OXD/water_point_found/text()}&lt;/water_point_found&gt;" />
+              <mapsTo>water_point_found</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;name_of_reporter&gt;{/Review_Baseline_OXD/name_of_reporter/text()}&lt;/name_of_reporter&gt;" />
@@ -667,10 +693,6 @@
             <mapping>
               <expression query="&lt;functionality&gt;{/Review_Baseline_OXD/functionality/text()}&lt;/functionality&gt;" />
               <mapsTo>functionality</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;current_ownership&gt;{/Review_Baseline_OXD/current_ownership/text()}&lt;/current_ownership&gt;" />
-              <mapsTo>current_ownership</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;wuc_functional&gt;{/Review_Baseline_OXD/wuc_functional/text()}&lt;/wuc_functional&gt;" />
@@ -685,8 +707,8 @@
               <mapsTo>management_type</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_women_number&gt;{/Review_Baseline_OXD/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
-              <mapsTo>wuc_women_number</mapsTo>
+              <expression query="&lt;approve_data&gt;{/Review_Baseline_OXD/approve_data/text()}&lt;/approve_data&gt;" />
+              <mapsTo>approve_data</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;wuc_trained&gt;{/Review_Baseline_OXD/wuc_trained/text()}&lt;/wuc_trained&gt;" />
@@ -697,11 +719,6 @@
               <mapsTo>wuc_member_number</mapsTo>
             </mapping>
           </completedMappings>
-          <resourcing>
-            <offer initiator="user" />
-            <allocate initiator="user" />
-            <start initiator="user" />
-          </resourcing>
           <decomposesTo id="Review_Baseline_OXD" />
         </task>
         <task id="Update_M4W_Review_65">
@@ -733,6 +750,14 @@
               <mapsTo>current_ownership</mapsTo>
             </mapping>
             <mapping>
+              <expression query="&lt;userAssignedReviewer_u&gt;{/BaselineNet/userAssignedReviewer_u/text()}&lt;/userAssignedReviewer_u&gt;" />
+              <mapsTo>userAssignedReviewer_u</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;action&gt;baseline&lt;/action&gt;" />
+              <mapsTo>action</mapsTo>
+            </mapping>
+            <mapping>
               <expression query="&lt;wuc_key_number&gt;{/BaselineNet/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
               <mapsTo>wuc_key_number</mapsTo>
             </mapping>
@@ -753,12 +778,12 @@
               <mapsTo>name_of_reporter</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_member_number&gt;{/BaselineNet/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
-              <mapsTo>wuc_member_number</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;source_number&gt;{/BaselineNet/source_number/text()}&lt;/source_number&gt;" />
               <mapsTo>source_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_member_number&gt;{/BaselineNet/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <mapsTo>wuc_member_number</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;non_functional_days&gt;{/BaselineNet/non_functional_days/text()}&lt;/non_functional_days&gt;" />
@@ -821,11 +846,6 @@
               <mapsTo>location_district</mapsTo>
             </mapping>
           </startingMappings>
-          <resourcing>
-            <offer initiator="user" />
-            <allocate initiator="user" />
-            <start initiator="user" />
-          </resourcing>
           <decomposesTo id="Update_M4W_Review2" />
         </task>
         <outputCondition id="OutputCondition_2" />
@@ -912,6 +932,16 @@
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
+      <inputParam>
+        <name>water_point_found</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>userAssignedReviewer_u</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
       <outputParam>
         <name>wuc_women_number</name>
         <type>int</type>
@@ -963,13 +993,34 @@
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <outputParam>
+        <name>formDataID</name>
+        <type>integer</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
         <name>name_of_reporter</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
+      <outputParam>
+        <name>water_point_found</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>approve_data</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <yawlService id="http://m4water.org:8080/oxd/wf" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
     <decomposition id="Update_M4W_Review2" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>action</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
       <inputParam>
         <name>source_number</name>
         <type>string</type>
@@ -1037,7 +1088,7 @@
       </inputParam>
       <inputParam>
         <name>non_functional_days</name>
-        <type>int</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
@@ -1102,9 +1153,15 @@
       </inputParam>
       <inputParam>
         <name>water_point_found</name>
-        <type>boolean</type>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
+      <inputParam>
+        <name>userAssignedReviewer_u</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
     <decomposition id="Update_m4w_collection" xsi:type="WebServiceGatewayFactsType">
@@ -1185,7 +1242,7 @@
       </outputParam>
       <outputParam>
         <name>non_functional_days</name>
-        <type>int</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <outputParam>
@@ -1250,7 +1307,7 @@
       </outputParam>
       <outputParam>
         <name>water_point_found</name>
-        <type>boolean</type>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
@@ -1364,7 +1421,7 @@
       </outputParam>
       <outputParam>
         <name>non_functional_days</name>
-        <type>int</type>
+        <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <outputParam>
@@ -1429,7 +1486,7 @@
       </outputParam>
       <outputParam>
         <name>water_point_found</name>
-        <type>boolean</type>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </outputParam>
       <yawlService id="http://m4water.org:8080/oxd/wf" />
@@ -1473,6 +1530,76 @@
             <bounds x="912.0" y="200.0" w="32.0" h="32.0" />
           </attributes>
         </vertex>
+        <container id="Collect_Baseline_3">
+          <vertex>
+            <attributes>
+              <bounds x="216.0" y="196.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="184.0" y="228.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Review_Baseline_9">
+          <vertex>
+            <attributes>
+              <bounds x="652.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="620.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Update_M4W_Review_65">
+          <vertex>
+            <attributes>
+              <bounds x="788.0" y="196.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="756.0" y="228.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Update_m4w_collection_4">
+          <vertex>
+            <attributes>
+              <bounds x="372.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="340.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Send_SMS_To_Reviewer_8">
+          <vertex>
+            <attributes>
+              <bounds x="512.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="480.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <flow source="Update_M4W_Review_65" target="OutputCondition_2">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="827.0" y="215.5" />
+              <value x="912.0" y="215.5" />
+            </points>
+          </attributes>
+        </flow>
         <flow source="InputCondition_1" target="Collect_Baseline_3">
           <ports in="13" out="12" />
           <attributes>
@@ -1489,30 +1616,12 @@
             </points>
           </attributes>
         </flow>
-        <container id="Collect_Baseline_3">
-          <vertex>
-            <attributes>
-              <bounds x="216.0" y="196.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="184.0" y="228.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
-        <container id="Update_m4w_collection_4">
-          <vertex>
-            <attributes>
-              <bounds x="372.0" y="200.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="340.0" y="232.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
+        <flow source="Send_SMS_To_Reviewer_8" target="Review_Baseline_9">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
         <flow source="Update_m4w_collection_4" target="Send_SMS_To_Reviewer_8">
           <ports in="13" out="12" />
           <attributes>
@@ -1523,18 +1632,6 @@
             </points>
           </attributes>
         </flow>
-        <container id="Send_SMS_To_Reviewer_8">
-          <vertex>
-            <attributes>
-              <bounds x="512.0" y="200.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="480.0" y="232.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
         <flow source="Review_Baseline_9" target="Update_M4W_Review_65">
           <ports in="13" out="12" />
           <attributes>
@@ -1545,46 +1642,6 @@
             </points>
           </attributes>
         </flow>
-        <flow source="Send_SMS_To_Reviewer_8" target="Review_Baseline_9">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-          </attributes>
-        </flow>
-        <container id="Review_Baseline_9">
-          <vertex>
-            <attributes>
-              <bounds x="652.0" y="200.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="620.0" y="232.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
-        <flow source="Update_M4W_Review_65" target="OutputCondition_2">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-            <points>
-              <value x="827.0" y="215.5" />
-              <value x="912.0" y="215.5" />
-            </points>
-          </attributes>
-        </flow>
-        <container id="Update_M4W_Review_65">
-          <vertex>
-            <attributes>
-              <bounds x="788.0" y="196.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="756.0" y="228.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
       </net>
     </specification>
   </layout>
