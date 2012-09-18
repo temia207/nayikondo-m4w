@@ -4,11 +4,11 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.41</version>
+      <version>0.43</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
-    <decomposition id="baseline_net" isRootNet="true" xsi:type="NetFactsType">
+    <decomposition id="BaselineNet" isRootNet="true" xsi:type="NetFactsType">
       <inputParam>
         <name>district</name>
         <type>string</type>
@@ -286,31 +286,31 @@
           <split code="and" />
           <startingMappings>
             <mapping>
-              <expression query="&lt;userAssignedCollector_u&gt;{/baseline_net/userAssignedCollector_u/text()}&lt;/userAssignedCollector_u&gt;" />
+              <expression query="&lt;userAssignedCollector_u&gt;{/BaselineNet/userAssignedCollector_u/text()}&lt;/userAssignedCollector_u&gt;" />
               <mapsTo>userAssignedCollector_u</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;village&gt;{/baseline_net/village/text()}&lt;/village&gt;" />
+              <expression query="&lt;village&gt;{/BaselineNet/village/text()}&lt;/village&gt;" />
               <mapsTo>village</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_number&gt;{/baseline_net/source_number/text()}&lt;/source_number&gt;" />
+              <expression query="&lt;source_number&gt;{/BaselineNet/source_number/text()}&lt;/source_number&gt;" />
               <mapsTo>source_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;parish&gt;{/baseline_net/parish/text()}&lt;/parish&gt;" />
+              <expression query="&lt;parish&gt;{/BaselineNet/parish/text()}&lt;/parish&gt;" />
               <mapsTo>parish</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;subcounty&gt;{/baseline_net/subcounty/text()}&lt;/subcounty&gt;" />
+              <expression query="&lt;subcounty&gt;{/BaselineNet/subcounty/text()}&lt;/subcounty&gt;" />
               <mapsTo>subcounty</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_name&gt;{/baseline_net/source_name/text()}&lt;/source_name&gt;" />
+              <expression query="&lt;source_name&gt;{/BaselineNet/source_name/text()}&lt;/source_name&gt;" />
               <mapsTo>source_name</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;district&gt;{/baseline_net/district/text()}&lt;/district&gt;" />
+              <expression query="&lt;district&gt;{/BaselineNet/district/text()}&lt;/district&gt;" />
               <mapsTo>district</mapsTo>
             </mapping>
           </startingMappings>
@@ -564,15 +564,15 @@
           <split code="and" />
           <startingMappings>
             <mapping>
-              <expression query="&lt;message&gt;There are baseline reports to be cleared. WaterPoint: + {/baseline_net/source_number/text()}&lt;/message&gt;" />
+              <expression query="&lt;message&gt;There are baseline reports to be cleared. WaterPoint: + {/BaselineNet/source_number/text()}&lt;/message&gt;" />
               <mapsTo>message</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;name&gt;{/baseline_net/namesms/text()}&lt;/name&gt;" />
+              <expression query="&lt;name&gt;{/BaselineNet/namesms/text()}&lt;/name&gt;" />
               <mapsTo>name</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;number&gt;{/baseline_net/tel/text()}&lt;/number&gt;" />
+              <expression query="&lt;number&gt;{/BaselineNet/tel/text()}&lt;/number&gt;" />
               <mapsTo>number</mapsTo>
             </mapping>
           </startingMappings>
@@ -587,67 +587,67 @@
           <split code="and" />
           <startingMappings>
             <mapping>
-              <expression query="&lt;functionality&gt;{/baseline_net/functionality/text()}&lt;/functionality&gt;" />
+              <expression query="&lt;functionality&gt;{/BaselineNet/functionality/text()}&lt;/functionality&gt;" />
               <mapsTo>functionality</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_active_members&gt;{/baseline_net/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <expression query="&lt;wuc_active_members&gt;{/BaselineNet/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
               <mapsTo>wuc_active_members</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_member_number&gt;{/baseline_net/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <expression query="&lt;wuc_member_number&gt;{/BaselineNet/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
               <mapsTo>wuc_member_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_number&gt;{/baseline_net/source_number/text()}&lt;/source_number&gt;" />
+              <expression query="&lt;source_number&gt;{/BaselineNet/source_number/text()}&lt;/source_number&gt;" />
               <mapsTo>source_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_women_number&gt;{/baseline_net/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <expression query="&lt;wuc_women_number&gt;{/BaselineNet/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
               <mapsTo>wuc_women_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;subcounty&gt;{/baseline_net/subcounty/text()}&lt;/subcounty&gt;" />
+              <expression query="&lt;subcounty&gt;{/BaselineNet/subcounty/text()}&lt;/subcounty&gt;" />
               <mapsTo>subcounty</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_established&gt;{/baseline_net/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <expression query="&lt;wuc_established&gt;{/BaselineNet/wuc_established/text()}&lt;/wuc_established&gt;" />
               <mapsTo>wuc_established</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_functional&gt;{/baseline_net/wuc_functional/text()}&lt;/wuc_functional&gt;" />
+              <expression query="&lt;wuc_functional&gt;{/BaselineNet/wuc_functional/text()}&lt;/wuc_functional&gt;" />
               <mapsTo>wuc_functional</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;current_ownership&gt;{/baseline_net/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <expression query="&lt;current_ownership&gt;{/BaselineNet/current_ownership/text()}&lt;/current_ownership&gt;" />
               <mapsTo>current_ownership</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;village&gt;{/baseline_net/village/text()}&lt;/village&gt;" />
+              <expression query="&lt;village&gt;{/BaselineNet/village/text()}&lt;/village&gt;" />
               <mapsTo>village</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;parish&gt;{/baseline_net/parish/text()}&lt;/parish&gt;" />
+              <expression query="&lt;parish&gt;{/BaselineNet/parish/text()}&lt;/parish&gt;" />
               <mapsTo>parish</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_name&gt;{/baseline_net/source_name/text()}&lt;/source_name&gt;" />
+              <expression query="&lt;source_name&gt;{/BaselineNet/source_name/text()}&lt;/source_name&gt;" />
               <mapsTo>source_name</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_trained&gt;{/baseline_net/wuc_trained/text()}&lt;/wuc_trained&gt;" />
+              <expression query="&lt;wuc_trained&gt;{/BaselineNet/wuc_trained/text()}&lt;/wuc_trained&gt;" />
               <mapsTo>wuc_trained</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;wuc_key_number&gt;{/baseline_net/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
+              <expression query="&lt;wuc_key_number&gt;{/BaselineNet/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
               <mapsTo>wuc_key_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;district&gt;{/baseline_net/district/text()}&lt;/district&gt;" />
+              <expression query="&lt;district&gt;{/BaselineNet/district/text()}&lt;/district&gt;" />
               <mapsTo>district</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;management_type&gt;{/baseline_net/management_type/text()}&lt;/management_type&gt;" />
+              <expression query="&lt;management_type&gt;{/BaselineNet/management_type/text()}&lt;/management_type&gt;" />
               <mapsTo>management_type</mapsTo>
             </mapping>
           </startingMappings>
@@ -1197,7 +1197,7 @@
     <locale language="en" country="US" />
     <specification id="baseline">
       <size w="119" h="28" />
-      <net id="baseline_net">
+      <net id="BaselineNet">
         <bounds x="0" y="0" w="1200" h="568" />
         <frame x="2" y="25" w="1203" h="571" />
         <viewport x="0" y="0" w="1203" h="571" />
