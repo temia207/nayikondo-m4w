@@ -203,11 +203,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
         List<InterfaceBHelper.YParam> params = new ArrayList<InterfaceBHelper.YParam>() {
 
             {
-                add(new InterfaceBHelper.YParam("waterPointID", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "WaterPoint ID"));
-                add(new InterfaceBHelper.YParam("assesment", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Assesment"));
-                add(new InterfaceBHelper.YParam("repairDetails", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Repair Details"));
-                add(new InterfaceBHelper.YParam("problemFixed", "boolean", YParameter._INPUT_PARAM_TYPE, "Prolem Fixed"));
-                add(new InterfaceBHelper.YParam("reasonNotFixed", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "Reason not FIxed"));
+                add(new InterfaceBHelper.YParam("action", XSD_STRINGTYPE, YParameter._INPUT_PARAM_TYPE, "baseline or ticket"));
             }
         };
 
