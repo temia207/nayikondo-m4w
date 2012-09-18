@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.39</version>
+      <version>0.41</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -284,6 +284,147 @@
           </flowsInto>
           <join code="xor" />
           <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;userAssignedCollector_u&gt;{/baseline_net/userAssignedCollector_u/text()}&lt;/userAssignedCollector_u&gt;" />
+              <mapsTo>userAssignedCollector_u</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;village&gt;{/baseline_net/village/text()}&lt;/village&gt;" />
+              <mapsTo>village</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_number&gt;{/baseline_net/source_number/text()}&lt;/source_number&gt;" />
+              <mapsTo>source_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;parish&gt;{/baseline_net/parish/text()}&lt;/parish&gt;" />
+              <mapsTo>parish</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;subcounty&gt;{/baseline_net/subcounty/text()}&lt;/subcounty&gt;" />
+              <mapsTo>subcounty</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_name&gt;{/baseline_net/source_name/text()}&lt;/source_name&gt;" />
+              <mapsTo>source_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;district&gt;{/baseline_net/district/text()}&lt;/district&gt;" />
+              <mapsTo>district</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;functionality&gt;{/Collect_Baseline/functionality/text()}&lt;/functionality&gt;" />
+              <mapsTo>functionality</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_village&gt;{/Collect_Baseline/location_village/text()}&lt;/location_village&gt;" />
+              <mapsTo>location_village</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_functional&gt;{/Collect_Baseline/wuc_functional/text()}&lt;/wuc_functional&gt;" />
+              <mapsTo>wuc_functional</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_active_members&gt;{/Collect_Baseline/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <mapsTo>wuc_active_members</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;management_type&gt;{/Collect_Baseline/management_type/text()}&lt;/management_type&gt;" />
+              <mapsTo>management_type</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_subcounty&gt;{/Collect_Baseline/location_subcounty/text()}&lt;/location_subcounty&gt;" />
+              <mapsTo>location_subcounty</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateMinorService&gt;{/Collect_Baseline/dateMinorService/text()}&lt;/dateMinorService&gt;" />
+              <mapsTo>dateMinorService</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;details_repair&gt;{/Collect_Baseline/details_repair/text()}&lt;/details_repair&gt;" />
+              <mapsTo>details_repair</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_member_number&gt;{/Collect_Baseline/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <mapsTo>wuc_member_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;date_last_repair&gt;{/Collect_Baseline/date_last_repair/text()}&lt;/date_last_repair&gt;" />
+              <mapsTo>date_last_repair</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_women_number&gt;{/Collect_Baseline/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <mapsTo>wuc_women_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_source_name&gt;{/Collect_Baseline/location_source_name/text()}&lt;/location_source_name&gt;" />
+              <mapsTo>location_source_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;caretaker_tel&gt;{/Collect_Baseline/caretaker_tel/text()}&lt;/caretaker_tel&gt;" />
+              <mapsTo>caretaker_tel</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_key_number&gt;{/Collect_Baseline/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
+              <mapsTo>wuc_key_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;non_functional_reason&gt;{/Collect_Baseline/non_functional_reason/text()}&lt;/non_functional_reason&gt;" />
+              <mapsTo>non_functional_reason</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;current_ownership&gt;{/Collect_Baseline/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <mapsTo>current_ownership</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_parish&gt;{/Collect_Baseline/location_parish/text()}&lt;/location_parish&gt;" />
+              <mapsTo>location_parish</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_established&gt;{/Collect_Baseline/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <mapsTo>wuc_established</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_trained&gt;{/Collect_Baseline/wuc_trained/text()}&lt;/wuc_trained&gt;" />
+              <mapsTo>wuc_trained</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;caretaker_name&gt;{/Collect_Baseline/caretaker_name/text()}&lt;/caretaker_name&gt;" />
+              <mapsTo>caretaker_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateMajorService&gt;{/Collect_Baseline/dateMajorService/text()}&lt;/dateMajorService&gt;" />
+              <mapsTo>dateMajorService</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_district&gt;{/Collect_Baseline/location_district/text()}&lt;/location_district&gt;" />
+              <mapsTo>location_district</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateVisit&gt;{/Collect_Baseline/dateVisit/text()}&lt;/dateVisit&gt;" />
+              <mapsTo>dateVisit</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;water_point_found&gt;{/Collect_Baseline/water_point_found/text()}&lt;/water_point_found&gt;" />
+              <mapsTo>water_point_found</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;picture_img&gt;{/Collect_Baseline/picture_img/text()}&lt;/picture_img&gt;" />
+              <mapsTo>picture_img</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;name_of_reporter&gt;{/Collect_Baseline/name_of_reporter/text()}&lt;/name_of_reporter&gt;" />
+              <mapsTo>name_of_reporter</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;non_functional_days&gt;{/Collect_Baseline/non_functional_days/text()}&lt;/non_functional_days&gt;" />
+              <mapsTo>non_functional_days</mapsTo>
+            </mapping>
+          </completedMappings>
+          <decomposesTo id="Collect_Baseline" />
         </task>
         <task id="Update_m4w_collection_4">
           <name>Update m4w collection</name>
@@ -292,6 +433,127 @@
           </flowsInto>
           <join code="xor" />
           <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;action&gt;baseline&lt;/action&gt;" />
+              <mapsTo>action</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;management_type&gt;{/Update_m4w_collection/management_type/text()}&lt;/management_type&gt;" />
+              <mapsTo>management_type</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;non_functional_reason&gt;{/Update_m4w_collection/non_functional_reason/text()}&lt;/non_functional_reason&gt;" />
+              <mapsTo>non_functional_reason</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;date_last_repair&gt;{/Update_m4w_collection/date_last_repair/text()}&lt;/date_last_repair&gt;" />
+              <mapsTo>date_last_repair</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateVisit&gt;{/Update_m4w_collection/dateVisit/text()}&lt;/dateVisit&gt;" />
+              <mapsTo>dateVisit</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;water_point_found&gt;{/Update_m4w_collection/water_point_found/text()}&lt;/water_point_found&gt;" />
+              <mapsTo>water_point_found</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;picture_img&gt;{/Update_m4w_collection/picture_img/text()}&lt;/picture_img&gt;" />
+              <mapsTo>picture_img</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;details_repair&gt;{/Update_m4w_collection/details_repair/text()}&lt;/details_repair&gt;" />
+              <mapsTo>details_repair</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_subcounty&gt;{/Update_m4w_collection/location_subcounty/text()}&lt;/location_subcounty&gt;" />
+              <mapsTo>location_subcounty</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_functional&gt;{/Update_m4w_collection/wuc_functional/text()}&lt;/wuc_functional&gt;" />
+              <mapsTo>wuc_functional</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_established&gt;{/Update_m4w_collection/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <mapsTo>wuc_established</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;non_functional_days&gt;{/Update_m4w_collection/non_functional_days/text()}&lt;/non_functional_days&gt;" />
+              <mapsTo>non_functional_days</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;caretaker_name&gt;{/Update_m4w_collection/caretaker_name/text()}&lt;/caretaker_name&gt;" />
+              <mapsTo>caretaker_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_women_number&gt;{/Update_m4w_collection/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <mapsTo>wuc_women_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_member_number&gt;{/Update_m4w_collection/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <mapsTo>wuc_member_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateMajorService&gt;{/Update_m4w_collection/dateMajorService/text()}&lt;/dateMajorService&gt;" />
+              <mapsTo>dateMajorService</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;dateMinorService&gt;{/Update_m4w_collection/dateMinorService/text()}&lt;/dateMinorService&gt;" />
+              <mapsTo>dateMinorService</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_parish&gt;{/Update_m4w_collection/location_parish/text()}&lt;/location_parish&gt;" />
+              <mapsTo>location_parish</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_number&gt;{/Update_m4w_collection/source_number/text()}&lt;/source_number&gt;" />
+              <mapsTo>source_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;current_ownership&gt;{/Update_m4w_collection/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <mapsTo>current_ownership</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_key_number&gt;{/Update_m4w_collection/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
+              <mapsTo>wuc_key_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_source_name&gt;{/Update_m4w_collection/location_source_name/text()}&lt;/location_source_name&gt;" />
+              <mapsTo>location_source_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;functionality&gt;{/Update_m4w_collection/functionality/text()}&lt;/functionality&gt;" />
+              <mapsTo>functionality</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;caretaker_tel&gt;{/Update_m4w_collection/caretaker_tel/text()}&lt;/caretaker_tel&gt;" />
+              <mapsTo>caretaker_tel</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_district&gt;{/Update_m4w_collection/location_district/text()}&lt;/location_district&gt;" />
+              <mapsTo>location_district</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;name_of_reporter&gt;{/Update_m4w_collection/name_of_reporter/text()}&lt;/name_of_reporter&gt;" />
+              <mapsTo>name_of_reporter</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_trained&gt;{/Update_m4w_collection/wuc_trained/text()}&lt;/wuc_trained&gt;" />
+              <mapsTo>wuc_trained</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_active_members&gt;{/Update_m4w_collection/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <mapsTo>wuc_active_members</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;location_village&gt;{/Update_m4w_collection/location_village/text()}&lt;/location_village&gt;" />
+              <mapsTo>location_village</mapsTo>
+            </mapping>
+          </completedMappings>
+          <decomposesTo id="Update_m4w_collection" />
         </task>
         <task id="Send_SMS_To_Reviewer_8">
           <name>Send SMS To Reviewer</name>
@@ -300,6 +562,21 @@
           </flowsInto>
           <join code="xor" />
           <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;message&gt;There are baseline reports to be cleared. WaterPoint: + {/baseline_net/source_number/text()}&lt;/message&gt;" />
+              <mapsTo>message</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;name&gt;{/baseline_net/namesms/text()}&lt;/name&gt;" />
+              <mapsTo>name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;number&gt;{/baseline_net/tel/text()}&lt;/number&gt;" />
+              <mapsTo>number</mapsTo>
+            </mapping>
+          </startingMappings>
+          <decomposesTo id="Send_SMS_To_Reviewer" />
         </task>
         <task id="Update_M4W_Review_9">
           <name>Update M4W Review</name>
@@ -308,9 +585,612 @@
           </flowsInto>
           <join code="xor" />
           <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;functionality&gt;{/baseline_net/functionality/text()}&lt;/functionality&gt;" />
+              <mapsTo>functionality</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_active_members&gt;{/baseline_net/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <mapsTo>wuc_active_members</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_member_number&gt;{/baseline_net/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <mapsTo>wuc_member_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_number&gt;{/baseline_net/source_number/text()}&lt;/source_number&gt;" />
+              <mapsTo>source_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_women_number&gt;{/baseline_net/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <mapsTo>wuc_women_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;subcounty&gt;{/baseline_net/subcounty/text()}&lt;/subcounty&gt;" />
+              <mapsTo>subcounty</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_established&gt;{/baseline_net/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <mapsTo>wuc_established</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_functional&gt;{/baseline_net/wuc_functional/text()}&lt;/wuc_functional&gt;" />
+              <mapsTo>wuc_functional</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;current_ownership&gt;{/baseline_net/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <mapsTo>current_ownership</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;village&gt;{/baseline_net/village/text()}&lt;/village&gt;" />
+              <mapsTo>village</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;parish&gt;{/baseline_net/parish/text()}&lt;/parish&gt;" />
+              <mapsTo>parish</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_name&gt;{/baseline_net/source_name/text()}&lt;/source_name&gt;" />
+              <mapsTo>source_name</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_trained&gt;{/baseline_net/wuc_trained/text()}&lt;/wuc_trained&gt;" />
+              <mapsTo>wuc_trained</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_key_number&gt;{/baseline_net/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
+              <mapsTo>wuc_key_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;district&gt;{/baseline_net/district/text()}&lt;/district&gt;" />
+              <mapsTo>district</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;management_type&gt;{/baseline_net/management_type/text()}&lt;/management_type&gt;" />
+              <mapsTo>management_type</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;wuc_key_number&gt;{/Update_M4W_Review/wuc_key_number/text()}&lt;/wuc_key_number&gt;" />
+              <mapsTo>wuc_key_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_functional&gt;{/Update_M4W_Review/wuc_functional/text()}&lt;/wuc_functional&gt;" />
+              <mapsTo>wuc_functional</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_member_number&gt;{/Update_M4W_Review/wuc_member_number/text()}&lt;/wuc_member_number&gt;" />
+              <mapsTo>wuc_member_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;functionality&gt;{/Update_M4W_Review/functionality/text()}&lt;/functionality&gt;" />
+              <mapsTo>functionality</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;name_of_reporter&gt;{/Update_M4W_Review/name_of_reporter/text()}&lt;/name_of_reporter&gt;" />
+              <mapsTo>name_of_reporter</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;management_type&gt;{/Update_M4W_Review/management_type/text()}&lt;/management_type&gt;" />
+              <mapsTo>management_type</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_women_number&gt;{/Update_M4W_Review/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
+              <mapsTo>wuc_women_number</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_active_members&gt;{/Update_M4W_Review/wuc_active_members/text()}&lt;/wuc_active_members&gt;" />
+              <mapsTo>wuc_active_members</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_trained&gt;{/Update_M4W_Review/wuc_trained/text()}&lt;/wuc_trained&gt;" />
+              <mapsTo>wuc_trained</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;current_ownership&gt;{/Update_M4W_Review/current_ownership/text()}&lt;/current_ownership&gt;" />
+              <mapsTo>current_ownership</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;wuc_established&gt;{/Update_M4W_Review/wuc_established/text()}&lt;/wuc_established&gt;" />
+              <mapsTo>wuc_established</mapsTo>
+            </mapping>
+          </completedMappings>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Update_M4W_Review" />
         </task>
         <outputCondition id="OutputCondition_2" />
       </processControlElements>
+    </decomposition>
+    <decomposition id="Update_m4w_collection" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>action</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <name>source_number</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateVisit</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_women_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_source_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>picture_img</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_established</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>current_ownership</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_trained</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_key_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>management_type</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>functionality</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>name_of_reporter</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_active_members</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_member_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>non_functional_days</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>details_repair</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_subcounty</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>caretaker_tel</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_village</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>non_functional_reason</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_functional</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>caretaker_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_parish</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateMinorService</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateMajorService</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>date_last_repair</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_district</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>water_point_found</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Collect_Baseline" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>district</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>subcounty</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>parish</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>village</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>source_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>source_number</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>userAssignedCollector_u</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <name>formDataID</name>
+        <type>integer</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateVisit</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_women_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_source_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>picture_img</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_established</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>current_ownership</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_trained</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_key_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>management_type</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>functionality</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>name_of_reporter</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_active_members</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_member_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>non_functional_days</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>details_repair</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_subcounty</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>caretaker_tel</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_village</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>non_functional_reason</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_functional</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>caretaker_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_parish</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateMinorService</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>dateMajorService</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>date_last_repair</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>location_district</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>water_point_found</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <yawlService id="http://m4water.org:8080/oxd/wf" />
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Send_SMS_To_Reviewer" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>number</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>message</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <yawlService id="http://m4water.org:8080/SMSService/smsservice" />
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Update_M4W_Review" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>district</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>subcounty</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>parish</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>village</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>source_name</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>source_number</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_women_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_established</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>current_ownership</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_trained</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_key_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>management_type</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>functionality</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_active_members</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_member_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>wuc_functional</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <name>wuc_women_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_established</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>current_ownership</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_trained</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_key_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>management_type</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>functionality</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_active_members</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_member_number</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>wuc_functional</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <name>name_of_reporter</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <externalInteraction>manual</externalInteraction>
     </decomposition>
   </specification>
   <layout>
