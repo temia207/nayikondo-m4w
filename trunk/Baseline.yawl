@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.32</version>
+      <version>0.37</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -128,13 +128,19 @@
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>date_last_majorservice</name>
+        <name>dateMajorService</name>
         <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>date_last_minorservice</name>
+        <name>dateMinorService</name>
+        <type>date</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <name>dateVisit</name>
         <type>date</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
@@ -146,13 +152,13 @@
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>date_of_visit</name>
-        <type>date</type>
+        <name>details_repair</name>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>details_repair</name>
+        <name>functionality</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
@@ -188,14 +194,26 @@
         <initialValue />
       </localVariable>
       <localVariable>
+        <name>management_type</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
         <name>name_of_reporter</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>num_days_nonfunctional</name>
+        <name>non_functional_days</name>
         <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <name>non_functional_reason</name>
+        <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -206,26 +224,32 @@
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>reason_nonfunctionality</name>
+        <name>water_point_found</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <name>wuc_active_members</name>
+        <type>int</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <name>wuc_established</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>type_of_management</name>
+        <name>wuc_functional</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
       <localVariable>
-        <name>waterpoint_functionality</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-        <initialValue />
-      </localVariable>
-      <localVariable>
-        <name>wuc_functionality</name>
-        <type>string</type>
+        <name>wuc_key_number</name>
+        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
@@ -238,12 +262,6 @@
       <localVariable>
         <name>wuc_trained</name>
         <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-        <initialValue />
-      </localVariable>
-      <localVariable>
-        <name>wuc_women_keyposition_num</name>
-        <type>int</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
         <initialValue />
       </localVariable>
