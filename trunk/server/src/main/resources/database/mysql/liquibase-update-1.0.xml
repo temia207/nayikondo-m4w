@@ -32,4 +32,46 @@
 		</sql>
 		<addPrimaryKey tableName="water_functionality" columnNames="id"/>
 	</changeSet>
+	    <changeSet author="create-workitems-table" id="ronald.k">
+
+         <preConditions>
+            <not>
+                <tableExists tableName="wf_workitems"/>
+            </not>
+        </preConditions>
+       <createTable tableName="wf_workitems">
+            <column name="WIR_ID" autoIncrement="true"   type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="SPECID" type="VARCHAR(255)"/>
+            <column name="SPECVERSION" type="VARCHAR(255)"/>
+            <column name="CASEID" type="VARCHAR(255)"/>
+            <column name="TASKID" type="VARCHAR(255)"/>
+            <column name="UNIQUEID" type="VARCHAR(255)"/>
+            <column name="EXTENDEDATTRIBUTES" type="VARCHAR(255)"/>
+            <column name="CANCREATE" type="VARCHAR(255)"/>
+            <column name="CODELET" type="VARCHAR(255)"/>
+            <column name="DEFERREDID" type="VARCHAR(255)"/>
+            <column name="FIRINGTIME" type="VARCHAR(255)"/>
+            <column name="ENABLEMENTTIME" type="VARCHAR(255)"/>
+            <column name="STARTTIME" type="VARCHAR(255)"/>
+            <column name="COMPLETIONTIME" type="VARCHAR(255)"/>
+            <column name="STATUS" type="VARCHAR(255)"/>
+            <column name="RESOURCESTATUS" type="VARCHAR(255)"/>
+            <column name="STARTEDBY" type="VARCHAR(255)"/>
+            <column name="COMPLETEDBY" type="VARCHAR(255)"/>
+            <column name="DATALIST" type="longtext"/>
+            <column name="DATALISTUPDATED" type="longtext"/>
+            <column name="ENABLEDTIMEMS" type="VARCHAR(255)"/>
+            <column name="FIRINGTIMEMS" type="VARCHAR(255)"/>
+            <column name="STARTTIMEMS" type="VARCHAR(255)"/>
+            <column name="COMPLETIONTIMEMS" type="VARCHAR(255)"/>
+            <column name="TIMERTRIGGER" type="VARCHAR(255)"/>
+            <column name="TIMEREXPIRY" type="VARCHAR(255)"/>
+            <column name="EDITED" type="smallint"/>
+            <column name="CUSTOMFORMURL" type="VARCHAR(255)"/>
+            <column name="TAG" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
