@@ -21,11 +21,13 @@ import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterFunctionality;
 import org.m4water.server.admin.model.WaterUserCommittee;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.dao.WorkItemDAO;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.AssessmentService;
 import org.m4water.server.service.WUCService;
 import org.m4water.server.service.WaterFunctionalityService;
 import org.m4water.server.service.WaterPointService;
+import org.m4water.server.service.WorkItemsService;
 import org.openxdata.yawl.util.InterfaceBHelper;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -59,6 +61,8 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
     @Autowired WUCService wUCService;
     private org.slf4j.Logger log = LoggerFactory.getLogger(TicketYawlService.class);
 	private YawlPinger pinger;
+	@Autowired
+	private WorkItemsService workItemDAO;
     
     public static TicketYawlService getInstance() {
         return ticketYawlService;
@@ -124,21 +128,46 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	return caseID;
     }
 
-    private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException {
-        
-            String action = getValueFromWorkItem(workItemRecord, "action");
-            if (action!=null && action.equals("baseline")) {
-                processBaseLine(workItemRecord);
-            }else{
-                processAssesMent(workItemRecord);
-            } 
-        
-	 _model.addWorkItem(workItemRecord);
-            yawlHelper.checkInWorkItem(workItemRecord);
-        
-    }
+	private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException, Exception {
+		String status = null;
+		String tag = null;
+		try {
+			log.debug("received workitem : "+workItemRecord.getID());
+			String action = getValueFromWorkItem(workItemRecord, "action");
+			if (action != null && action.equals("baseline")) {
+				processBaseLine(workItemRecord);
+			} else {
+				processAssesMent(workItemRecord);
+			}
+			status = WorkItemRecord.statusComplete;
+			tag = "Processed Succesfuly";
+		}catch(Exception e){
+			status = WorkItemRecord.statusFailed;
+			tag = e.getMessage();
+			throw e;
+		} finally{
+			saveWorkitem(workItemRecord, status, tag);
+			_model.addWorkItem(workItemRecord);
+			yawlHelper.checkInWorkItem(workItemRecord);
+		}
+	}
+	
+	private void saveWorkitem(WorkItemRecord wir, String status, String tag){
+		WorkItemRecord wirFromDb = workItemDAO.getWorkitem(wir.getCaseID());
+		if(wirFromDb != null){
+			log.debug("Updating workiem: ["+wirFromDb.getID()+"] with tag ["+tag+"] and status ["+status+"]");
+			wirFromDb.setTag(tag);
+			wirFromDb.setStatus(status);
+			workItemDAO.saveWorkitem(wirFromDb);
+		}else{
+			log.debug("Saving new workiem: ["+wir.getID()+"] with tag ["+tag+"] and status ["+status+"]");
+			wir.setTag(tag);
+			wir.setStatus(status);
+			workItemDAO.saveWorkitem(wir);
+		}
+	}
 
-    private void processAssesMent(WorkItemRecord workItemRecord) throws RuntimeException {
+    private void processAssesMent(WorkItemRecord workItemRecord) throws RuntimeException, Exception {
         String waterPointID = getValueFromWorkItem(workItemRecord, "waterPointID");
         String assesment = getValueFromWorkItem(workItemRecord, "assesment");
         String repairDetails = getValueFromWorkItem(workItemRecord, "repairDetails");
@@ -167,7 +196,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
             saveWaterPoint(waterPoint);
         } catch (Exception e) {
             System.out.println("Problem saving problem log for waterpoint [" + waterPointID + "] in ticaket yawl service");
-            e.printStackTrace();
+            throw e;
         }
         FaultAssessment assessmentItm = new FaultAssessment();
         assessmentItm.setId(UUID.jUuid());
