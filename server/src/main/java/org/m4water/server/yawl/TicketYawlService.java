@@ -380,8 +380,8 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	try {
 	    date = df.parse(dateString);
-	} catch (ParseException ex) {
-	  log.error("Error while processing date from yawl:"+dateString);
+	} catch (Exception ex) {
+	  log.error("Error while processing date from yawl:"+dateString,ex);
 	}
 	return date;
     }
