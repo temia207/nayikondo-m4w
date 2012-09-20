@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>No description has been given.</description>
-      <version>0.54</version>
+      <version>0.55</version>
       <identifier>UID_ab046017-76cf-45f8-96ce-70de73828c77</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -296,28 +296,28 @@
               <mapsTo>userAssignedCollector_u</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;village&gt;{/BaselineNet/village/text()}&lt;/village&gt;" />
-              <mapsTo>village</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;source_number&gt;{/BaselineNet/source_number/text()}&lt;/source_number&gt;" />
-              <mapsTo>source_number</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;parish&gt;{/BaselineNet/parish/text()}&lt;/parish&gt;" />
               <mapsTo>parish</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;village_&gt;{/BaselineNet/village/text()}&lt;/village_&gt;" />
+              <mapsTo>village_</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;subcounty&gt;{/BaselineNet/subcounty/text()}&lt;/subcounty&gt;" />
               <mapsTo>subcounty</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_name&gt;{/BaselineNet/source_name/text()}&lt;/source_name&gt;" />
-              <mapsTo>source_name</mapsTo>
+              <expression query="&lt;source_name_&gt;{/BaselineNet/source_name/text()}&lt;/source_name_&gt;" />
+              <mapsTo>source_name_</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;district&gt;{/BaselineNet/district/text()}&lt;/district&gt;" />
               <mapsTo>district</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_number_&gt;{/BaselineNet/source_number/text()}&lt;/source_number_&gt;" />
+              <mapsTo>source_number_</mapsTo>
             </mapping>
           </startingMappings>
           <completedMappings>
@@ -607,16 +607,16 @@
               <mapsTo>wuc_member_number</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_number&gt;{/BaselineNet/source_number/text()}&lt;/source_number&gt;" />
-              <mapsTo>source_number</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;wuc_women_number&gt;{/BaselineNet/wuc_women_number/text()}&lt;/wuc_women_number&gt;" />
               <mapsTo>wuc_women_number</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;subcounty&gt;{/BaselineNet/subcounty/text()}&lt;/subcounty&gt;" />
               <mapsTo>subcounty</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_name_&gt;{/BaselineNet/source_name/text()}&lt;/source_name_&gt;" />
+              <mapsTo>source_name_</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;water_point_found&gt;{/BaselineNet/water_point_found/text()}&lt;/water_point_found&gt;" />
@@ -635,10 +635,6 @@
               <mapsTo>current_ownership</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;village&gt;{/BaselineNet/village/text()}&lt;/village&gt;" />
-              <mapsTo>village</mapsTo>
-            </mapping>
-            <mapping>
               <expression query="&lt;userAssignedReviewer_u&gt;{/BaselineNet/userAssignedReviewer_u/text()}&lt;/userAssignedReviewer_u&gt;" />
               <mapsTo>userAssignedReviewer_u</mapsTo>
             </mapping>
@@ -647,8 +643,8 @@
               <mapsTo>parish</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;source_name&gt;{/BaselineNet/source_name/text()}&lt;/source_name&gt;" />
-              <mapsTo>source_name</mapsTo>
+              <expression query="&lt;village_&gt;{/BaselineNet/village/text()}&lt;/village_&gt;" />
+              <mapsTo>village_</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;wuc_trained&gt;{/BaselineNet/wuc_trained/text()}&lt;/wuc_trained&gt;" />
@@ -661,6 +657,10 @@
             <mapping>
               <expression query="&lt;district&gt;{/BaselineNet/district/text()}&lt;/district&gt;" />
               <mapsTo>district</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;source_number_&gt;{/BaselineNet/source_number/text()}&lt;/source_number_&gt;" />
+              <mapsTo>source_number_</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;management_type&gt;{/BaselineNet/management_type/text()}&lt;/management_type&gt;" />
@@ -870,17 +870,17 @@
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>village</name>
+        <name>village_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>source_name</name>
+        <name>source_name_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>source_number</name>
+        <name>source_number_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
@@ -1337,17 +1337,17 @@
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>village</name>
+        <name>village_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>source_name</name>
+        <name>source_name_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
       <inputParam>
-        <name>source_number</name>
+        <name>source_number_</name>
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
@@ -1561,18 +1561,6 @@
             </attributes>
           </label>
         </container>
-        <container id="Update_m4w_collection_4">
-          <vertex>
-            <attributes>
-              <bounds x="372.0" y="200.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="340.0" y="232.0" w="97.0" h="41.0" />
-            </attributes>
-          </label>
-        </container>
         <container id="Send_SMS_To_Reviewer_8">
           <vertex>
             <attributes>
@@ -1582,6 +1570,18 @@
           <label>
             <attributes>
               <bounds x="480.0" y="232.0" w="97.0" h="41.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Update_m4w_collection_4">
+          <vertex>
+            <attributes>
+              <bounds x="372.0" y="200.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="340.0" y="232.0" w="97.0" h="41.0" />
             </attributes>
           </label>
         </container>
@@ -1597,12 +1597,6 @@
             </attributes>
           </label>
         </container>
-        <flow source="InputCondition_1" target="Collect_Baseline_3">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-          </attributes>
-        </flow>
         <flow source="Update_M4W_Review_65" target="OutputCondition_2">
           <ports in="13" out="12" />
           <attributes>
@@ -1613,10 +1607,26 @@
             </points>
           </attributes>
         </flow>
+        <flow source="InputCondition_1" target="Collect_Baseline_3">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
         <flow source="Send_SMS_To_Reviewer_8" target="Review_Baseline_9">
           <ports in="13" out="12" />
           <attributes>
             <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Collect_Baseline_3" target="Update_m4w_collection_4">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="269.0" y="215.5" />
+              <value x="714.0" y="203.5" />
+            </points>
           </attributes>
         </flow>
         <flow source="Update_m4w_collection_4" target="Send_SMS_To_Reviewer_8">
@@ -1636,16 +1646,6 @@
             <points>
               <value x="695.0" y="215.5" />
               <value x="796.0" y="215.5" />
-            </points>
-          </attributes>
-        </flow>
-        <flow source="Collect_Baseline_3" target="Update_m4w_collection_4">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-            <points>
-              <value x="269.0" y="215.5" />
-              <value x="714.0" y="203.5" />
             </points>
           </attributes>
         </flow>
