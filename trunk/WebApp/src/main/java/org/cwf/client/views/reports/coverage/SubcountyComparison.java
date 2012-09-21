@@ -36,8 +36,7 @@ public class SubcountyComparison extends ContentPanel implements Refreshable {
 	private ListStore<DistrictComparisonSummary> store;
 	private ReportsFrame parentView;
 
-	public SubcountyComparison(ReportsFrame parent) {
-		this.parentView = parent;
+	public SubcountyComparison() {
 		initialize();
 	}
 

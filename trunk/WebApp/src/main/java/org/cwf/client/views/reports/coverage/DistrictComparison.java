@@ -37,8 +37,7 @@ public class DistrictComparison extends ContentPanel implements Refreshable {
 	private ListStore<DistrictComparisonSummary> store;
 	private ReportsFrame parentView;
 
-	public DistrictComparison(ReportsFrame parent) {
-		this.parentView = parent;
+	public DistrictComparison() {
 		initialize();
 	}
 

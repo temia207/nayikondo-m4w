@@ -35,8 +35,7 @@ public class ParishComparison extends ContentPanel implements Refreshable {
 	private ListStore<ResponseTimeSummary> store;
 	private ReportsFrame parentView;
 
-	public ParishComparison(ReportsFrame parent) {
-		this.parentView = parent;
+	public ParishComparison() {
 		initialize();
 	}
 
