@@ -15,9 +15,6 @@ import com.google.gwt.core.client.GWT;
 import org.cwf.client.AppMessages;
 import org.cwf.client.RefreshableEvent;
 import org.cwf.client.RefreshablePublisher;
-import org.cwf.client.controllers.FunctionalityParamController;
-import org.cwf.client.controllers.HomeController;
-import org.cwf.client.controllers.ReportsController;
 import org.cwf.client.views.reports.functionality.BreakdownFrequency;
 import org.cwf.client.views.reports.functionality.PerTechnology;
 import org.cwf.client.views.reports.functionality.RepairCostsTabItem;
@@ -27,28 +24,29 @@ import org.cwf.client.views.reports.functionality.ResponseTimeTabItem;
  *
  * @author victor
  */
-public class FunctionalityView  extends ContentPanel{
+public class FunctionalityView extends ContentPanel {
 
 	final AppMessages appMessages = GWT.create(AppMessages.class);
 	private TabPanel tabPanel;
 	private ReportsFrame parentView;
-	public FunctionalityView(ReportsFrame view,String title) {
-		parentView = view;
+
+	public FunctionalityView(String title) {
+//		parentView = view;
 		initializeUI();
 	}
 
 	private void initializeUI() {
-        tabPanel = new TabPanel();
-        tabPanel.setWidth(1000);
-        tabPanel.setAutoHeight(true);
-        setHeading(appMessages.functionality());
+		tabPanel = new TabPanel();
+		tabPanel.setWidth(1000);
+		tabPanel.setAutoHeight(true);
+		setHeading(appMessages.functionality());
 		TabItem repaircostsTab = new TabItem("Repair Costs");
 		repaircostsTab.setLayout(new FitLayout());
-		repaircostsTab.addListener(Events.OnClick, new Listener<ComponentEvent>(){
+		repaircostsTab.addListener(Events.OnClick, new Listener<ComponentEvent>() {
 
 			@Override
 			public void handleEvent(ComponentEvent be) {
-				((ReportsController)parentView.getController()).forwardToReportsView();
+//				((ReportsController)parentView.getController()).forwardToReportsView();
 			}
 		});
 		RepairCostsTabItem page1 = new RepairCostsTabItem();
@@ -58,17 +56,17 @@ public class FunctionalityView  extends ContentPanel{
 
 		TabItem responseTimeTab = new TabItem("Response Time");
 		responseTimeTab.setLayout(new FitLayout());
-		responseTimeTab.addListener(Events.Select, new Listener<ComponentEvent>(){
+		responseTimeTab.addListener(Events.Select, new Listener<ComponentEvent>() {
 
 			@Override
 			public void handleEvent(ComponentEvent be) {
-				((ReportsController)parentView.getController()).forwardToReportsView();
+//				((ReportsController)parentView.getController()).forwardToReportsView();
 			}
 		});
 		ResponseTimeTabItem page2 = new ResponseTimeTabItem();
 		page2.setWidth("100%");
 		responseTimeTab.add(page2);
-		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RESPONSE_TIME,page2);
+		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RESPONSE_TIME, page2);
 
 		TabItem breakDownFreqTab = new TabItem("Breakdown Frequency");
 		breakDownFreqTab.setLayout(new FitLayout());
@@ -89,10 +87,8 @@ public class FunctionalityView  extends ContentPanel{
 		add(tabPanel);
 	}
 
-
 	public void addTabItem(TabItem item) {
 //		item.setLayout(new FitLayout());
 		tabPanel.add(item);
 	}
-
 }

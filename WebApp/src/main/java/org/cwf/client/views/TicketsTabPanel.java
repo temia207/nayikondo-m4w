@@ -31,7 +31,7 @@ public class TicketsTabPanel extends ContentPanel {
 
     private void initialize() {
         ticketPanel = new TabPanel();
-        ticketPanel.setWidth(600);
+        ticketPanel.setWidth("100%");
         ticketPanel.setAutoHeight(true);
         setHeading(appMessages.ticketSummary());
 

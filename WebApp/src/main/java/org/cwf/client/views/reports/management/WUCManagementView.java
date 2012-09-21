@@ -37,8 +37,7 @@ public class WUCManagementView extends ContentPanel implements Refreshable {
 	private ListStore<WaterManagementSummary> store;
 	private ReportsFrame parentView;
 
-	public WUCManagementView(ReportsFrame parent) {
-		this.parentView = parent;
+	public WUCManagementView() {
 		initialize();
 	}
 

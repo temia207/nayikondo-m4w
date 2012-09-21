@@ -74,7 +74,7 @@ public class HomeView extends View implements Refreshable{
 			maximisePortlet(portlet);
 			loggedinUser = event.getData();
 			districtName = loggedinUser.getSubcounty().getCounty().getDistrict().getName();
-			verticalTabPanel.setHeading(verticalTabPanel.getHeading() + ":" + districtName + " District");
+			verticalTabPanel.setHeading("M4Water:" + districtName + " District");
 			HomeController controller2 = (HomeController) HomeView.this.getController();
 			controller2.getBaselineSetDate();
 			controller2.getTickets();

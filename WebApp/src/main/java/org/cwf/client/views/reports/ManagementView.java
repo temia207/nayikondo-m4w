@@ -31,8 +31,7 @@ public class ManagementView extends ContentPanel{
 	private TabPanel tabPanel;
 	private ReportsFrame parentView;
 
-	public ManagementView(ReportsFrame view, String title) {
-		parentView = view;
+	public ManagementView(String title) {
 		initializeUI(title);
 	}
 
@@ -51,7 +50,7 @@ public class ManagementView extends ContentPanel{
 //				((ReportsController) parentView.getController()).forwardToReportsView();
 			}
 		});
-		WUCManagementView page1 = new WUCManagementView (parentView);
+		WUCManagementView page1 = new WUCManagementView ();
 		page1.setWidth("100%");
 		wucmanagement.add(page1);
 		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.WUC_MANAGEMENT, page1);
@@ -65,7 +64,7 @@ public class ManagementView extends ContentPanel{
 //				((ReportsController) parentView.getController()).forwardToReportsView();
 			}
 		});
-		ServiceRepairs  page2 = new ServiceRepairs(parentView);
+		ServiceRepairs  page2 = new ServiceRepairs();
 		page2.setWidth("100%");
 		servicerepairs.add(page2);
 		RefreshablePublisher.get().subscribe(RefreshableEvent.Type.RESPONSE_TIME, page2);

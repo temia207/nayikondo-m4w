@@ -24,7 +24,7 @@ public class AdjustablePagingToolBar extends PagingToolBar {
 		SimpleComboBox<String> pageSizeCombo = new SimpleComboBox<String>();
 		pageSizeCombo.setAutoWidth(true);
 		pageSizeCombo.setTriggerAction(TriggerAction.ALL);
-		pageSizeCombo.setEmptyText("");
+		pageSizeCombo.setEmptyText("Items per page");
 		pageSizeCombo.add("10");
 		pageSizeCombo.add("20");
 		pageSizeCombo.add("30");

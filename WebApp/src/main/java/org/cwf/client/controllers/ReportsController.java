@@ -21,31 +21,31 @@ import org.m4water.server.admin.model.reports.WucManagement;
  */
 public class ReportsController extends Controller {
 
-	AppMessages appMessages = GWT.create(AppMessages.class);
-	public final static EventType RESPONSE_TIME = new EventType();
-	private ReportServiceAsync reportsAsync;
-	private ReportsFrame reportsFrameView;
+    AppMessages appMessages = GWT.create(AppMessages.class);
+    public final static EventType RESPONSE_TIME = new EventType();
+    private ReportServiceAsync reportsAsync;
+    private ReportsFrame reportsFrameView;
 
-	public ReportsController(ReportServiceAsync aResponseTimeAsync) {
-		super();
-		this.reportsAsync = aResponseTimeAsync;
-		registerEventTypes(RESPONSE_TIME);
-	}
+    public ReportsController(ReportServiceAsync aResponseTimeAsync) {
+        super();
+        this.reportsAsync = aResponseTimeAsync;
+        registerEventTypes(RESPONSE_TIME);
+    }
 
-	@Override
-	protected void initialize() {
-		GWT.log("ReportsController : initialize");
-		reportsFrameView = new ReportsFrame(this);
-	}
+    @Override
+    protected void initialize() {
+        GWT.log("ReportsController : initialize");
+        reportsFrameView = new ReportsFrame(this);
+    }
 
-	@Override
-	public void handleEvent(AppEvent event) {
-		GWT.log("HomeController:handle event");
-		EventType type = event.getType();
-		if (type == RESPONSE_TIME) {
-			forwardToView(reportsFrameView, event);
-		}
-	}
+    @Override
+    public void handleEvent(AppEvent event) {
+        GWT.log("HomeController:handle event");
+        EventType type = event.getType();
+        if (type == RESPONSE_TIME) {
+            forwardToView(reportsFrameView, event);
+        }
+    }
 
     public void forwardToReportsView() {
         GWT.log("ReportsController : forwardToReportsDetails");
@@ -53,26 +53,26 @@ public class ReportsController extends Controller {
         AppEvent event = new AppEvent(FunctionalityParamController.FUNCTIONALITY_PARAM);
         dispatcher.dispatch(event);
     }
-	public void getDistrictSummaries() {
-		GWT.log("ReportsController:getDistrictSummaries");
-		reportsAsync.getDistrictSummaries(new M4waterAsyncCallback<List<DistrictComparisons>>() {
 
-			@Override
-			public void onSuccess(List<DistrictComparisons> result) {
-				RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.DISTRICT_SUMMARIES,result));
-			}
-		});
-	}
+    public void getDistrictSummaries() {
+        GWT.log("ReportsController:getDistrictSummaries");
+        reportsAsync.getDistrictSummaries(new M4waterAsyncCallback<List<DistrictComparisons>>() {
 
-	public void getWucManagementReport(){
-	GWT.log("ReportsController:getWucmanagementReport");
-	reportsAsync.getWucManagementReport(new M4waterAsyncCallback<List<WucManagement>>() {
+            @Override
+            public void onSuccess(List<DistrictComparisons> result) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.DISTRICT_SUMMARIES, result));
+            }
+        });
+    }
 
-			@Override
-			public void onSuccess(List<WucManagement> result) {
-				RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WUC_MANAGEMENT,result));
-			}
-		});
-	}
+    public void getWucManagementReport() {
+        GWT.log("ReportsController:getWucmanagementReport");
+        reportsAsync.getWucManagementReport(new M4waterAsyncCallback<List<WucManagement>>() {
 
+            @Override
+            public void onSuccess(List<WucManagement> result) {
+                RefreshablePublisher.get().publish(new RefreshableEvent(RefreshableEvent.Type.WUC_MANAGEMENT, result));
+            }
+        });
+    }
 }

@@ -155,7 +155,7 @@
                         <module>${cwf.gwt.module}</module>
                     </modules>
                     <extraJvmArgs>-Xmx512M -Xss1024k -XX:MaxPermSize=256m</extraJvmArgs>
-                    <draftCompile>true</draftCompile>
+<!--                    <draftCompile>true</draftCompile>-->
                     <runTarget>index.html</runTarget>
                     <port>8889</port>
                     <hostedWebapp>war</hostedWebapp>

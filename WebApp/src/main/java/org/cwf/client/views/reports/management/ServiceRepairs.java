@@ -36,8 +36,7 @@ public class ServiceRepairs extends ContentPanel implements Refreshable {
 	private ListStore<ResponseTimeSummary> store;
 	private ReportsFrame parentView;
 
-	public ServiceRepairs(ReportsFrame parent) {
-		this.parentView = parent;
+	public ServiceRepairs() {
 		initialize();
 	}
 
