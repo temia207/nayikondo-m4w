@@ -1,6 +1,5 @@
 package org.m4water.server.dao.hibernate;
 
-import com.googlecode.genericdao.search.Filter;
 import com.googlecode.genericdao.search.Search;
 import com.googlecode.genericdao.search.SearchResult;
 import java.text.DateFormat;
@@ -11,8 +10,6 @@ import java.util.Date;
 import java.util.List;
 import org.hibernate.SQLQuery;
 import org.m4water.server.admin.model.WaterPointSummary;
-import org.m4water.server.admin.model.paging.FilterComparison;
-import org.m4water.server.admin.model.paging.FilterConfig;
 import org.m4water.server.admin.model.paging.PagingLoadConfig;
 import org.m4water.server.admin.model.paging.PagingLoadResult;
 import org.m4water.server.dao.WaterPointSummaryDao;
