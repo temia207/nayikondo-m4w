@@ -118,6 +118,6 @@ public class SMSServiceImpl  {
 	public static void main(String[] args) {
 		SMSServiceImpl imp = new SMSServiceImpl();
 		imp.M4W = "M4w";
-		imp.sendSMS("256775144070", "http://goo.gl/BRdcr");
+		imp.sendSMS("256712075579", "http://goo.gl/BRdcr");
 	}
 }

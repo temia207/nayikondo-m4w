@@ -10,7 +10,7 @@ import com.ubos.yawl.sms.authentication.AuthenticationService;
 import com.ubos.yawl.sms.authentication.AuthenticationServiceImpl;
 import org.ubos.yawl.sms.service.SMSService;
 import org.ubos.yawl.sms.service.UserService;
-import org.ubos.yawl.sms.service.impl.NewAPITextMeSMSServiceImpl;
+import org.ubos.yawl.sms.service.impl.RouteSMSServiceImpl;
 import org.ubos.yawl.sms.service.impl.UserServiceImpl;
 import org.ubos.yawl.sms.smsservice.SMSCustomService;
 
@@ -23,7 +23,7 @@ public class SMSModule extends AbstractModule {
         @Override
         protected void configure() {
                 bind(UserService.class).to(UserServiceImpl.class).in(Singleton.class);
-                bind(SMSService.class).to(NewAPITextMeSMSServiceImpl.class).in(Singleton.class);
+                bind(SMSService.class).to(RouteSMSServiceImpl.class).in(Singleton.class);
                 bind(SMSCustomService.class).in(Singleton.class);
                 bind(AuthenticationService.class).to(AuthenticationServiceImpl.class).in(Singleton.class);
                 SecurityInterceptor roleInterceptor = new SecurityInterceptor();
