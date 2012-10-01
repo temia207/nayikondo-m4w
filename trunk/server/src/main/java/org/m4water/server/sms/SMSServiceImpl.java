@@ -56,7 +56,7 @@ public class SMSServiceImpl  {
                 } catch (IOException ex) {
                         log.error("Error While Sending message: " + getMessageString(number, message),ex);
                 } catch (URISyntaxException ex) {
-                        log.error("Failed sending message: " + ex.getMessage());
+                        log.error("Failed sending message: Check the specified URL " + ex.getMessage());
                         return;
                 }
 

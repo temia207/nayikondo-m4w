@@ -73,5 +73,17 @@
             <column name="TAG" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
+    
+	<changeSet id="add-status-to-message" author="ronald.k">
+		<preConditions>
+			<not>
+				<columnExists tableName="smsmessagelog" columnName="status"/>
+				</not>
+			</preConditions>
+			<addColumn tableName="smsmessagelog">
+				<column name="status" type="VARCHAR(255)"/> 
+			</addColumn>
+	    
+		</changeSet>
 
 </databaseChangeLog>

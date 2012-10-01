@@ -16,13 +16,16 @@ import org.m4water.server.admin.model.Subcounty;
 import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.Village;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.exception.M4waterCaseLauchException;
 import org.m4water.server.admin.model.exception.M4waterRuntimeException;
+import org.m4water.server.admin.model.exception.M4waterYawlDownException;
 import org.m4water.server.dao.ProblemDao;
 import org.m4water.server.service.WaterPointService;
 import org.m4water.server.service.YawlService;
 import org.m4water.server.yawl.TicketYawlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yawlfoundation.yawl.exceptions.YAWLException;
 
 /**
  *
@@ -83,7 +86,12 @@ public class YawlServiceImpl implements YawlService {
             params.put("waterPointName", waterpoint.getName());
             params.put("ticketID", problem.getId() + "");
            return yawlService.launchCase(params);
-        } catch (Exception ex) {
+        } catch(IOException ex){
+		throw new M4waterYawlDownException(ex);
+	}catch(YAWLException ex){
+	  throw new M4waterCaseLauchException(ex.getMessage(),ex);
+	}
+	catch (Exception ex) {
 
             throw new RuntimeException("Error occured while launching a ticket workflow", ex);
         }

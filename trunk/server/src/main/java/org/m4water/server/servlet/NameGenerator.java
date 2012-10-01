@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is released under GNU general public license
@@ -297,14 +298,27 @@ public class NameGenerator {
         return name;
     }
 
-        public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		URL resource = NameGenerator.class.getResource("/syl");
-                NameGenerator nc = new NameGenerator(resource.getFile());
-		for (int i = 0; i < 10; i++) {
-		String compose = nc.compose(4);
-			System.out.println("Name: "+ i+ " -> "+compose);
+		NameGenerator nc = new NameGenerator(resource.getFile());
+		List<String> name = new ArrayList<String>();
+		List<String> dupes = new ArrayList<String>();
+		for (int i = 0; i < 10000; i++) {
+			String compose = nc.compose(4);
+			if (name.contains(compose)) {
+				dupes.add(compose);
+				continue;
+			} else {
+				System.out.println("Name: " + name.size() + " -> " + compose);
+				name.add(compose);
+			}
 		}
 		
-	
-        }
+		for (int i = 0; i < dupes.size(); i++) {
+			String string = name.get(i);
+			System.out.println("Duplicate: "+i+ " -> "+ string);
+		}
+
+
+	}
 }

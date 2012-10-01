@@ -19,5 +19,8 @@
     <property name="message" type="string">
       <column length="65535" name="message"/>
     </property>
+    <property name="status" type="string">
+	    <column length="400" name="status"/>
+    </property>
   </class>
 </hibernate-mapping>
