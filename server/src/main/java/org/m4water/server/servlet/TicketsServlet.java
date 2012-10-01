@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.HibernateException;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.ProblemLog;
-import org.m4water.server.admin.model.Smsmessagelog;
 import org.m4water.server.admin.model.User;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.exception.M4waterCaseLauchException;
@@ -27,15 +23,15 @@ import org.m4water.server.dao.SmsMessageLogDao;
 import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.security.util.M4wUtil;
 import org.m4water.server.security.util.UUID;
+import org.m4water.server.service.TicketService;
 import org.m4water.server.service.UserService;
+import org.m4water.server.service.WaterPointService;
 import org.m4water.server.service.YawlService;
 import org.m4water.server.sms.SMSServiceImpl;
-import org.m4water.server.sms.TicketSms;
 import org.muk.fcit.results.sms.SMSMessage;
 import org.openxdata.yawl.util.Settings;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -49,9 +45,7 @@ public class TicketsServlet extends HttpServlet {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private WaterPointDao waterPointDao;
-	@Autowired
-	private ProblemDao problemDao;
+	private WaterPointService waterPointDao;
 	@Autowired
 	private YawlService yawlService;
 	@Autowired
@@ -59,23 +53,21 @@ public class TicketsServlet extends HttpServlet {
 	@Autowired
 	private ProblemLogDao problemLogDao;
 	@Autowired
-	private SmsMessageLogDao messageLogDao;
-	@Autowired
-	private TicketSms ticketSms;
-	private Settings s;
+	private TicketService ticketSms;
+	//private Settings s;
 
 	@Override
 	public void init() throws ServletException {
 
 		WebApplicationContext appCtx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
 		appCtx.getAutowireCapableBeanFactory().autowireBean(this);
-		super.init();
-		try {
-			new Settings("problems");
-		} catch (URISyntaxException ex) {
-			log.error("Error whiile inititing setting file", ex);
-			throw new ServletException(ex);
-		}
+//		super.init();
+//		try {
+//		//	s = new Settings("problems");
+//		} catch (URISyntaxException ex) {
+//			log.error("Error whiile inititing setting file", ex);
+//			throw new ServletException(ex);
+//		}
 	}
 
 	@Override
@@ -96,7 +88,7 @@ public class TicketsServlet extends HttpServlet {
 			log.warn("Usename [" + userName + "] From OXD was not found in local database" + ex);
 		}
 
-		String contact = user != null ? user.getContacts() : "OXD:" + userName;
+		String contact = user != null ? (user.getContacts()+"").replace("-", "").replaceFirst("0", "256") : "OXD:" + userName;
 
 		SMSMessage msg = new SMSMessage(contact, "m4w " + waterpointId + " " + waterpointProblem, null);
 		msg.put("msgID", "OXD:" + userName + ":" + waterpointId);
@@ -176,25 +168,23 @@ public class TicketsServlet extends HttpServlet {
 
 	private void sendErrorNotification(String sender, String complaint, Exception ex) {
 		try {
-			smsService.sendSMS("256712075759", "Yawl is down: Problem: " + complaint);
-			s.store(UUID.jUuid(), "sender:" + sender + " complaint:" + complaint + "ex:" + ex);
+			smsService.sendSMS("256712075579", "Yawl is down: Problem: " + complaint);
+//			s.store(UUID.jUuid(), "sender:" + sender + " complaint:" + complaint + "ex:" + ex);
+			log.info("TICKET:UUID.jUuid() sender:" + sender + " complaint:" + complaint + "ex:" + ex);
 		} catch (Exception e) {
 			log.error("Error while sending notification to admin:", e);
 		}
 	}
 
 	private void processSms(String waterpoint, String complaint, String sender) {
-		try {
+	
 			if (complaint.isEmpty()) {
 				throw new M4waterRuntimeException("No problem Reported Please send again with the problem");
 			} else {
-				processMessage(sender, complaint, sender);
+				processMessage(waterpoint, complaint, sender);
 			}
 
-		} catch (Throwable x) {
-			throw new M4waterRuntimeException("Server is temporarily down try again later");
-		}
-
+		
 	}
 
 	public String launchCase(Problem problem) throws M4waterYawlDownException, M4waterCaseLauchException {
