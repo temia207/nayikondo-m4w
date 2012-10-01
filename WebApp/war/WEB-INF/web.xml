@@ -10,6 +10,14 @@
             30
         </session-timeout>
     </session-config>
+    <servlet>
+	    <servlet-name>ticketServlet</servlet-name>
+	    <servlet-class>org.org.m4water.server.servlet.TicketsServlet</servlet-class>
+    </servlet>
+     <servlet-mapping>
+	     <servlet-name>ticketServlet</servlet-name>
+	     <url-pattern>/tickets</url-pattern>
+     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
     </welcome-file-list>
@@ -22,6 +30,7 @@
     <servlet-name>itemexport</servlet-name>
     <servlet-class>org.m4water.server.servlet.ItemExportServlet</servlet-class>
   </servlet>
+ 
   <servlet-mapping>
     <servlet-name>itemexport</servlet-name>
     <url-pattern>/actions/itemexport</url-pattern>

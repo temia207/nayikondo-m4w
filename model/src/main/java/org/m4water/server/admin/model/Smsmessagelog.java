@@ -14,6 +14,7 @@ public class Smsmessagelog  implements java.io.Serializable {
      private String sender;
      private String time;
      private String message;
+     private String status;
 
     public Smsmessagelog() {
     }
@@ -65,6 +66,14 @@ public class Smsmessagelog  implements java.io.Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
 
 
 

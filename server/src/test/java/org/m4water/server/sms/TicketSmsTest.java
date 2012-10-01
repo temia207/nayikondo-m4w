@@ -74,7 +74,7 @@ public class TicketSmsTest extends TestCase {
         
         PowerMock.replayAll();
        
-        instance.processMessage(sourceId, complaint, sender);
+        instance.processMessage(sourceId, complaint, sender,null);
         
         PowerMock.verifyAll();
 

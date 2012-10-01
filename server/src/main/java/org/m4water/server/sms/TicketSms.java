@@ -15,10 +15,13 @@ import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.ProblemLog;
 import org.m4water.server.admin.model.Smsmessagelog;
 import org.m4water.server.admin.model.Waterpoint;
+import org.m4water.server.admin.model.exception.M4waterCaseLauchException;
+import org.m4water.server.admin.model.exception.M4waterYawlDownException;
 import org.m4water.server.dao.ProblemDao;
 import org.m4water.server.dao.ProblemLogDao;
 import org.m4water.server.dao.SmsMessageLogDao;
 import org.m4water.server.dao.WaterPointDao;
+import org.m4water.server.security.util.M4wUtil;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.TicketService;
 import org.m4water.server.service.YawlService;
@@ -64,6 +67,7 @@ public class TicketSms implements TicketService, InitializingBean {
     private SmsMessageLogDao messageLogDao;
     private final Set<String> receivedIds = new HashSet<String>();
 
+
     public TicketSms() {
     }
 
@@ -84,7 +88,7 @@ public class TicketSms implements TicketService, InitializingBean {
         log.info("Started SMS server");
     }
 
-    private void createNewProblem(String complaint, Waterpoint waterPoint, String sender) throws HibernateException {
+    private void createNewProblem(String complaint, Waterpoint waterPoint, String sender,SMSMessage msg) throws HibernateException {
         Date date = new Date();
 	Calendar c = Calendar.getInstance();
 	c.setTime(date);
@@ -101,15 +105,36 @@ public class TicketSms implements TicketService, InitializingBean {
         problem.getProblemLogs().add(problemLog);
 		String caseID = null;
 		try {
-			caseID = launchCase(problem);
+			
+				caseID = launchCase(problem);
+				problem.setYawlid("T"+caseID+"-"+c.get(Calendar.YEAR));
+				saveProblem(problem);
+				msg.put("status", "success");
+		} catch (M4waterYawlDownException ex) {
+			sendErrorNotification(sender, complaint);
+			msg.put("status", "M4waterYawlDownException:"+ex.getMessage());
+			log.error("Error while launching ticket: Yawl Seems to be down",ex);
+		} catch (M4waterCaseLauchException ex) {
+			sendErrorNotification(sender, complaint);
+			msg.put("status", "M4waterCaseLauchException:"+ex.getMessage());
+			log.error("Error while launching ticket: Yawl Seems to have rejected the case params"+ex.getMessage(),ex);
 		} catch (Exception e) {
-			waterPoint.getProblems().remove(problem);
-			throw new RuntimeException(e);
+			sendErrorNotification(sender, complaint);
+			msg.put("status", "Exception:"+e.getMessage());
+			log.error("Unxpected error occurd while launching ticket", e);
 		}
-	problem.setYawlid("T"+caseID+"-"+c.get(Calendar.YEAR));
-        saveProblem(problem);
+
 
     }
+
+	private void sendErrorNotification(String sender, String complaint) {
+		try {
+			smsService.sendSMS(sender, "Thank you for reporting your problem.");
+			smsService.sendSMS("256712075759", "Yawl is down: Problem: " + complaint);
+		} catch (Exception e) {
+			log.error("Error while sending notification to admin:", e);
+		}
+	}
 
     private void processSms(final SMSMessage request) throws TransactionException {
         log.debug("Fresh New message Received From SMS Channel" + request.getSmsData());
@@ -138,26 +163,26 @@ public class TicketSms implements TicketService, InitializingBean {
 			return;
                     }
 
-                    saveAndCacheMessage(request);
-
                     if (complaint.isEmpty()) {
                         smsService.sendSMS(request.getSender(), "No problem Reported Please send again with the problem in the format: ID space problem");
                     } else {
-                        processMessage(sourceId, complaint, request.getSender());
+                        processMessage(sourceId, complaint, request.getSender(), request);
                     }
 
                 } catch (Throwable x) {
                     smsService.sendSMS(request.getSender(), "Server is temporarily down try again later");
                     log.error("Error occured while processing SMS", x);
-                }
+                }finally{
+			saveAndCacheMessage(request);
+		}
             }
         });
     }
 
-    public void processMessage(String sourceId, String complaint, String sender) throws HibernateException {
+    public void processMessage(String sourceId, String complaint, String sender, SMSMessage msg) throws HibernateException {
 
         Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
-        if (waterPoint == null && !validWaterPointID(sourceId)) {
+        if (waterPoint == null && !M4wUtil.validWaterPointID(sourceId)) {
             smsService.sendSMS(sender, "Invalid Waterpoint ID(" + sourceId + ") Format. Form should be similar to 521BH001 with 8 characters");
         } else if (waterPoint == null) {
             smsService.sendSMS(sender, "Waterpoint ID(" + sourceId + ") does not exist. Please send again with correct ID");
@@ -168,7 +193,7 @@ public class TicketSms implements TicketService, InitializingBean {
             problemLogDao.save(problemLog);
             smsService.sendSMS(sender, "Waterpoint(" + sourceId + ") problem has already been reported");
         } else {
-            createNewProblem(complaint, waterPoint, sender);
+            createNewProblem(complaint, waterPoint, sender,msg);
         }
     }
 
@@ -209,7 +234,7 @@ public class TicketSms implements TicketService, InitializingBean {
         problemDao.deleteProblem(problem);
     }
 
-    public String launchCase(Problem problem) {
+    public String launchCase(Problem problem) throws M4waterYawlDownException,M4waterCaseLauchException {
 
         return yawlService.launchWaterPointFlow(problem);
     }
@@ -281,18 +306,18 @@ public class TicketSms implements TicketService, InitializingBean {
     private void saveNewMessageToDb(SMSMessage request) {
 	log.debug("saveNewMessageToDb()...NumCalls: "+ (++this.msgCount));
         log.info("@>>>Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
+	
+	Smsmessagelog smsmessagelog = new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData());
+	smsmessagelog.setStatus(request.get("status")==null? null:request.get("status").toString());
       //FIXME
-	  messageLogDao.save(new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData()));
+	  messageLogDao.save(smsmessagelog);
     }
 
-    private static boolean validWaterPointID(String sourceId) {
-        return sourceId != null
-                && sourceId.matches("[0-9]{3}[a-zA-Z]{2}[0-9]{3}");
-    }
+
 
     public static void main(String[] args) {
         String string = "mabura";
-        System.out.println("Match for: " + string + " =  " + validWaterPointID(string));
+        System.out.println("Match for: " + string + " =  " + M4wUtil.validWaterPointID(string));
 
     }
 }
