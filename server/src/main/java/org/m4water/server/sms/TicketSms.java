@@ -320,4 +320,8 @@ public class TicketSms implements TicketService, InitializingBean {
         System.out.println("Match for: " + string + " =  " + M4wUtil.validWaterPointID(string));
 
     }
+
+	public void saveProblemLog(ProblemLog problemLog) {
+		problemLogDao.save(problemLog);
+	}
 }

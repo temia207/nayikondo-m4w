@@ -1,7 +1,6 @@
 package org.m4water.server.servlet;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -17,10 +16,6 @@ import org.m4water.server.admin.model.exception.M4waterCaseLauchException;
 import org.m4water.server.admin.model.exception.M4waterRuntimeException;
 import org.m4water.server.admin.model.exception.M4waterYawlDownException;
 import org.m4water.server.admin.model.exception.UserNotFoundException;
-import org.m4water.server.dao.ProblemDao;
-import org.m4water.server.dao.ProblemLogDao;
-import org.m4water.server.dao.SmsMessageLogDao;
-import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.security.util.M4wUtil;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.TicketService;
@@ -29,7 +24,6 @@ import org.m4water.server.service.WaterPointService;
 import org.m4water.server.service.YawlService;
 import org.m4water.server.sms.SMSServiceImpl;
 import org.muk.fcit.results.sms.SMSMessage;
-import org.openxdata.yawl.util.Settings;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,13 +39,11 @@ public class TicketsServlet extends HttpServlet {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private WaterPointService waterPointDao;
+	private WaterPointService waterPointService;
 	@Autowired
 	private YawlService yawlService;
 	@Autowired
 	private SMSServiceImpl smsService;
-	@Autowired
-	private ProblemLogDao problemLogDao;
 	@Autowired
 	private TicketService ticketSms;
 	//private Settings s;
@@ -112,7 +104,7 @@ public class TicketsServlet extends HttpServlet {
 
 	public void processMessage(String sourceId, String complaint, String sender) throws HibernateException {
 
-		Waterpoint waterPoint = waterPointDao.getWaterPoint(sourceId);
+		Waterpoint waterPoint = waterPointService.getWaterPoint(sourceId);
 		if (waterPoint == null && !M4wUtil.validWaterPointID(sourceId)) {
 			throw new M4waterRuntimeException("Invalid Waterpoint ID(" + sourceId + ") Format. Form should be similar to 521BH001 with 8 characters");
 		} else if (waterPoint == null) {
@@ -121,7 +113,7 @@ public class TicketsServlet extends HttpServlet {
 			Problem problem = waterPoint.getOpenProblem();
 			ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, new Date(), complaint);
 			problem.getProblemLogs().add(problemLog);
-			problemLogDao.save(problemLog);
+			ticketSms.saveProblemLog(problemLog);
 			throw new M4waterRuntimeException("Waterpoint(" + sourceId + ") problem has already been reported");
 		} else {
 			createNewProblem(complaint, waterPoint, sender);

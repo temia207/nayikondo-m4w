@@ -2,6 +2,7 @@ package org.m4water.server.service;
 
 import java.util.List;
 import org.m4water.server.admin.model.Problem;
+import org.m4water.server.admin.model.ProblemLog;
 import org.m4water.server.admin.model.Waterpoint;
 
 /**
@@ -19,4 +20,6 @@ public interface TicketService {
     void saveProblem(Problem problem);
 
     void deleteProblem(Problem problem);
+
+	public void saveProblemLog(ProblemLog problemLog);
 }
