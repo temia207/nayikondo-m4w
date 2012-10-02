@@ -22,6 +22,7 @@ public class WaterFunctionality  extends AbstractEditable<String> {
      private String anyPreviousMinorService;
      private String anyPreviousMajorService;
      private Date date;
+     private String nameOfReporter;
 
     public WaterFunctionality() {
     }
@@ -125,8 +126,13 @@ public class WaterFunctionality  extends AbstractEditable<String> {
         this.anyPreviousMajorService = anyPreviousMajorService;
     }
 
+	public void setNameOfReporter(String nameOfReporter) {
+		this.nameOfReporter = nameOfReporter;
+	}
 
-
+	public String getNameOfReporter() {
+		return nameOfReporter;
+	}
 
 }
 
