@@ -45,5 +45,8 @@
         <property name="anyPreviousMajorService" type="string">
             <column name="any_previous_major_service" length="200" />
         </property>
+	<property name="nameOfReporter" type="string">
+		<column name="reporter" length="200"/>
+	</property>
   </class>
 </hibernate-mapping>

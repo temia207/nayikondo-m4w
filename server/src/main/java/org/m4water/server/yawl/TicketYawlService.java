@@ -279,16 +279,15 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	String dateLastMinorService = getValueFromWorkItem(workItemRecord, "dateMinorService");
 	String dateLastMajorService = getValueFromWorkItem(workItemRecord, "dateMajorService");
 	String water_point_found = getValueFromWorkItem(workItemRecord, "water_point_found");
+	String care_taker_name = getValueFromWorkItem(workItemRecord, "care_taker_name");
+	String caretaker_tel = getValueFromWorkItem(workItemRecord, "caretaker_tel");
+	String dateLastRepaired = getValueFromWorkItem(workItemRecord, "date_last_repair");
 	//location_source_name
 	//picture_img
 	//location_village
 	//location_subcounty
 	//location_parish
 	//location_district
-	//name_of_reporter
-	//caretaker_name
-	//caretaker_tel
-	//date_last_repair
 	//water_point_found
 	//approve_data
 	
@@ -307,7 +306,8 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
         waterPoint.setBaselineDate(new Date());
         waterPoint.setTypeOfMagt(management_type);
         waterPoint.setBaselinePending("F");
-        //waterPoint.setHouseholds();
+	waterPoint.setCareTakerName(care_taker_name);
+	waterPoint.setCareTakerTel(caretaker_tel);
 
         WaterFunctionality funx = new WaterFunctionality(new Date(),
                 waterPoint,
@@ -325,8 +325,10 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
         funx.setDetailsLastRepair("");
 	funx.setDateLastMajorService(toDate(dateLastMajorService));
 	funx.setDateLastMinorService(toDate(dateLastMinorService));
+	funx.setDateLastRepaired(toDate(dateLastRepaired));
 	if(!toDate(non_functional_days).equals(new Date(1)))
 	funx.setDateNonFunctional(toDate(non_functional_days));
+	funx.setNameOfReporter(assessorName);
 	
 	
 	

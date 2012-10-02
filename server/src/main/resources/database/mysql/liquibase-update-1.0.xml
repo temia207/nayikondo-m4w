@@ -94,4 +94,9 @@
 				<column name="care_taker_tel" type="VARCHAR(20)"/>
 			</addColumn>
 		</changeSet>
+		<changeSet id="add-reporter-to-functionality" author="ronald.k">
+			<addColumn tableName="water_functionality">
+				<column name="reporter" type="VARCHAR(200)"/>
+			</addColumn>
+		</changeSet>
 </databaseChangeLog>
