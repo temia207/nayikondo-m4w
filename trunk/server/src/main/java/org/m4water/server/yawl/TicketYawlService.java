@@ -331,15 +331,16 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	
 	
 
-        WaterUserCommittee wuc = new WaterUserCommittee(UUID.jUuid(),
-                waterPoint,
-                wuc_established,
-                "1900",
-                wuc_trained,
-                activeWUCmembers,
-                wuc_women_number,
-                management_type,"","");
-        
+        WaterUserCommittee wuc = new WaterUserCommittee();
+	wuc.setUserCommitteeId(UUID.jUuid());
+	wuc.setTrained(wuc_trained);
+	wuc.setNoActiveMembers(activeWUCmembers);
+	wuc.setNoOfMembersOnWuc(wuc_member_number);
+	wuc.setFunctionalityOfWuc(wuc_functional);
+	wuc.setNoOfWomen(wuc_women_number);
+	wuc.setNoOfWomenKeypos(wuc_women_key_number);
+        wuc.setNoOfMembersOnWuc(wuc_member_number);
+	
         wUCService.save(wuc);
         funxService.save(funx);
         waterPointService.saveWaterPoint(waterPoint);
