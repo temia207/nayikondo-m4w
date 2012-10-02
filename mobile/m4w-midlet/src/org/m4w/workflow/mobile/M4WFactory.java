@@ -3,6 +3,7 @@ package org.m4w.workflow.mobile;
 import javax.microedition.lcdui.Display;
 import org.m4w.workflow.mobile.presenter.FormDefDataPresenter;
 import org.m4w.workflow.mobile.presenter.MainMenuPresenter;
+import org.m4w.workflow.mobile.presenter.ProblemReportPresenter;
 import org.m4w.workflow.mobile.view.FormDefDataView;
 import org.m4w.workflow.mobile.view.MainMenuView;
 
@@ -18,7 +19,7 @@ public class M4WFactory {
         private static M4WMidlet m4wMainForm;
         private static M4WDldManager m4wDldManager;
         private static MainMenuPresenter mainMenuPresenter;
-        private static FormDefDataPresenter inspectionDataPresenter;
+        private static FormDefDataPresenter formDefDataPresenter;
         private static MainMenuView mainMenuView;
         private static TransportLayer tLayer;
         private static UserManager userMgr;
@@ -92,7 +93,7 @@ public class M4WFactory {
                 display = null;
                 mainMenuPresenter = null;
                 mainMenuView = null;
-                inspectionDataPresenter = null;
+                formDefDataPresenter = null;
                 m4wDldManager = null;
                 Factory.dispose();
 
@@ -103,11 +104,11 @@ public class M4WFactory {
                 return wirManager;
         }
 
-        public static FormDefDataPresenter getInspctnDataPrsntr() {
-                if (inspectionDataPresenter == null) {
-                        inspectionDataPresenter = new FormDefDataPresenter(display, commandDispatcher, getM4WDldManager(),                        new FormDefDataView(display), Factory.getDldMgr());
+        public static FormDefDataPresenter getFormDefDataPrsntr() {
+                if (formDefDataPresenter == null) {
+                        formDefDataPresenter = new FormDefDataPresenter(display, commandDispatcher, getM4WDldManager(),                        new FormDefDataView(display), Factory.getDldMgr());
                 }
-                return inspectionDataPresenter;
+                return formDefDataPresenter;
         }
 
         public static M4WDldManager getM4WDldManager() {
@@ -119,6 +120,7 @@ public class M4WFactory {
         }
 
         public static void init() {
-                getInspctnDataPrsntr();
+                getFormDefDataPrsntr();
+		new ProblemReportPresenter(display, getM4WDldManager(),Factory.commandDispatcher);
         }
 }
