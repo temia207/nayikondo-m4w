@@ -85,5 +85,13 @@
 			</addColumn>
 	    
 		</changeSet>
-
+		
+		<changeSet id="add-caretaker-tel-name" author="ronald.k">
+			<addColumn tableName="waterpoint">
+				<column name="care_taker_name" type="VARCHAR(200)"/>
+			</addColumn>
+			<addColumn tableName="waterpoint">
+				<column name="care_taker_tel" type="VARCHAR(20)"/>
+			</addColumn>
+		</changeSet>
 </databaseChangeLog>

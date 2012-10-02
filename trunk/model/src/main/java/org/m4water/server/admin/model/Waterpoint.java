@@ -24,6 +24,8 @@ public class Waterpoint extends AbstractEditable<String> {
     private String typeOfMagt;
     private Date baselineDate;
     private String baselinePending;
+    private String careTakerName;
+    private String careTakerTel;
     private Set problems = new HashSet(0);
     private Set inspections = new HashSet(0);
     private Set waterUserCommittees = new HashSet(0);
@@ -226,4 +228,20 @@ public class Waterpoint extends AbstractEditable<String> {
     public void setBaselinePending(String baselinePending) {
         this.baselinePending = baselinePending;
     }
+
+	public void setCareTakerName(String careTakerName) {
+		this.careTakerName = careTakerName;
+	}
+
+	public void setCareTakerTel(String careTakerTel) {
+		this.careTakerTel = careTakerTel;
+	}
+
+	public String getCareTakerName() {
+		return careTakerName;
+	}
+
+	public String getCareTakerTel() {
+		return careTakerTel;
+	}   
 }
