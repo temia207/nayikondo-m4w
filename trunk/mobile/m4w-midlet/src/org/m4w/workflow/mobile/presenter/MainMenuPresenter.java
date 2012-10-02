@@ -22,7 +22,6 @@ import org.openxdata.communication.TransportLayerListener;
 import org.openxdata.db.util.Persistent;
 import org.openxdata.db.util.StorageListener;
 import org.openxdata.forms.GlobalVariables;
-import org.openxdata.model.OpenXdataConstants;
 import org.openxdata.model.ResponseHeader;
 import org.openxdata.util.AlertMessageListener;
 import org.openxdata.util.DefaultCommands;
@@ -47,7 +46,8 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
         private static final int ASSIGNED_WORK_IDX = 0;
         private static final int DO_INSPECTION = 1;
         private static final int NEW_WATERPOINT = 2;
-        private static final int GET_INSPCTN_IDX = 3;
+	private static final int REPORT_PROBLEM = 3;
+        private static final int UPDATE_FORMS_IDX = 4;
         
         private final WorkitemManager wirManager;
         private Command currCmd;
@@ -77,6 +77,7 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
                 view.addCommand("Available Work");
                 view.addCommand("Do Inspection");
                 view.addCommand("Register New Waterpoint");
+		view.addCommand("Report Problem");
                 view.addCommand("Update Forms");
                 view.addCommandListener(this);
                 wirManager.getWirPresenter().getView().addCommand(M4WCommands.mainMenuCmd);
@@ -107,19 +108,27 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
 
         }
 
-        private void processSelection(int selectedIndex) {
-                currIdx = selectedIndex;
-                if (ASSIGNED_WORK_IDX == selectedIndex) {
-                        wirManager.showWorkItems();
-                } else if (DO_INSPECTION == selectedIndex) {
-                        doSurvey();
-                } else if (GET_INSPCTN_IDX == selectedIndex) {
-                        downloadInspectionForm(true);
-                } else if (NEW_WATERPOINT == selectedIndex) {
-                       registerNewWaterPoint();
+	private void processSelection(int selectedIndex) {
+		currIdx = selectedIndex;
+		switch (selectedIndex) {
+			case ASSIGNED_WORK_IDX:
+				wirManager.showWorkItems();
+				break;
+			case DO_INSPECTION:
+				doSurvey();
+				break;
+			case UPDATE_FORMS_IDX:
+				downloadInspectionForm(true);
+				break;
+			case NEW_WATERPOINT:
+				registerNewWaterPoint();
+				break;
+			case REPORT_PROBLEM:
+				reportProblem();
+				break;
+		}
 
-                }
-        }
+	}
 
         public void show() {
                 view.showYourSelf();
@@ -231,4 +240,8 @@ public class MainMenuPresenter implements CommandListener, ActionListener, Viewa
                         view.showYourSelf();
                 }
         }
+
+	private void reportProblem() {
+		dispatcher.fireAction(M4WCommands.reportProblem, this, null);
+	}
 }

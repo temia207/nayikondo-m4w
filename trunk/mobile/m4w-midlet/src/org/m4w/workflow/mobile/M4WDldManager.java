@@ -63,4 +63,12 @@ public class M4WDldManager {
                         tLayer.setCommunicationParameter(TransportLayer.KEY_HTTP_URL, url);
                 }
         }
+	
+	public void reportProblem(Problem problem, TransportLayerListener listener){
+		setCommunicationParams();
+		WFRequest req = wfDldMgr.getRequest("ReportProblem", null);
+		SurveyResponse response = new SurveyResponse();
+		ResponseHeader rh = new ResponseHeader();
+		tLayer.upload(req, problem, rh, response, listener, userMgr.getUserName(), userMgr.getPassword(), "Reporting problem...");
+	}
 }
