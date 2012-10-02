@@ -176,9 +176,20 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
         private void sendSmsUsingParams(WorkItemRecord enabledWorkItem) {
                 String number = getValueFromWorkItem(enabledWorkItem, "number");
                 String msg = getValueFromWorkItem(enabledWorkItem, "message");
-
+		number = add256(number);
                 smsService.sendSMS(number, msg);
         }
+	
+	public String add256(String number){
+		number = number+"";
+		if(number.startsWith("0")){
+			return number.replaceFirst("0", "256");
+		}else if(!number.startsWith("256")){
+			return "256"+number;
+		}else {
+			return number;
+		}
+	}
 
     public InterfaceBHelper get() {
         return yHlp;
