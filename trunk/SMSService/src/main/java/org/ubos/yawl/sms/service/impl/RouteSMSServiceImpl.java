@@ -5,8 +5,13 @@
 package org.ubos.yawl.sms.service.impl;
 
 import com.ubos.yawl.sms.utils.Settings;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -88,7 +93,8 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
 
     @Override
     public String getHost() {
-        return "smpp4.routesms.com";
+//        return "smpp4.routesms.com";
+	    return "121.241.242.114";
     }
 
     private boolean hasCode(String code, String response) {
@@ -110,4 +116,35 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
         //impl.sendSMS("256704269020", "Halloooooo");
 	impl.sendSMS("256712075579", "Halloooooo");
     }
+    
+	
+	public void sendSms(ArrayList<String> numbers, String message) {
+		try {
+//invoke an http request sending messages
+			String link = "username=" + URLEncoder.encode("omn-arkpeas", "UTF-8")
+				+ "&password=" + URLEncoder.encode("gkPHceQO", "UTF-8")
+				+ "&type=0&dlr=1&destination=";
+			for (int i = 0; i < numbers.size(); ++i) {
+				link = link + URLEncoder.encode(numbers.get(i), "UTF-8");
+				if (i > 0 || i < numbers.size() - 1) {
+					link = link + URLEncoder.encode(",", "UTF-8");
+				}
+			}
+			link = link + "&source=arkpeas&message=" + URLEncoder.encode(message, "UTF-8");
+			System.out.println("URL:http://sms.omnitech.co.ug:8080/bulksms/bulksms?" + link);
+			URL url = new URL("http://121.241.242.114:8080/bulksms/bulksms?" + link);
+			URLConnection conn = url.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = null;
+			String response = "";
+			while ((line = in.readLine()) != null) {
+				response = line;
+			}
+			System.out.println(response);
+			in.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 }
