@@ -52,6 +52,12 @@
         <comment> T-true,F-false</comment>
       </column>
     </property>
+    <property name="careTakerName" type="string">
+	    <column length="200" name="care_taker_name" />
+    </property>
+    <property name="careTakerTel" type="string">
+		<column length="20" name="care_taker_tel"/>
+    </property>
     <set cascade="save-update,delete-orphan" fetch="join" inverse="true" lazy="false" name="problems">
       <key>
         <column length="200" name="waterpoint_id" not-null="true"/>
