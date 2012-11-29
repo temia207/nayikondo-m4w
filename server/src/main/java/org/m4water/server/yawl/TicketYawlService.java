@@ -342,6 +342,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	wuc.setNoOfWomen(wuc_women_number);
 	wuc.setNoOfWomenKeypos(wuc_women_key_number);
         wuc.setNoOfMembersOnWuc(wuc_member_number);
+	wuc.setWaterpoint(waterPoint);
 	
         wUCService.save(wuc);
         funxService.save(funx);
