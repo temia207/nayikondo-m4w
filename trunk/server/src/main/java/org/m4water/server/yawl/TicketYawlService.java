@@ -63,6 +63,8 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	private YawlPinger pinger;
 	@Autowired
 	private WorkItemsService workItemDAO;
+	@Autowired
+	private WorkitemReprocessor workitemReprocessor;
 
 	public static TicketYawlService getInstance() {
 		return ticketYawlService;
@@ -77,11 +79,15 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 
 			for (WorkItemRecord workItemRecord : workitems) {
 
-				processWorkitem(workItemRecord);
+				try {
+					processWorkitem(workItemRecord);
+				} catch (Exception e) {
+					_model.addWorkItem(workItemRecord);
+					yawlHelper.checkInWorkItem(workItemRecord);
+					log.error("Error occured while processing workitem from yawl: "+workItemRecord.getID(),e);
+				}
 
 			}
-
-
 		} catch (JDOMException ex) {
 			Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (YAWLException ex) {
@@ -112,6 +118,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		pinger.setServiceID("m4wticket");
 		log.debug("Starting Yawl Pinger for m4w.web app");
 		pinger.start();
+		new Thread(workitemReprocessor, "WorkitemReprocessor").start();
 	}
 
 	public String launchCase(Params params) throws IOException, YAWLException {
@@ -126,7 +133,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		return caseID;
 	}
 
-	private void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException, Exception {
+	void processWorkitem(WorkItemRecord workItemRecord) throws IOException, JDOMException, Exception {
 		String status = null;
 		String tag = null;
 		try {
@@ -144,9 +151,11 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 			tag = e.getMessage();
 			throw e;
 		} finally {
-			saveWorkitem(workItemRecord, status, tag);
-			_model.addWorkItem(workItemRecord);
-			yawlHelper.checkInWorkItem(workItemRecord);
+			try {
+				saveWorkitem(workItemRecord, status, tag);
+			} catch (Exception e) {
+				log.error("ERROR OCCURED WHILE SAVING WORKITEM..", e);
+			}
 		}
 	}
 
@@ -253,7 +262,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		return launchCase;
 	}
 
-	private void processBaseLine(WorkItemRecord workItemRecord) {
+	void processBaseLine(WorkItemRecord workItemRecord) {
 		//Functionality of of water user committee
 		//collect fees
 
@@ -345,8 +354,12 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		wuc.setFunctionalityOfWuc(wuc_functional);
 		wuc.setNoOfWomen(wuc_women_number);
 		wuc.setNoOfWomenKeypos(wuc_women_key_number);
-		wuc.setNoOfMembersOnWuc(wuc_member_number);
 		wuc.setWaterpoint(waterPoint);
+		wuc.setCommissioned(wuc_established);
+		if(wuc.getYrEstablished()==null){
+			wuc.setYrEstablished("1900");
+		}
+		
 
 		wUCService.save(wuc);
 		funxService.save(funx);
@@ -418,7 +431,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		try {
 			date = df.parse(dateString);
 		} catch (Exception ex) {
-			log.error("Error while processing date from yawl:" + dateString, ex);
+			log.error("Error while processing date from yawl:" + dateString + " : " + ex.getMessage());
 		}
 		return date;
 	}

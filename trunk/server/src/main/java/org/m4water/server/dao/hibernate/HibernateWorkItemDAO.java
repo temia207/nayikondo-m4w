@@ -43,4 +43,10 @@ public class HibernateWorkItemDAO extends GenericDAOImpl<WorkItemRecord, Integer
 	public WorkItemRecord getWir4CaseIDTaskID(String caseId) {
 		return searchUniqueByPropertyEqual("_caseID", caseId);
 	}
+
+	public List<WorkItemRecord> getUproccesedWorkitems() {
+		Search search = new Search();
+		search.addFilterEqual("_status",WorkItemRecord.statusFailed);
+		return search(search);
+	}
 }
