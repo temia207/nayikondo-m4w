@@ -21,4 +21,6 @@ public interface WorkItemDAO extends
 
         public WorkItemRecord getWir4CaseIDTaskID(String caseId);
 
+	public List<WorkItemRecord> getUproccesedWorkitems();
+
 }
