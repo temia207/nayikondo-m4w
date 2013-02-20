@@ -151,7 +151,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 			tag = e.getMessage();
 			throw e;
 		} finally {
-			try {
+			try {//remeber to checking workitems
 				saveWorkitem(workItemRecord, status, tag);
 			} catch (Exception e) {
 				log.error("ERROR OCCURED WHILE SAVING WORKITEM..", e);
@@ -374,6 +374,8 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	public void handleExcutingWorkitem(WorkItemRecord wir) {
 		try {
 			processWorkitem(wir);
+           _model.addWorkItem(wir);
+            yawlHelper.checkInWorkItem(wir);
 		} catch (Exception ex) {
 			log.error("Error while processing executing workitem", ex);
 		}
