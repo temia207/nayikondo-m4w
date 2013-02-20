@@ -144,6 +144,8 @@ public class TextMeUgChannel implements Channel {
                 //FIXME HttpResponse httpResponse = client.execute(new HttpGet("http://localhost:8084/VirtualTextMeUg/pollsms"));
 		 HttpResponse httpResponse = client.execute(new HttpGet(uri));
                 log.trace("@Executing URL for Server...");
+                log.trace("@Url: "+uri.toString());
+
 
                 StatusLine statusLine = httpResponse.getStatusLine();
                 log.trace("Succesfully executed");
