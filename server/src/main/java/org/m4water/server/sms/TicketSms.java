@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.m4water.server.admin.model.Problem;
@@ -25,10 +26,7 @@ import org.m4water.server.security.util.M4wUtil;
 import org.m4water.server.security.util.UUID;
 import org.m4water.server.service.TicketService;
 import org.m4water.server.service.YawlService;
-import org.muk.fcit.results.sms.Channel;
-import org.muk.fcit.results.sms.RequestListener;
-import org.muk.fcit.results.sms.SMSMessage;
-import org.muk.fcit.results.sms.SMSServer;
+import org.muk.fcit.results.sms.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,19 +35,19 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
- *
  * @author victor
  */
 @Service("ticketService")
 @Transactional
 public class TicketSms implements TicketService, InitializingBean {
 
-   private static org.slf4j.Logger log = LoggerFactory.getLogger(TicketSms.class);
-   private int msgCount = 0;
+    private static org.slf4j.Logger log = LoggerFactory.getLogger(TicketSms.class);
+    private int msgCount = 0;
     @Autowired
     private WaterPointDao waterPointDao;
     @Autowired
@@ -65,7 +63,7 @@ public class TicketSms implements TicketService, InitializingBean {
     private ProblemLogDao problemLogDao;
     @Autowired
     private SmsMessageLogDao messageLogDao;
-    private final Set<String> receivedIds = new HashSet<String>();
+    private int highestMsgId = 0;
 
 
     public TicketSms() {
@@ -74,6 +72,13 @@ public class TicketSms implements TicketService, InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         transactionTemplate = new TransactionTemplate(transactionManager);
+
+        getHighestMessageId();
+
+        startSMSServer();
+    }
+
+    private void startSMSServer() throws ChannelException {
         RequestListener requestListener = new RequestListener() {
 
             @Override
@@ -81,67 +86,73 @@ public class TicketSms implements TicketService, InitializingBean {
                 processSms(request);
             }
         };
-        Channel ch = new TextMeUgChannel("m4w", "Trip77e");
+        Channel ch = new TextMeUgChannelV2(highestMsgId);
         SMSServer server = new SMSServer(ch, requestListener, 1);
         log.info("Starting SMS server");
         server.startServer();
         log.info("Started SMS server");
     }
 
-    private void createNewProblem(String complaint, Waterpoint waterPoint, String sender,SMSMessage msg) throws HibernateException {
+    private void getHighestMessageId() {
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                highestMsgId = messageLogDao.getHighestMsgId();
+            }
+        });
+    }
+
+    private void createNewProblem(String complaint, Waterpoint waterPoint, String sender, SMSMessage msg) throws HibernateException {
         Date date = new Date();
-	Calendar c = Calendar.getInstance();
-	c.setTime(date);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
 
         Problem problem = new Problem();
         problem.setDateProblemReported(date);
         problem.setProblemDescsription(complaint);
         problem.setProblemStatus("open");
         problem.setWaterpoint(waterPoint);
-        
+
         waterPoint.getProblems().add(problem);
 
         ProblemLog problemLog = new ProblemLog(UUID.jUuid(), problem, sender, date, complaint);
         problem.getProblemLogs().add(problemLog);
-		String caseID = null;
-		try {
-			
-				caseID = launchCase(problem);
-				problem.setYawlid("T"+caseID+"-"+c.get(Calendar.YEAR));
-				saveProblem(problem);
-				msg.put("status", "success");
-		} catch (M4waterYawlDownException ex) {
-			sendErrorNotification(sender, complaint);
-			msg.put("status", "M4waterYawlDownException:"+ex.getMessage());
-			log.error("Error while launching ticket: Yawl Seems to be down",ex);
-		} catch (M4waterCaseLauchException ex) {
-			sendErrorNotification(sender, complaint);
-			msg.put("status", "M4waterCaseLauchException:"+ex.getMessage());
-			log.error("Error while launching ticket: Yawl Seems to have rejected the case params"+ex.getMessage(),ex);
-		} catch (Exception e) {
-			sendErrorNotification(sender, complaint);
-			msg.put("status", "Exception:"+e.getMessage());
-			log.error("Unxpected error occurd while launching ticket", e);
-		}
+        String caseID = null;
+        try {
+
+            caseID = launchCase(problem);
+            problem.setYawlid("T" + caseID + "-" + c.get(Calendar.YEAR));
+            saveProblem(problem);
+            msg.put("status", "success");
+        } catch (M4waterYawlDownException ex) {
+            sendErrorNotification(sender, complaint);
+            msg.put("status", "M4waterYawlDownException:" + ex.getMessage());
+            log.error("Error while launching ticket: Yawl Seems to be down", ex);
+        } catch (M4waterCaseLauchException ex) {
+            sendErrorNotification(sender, complaint);
+            msg.put("status", "M4waterCaseLauchException:" + ex.getMessage());
+            log.error("Error while launching ticket: Yawl Seems to have rejected the case params" + ex.getMessage(), ex);
+        } catch (Exception e) {
+            sendErrorNotification(sender, complaint);
+            msg.put("status", "Exception:" + e.getMessage());
+            log.error("Unxpected error occurd while launching ticket", e);
+        }
 
 
     }
 
-	private void sendErrorNotification(String sender, String complaint) {
-		try {
-			smsService.sendSMS(sender, "Thank you for reporting your problem.");
-			smsService.sendSMS("256712075759", "Yawl is down: Problem: " + complaint);
-		} catch (Exception e) {
-			log.error("Error while sending notification to admin:", e);
-		}
-	}
+    private void sendErrorNotification(String sender, String complaint) {
+        try {
+            smsService.sendSMS(sender, "Thank you for reporting your problem.");
+            smsService.sendSMS("256712075759", "Yawl is down: Problem: " + complaint);
+        } catch (Exception e) {
+            log.error("Error while sending notification to admin:", e);
+        }
+    }
 
     private void processSms(final SMSMessage request) throws TransactionException {
         log.debug("Fresh New message Received From SMS Channel" + request.getSmsData());
-        if (!isMessageNew(request, false)) {
-	      log.debug("Received New Message Form SMS Channel But Its Not New: Message<"+request.getSmsData()+":"+ request.getSender()+">");
-            return;
-        }
 
         String msg = cleanSms(request);
         String[] split = msg.split(" ");
@@ -157,11 +168,6 @@ public class TicketSms implements TicketService, InitializingBean {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 try {
-		    
-                    if (!isMessageNew(request, true)) {
-                     	    log.debug("Received New Message Form SMS Channel But Its Not New: Message<"+request.getSmsData()+":"+ request.getSender()+">");
-			return;
-                    }
 
                     if (complaint.isEmpty()) {
                         smsService.sendSMS(request.getSender(), "No problem Reported Please send again with the problem in the format: ID space problem");
@@ -172,9 +178,9 @@ public class TicketSms implements TicketService, InitializingBean {
                 } catch (Throwable x) {
                     smsService.sendSMS(request.getSender(), "Server is temporarily down try again later");
                     log.error("Error occured while processing SMS", x);
-                }finally{
-			saveAndCacheMessage(request);
-		}
+                } finally {
+                    saveAndCacheMessage(request);
+                }
             }
         });
     }
@@ -193,16 +199,13 @@ public class TicketSms implements TicketService, InitializingBean {
             problemLogDao.save(problemLog);
             smsService.sendSMS(sender, "Waterpoint(" + sourceId + ") problem has already been reported");
         } else {
-            createNewProblem(complaint, waterPoint, sender,msg);
+            createNewProblem(complaint, waterPoint, sender, msg);
         }
     }
 
     public void saveAndCacheMessage(SMSMessage request) {
         Object msgId = request.get("msgID");
         if (msgId != null) {
-            synchronized (receivedIds) {
-                receivedIds.add(msgId.toString());
-            }
             saveNewMessageToDb(request);
         }
     }
@@ -234,24 +237,11 @@ public class TicketSms implements TicketService, InitializingBean {
         problemDao.deleteProblem(problem);
     }
 
-    public String launchCase(Problem problem) throws M4waterYawlDownException,M4waterCaseLauchException {
+    public String launchCase(Problem problem) throws M4waterYawlDownException, M4waterCaseLauchException {
 
         return yawlService.launchWaterPointFlow(problem);
     }
 
-    public  boolean isMessageNew(SMSMessage message, boolean loadFromDb) {
-
-	if (loadFromDb) {
-            mayBeLoadMsgIds();
-        }
-        Object msgId = message.get("msgID");
-        if (msgId == null) {
-            return true;
-        }
-	final boolean isNew = !receivedIds.contains(msgId + "");
-	
-        return isNew;
-    }
 
     public void setMessageLogDao(SmsMessageLogDao messageLogDao) {
         this.messageLogDao = messageLogDao;
@@ -281,17 +271,6 @@ public class TicketSms implements TicketService, InitializingBean {
         this.yawlService = yawlService;
     }
 
-    public synchronized void mayBeLoadMsgIds() {
-
-        if (!receivedIds.isEmpty()) {
-            return;
-        }
-        List<Smsmessagelog> findAll = messageLogDao.findAll();
-        for (Smsmessagelog smsmessagelog : findAll) {
-            receivedIds.add(smsmessagelog.getTextmeId());
-        }
-	log.debug(">>Sms Message DAO loaded ["+receivedIds.size()+"] Messages");
-    }
 
     public String cleanSms(final SMSMessage request) {
         String msg = request.getSmsData();
@@ -304,15 +283,14 @@ public class TicketSms implements TicketService, InitializingBean {
     }
 
     private void saveNewMessageToDb(SMSMessage request) {
-	log.debug("saveNewMessageToDb()...NumCalls: "+ (++this.msgCount));
+        log.debug("saveNewMessageToDb()...NumCalls: " + (++this.msgCount));
         log.info("@>>>Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
-	
-	Smsmessagelog smsmessagelog = new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData());
-	smsmessagelog.setStatus(request.get("status")==null? null:request.get("status").toString());
-      //FIXME
-	  messageLogDao.save(smsmessagelog);
-    }
 
+        Smsmessagelog smsmessagelog = new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData());
+        smsmessagelog.setStatus(request.get("status") == null ? null : request.get("status").toString());
+        //FIXME
+        messageLogDao.save(smsmessagelog);
+    }
 
 
     public static void main(String[] args) {
@@ -321,7 +299,7 @@ public class TicketSms implements TicketService, InitializingBean {
 
     }
 
-	public void saveProblemLog(ProblemLog problemLog) {
-		problemLogDao.save(problemLog);
-	}
+    public void saveProblemLog(ProblemLog problemLog) {
+        problemLogDao.save(problemLog);
+    }
 }

@@ -9,5 +9,6 @@ import org.m4water.server.admin.model.Smsmessagelog;
  */
 public interface  SmsMessageLogDao  extends BaseDAO<Smsmessagelog, String> {
 
+    int getHighestMsgId();
 }
 
