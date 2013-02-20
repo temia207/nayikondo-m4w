@@ -13,11 +13,11 @@ import org.springframework.stereotype.Repository;
 @Repository("smsMessageLogDao")
 public class SmsMessageLogDAOImpl extends BaseDAOImpl<Smsmessagelog, String> implements SmsMessageLogDao{
     @Override
-    public int getHighestMsgId() {
+    public long getHighestMsgId() {
 
       Query query = getSession().createQuery("select max(textmeId) from Smsmessagelog") ;
 
-        Integer highestId = (Integer) query.uniqueResult();
+        Long highestId = (Long) query.uniqueResult();
 
         return highestId;
     }

@@ -63,7 +63,7 @@ public class TicketSms implements TicketService, InitializingBean {
     private ProblemLogDao problemLogDao;
     @Autowired
     private SmsMessageLogDao messageLogDao;
-    private int highestMsgId = 0;
+    private long highestMsgId = 0;
 
 
     public TicketSms() {
@@ -99,6 +99,7 @@ public class TicketSms implements TicketService, InitializingBean {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 highestMsgId = messageLogDao.getHighestMsgId();
+                log.info("Highest SMS Id = "+highestMsgId);
             }
         });
     }
@@ -286,7 +287,8 @@ public class TicketSms implements TicketService, InitializingBean {
         log.debug("saveNewMessageToDb()...NumCalls: " + (++this.msgCount));
         log.info("@>>>Saving new message from: " + request.getSender() + " Msg: " + request.getSmsData(), null, null);
 
-        Smsmessagelog smsmessagelog = new Smsmessagelog(java.util.UUID.randomUUID().toString(), request.get("msgID") + "", request.getSender(), request.get("time") + "", request.getSmsData());
+        Long msgID = (Long) request.get("msgID");
+        Smsmessagelog smsmessagelog = new Smsmessagelog(java.util.UUID.randomUUID().toString(), msgID.intValue() , request.getSender(), request.get("time") + "", request.getSmsData());
         smsmessagelog.setStatus(request.get("status") == null ? null : request.get("status").toString());
         //FIXME
         messageLogDao.save(smsmessagelog);

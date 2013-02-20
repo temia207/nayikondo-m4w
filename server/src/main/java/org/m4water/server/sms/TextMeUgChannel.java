@@ -42,7 +42,7 @@ public class TextMeUgChannel implements Channel {
         private String hostNameOrVariable;
 
         private List<SMSMessage> bufferedMessages = new ArrayList<SMSMessage>();
-        private Set<Integer> alreadyReceivedIds = new HashSet<Integer>();
+        private Set<Long> alreadyReceivedIds = new HashSet<Long>();
         private String password;
         private String path;
         private int port;

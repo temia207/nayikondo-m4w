@@ -7,7 +7,7 @@
       <column length="200" name="id"/>
       <generator class="assigned"/>
     </id>
-    <property name="textmeId" type="string">
+    <property name="textmeId" type="long">
       <column length="200" name="textme_id" unique="true"/>
     </property>
     <property name="sender" type="string">
