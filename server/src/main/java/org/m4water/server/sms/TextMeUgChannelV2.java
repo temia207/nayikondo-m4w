@@ -43,7 +43,7 @@ public class TextMeUgChannelV2 implements Channel {
     private long highestId;
 
     public TextMeUgChannelV2() {
-        port = 9090;
+        port = 80;
         path = "/sms/poll.php";
         protocol = "http";
         hostNameOrVariable = "m4water.org";
