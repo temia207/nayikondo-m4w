@@ -10,7 +10,7 @@ public class Smsmessagelog  implements java.io.Serializable {
 
 
      private String id;
-     private String textmeId;
+     private long textmeId;
      private String sender;
      private String time;
      private String message;
@@ -23,7 +23,7 @@ public class Smsmessagelog  implements java.io.Serializable {
     public Smsmessagelog(String id) {
         this.id = id;
     }
-    public Smsmessagelog(String id, String textmeId, String sender, String time, String message) {
+    public Smsmessagelog(String id, long textmeId, String sender, String time, String message) {
        this.id = id;
        this.textmeId = textmeId;
        this.sender = sender;
@@ -38,11 +38,11 @@ public class Smsmessagelog  implements java.io.Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    public String getTextmeId() {
+    public long getTextmeId() {
         return this.textmeId;
     }
     
-    public void setTextmeId(String textmeId) {
+    public void setTextmeId(long textmeId) {
         this.textmeId = textmeId;
     }
     public String getSender() {

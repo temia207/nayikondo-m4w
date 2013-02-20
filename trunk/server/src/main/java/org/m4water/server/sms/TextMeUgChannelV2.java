@@ -40,16 +40,16 @@ public class TextMeUgChannelV2 implements Channel {
     private String protocol;
     private Gson gs = new Gson();
 
-    private int highestId;
+    private long highestId;
 
     public TextMeUgChannelV2() {
-        port = 80;
-        path = "/sms/query.php";
+        port = 9090;
+        path = "/sms/poll.php";
         protocol = "http";
         hostNameOrVariable = "m4water.org";
     }
 
-    public TextMeUgChannelV2(int highestId) {
+    public TextMeUgChannelV2(long highestId) {
         this();
         this.highestId = highestId;
     }
@@ -101,7 +101,7 @@ public class TextMeUgChannelV2 implements Channel {
         for (TextMeMessage message : msgs) {
             log.debug("@Received SMS: " + message.getMessage(), null, message.getSender());
             SMSMessage req = new SMSMessage(message.getSender(), message.getMessage(), this);
-            req.put("msgID", message.getMsgID());
+            req.put("msgID", message.getIntID());
             req.put("time", message.getTime());
             bufferedMessages.add(req);
         }
@@ -165,7 +165,8 @@ public class TextMeUgChannelV2 implements Channel {
                 }
             }
 
-            highestId = getHighestId(msgList.messages);
+            if (newMessages != null && !newMessages.isEmpty())
+                highestId = getHighestId(msgList.messages);
         } catch (Exception e) {
             log.error("@Problem while De-serialising json: <<" + jsonResponse + ">>", e);
         }
@@ -179,8 +180,8 @@ public class TextMeUgChannelV2 implements Channel {
         return json;
     }
 
-    public int getHighestId(List<TextMeMessage> msgs) {
-        int newHighId = 0;
+    public long getHighestId(List<TextMeMessage> msgs) {
+        long newHighId = 0;
         for (TextMeMessage msg : msgs) {
             if (msg.getIntID() > highestId && msg.getIntID() > newHighId) {
                 newHighId = msg.getIntID();

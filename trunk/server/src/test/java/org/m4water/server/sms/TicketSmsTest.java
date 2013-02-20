@@ -161,33 +161,6 @@ public class TicketSmsTest extends TestCase {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of isMessageNew method, of class TicketSms.
-     */
-    @Ignore
-    public void testIsMessageNew() {
-        System.out.println("isMessageNew");
-        SMSMessage message = null;
-        boolean loadFromDb = false;
-        TicketSms instance = new TicketSms();
-        boolean expResult = false;
-        boolean result = instance.isMessageNew(message, loadFromDb);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of mayBeLoadMsgIds method, of class TicketSms.
-     */
-    @Ignore
-    public void testMayBeLoadMsgIds() {
-        System.out.println("mayBeLoadMsgIds");
-        TicketSms instance = new TicketSms();
-        instance.mayBeLoadMsgIds();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of cleanSms method, of class TicketSms.

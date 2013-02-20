@@ -19,7 +19,7 @@ public class TextMeMessage {
         private String message;
         private String time;
         private String msgID;
-        private int msgInID = -1;
+        private long msgInID = -1;
 
         public TextMeMessage() {
         }
@@ -64,9 +64,9 @@ public class TextMeMessage {
                 this.time = time;
         }
 
-        public int getIntID() {
+        public long getIntID() {
                 if (msgInID == -1) {
-                        msgInID = Integer.parseInt(getMsgID());
+                        msgInID = Long.parseLong(getMsgID());
                 }
                 return msgInID;
         }
