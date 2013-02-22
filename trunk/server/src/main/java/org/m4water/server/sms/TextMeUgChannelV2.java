@@ -12,6 +12,8 @@ import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.muk.fcit.results.sms.*;
 import org.slf4j.LoggerFactory;
 
@@ -111,8 +113,16 @@ public class TextMeUgChannelV2 implements Channel {
         URI uri = buildUrl();
 
         HttpClient client = new DefaultHttpClient();
+
+        HttpParams params = client.getParams();
+        HttpConnectionParams.setSoTimeout(params, 10000);
+        HttpConnectionParams.setConnectionTimeout(params, 10000);
+
+
         //FIXME HttpResponse httpResponse = client.execute(new HttpGet("http://localhost:8084/VirtualTextMeUg/pollsms"));
-        HttpResponse httpResponse = client.execute(new HttpGet(uri));
+        HttpGet request = new HttpGet(uri);
+        HttpResponse httpResponse = client.execute(request);
+
         log.trace("@Executing URL for Server...");
         log.trace("@Url: " + uri.toString());
 
