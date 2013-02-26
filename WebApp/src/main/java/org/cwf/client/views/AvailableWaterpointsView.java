@@ -264,6 +264,7 @@ public class AvailableWaterpointsView extends ContentPanel implements Refreshabl
             caseId = Integer.parseInt(baselinePending);
         } catch (Exception ex) {
             MessageBox.alert("Warning", "Baseline Cannot be Canceled because the Yawl ID Is Not Available", null);
+            return;
         }
         HomeController controller = (HomeController) parentView.getController();
         controller.cancelCase(caseId + "");
