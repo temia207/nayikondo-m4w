@@ -169,7 +169,7 @@ public class InspectionServlet extends HttpServlet {
 		writeMessage(resp, "<fail>District [" + jxbWaterPoint.getDistrict() + "] does not exist</fail>");
 		return;
 	    }
-	    Subcounty subcounty = districtByName.getSubcouty(jxbWaterPoint.getSubcounty());
+	    Subcounty subcounty = districtService.getAnySubcountInDistrict(districtByName,jxbWaterPoint.getSubcounty());
 
 	    if (subcounty == null) {
 		writeMessage(resp, "<fail>Subcounty [" + jxbWaterPoint.getSubcounty() + "] does not exist</fail>");

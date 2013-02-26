@@ -73,5 +73,7 @@ public interface SettingService {
 	 */
 	SettingGroup getSettingGroup(String name);
 
+    SettingGroup getInitializedSettingGroup(String name);
+
 	void exportSettingGroupToWaterPoint(SettingGroup group);
 }

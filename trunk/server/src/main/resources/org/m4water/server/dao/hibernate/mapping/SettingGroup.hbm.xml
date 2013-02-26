@@ -11,7 +11,7 @@
     <property column="name" length="255" name="name" not-null="true" type="java.lang.String"/>
     <property column="description" length="1024" name="description" not-null="false" type="java.lang.String"/>
     <many-to-one class="SettingGroup" column="parent_setting_group_id" lazy="false" name="parentSettingGroup"/>
-    <bag cascade="all-delete-orphan" inverse="true" lazy="false" name="groups" order-by="name asc">
+    <bag cascade="all-delete-orphan" inverse="true" name="groups" order-by="name asc">
       <key column="parent_setting_group_id" not-null="true"/>
       <one-to-many class="SettingGroup"/>
     </bag>

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.hibernate.Hibernate;
 import org.m4water.server.admin.model.District;
 
 import org.m4water.server.admin.model.Setting;
@@ -116,6 +118,14 @@ public class SettingServiceImpl implements SettingService {
     // note: no security required to read settings
     public SettingGroup getSettingGroup(String name) {
 	return settingGroupDAO.getSettingGroup(name);
+    }
+
+    @Override
+    public SettingGroup getInitializedSettingGroup(String name) {
+       SettingGroup group = getSettingGroup(name);
+       Hibernate.initialize(group.getGroups());
+       List<SettingGroup>  groups = group.getGroups();
+       return group;
     }
 
     @Override
