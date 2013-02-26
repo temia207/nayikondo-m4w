@@ -25,26 +25,15 @@ public class DistrictServiceImpl implements DistrictService {
 
     public District getDistrictByName(String name) {
         District district = districDao.searchUniqueByPropertyEqual("name", name);
-        Hibernate.initialize(district.getCounties());
-        Set counties = district.getCounties();
-        for (Object object : counties) {
-            County county = (County) object;
-            Hibernate.initialize(county.getSubcounties());
-            Set subcounties = county.getSubcounties();
-            for (Object object1 : subcounties) {
-                Subcounty subCounty = (Subcounty) object1;
-                Hibernate.initialize(subCounty.getParishs());
-                Set parishs = subCounty.getParishs();
-                for (Object object2 : parishs) {
-                    Parish parish = (Parish) object2;
-                    Hibernate.initialize(parish.getVillages());
-                }
-            }
-        }
         return district;
     }
 
     public District getDistrictByID(String id) {
         return districDao.find(id);
+    }
+
+    @Override
+    public Subcounty getAnySubcountInDistrict(District district, String subcountyName) {
+        return districDao.getAnySubcountInDistrict(district,subcountyName);
     }
 }

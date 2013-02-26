@@ -57,7 +57,7 @@ public class SettingServiceImpl extends M4waterPersistentRemoteService implement
 
     @Override
     public SettingGroup getSettingGroup(String name) {
-        return getSettingService().getSettingGroup(name);
+        return getSettingService().getInitializedSettingGroup(name);
     }
 
     public org.m4water.server.service.SettingService getSettingService() {

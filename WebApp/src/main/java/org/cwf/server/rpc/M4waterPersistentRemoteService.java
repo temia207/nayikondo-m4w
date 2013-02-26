@@ -37,6 +37,7 @@ public class M4waterPersistentRemoteService extends PersistentRemoteService{
 	    hibernateUtil.setSessionFactory((SessionFactory)ctx.getBean("sessionFactory"));
 		PersistentBeanManager persistentBeanManager = GwtConfigurationHelper.initGwtStatelessBeanManager(hibernateUtil);
 		setBeanManager(persistentBeanManager);
+        getApplicationContext().getAutowireCapableBeanFactory().autowireBean(this);
 	}
 	
 	protected WebApplicationContext getApplicationContext() {

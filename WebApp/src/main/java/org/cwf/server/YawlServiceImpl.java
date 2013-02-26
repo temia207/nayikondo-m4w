@@ -3,6 +3,7 @@ package org.cwf.server;
 import org.cwf.client.service.YawlService;
 import org.cwf.server.rpc.M4waterPersistentRemoteService;
 import org.m4water.server.admin.model.Waterpoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -12,6 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public class YawlServiceImpl extends M4waterPersistentRemoteService implements YawlService {
 
+    @Autowired
     private org.m4water.server.service.YawlService yawlService;
 
     @Override
