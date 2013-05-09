@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>specification of tickets m4W</description>
-      <version>0.136</version>
+      <version>0.141</version>
       <identifier>UID_769e389b-7e81-477c-9b6a-b75b8390d4a6</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -359,8 +359,16 @@
               <mapsTo>number_pumpMechanic</mapsTo>
             </mapping>
             <mapping>
+              <expression query="&lt;AssessorTel&gt;{/Assessment/number_pumpMechanic/text()}&lt;/AssessorTel&gt;" />
+              <mapsTo>AssessorTel</mapsTo>
+            </mapping>
+            <mapping>
               <expression query="&lt;waterPointName&gt;{/Assessment/waterPointName/text()}&lt;/waterPointName&gt;" />
               <mapsTo>waterPointName</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;repairsDone&gt;{/Assessment/waterPointDetailsOfRepairPlan/text()}&lt;/repairsDone&gt;" />
+              <mapsTo>repairsDone</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;subcounty&gt;{/Assessment/subcounty/text()}&lt;/subcounty&gt;" />
@@ -372,6 +380,77 @@
             </mapping>
           </completedMappings>
           <decomposesTo id="Assessment" />
+        </task>
+        <task id="Export_M4W_17">
+          <name>Export M4W</name>
+          <flowsInto>
+            <nextElementRef id="Notify_Sender_Fix_Complete_203" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;assesment&gt;{/WaterFlow/waterPointAssessment/text()}&lt;/assesment&gt;" />
+              <mapsTo>assesment</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;typeOfFault&gt;{/WaterFlow/typeOfFault/text()}&lt;/typeOfFault&gt;" />
+              <mapsTo>typeOfFault</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;repairDetails&gt;{/WaterFlow/waterPointDetailsOfRepairPlan/text()}&lt;/repairDetails&gt;" />
+              <mapsTo>repairDetails</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;AssessorTel&gt;{/WaterFlow/AssessorTel/text()}&lt;/AssessorTel&gt;" />
+              <mapsTo>AssessorTel</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;waterPointID&gt;{/WaterFlow/waterPointID/text()}&lt;/waterPointID&gt;" />
+              <mapsTo>waterPointID</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;costLabor&gt;{/WaterFlow/costLabor/text()}&lt;/costLabor&gt;" />
+              <mapsTo>costLabor</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;repairsDone&gt;{/WaterFlow/repairsDone/text()}&lt;/repairsDone&gt;" />
+              <mapsTo>repairsDone</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;CostSpares&gt;{/WaterFlow/CostSpares/text()}&lt;/CostSpares&gt;" />
+              <mapsTo>CostSpares</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;ticketID&gt;{/WaterFlow/ticketID/text()}&lt;/ticketID&gt;" />
+              <mapsTo>ticketID</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;problemFixed&gt;{/WaterFlow/waterPointIsFixed/text()}&lt;/problemFixed&gt;" />
+              <mapsTo>problemFixed</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;action&gt;'assessment'&lt;/action&gt;" />
+              <mapsTo>action</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;message_ForPumpMechanic&gt;{/WaterFlow/message_ForPumpMechanic/text()}&lt;/message_ForPumpMechanic&gt;" />
+              <mapsTo>message_ForPumpMechanic</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;comment&gt;{/WaterFlow/comment/text()}&lt;/comment&gt;" />
+              <mapsTo>comment</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;assessorName&gt;{/WaterFlow/assessorName/text()}&lt;/assessorName&gt;" />
+              <mapsTo>assessorName</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;reasonNotFixed&gt;{/WaterFlow/waterPointWhyNotFixed/text()}&lt;/reasonNotFixed&gt;" />
+              <mapsTo>reasonNotFixed</mapsTo>
+            </mapping>
+          </startingMappings>
+          <decomposesTo id="Export_M4W" />
         </task>
         <task id="Notify_HPM_About_New_Work_67">
           <name>Notify HPM About New Work</name>
@@ -396,40 +475,28 @@
           </startingMappings>
           <decomposesTo id="Send_Ack" />
         </task>
-        <task id="Export_M4W_17">
-          <name>Export M4W</name>
+        <task id="Notify_Sender_Fix_Complete_203">
+          <name>Notify Sender Fix Complete</name>
           <flowsInto>
-            <nextElementRef id="Notify_Sender_Fix_Complete_203" />
+            <nextElementRef id="OutputCondition_2" />
           </flowsInto>
           <join code="xor" />
           <split code="and" />
           <startingMappings>
             <mapping>
-              <expression query="&lt;assesment&gt;{/WaterFlow/waterPointAssessment/text()}&lt;/assesment&gt;" />
-              <mapsTo>assesment</mapsTo>
+              <expression query="&lt;message&gt;The WaterPoint + {/WaterFlow/waterPointID/text()} + Has Been Fixed. Ref: + {/WaterFlow/msgTicketCommentFromSender/text()}&lt;/message&gt;" />
+              <mapsTo>message</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;repairDetails&gt;{/WaterFlow/waterPointDetailsOfRepairPlan/text()}&lt;/repairDetails&gt;" />
-              <mapsTo>repairDetails</mapsTo>
+              <expression query="&lt;name&gt;{/WaterFlow/number_sender/text()}&lt;/name&gt;" />
+              <mapsTo>name</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;problemFixed&gt;{/WaterFlow/waterPointIsFixed/text()}&lt;/problemFixed&gt;" />
-              <mapsTo>problemFixed</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;action&gt;waterPointTicketStatus&lt;/action&gt;" />
-              <mapsTo>action</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;waterPointID&gt;{/WaterFlow/waterPointID/text()}&lt;/waterPointID&gt;" />
-              <mapsTo>waterPointID</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;reasonNotFixed&gt;{/WaterFlow/waterPointWhyNotFixed/text()}&lt;/reasonNotFixed&gt;" />
-              <mapsTo>reasonNotFixed</mapsTo>
+              <expression query="&lt;number&gt;{/WaterFlow/number_sender/text()}&lt;/number&gt;" />
+              <mapsTo>number</mapsTo>
             </mapping>
           </startingMappings>
-          <decomposesTo id="TicketService" />
+          <decomposesTo id="Send_Ack" />
         </task>
         <task id="Update_M4w_On_Repair_Type_15">
           <name>Update M4w On Repair Type</name>
@@ -465,29 +532,6 @@
             </mapping>
           </startingMappings>
           <decomposesTo id="TicketService" />
-        </task>
-        <task id="Notify_Sender_Fix_Complete_203">
-          <name>Notify Sender Fix Complete</name>
-          <flowsInto>
-            <nextElementRef id="OutputCondition_2" />
-          </flowsInto>
-          <join code="xor" />
-          <split code="and" />
-          <startingMappings>
-            <mapping>
-              <expression query="&lt;message&gt;The WaterPoint + {/WaterFlow/waterPointID/text()} + Has Been Fixed. Ref: + {/WaterFlow/msgTicketCommentFromSender/text()}&lt;/message&gt;" />
-              <mapsTo>message</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;name&gt;{/WaterFlow/number_sender/text()}&lt;/name&gt;" />
-              <mapsTo>name</mapsTo>
-            </mapping>
-            <mapping>
-              <expression query="&lt;number&gt;{/WaterFlow/number_sender/text()}&lt;/number&gt;" />
-              <mapsTo>number</mapsTo>
-            </mapping>
-          </startingMappings>
-          <decomposesTo id="Send_Ack" />
         </task>
         <task id="Repairs_6">
           <name>Repairs</name>
@@ -718,6 +762,85 @@
       <yawlService id="http://m4water.org:8080/oxd/wf" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
+    <decomposition id="Export_M4W" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>action</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>waterPointID</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>ticketID</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>assesment</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>reasonNotFixed</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>typeOfFault</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>AssessorTel</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>costLabor</name>
+        <type>integer</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>repairDetails</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>problemFixed</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>repairsDone</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>CostSpares</name>
+        <type>integer</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>message_ForPumpMechanic</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>comment</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>assessorName</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
     <decomposition id="Send_Ack" xsi:type="WebServiceGatewayFactsType">
       <inputParam>
         <name>name</name>
@@ -891,9 +1014,9 @@
     <specification id="WaterFlow">
       <size w="107" h="28" />
       <net id="WaterFlow">
-        <bounds x="0" y="0" w="1202" h="570" />
-        <frame x="2" y="25" w="1205" h="573" />
-        <viewport x="0" y="0" w="1205" h="573" />
+        <bounds x="0" y="0" w="1210" h="578" />
+        <frame x="2" y="25" w="1213" h="581" />
+        <viewport x="0" y="0" w="1213" h="581" />
         <vertex id="InputCondition_1">
           <attributes>
             <bounds x="36.0" y="103.0" w="32.0" h="32.0" />
@@ -904,19 +1027,6 @@
             <bounds x="984.0" y="128.0" w="32.0" h="32.0" />
           </attributes>
         </vertex>
-        <container id="Notify_HPM_3">
-          <vertex>
-            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
-            <attributes>
-              <bounds x="112.0" y="115.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="80.0" y="148.0" w="97.0" h="21.0" />
-            </attributes>
-          </label>
-        </container>
         <container id="Update_M4w_On_Repair_Type_15">
           <vertex>
             <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/AutomaticTwo.png</iconpath>
@@ -927,6 +1037,19 @@
           <label>
             <attributes>
               <bounds x="488.0" y="148.0" w="96.0" h="60.0" />
+            </attributes>
+          </label>
+        </container>
+        <container id="Notify_Sender_4">
+          <vertex>
+            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
+            <attributes>
+              <bounds x="204.0" y="111.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="172.0" y="144.0" w="97.0" h="41.0" />
             </attributes>
           </label>
         </container>
@@ -950,6 +1073,19 @@
             </attributes>
           </decorator>
         </container>
+        <container id="Notify_HPM_3">
+          <vertex>
+            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
+            <attributes>
+              <bounds x="112.0" y="115.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="80.0" y="148.0" w="97.0" h="21.0" />
+            </attributes>
+          </label>
+        </container>
         <container id="Notify_Sender_Fix_Complete_203">
           <vertex>
             <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
@@ -960,39 +1096,6 @@
           <label>
             <attributes>
               <bounds x="860.0" y="140.0" w="97.0" h="61.0" />
-            </attributes>
-          </label>
-        </container>
-        <container id="Assessment_5">
-          <vertex>
-            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/BlackPDA.png</iconpath>
-            <attributes>
-              <bounds x="292.0" y="112.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="264.0" y="144.0" w="97.0" h="21.0" />
-            </attributes>
-          </label>
-          <decorator type="XOR_split">
-            <position>13</position>
-            <attributes>
-              <bounds x="323.0" y="112.0" w="11.0" h="32.0" />
-              <size w="11" h="32" />
-            </attributes>
-          </decorator>
-        </container>
-        <container id="Notify_Sender_4">
-          <vertex>
-            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
-            <attributes>
-              <bounds x="204.0" y="111.0" w="32.0" h="32.0" />
-            </attributes>
-          </vertex>
-          <label>
-            <attributes>
-              <bounds x="172.0" y="144.0" w="97.0" h="41.0" />
             </attributes>
           </label>
         </container>
@@ -1022,6 +1125,36 @@
             </attributes>
           </label>
         </container>
+        <container id="Assessment_5">
+          <vertex>
+            <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/BlackPDA.png</iconpath>
+            <attributes>
+              <bounds x="292.0" y="112.0" w="32.0" h="32.0" />
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="264.0" y="144.0" w="97.0" h="21.0" />
+            </attributes>
+          </label>
+          <decorator type="XOR_split">
+            <position>13</position>
+            <attributes>
+              <bounds x="323.0" y="112.0" w="11.0" h="32.0" />
+              <size w="11" h="32" />
+            </attributes>
+          </decorator>
+        </container>
+        <flow source="InputCondition_1" target="Notify_HPM_3">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="43.0" y="133.5" />
+              <value x="84.0" y="133.5" />
+            </points>
+          </attributes>
+        </flow>
         <flow source="Notify_Sender_Fix_Complete_203" target="OutputCondition_2">
           <ports in="13" out="12" />
           <attributes>
@@ -1032,13 +1165,43 @@
             </points>
           </attributes>
         </flow>
-        <flow source="InputCondition_1" target="Notify_HPM_3">
+        <flow source="Notify_Sender_4" target="Assessment_5">
           <ports in="13" out="12" />
           <attributes>
             <lineStyle>11</lineStyle>
             <points>
-              <value x="43.0" y="133.5" />
-              <value x="84.0" y="133.5" />
+              <value x="203.0" y="133.5" />
+              <value x="272.0" y="133.5" />
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Update_M4w_On_Repair_Type_15" target="Repairs_6">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="569.0" y="143.5" />
+              <value x="640.0" y="83.5" />
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Notify_HPM_3" target="Notify_Sender_4">
+          <ports in="13" out="12" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="115.0" y="133.5" />
+              <value x="172.0" y="133.5" />
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Repairs_6" target="Export_M4W_17">
+          <ports in="13" out="2" />
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="671.0" y="83.5" />
+              <value x="750.0" y="143.5" />
             </points>
           </attributes>
         </flow>
@@ -1053,22 +1216,6 @@
             </points>
           </attributes>
         </flow>
-        <flow source="Update_M4w_On_Repair_Type_15" target="Repairs_6">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-            <points>
-              <value x="569.0" y="143.5" />
-              <value x="640.0" y="83.5" />
-            </points>
-          </attributes>
-        </flow>
-        <flow source="Assessment_5" target="Notify_HPM_About_New_Work_67">
-          <ports in="2" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-          </attributes>
-        </flow>
         <flow source="Export_M4W_17" target="Notify_Sender_Fix_Complete_203">
           <ports in="13" out="12" />
           <attributes>
@@ -1079,34 +1226,10 @@
             </points>
           </attributes>
         </flow>
-        <flow source="Notify_Sender_4" target="Assessment_5">
-          <ports in="13" out="12" />
+        <flow source="Assessment_5" target="Notify_HPM_About_New_Work_67">
+          <ports in="2" out="12" />
           <attributes>
             <lineStyle>11</lineStyle>
-            <points>
-              <value x="203.0" y="133.5" />
-              <value x="272.0" y="133.5" />
-            </points>
-          </attributes>
-        </flow>
-        <flow source="Repairs_6" target="Export_M4W_17">
-          <ports in="13" out="2" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-            <points>
-              <value x="671.0" y="83.5" />
-              <value x="750.0" y="143.5" />
-            </points>
-          </attributes>
-        </flow>
-        <flow source="Notify_HPM_3" target="Notify_Sender_4">
-          <ports in="13" out="12" />
-          <attributes>
-            <lineStyle>11</lineStyle>
-            <points>
-              <value x="115.0" y="133.5" />
-              <value x="172.0" y="133.5" />
-            </points>
           </attributes>
         </flow>
         <flow source="Notify_HPM_About_New_Work_67" target="Update_M4w_On_Repair_Type_15">
