@@ -22,4 +22,5 @@ public interface ProblemDao extends BaseDAO<Problem,Long> {
     void saveProblem(Problem problem);
     int getTotalProblems(String waterPointId);
     int getTotalProblems();
+    Problem getLatestProblem(String waterpoinId);
 }

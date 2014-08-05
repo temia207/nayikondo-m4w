@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -167,7 +170,7 @@ public class ItemExportServlet extends HttpServlet {
 
 	private List<WaterPointSummary> convertGroupToWaterPoint() {
 		List<WaterPointSummary> newWaterPoints = new ArrayList<WaterPointSummary>();
-		SettingGroup group = settingsService.getSettingGroup("waterpoints");
+		SettingGroup group = settingsService.getInitializedSettingGroup("waterpoints");
 		List<SettingGroup> newWaterPointGroup = group.getGroups();
 		for (SettingGroup waterPoint : newWaterPointGroup) {
 			newWaterPoints.add(getModelFromGroup(waterPoint));
@@ -179,7 +182,7 @@ public class ItemExportServlet extends HttpServlet {
 		WaterPointSummary waterpoint = new WaterPointSummary();
 		List<Setting> settings = group.getSettings();
 		for (Setting setting : settings) {
-			if (setting.getName().equalsIgnoreCase("id")) {
+			if (setting.getName().equalsIgnoreCase("waterpointname")) {
 				waterpoint.setWaterPointId(setting.getValue());
 			} else if (setting.getName().equalsIgnoreCase("village")) {
 				waterpoint.setVillageName(setting.getValue());
@@ -197,7 +200,16 @@ public class ItemExportServlet extends HttpServlet {
 			else if (setting.getName().equalsIgnoreCase("waterpointname")) {
 				waterpoint.setWaterpointName(setting.getValue());
 			} else if (setting.getName().equalsIgnoreCase("dateInstalled")) {
-				waterpoint.setDate(new Date());
+				DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss z YYYY");
+				try {
+					Date date = format.parse(setting.getValue());
+					//new Date("");
+					waterpoint.setDate(date);
+				} catch (ParseException parseException) {
+					System.out.println("Cannot parse new waterpoint data:["+setting.getValue()+"]: "+parseException.getMessage());
+					waterpoint.setDate(new Date());
+				}
+				
 			}
 		}
 		return waterpoint;

@@ -299,17 +299,22 @@ public class NameGenerator {
     }
 
 	public static void main(String[] args) throws IOException {
-		URL resource = NameGenerator.class.getResource("/syl");
+		URL resource = NameGenerator.class.getResource("/syl2");
 		NameGenerator nc = new NameGenerator(resource.getFile());
 		List<String> name = new ArrayList<String>();
 		List<String> dupes = new ArrayList<String>();
-		for (int i = 0; i < 10000; i++) {
-			String compose = nc.compose(4);
+		for (int i = 0; i < 100; i++) {
+			String compose = nc.compose(3).toLowerCase();
+			int tries = 0;
+			while(name.contains(compose) && tries++ <= 200){
+				compose = nc.compose(3).toLowerCase();
+			}
 			if (name.contains(compose)) {
 				dupes.add(compose);
 				continue;
 			} else {
-				System.out.println("Name: " + name.size() + " -> " + compose);
+				//System.out.println("Name: " + name.size() + " -> " + compose);
+                System.out.println( compose);
 				name.add(compose);
 			}
 		}

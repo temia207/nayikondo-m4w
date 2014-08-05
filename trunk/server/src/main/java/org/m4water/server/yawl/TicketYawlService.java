@@ -3,14 +3,8 @@ package org.m4water.server.yawl;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom.JDOMException;
@@ -62,7 +56,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	private org.slf4j.Logger log = LoggerFactory.getLogger(TicketYawlService.class);
 	private YawlPinger pinger;
 	@Autowired
-	private WorkItemsService workItemDAO;
+	private WorkItemsService workitemService;
 	@Autowired
 	private WorkitemReprocessor workitemReprocessor;
 
@@ -79,15 +73,9 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 
 			for (WorkItemRecord workItemRecord : workitems) {
 
-				try {
-					processWorkitem(workItemRecord);
-				} catch (Exception e) {
-					_model.addWorkItem(workItemRecord);
-					yawlHelper.checkInWorkItem(workItemRecord);
-					log.error("Error occured while processing workitem from yawl: "+workItemRecord.getID(),e);
-				}
+                processWorkitemAndCheckIn(workItemRecord);
 
-			}
+            }
 		} catch (JDOMException ex) {
 			Logger.getLogger(TicketYawlService.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (YAWLException ex) {
@@ -99,7 +87,19 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		}
 	}
 
-	@Override
+    private void processWorkitemAndCheckIn(WorkItemRecord workItemRecord) throws IOException, JDOMException {
+        try {
+            processWorkitem(workItemRecord);
+        } catch (Exception e) {
+            log.error("Error occured while processing workitem from yawl: "+workItemRecord.getID(),e);
+        }finally {
+            log.info("Checking in workitem: ["+workItemRecord.getID()+"]");
+            _model.addWorkItem(workItemRecord);
+            yawlHelper.checkInWorkItem(workItemRecord);
+        }
+    }
+
+    @Override
 	public void handleCancelledWorkItemEvent(WorkItemRecord workItemRecord) {
 	}
 
@@ -160,37 +160,55 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	}
 
 	private void saveWorkitem(WorkItemRecord wir, String status, String tag) {
-		WorkItemRecord wirFromDb = workItemDAO.getWorkitem(wir.getCaseID());
+		WorkItemRecord wirFromDb = workitemService.getWorkitem(wir.getCaseID());
 		if (wirFromDb != null) {
 			log.debug("Updating workiem: [" + wirFromDb.getID() + "] with tag [" + tag + "] and status [" + status + "]");
 			wirFromDb.setTag(tag);
 			wirFromDb.setStatus(status);
-			workItemDAO.saveWorkitem(wirFromDb);
+			workitemService.saveWorkitem(wirFromDb);
 		} else {
 			log.debug("Saving new workiem: [" + wir.getID() + "] with tag [" + tag + "] and status [" + status + "]");
 			wir.setTag(tag);
 			wir.setStatus(status);
-			workItemDAO.saveWorkitem(wir);
+			workitemService.saveWorkitem(wir);
 		}
 	}
 
 	private void processAssesMent(WorkItemRecord workItemRecord) throws RuntimeException, Exception {
 		String waterPointID = getValueFromWorkItem(workItemRecord, "waterPointID");
-		String assesment = getValueFromWorkItem(workItemRecord, "assesment");
-		String repairDetails = getValueFromWorkItem(workItemRecord, "repairDetails");
-		String problemFixed = getValueFromWorkItem(workItemRecord, "problemFixed");
-		String reasonNotFixed = getValueFromWorkItem(workItemRecord, "reasonNotFixed");
+		String assesment = getValueFromWorkItem(workItemRecord, "waterPointAssessment");
+		String repairDone = getValueFromWorkItem(workItemRecord, "repairsDone");
+		String problemFixed = getValueFromWorkItem(workItemRecord, "waterPointIsFixed");
+		String reasonNotFixed = getValueFromWorkItem(workItemRecord, "waterPointWhyNotFixed");
+
+        String typeOfFault = getValueFromWorkItem(workItemRecord, "typeOfFault");
+        String assesorTel = getValueFromWorkItem(workItemRecord,"AssessorTel");
+        String repairsDone = getValueFromWorkItem(workItemRecord,"repairsDone");
+        String costLabour = getValueFromWorkItem(workItemRecord ,"costLabor");
+        String costSpares = getValueFromWorkItem(workItemRecord,"CostSpares");
+        String comment =  getValueFromWorkItem(workItemRecord,"comment");
+        String assessorName = getValueFromWorkItem(workItemRecord,"assessorName");
+        String repairPlan = getValueFromWorkItem(workItemRecord,"waterPointDetailsOfRepairPlan");
+
+
+
+
+                              //  costLabor
+        //   repairsDone
+        // CostSpares
+        // comment
+        // assessorName
 
 		System.out.println("Processing workitem recourd Retrieving waterpoint "
 			+ "\nWaterpoint id = " + waterPointID
 			+ "\n assesment = " + assesment
-			+ "\n repairDetails = " + repairDetails
+			+ "\n repairDetails = " + repairDone
 			+ "\n ");
 		Waterpoint waterPoint = waterPointService.getWaterPoint(waterPointID);
 		if (waterPoint == null) {
 			throw new RuntimeException("Water point id [" + waterPointID + "] sent from yawl was not found");
 		}
-		WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDetails, new Date(), new Date(), "", "", "");
+		WaterFunctionality functionality = new WaterFunctionality(new Date(), waterPoint, problemFixed, new Date(), _report, new Date(), repairDone, new Date(), new Date(), "", "", "");
 		Set waterFunctionality = waterPoint.getWaterFunctionalities();
 		waterFunctionality.add(functionality);
 		waterPoint.setWaterFunctionalities(waterFunctionality);
@@ -209,17 +227,29 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 		}
 		FaultAssessment assessmentItm = new FaultAssessment();
 		assessmentItm.setId(UUID.jUuid());
-		Set problems = waterPoint.getProblems();
-		if (problems == null || problems.isEmpty()) {
+		Problem problem = waterPoint.findProblemWithYawlId(workItemRecord.getRootCaseID());
+
+        if(problem == null)
+            problem = waterPointService.getLatestProblem(waterPoint);
+		if (problem == null ) {
 			throw new RuntimeException("Water point [" + waterPointID + "] id from yawl has no reported problems");
 		}
-		assessmentItm.setProblem((Problem) waterPoint.getProblems().iterator().next());
+
+		assessmentItm.setProblem(problem);
 		assessmentItm.setFaults(assesment);
 		assessmentItm.setProblemFixed(problemFixed);
-		assessmentItm.setRepairsDone(repairDetails);
+		assessmentItm.setRepairsDone(repairDone);
 		assessmentItm.setReasonNotFixed(reasonNotFixed);
+        assessmentItm.setRecommendations(comment);
+        assessmentItm.setRepairsDone(repairsDone);
+        assessmentItm.setCostOfLabour(costLabour);
+        assessmentItm.setCostOfMaterials(costSpares);
+        assessmentItm.setAssessedBy(assessorName);
+        assessmentItm.setAssessorTel(assesorTel);
+        assessmentItm.setTypeOfRepairesNeeded(repairPlan);
 		assessmentItm.setUserId("n/a");
 		assessmentItm.setDate(new Date());
+
 
 		try {
 			saveFaultAssessment(assessmentItm);
@@ -373,9 +403,7 @@ public class TicketYawlService extends YawlPingerListener implements Initializin
 	@Override
 	public void handleExcutingWorkitem(WorkItemRecord wir) {
 		try {
-			processWorkitem(wir);
-           _model.addWorkItem(wir);
-            yawlHelper.checkInWorkItem(wir);
+               processWorkitemAndCheckIn(wir);
 		} catch (Exception ex) {
 			log.error("Error while processing executing workitem", ex);
 		}

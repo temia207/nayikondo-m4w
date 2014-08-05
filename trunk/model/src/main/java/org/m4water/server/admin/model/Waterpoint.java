@@ -26,7 +26,7 @@ public class Waterpoint extends AbstractEditable<String> {
     private String baselinePending;
     private String careTakerName;
     private String careTakerTel;
-    private Set problems = new HashSet(0);
+    private Set<Problem> problems = new HashSet(0);
     private Set inspections = new HashSet(0);
     private Set waterUserCommittees = new HashSet(0);
      private Set waterFunctionalities = new HashSet(0);
@@ -170,6 +170,15 @@ public class Waterpoint extends AbstractEditable<String> {
 
     public Set getProblems() {
         return this.problems;
+    }
+
+    public Problem findProblemWithYawlId(String yawlId){
+        for (Problem problem : problems){
+            String problemYawlid = problem.getYawlid();
+            if(problemYawlid!=null && problemYawlid.startsWith("T"+yawlId+"-"))
+                return problem;
+        }
+        return null;
     }
 
     public void setProblems(Set problems) {
