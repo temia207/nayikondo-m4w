@@ -29,7 +29,11 @@ import org.yawlfoundation.yawl.util.StringUtil;
  */
 public class SMSCustomService extends InterfaceBWebsideController implements Provider<InterfaceBHelper> {
 
-        private static Logger log = Logger.getLogger(SMSCustomService.class);
+    public static final String NUMBER = "number";
+    public static final String MESSAGE = "message";
+    public static final String SENDER = "sender";
+    public static final String NAME = "name";
+    private static Logger log = Logger.getLogger(SMSCustomService.class);
         private String _sessionHandle = null;
         @Inject
         private UserService userService;
@@ -95,8 +99,8 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
 
         private void processWorkItem(WorkItemRecord enabledWorkItem) throws IOException, JDOMException {
                try{
-               String sender = getValueFromWorkItem(enabledWorkItem, "sender");
-               String userName = getValueFromWorkItem(enabledWorkItem, "name");
+               String sender = getValueFromWorkItem(enabledWorkItem, SENDER);
+               String userName = getValueFromWorkItem(enabledWorkItem, NAME);
                String phoneNo = userService.getPhoneNoByUsername(userName);
                 if (phoneNo == null) {
                         sendSmsUsingParams(enabledWorkItem);
@@ -149,17 +153,17 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
                 YParameter param;
 
                 param = new YParameter(null, YParameter._INPUT_PARAM_TYPE);
-                param.setDataTypeAndName(XSD_STRINGTYPE, "name", XSD_NAMESPACE);
+                param.setDataTypeAndName(XSD_STRINGTYPE, NAME, XSD_NAMESPACE);
                 param.setDocumentation("name of recepient");
                 params[0] = param;
 
                 param = new YParameter(null, YParameter._INPUT_PARAM_TYPE);
-                param.setDataTypeAndName(XSD_STRINGTYPE, "number", XSD_NAMESPACE);
+                param.setDataTypeAndName(XSD_STRINGTYPE, NUMBER, XSD_NAMESPACE);
                 param.setDocumentation("Number of the recepient");
                 params[1] = param;
 
                 param = new YParameter(null, YParameter._INPUT_PARAM_TYPE);
-                param.setDataTypeAndName(XSD_STRINGTYPE, "message", XSD_NAMESPACE);
+                param.setDataTypeAndName(XSD_STRINGTYPE, MESSAGE, XSD_NAMESPACE);
                 param.setDocumentation("message to send");
                 params[2] = param;
                 return params;
@@ -173,9 +177,9 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
         }
 
         private void sendSmsUsingParams(WorkItemRecord enabledWorkItem) {
-                String number = getValueFromWorkItem(enabledWorkItem, "number");
-                String msg = getValueFromWorkItem(enabledWorkItem, "message");
-                String sender = getValueFromWorkItem(enabledWorkItem, "sender");
+                String number = getValueFromWorkItem(enabledWorkItem, NUMBER);
+                String msg = getValueFromWorkItem(enabledWorkItem, MESSAGE);
+                String sender = getValueFromWorkItem(enabledWorkItem, SENDER);
     		number = add256(number);
                 smsService.sendSMS(number,sender, msg);
         }
