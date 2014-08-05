@@ -4,7 +4,7 @@
     <metaData>
       <creator>kay</creator>
       <description>specification of tickets m4W</description>
-      <version>0.145</version>
+      <version>0.149</version>
       <identifier>UID_769e389b-7e81-477c-9b6a-b75b8390d4a6</identifier>
     </metaData>
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" />
@@ -262,12 +262,12 @@
         <task id="Assessment_5">
           <name>Assessment</name>
           <flowsInto>
-            <nextElementRef id="Export_M4W_17" />
-            <isDefaultFlow />
-          </flowsInto>
-          <flowsInto>
             <nextElementRef id="Notify_HPM_About_New_Work_67" />
             <predicate ordering="0">/WaterFlow/waterPointIsFixed/text()='No'</predicate>
+          </flowsInto>
+          <flowsInto>
+            <nextElementRef id="Export_M4W_17" />
+            <isDefaultFlow />
           </flowsInto>
           <join code="xor" />
           <split code="xor" />
@@ -503,31 +503,43 @@
           <split code="and" />
           <startingMappings>
             <mapping>
-              <expression query="&lt;assesment&gt;{/WaterFlow/waterPointAssessment/text()}&lt;/assesment&gt;" />
-              <mapsTo>assesment</mapsTo>
+              <expression query="&lt;waterPointWhyNotFixed&gt;{/WaterFlow/waterPointWhyNotFixed/text()}&lt;/waterPointWhyNotFixed&gt;" />
+              <mapsTo>waterPointWhyNotFixed</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;repairDetails&gt;{/WaterFlow/waterPointDetailsOfRepairPlan/text()}&lt;/repairDetails&gt;" />
-              <mapsTo>repairDetails</mapsTo>
+              <expression query="&lt;waterPointAssessment&gt;{/WaterFlow/waterPointAssessment/text()}&lt;/waterPointAssessment&gt;" />
+              <mapsTo>waterPointAssessment</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;problemFixed&gt;{/WaterFlow/waterPointIsFixed/text()}&lt;/problemFixed&gt;" />
-              <mapsTo>problemFixed</mapsTo>
+              <expression query="&lt;typeOfFault&gt;{/WaterFlow/typeOfFault/text()}&lt;/typeOfFault&gt;" />
+              <mapsTo>typeOfFault</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;action&gt;assessment&lt;/action&gt;" />
+              <expression query="&lt;action&gt;'assessment'&lt;/action&gt;" />
               <mapsTo>action</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;AssessorTel&gt;{/WaterFlow/AssessorTel/text()}&lt;/AssessorTel&gt;" />
+              <mapsTo>AssessorTel</mapsTo>
             </mapping>
             <mapping>
               <expression query="&lt;waterPointID&gt;{/WaterFlow/waterPointID/text()}&lt;/waterPointID&gt;" />
               <mapsTo>waterPointID</mapsTo>
             </mapping>
             <mapping>
-              <expression query="&lt;reasonNotFixed&gt;{/WaterFlow/waterPointWhyNotFixed/text()}&lt;/reasonNotFixed&gt;" />
-              <mapsTo>reasonNotFixed</mapsTo>
+              <expression query="&lt;comment&gt;{/WaterFlow/comment/text()}&lt;/comment&gt;" />
+              <mapsTo>comment</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;waterPointIsFixed&gt;{/WaterFlow/waterPointIsFixed/text()}&lt;/waterPointIsFixed&gt;" />
+              <mapsTo>waterPointIsFixed</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;assessorName&gt;{/WaterFlow/assessorName/text()}&lt;/assessorName&gt;" />
+              <mapsTo>assessorName</mapsTo>
             </mapping>
           </startingMappings>
-          <decomposesTo id="TicketService" />
+          <decomposesTo id="Update_M4w_On_Repair_Type" />
         </task>
         <task id="Repairs_6">
           <name>Repairs</name>
@@ -762,6 +774,55 @@
       <yawlService id="http://m4water.org:8080/oxd/wf" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
+    <decomposition id="Update_M4w_On_Repair_Type" xsi:type="WebServiceGatewayFactsType">
+      <inputParam>
+        <name>action</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>waterPointAssessment</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>waterPointWhyNotFixed</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>typeOfFault</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>AssessorTel</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>waterPointIsFixed</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>comment</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>assessorName</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <name>waterPointID</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
     <decomposition id="Export_M4W" xsi:type="WebServiceGatewayFactsType">
       <inputParam>
         <name>action</name>
@@ -969,40 +1030,6 @@
       <yawlService id="http://m4water.org:8080/oxd/wf" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
-    <decomposition id="TicketService" xsi:type="WebServiceGatewayFactsType">
-      <inputParam>
-        <name>waterPointID</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <inputParam>
-        <name>assesment</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <inputParam>
-        <name>repairDetails</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <inputParam>
-        <name>problemFixed</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <inputParam>
-        <name>reasonNotFixed</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <inputParam>
-        <name>action</name>
-        <type>string</type>
-        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
-      </inputParam>
-      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
-      <externalInteraction>manual</externalInteraction>
-    </decomposition>
   </specification>
   <layout>
     <locale language="en" country="US" />
@@ -1026,12 +1053,12 @@
           <vertex>
             <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/AutomaticTwo.png</iconpath>
             <attributes>
-              <bounds x="520.0" y="116.0" w="32.0" h="32.0" />
+              <bounds x="528.0" y="116.0" w="32.0" h="32.0" />
             </attributes>
           </vertex>
           <label>
             <attributes>
-              <bounds x="488.0" y="148.0" w="96.0" h="60.0" />
+              <bounds x="496.0" y="148.0" w="97.0" h="61.0" />
             </attributes>
           </label>
         </container>
@@ -1065,12 +1092,12 @@
           <vertex>
             <iconpath>/org/yawlfoundation/yawl/editor/resources/taskicons/Print.png</iconpath>
             <attributes>
-              <bounds x="404.0" y="116.0" w="32.0" h="32.0" />
+              <bounds x="420.0" y="116.0" w="32.0" h="32.0" />
             </attributes>
           </vertex>
           <label>
             <attributes>
-              <bounds x="372.0" y="148.0" w="97.0" h="61.0" />
+              <bounds x="388.0" y="148.0" w="97.0" h="61.0" />
             </attributes>
           </label>
         </container>
