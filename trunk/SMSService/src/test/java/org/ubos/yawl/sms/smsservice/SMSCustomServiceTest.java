@@ -69,5 +69,21 @@ public class SMSCustomServiceTest extends TestCase {
         assertEquals(expResult, result);
     }
 
+    public void testProcessCommaSeparated() {
+        System.out.println("testAdd256AddsOnlyToUgLikeNumber");
+        SMSCustomService instance = new SMSCustomService();
+
+        String number = "782848700,256782848700,4782848700,256783,0783";
+        String expResult = "256782848700,256782848700,4782848700,256783,256783";
+        String result = instance.processNumbers(number);
+        assertEquals(expResult, result);
+
+        number = "782848700, ";
+        expResult = "256782848700,256";
+        result = instance.processNumbers(number);
+        assertEquals(expResult, result);
+
+    }
+
 
 }
