@@ -29,8 +29,8 @@ public abstract class BaseHTTPGetSMS {
 
     protected Logger log = Logger.getLogger(this.getClass());
 
-    public URI buildUrl(String number, String message) throws URISyntaxException {
-        List<NameValuePair> qparams = getNameValuePairs(number, message);
+    public URI buildUrl(String number,String sender, String message) throws URISyntaxException {
+        List<NameValuePair> qparams = getNameValuePairs(number,sender, message);
         //http://208.111.47.244/api.php
         URI uri = URIUtils.createURI(getProtocol(), getHost(), getPort(), getPath(), URLEncodedUtils.format(qparams, "UTF-8"), null);
         	printUrl(uri);
@@ -41,14 +41,14 @@ public abstract class BaseHTTPGetSMS {
 		log.debug(uri.toString());
 	}
 
-    public String executeSMSGet(String number, String message) throws URISyntaxException, IOException {
-        URI uri = buildUrl(number, message);
+    public String executeSMSGet(String number,String sender, String message) throws URISyntaxException, IOException {
+        URI uri = buildUrl(number,sender, message);
         HttpClient client = new DefaultHttpClient();
         HttpResponse httpResponse = client.execute(new HttpPost(uri));
         log.debug("Executing URL for Server...");
         StatusLine statusLine = httpResponse.getStatusLine();
         if (statusLine.getStatusCode() != 200) {
-            log.error("Failed seneding Reminder message to" + getMessageString(number, message) + " HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase());
+            log.error("Failed sending Reminder message to" + getMessageString(number, message) + " HTTP: Error Code: " + statusLine.getStatusCode() + " " + statusLine.getReasonPhrase());
             return null;
         }
         HttpEntity entity = httpResponse.getEntity();
@@ -61,9 +61,9 @@ public abstract class BaseHTTPGetSMS {
         return null;
     }
 
-    public void sendSMS(String number, String message) {
+    public void sendSMS(String number,String sender, String message) {
         try {
-            String bodyContent = executeSMSGet(number, message);
+            String bodyContent = executeSMSGet(number,sender, message);
             log.debug("Server Replied: " + bodyContent);
             if (bodyContent == null) {
                 log.error("SMS Server experienced and error with request");
@@ -96,7 +96,7 @@ public abstract class BaseHTTPGetSMS {
         return " <" + number + "> message <" + message + ">.";
     }
 
-    public abstract List<NameValuePair> getNameValuePairs(String number, String message);
+    public abstract List<NameValuePair> getNameValuePairs(String number,String sender, String message);
 
     public abstract boolean isSendSuccesful(String content) throws IOException;
 

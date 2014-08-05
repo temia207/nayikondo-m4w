@@ -94,12 +94,14 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
         }
 
         private void processWorkItem(WorkItemRecord enabledWorkItem) throws IOException, JDOMException {
-               try{ String userName = getValueFromWorkItem(enabledWorkItem, "name");
-                String phoneNo = userService.getPhoneNoByUsername(userName);
+               try{
+               String sender = getValueFromWorkItem(enabledWorkItem, "sender");
+               String userName = getValueFromWorkItem(enabledWorkItem, "name");
+               String phoneNo = userService.getPhoneNoByUsername(userName);
                 if (phoneNo == null) {
                         sendSmsUsingParams(enabledWorkItem);
                 } else {
-                        smsService.sendSMS(phoneNo, userName);
+                        smsService.sendSMS(phoneNo,sender, userName);
                 }
                }finally{
                   String wrap = StringUtil.wrap(null, getDecompositionID(enabledWorkItem));
@@ -173,8 +175,9 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
         private void sendSmsUsingParams(WorkItemRecord enabledWorkItem) {
                 String number = getValueFromWorkItem(enabledWorkItem, "number");
                 String msg = getValueFromWorkItem(enabledWorkItem, "message");
-		number = add256(number);
-                smsService.sendSMS(number, msg);
+                String sender = getValueFromWorkItem(enabledWorkItem, "sender");
+    		number = add256(number);
+                smsService.sendSMS(number,sender, msg);
         }
 	
 	public String add256(String number){

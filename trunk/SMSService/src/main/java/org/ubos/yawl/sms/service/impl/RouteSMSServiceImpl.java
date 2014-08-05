@@ -63,14 +63,15 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
     }
 
     @Override
-    public List<NameValuePair> getNameValuePairs(String number, String message) {
+    public List<NameValuePair> getNameValuePairs(String number,String sender, String message) {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("username", username));
         nameValuePairs.add(new BasicNameValuePair("password", password));
         nameValuePairs.add(new BasicNameValuePair("type", "0"));
         nameValuePairs.add(new BasicNameValuePair("dlr", "1"));
         nameValuePairs.add(new BasicNameValuePair("destination", number));
-        nameValuePairs.add(new BasicNameValuePair("source", "M4W"));
+        sender = (sender == null || sender.isEmpty())? "M4W" : sender;
+        nameValuePairs.add(new BasicNameValuePair("source", sender));
         nameValuePairs.add(new BasicNameValuePair("message", message));
 
         return nameValuePairs;
@@ -114,7 +115,7 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
     public static void main(String[] args) {
         RouteSMSServiceImpl impl = new RouteSMSServiceImpl();
         //impl.sendSMS("256704269020", "Halloooooo");
-	impl.sendSMS("256712075579", "Halloooooo");
+	impl.sendSMS("256712075579", "Ronnie","Halloooooo");
     }
     
 	

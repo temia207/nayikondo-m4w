@@ -6,5 +6,5 @@ package org.ubos.yawl.sms.service;
  */
 public interface SMSService {
 
-        public void sendSMS(String number, String message);
+        public void sendSMS(String number, String sender, String message);
 }
