@@ -2,6 +2,8 @@ package org.m4water.server.service;
 
 import java.util.Date;
 import java.util.List;
+
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.WaterpointTypes;
@@ -22,5 +24,7 @@ public interface WaterPointService {
     public Date getBaselineSetDate();
     WaterpointTypes getWaterPointType(String name);
     public List<Waterpoint> getWaterpoints(String baselineDone);
+    Problem getLatestProblem(Waterpoint waterpoint);
     public PagingLoadResult<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType, PagingLoadConfig loadConfig);
+    Problem getProblemWithYawlID(String yawlId);
 }

@@ -5,6 +5,8 @@
 package org.m4water.server.dao.hibernate;
 
 import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.Waterpoint;
@@ -61,5 +63,16 @@ public class HibernateProblemDao extends BaseDAOImpl<Problem,Long> implements Pr
         List res = createQuery.list();
         max = Integer.parseInt(res.get(0)+"");
         return max;
+    }
+
+    public Problem getLatestProblem(String waterpoinId){
+
+       Query query = getSession().createQuery("from Problem order by dateProblemReported desc");
+       query.setMaxResults(1);
+
+       List list = query.list();
+        if(list==null || list.isEmpty())
+            return null;
+        return (Problem) list.get(0);
     }
 }

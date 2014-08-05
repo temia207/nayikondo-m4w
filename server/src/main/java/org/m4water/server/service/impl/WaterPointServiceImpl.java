@@ -7,11 +7,14 @@ package org.m4water.server.service.impl;
 
 import java.util.Date;
 import java.util.List;
+
+import org.m4water.server.admin.model.Problem;
 import org.m4water.server.admin.model.WaterPointSummary;
 import org.m4water.server.admin.model.Waterpoint;
 import org.m4water.server.admin.model.WaterpointTypes;
 import org.m4water.server.admin.model.paging.PagingLoadConfig;
 import org.m4water.server.admin.model.paging.PagingLoadResult;
+import org.m4water.server.dao.ProblemDao;
 import org.m4water.server.dao.WaterPointDao;
 import org.m4water.server.dao.WaterPointSummaryDao;
 import org.m4water.server.dao.WaterPointTypeDao;
@@ -34,6 +37,8 @@ public class WaterPointServiceImpl implements WaterPointService{
     private WaterPointSummaryDao waterPointSummaryDao;
     @Autowired
     private WaterPointTypeDao pointTypeDao;
+    @Autowired
+    private ProblemDao problemDao;
     
     @Override
     @Transactional(readOnly = true)
@@ -76,6 +81,14 @@ public class WaterPointServiceImpl implements WaterPointService{
 	public List<Waterpoint> getWaterpoints(String baselineDone) {
 		return waterPointDao.getWaterpoints(baselineDone);
 	}
+
+    public Problem getLatestProblem(Waterpoint waterpoint){
+          return this.problemDao.getLatestProblem(waterpoint.getWaterpointId());
+    }
+
+    public Problem getProblemWithYawlID(String yawlId){
+        return problemDao.searchUniqueByPropertyEqual("yawlid",yawlId);
+    }
 
 	@Override
 	public List<WaterPointSummary> getWaterPointSummaries(String district, String baseLineType) {
