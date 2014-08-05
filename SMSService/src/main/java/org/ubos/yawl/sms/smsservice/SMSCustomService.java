@@ -188,7 +188,7 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
 		number = number+"";
 		if(number.startsWith("0")){
 			return number.replaceFirst("0", "256");
-		}else if(!number.startsWith("256")){
+		}else if(!number.startsWith("256") && number.length() <= 9){
 			return "256"+number;
 		}else {
 			return number;

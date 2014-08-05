@@ -49,5 +49,25 @@ public class SMSCustomServiceTest extends TestCase {
 
     }
 
+    public void testAdd256AddsOnlyToUgLikeNumber() {
+        System.out.println("testAdd256AddsOnlyToUgLikeNumber");
+        SMSCustomService instance = new SMSCustomService();
+
+        String number = "782848700";
+        String expResult = "256782848700";
+        String result = instance.add256(number);
+        assertEquals(expResult, result);
+
+        number = "4782848700";
+        expResult = "4782848700";
+        result = instance.add256(number);
+        assertEquals(expResult, result);
+
+        number = "04782848700";
+        expResult = "2564782848700";
+        result = instance.add256(number);
+        assertEquals(expResult, result);
+    }
+
 
 }
