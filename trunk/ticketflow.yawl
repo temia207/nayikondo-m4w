@@ -820,7 +820,7 @@
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
-      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
+      <yawlService id="http://m4water.org:9090/revenge-test/m4wticket" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
     <decomposition id="Export_M4W" xsi:type="WebServiceGatewayFactsType">
@@ -894,7 +894,7 @@
         <type>string</type>
         <namespace>http://www.w3.org/2001/XMLSchema</namespace>
       </inputParam>
-      <yawlService id="http://m4water.org:8080/m4w/m4wticket" />
+      <yawlService id="http://m4water.org:9090/revenge-test/m4wticket" />
       <externalInteraction>manual</externalInteraction>
     </decomposition>
     <decomposition id="Send_Ack" xsi:type="WebServiceGatewayFactsType">
