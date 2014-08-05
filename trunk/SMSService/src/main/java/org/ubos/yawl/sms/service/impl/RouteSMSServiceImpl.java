@@ -39,6 +39,11 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
     private String username;
     private String password;
 
+    public RouteSMSServiceImpl(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public RouteSMSServiceImpl() {
         username = Settings.readSetting("username");
         password = Settings.readSetting("password");
