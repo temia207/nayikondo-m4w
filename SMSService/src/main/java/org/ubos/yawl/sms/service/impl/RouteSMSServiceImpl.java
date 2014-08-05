@@ -120,7 +120,7 @@ public class RouteSMSServiceImpl extends BaseHTTPGetSMS implements SMSService {
     public static void main(String[] args) {
         RouteSMSServiceImpl impl = new RouteSMSServiceImpl();
         //impl.sendSMS("256704269020", "Halloooooo");
-	impl.sendSMS("256712075579", "Ronnie","Halloooooo");
+	impl.sendSMS("256712075579,256777505033", "Ronnie","Halloooooo");
     }
     
 	

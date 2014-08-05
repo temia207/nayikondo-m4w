@@ -54,8 +54,8 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
 		yawlPinger.start();
 		yHlp.selfInitialiseHandle(true);
 	}
-        
-        
+
+
 
         public static SMSCustomService getInstance() {
 		 SMSCustomService instance = ServletConfig.injector.getInstance(SMSCustomService.class);
@@ -109,9 +109,9 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
                 }
                }finally{
                   String wrap = StringUtil.wrap(null, getDecompositionID(enabledWorkItem));
-                  checkInWorkItem(enabledWorkItem, wrap); 
+                  checkInWorkItem(enabledWorkItem, wrap);
                }
-                
+
         }
 
         public void checkInWorkItem(WorkItemRecord wir, String outPut) throws IOException, JDOMException {
@@ -180,12 +180,34 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
                 String number = getValueFromWorkItem(enabledWorkItem, NUMBER);
                 String msg = getValueFromWorkItem(enabledWorkItem, MESSAGE);
                 String sender = getValueFromWorkItem(enabledWorkItem, SENDER);
-    		number = add256(number);
+    		    number = processNumbers(number);
                 smsService.sendSMS(number,sender, msg);
         }
-	
+
+    String processNumbers(String number) {
+
+        number = number + "";
+        if (!number.contains(","))
+            return add256(number);
+
+
+        String[] numbers = number.split(",");
+
+        String finalNumbers = "";
+
+        for (int i = 0; i < numbers.length; i++) {
+            String _256Number = add256(numbers[i]);
+            if (i == 0)
+                finalNumbers = _256Number;
+            else
+                finalNumbers = finalNumbers + "," + _256Number;
+        }
+
+        return finalNumbers;
+    }
+
 	public String add256(String number){
-		number = number+"";
+		number = (number+"").trim();
 		if(number.startsWith("0")){
 			return number.replaceFirst("0", "256");
 		}else if(!number.startsWith("256") && number.length() <= 9){
@@ -198,16 +220,16 @@ public class SMSCustomService extends InterfaceBWebsideController implements Pro
     public InterfaceBHelper get() {
         return yHlp;
     }
-    
+
     public String getWorkitemName(WorkItemRecord wir){
 	    if(wir == null)
 		    return "null";
 	    return "<"+wir.getID()+":"+wir.getCaseID()+">";
     }
-    
+
 
 	public class YawlPinger extends Thread {
-	
+
 		public void run() {
 			while (true) {
 				try {
