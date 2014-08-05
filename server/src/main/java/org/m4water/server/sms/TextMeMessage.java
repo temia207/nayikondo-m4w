@@ -1,5 +1,7 @@
 package org.m4water.server.sms;
 
+import com.google.gson.Gson;
+
 /**
  *
  * @author kay
@@ -13,6 +15,8 @@ public class TextMeMessage {
 //  “msgID”: 64
 //
 //}
+
+    Gson
 
         private String sender;
         private String keyword;
